@@ -25,14 +25,14 @@ export function PropertySearch() {
   };
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-2xl max-w-4xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+    <div className="w-full">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-gray-800 mb-3">
             Tipo di Contratto
           </label>
           <Select value={filters.type} onValueChange={(value) => setFilters(prev => ({ ...prev, type: value }))}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm">
               <SelectValue placeholder="Seleziona tipo" />
             </SelectTrigger>
             <SelectContent>
@@ -46,11 +46,11 @@ export function PropertySearch() {
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-gray-800 mb-3">
             Zona
           </label>
           <Select value={filters.municipality} onValueChange={(value) => setFilters(prev => ({ ...prev, municipality: value }))}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm">
               <SelectValue placeholder="Seleziona zona" />
             </SelectTrigger>
             <SelectContent>
@@ -64,11 +64,11 @@ export function PropertySearch() {
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-gray-800 mb-3">
             Prezzo Max
           </label>
           <Select value={filters.maxPrice} onValueChange={(value) => setFilters(prev => ({ ...prev, maxPrice: value }))}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm">
               <SelectValue placeholder="Prezzo massimo" />
             </SelectTrigger>
             <SelectContent>
@@ -84,10 +84,10 @@ export function PropertySearch() {
         <div>
           <Button 
             onClick={handleSearch}
-            className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold"
+            className="w-full h-12 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
-            <Search className="mr-2 h-4 w-4" />
-            Cerca
+            <Search className="mr-2 h-5 w-5" />
+            Cerca Ora
           </Button>
         </div>
       </div>

@@ -30,62 +30,90 @@ export function PropertyCard({ property }: PropertyCardProps) {
   };
 
   return (
-    <Card className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer">
+    <Card className="property-card bg-white rounded-3xl shadow-xl overflow-hidden cursor-pointer group border-0">
       <Link href={`/property/${property.id}`}>
-        <div className="relative h-64 bg-cover bg-center" 
-             style={{ backgroundImage: `url('${property.images[0]}')` }}>
+        <div className="relative h-72 overflow-hidden">
+          <div 
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
+            style={{ backgroundImage: `url('${property.images[0]}')` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+          
           <div className="absolute top-4 left-4">
-            <Badge className={`${getTypeBadgeColor(property.type)} text-white`}>
+            <Badge className={`badge-${property.type.replace('_', '-')} px-3 py-1 text-xs font-semibold rounded-full`}>
               {getTypeLabel(property.type)}
             </Badge>
           </div>
+          
           <div className="absolute top-4 right-4">
-            <Button variant="ghost" size="sm" className="bg-white/80 text-gray-700 p-2 rounded-full hover:bg-white">
+            <Button variant="ghost" size="sm" className="bg-white/20 backdrop-blur-sm text-white p-2 rounded-full hover:bg-white/30 border border-white/20">
               <Heart className="h-4 w-4" />
             </Button>
           </div>
-          <div className="absolute bottom-4 left-4">
-            <Badge variant="secondary" className="bg-black/70 text-white">
-              <Images className="h-3 w-3 mr-1" />
-              {property.images.length} foto
-            </Badge>
+          
+          <div className="absolute bottom-4 left-4 right-4">
+            <div className="flex justify-between items-end">
+              <Badge variant="secondary" className="bg-black/60 backdrop-blur-sm text-white border-0">
+                <Images className="h-3 w-3 mr-1" />
+                {property.images.length} foto
+              </Badge>
+              <span className="text-3xl font-bold text-white drop-shadow-lg">
+                {formatPrice(property.price, property.type, property.priceType || undefined)}
+              </span>
+            </div>
           </div>
         </div>
       </Link>
       
       <CardContent className="p-6">
-        <div className="flex justify-between items-start mb-3">
-          <h3 className="text-xl font-semibold text-gray-900 flex-1 mr-4">
+        <div className="mb-4">
+          <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-purple-600 transition-colors">
             {property.title}
           </h3>
-          <span className="text-2xl font-bold text-blue-600 whitespace-nowrap">
-            {formatPrice(property.price, property.type, property.priceType)}
-          </span>
+          <p className="text-gray-600 flex items-center text-sm">
+            <MapPin className="h-4 w-4 mr-2 text-purple-500" />
+            {property.location}
+          </p>
         </div>
         
-        <p className="text-gray-600 mb-4 flex items-center">
-          <MapPin className="h-4 w-4 mr-1" />
-          {property.location}
-        </p>
-        
-        <div className="flex items-center space-x-4 text-sm text-gray-600 mb-4">
-          <span className="flex items-center">
-            <Bed className="h-4 w-4 mr-1" />
-            {property.bedrooms} camere
-          </span>
-          <span className="flex items-center">
-            <Bath className="h-4 w-4 mr-1" />
-            {property.bathrooms} bagni
-          </span>
-          <span className="flex items-center">
-            <Square className="h-4 w-4 mr-1" />
-            {property.area} mq
-          </span>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-4 text-sm text-gray-600">
+            <span className="flex items-center bg-gray-100 px-2 py-1 rounded-lg">
+              <Bed className="h-4 w-4 mr-1 text-purple-500" />
+              {property.bedrooms}
+            </span>
+            <span className="flex items-center bg-gray-100 px-2 py-1 rounded-lg">
+              <Bath className="h-4 w-4 mr-1 text-blue-500" />
+              {property.bathrooms}
+            </span>
+            <span className="flex items-center bg-gray-100 px-2 py-1 rounded-lg">
+              <Square className="h-4 w-4 mr-1 text-green-500" />
+              {property.area} mq
+            </span>
+          </div>
         </div>
         
-        <p className="text-gray-700 text-sm line-clamp-2">
+        <p className="text-gray-700 text-sm line-clamp-2 leading-relaxed">
           {property.description}
         </p>
+        
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              {property.agentImage && (
+                <img 
+                  src={property.agentImage}
+                  alt={property.agentName}
+                  className="w-8 h-8 rounded-full object-cover mr-2"
+                />
+              )}
+              <span className="text-sm text-gray-600">{property.agentName}</span>
+            </div>
+            <Button size="sm" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-full px-4">
+              Dettagli
+            </Button>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

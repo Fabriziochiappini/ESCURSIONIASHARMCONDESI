@@ -168,7 +168,7 @@ export default function PropertyDetail() {
               <h1 className="text-3xl font-bold text-gray-900 mb-4">{property.title}</h1>
               <div className="flex items-center space-x-4 mb-4">
                 <span className="text-3xl font-bold text-blue-600">
-                  {formatPrice(property.price, property.type, property.priceType)}
+                  {formatPrice(property.price, property.type, property.priceType || undefined)}
                 </span>
                 <Badge className={`${getTypeBadgeColor(property.type)} text-white`}>
                   {getTypeLabel(property.type)}
@@ -184,25 +184,50 @@ export default function PropertyDetail() {
             </Button>
           </div>
 
-          {/* Photo Gallery */}
-          <div className="mb-8">
-            <div className="grid grid-cols-2 gap-4">
+          {/* Modern Photo Gallery */}
+          <div className="mb-12">
+            <div className="image-gallery grid grid-cols-4 gap-4 rounded-3xl overflow-hidden">
               <div 
-                className="col-span-2 h-96 bg-cover bg-center rounded-xl"
-                style={{ backgroundImage: `url('${property.images[0]}')` }}
-              />
-              {property.images.slice(1, 3).map((image, index) => (
+                className="image-gallery-main col-span-2 row-span-2 relative group cursor-pointer overflow-hidden"
+                style={{ backgroundImage: `url('${property.images[0]}')`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+              >
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <Button className="bg-white/90 text-gray-900 hover:bg-white">
+                    <Images className="mr-2 h-4 w-4" />
+                    Visualizza
+                  </Button>
+                </div>
+              </div>
+              
+              {property.images.slice(1, 5).map((image, index) => (
                 <div 
                   key={index}
-                  className="h-48 bg-cover bg-center rounded-xl"
-                  style={{ backgroundImage: `url('${image}')` }}
-                />
+                  className="image-gallery-thumb relative group cursor-pointer overflow-hidden"
+                  style={{ backgroundImage: `url('${image}')`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                >
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+                </div>
               ))}
+              
+              {property.images.length > 5 && (
+                <div className="image-gallery-thumb relative group cursor-pointer overflow-hidden bg-gray-900 flex items-center justify-center">
+                  <div className="text-white text-center">
+                    <Images className="h-8 w-8 mx-auto mb-2" />
+                    <span className="text-sm font-semibold">+{property.images.length - 5} foto</span>
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="mt-4 text-center">
-              <Button variant="outline">
+            
+            <div className="mt-6 flex justify-center space-x-4">
+              <Button variant="outline" className="rounded-full">
                 <Images className="mr-2 h-4 w-4" />
-                Visualizza tutte le {property.images.length} foto
+                Tutte le {property.images.length} foto
+              </Button>
+              <Button variant="outline" className="rounded-full">
+                <MapPin className="mr-2 h-4 w-4" />
+                Vista Mappa
               </Button>
             </div>
           </div>
