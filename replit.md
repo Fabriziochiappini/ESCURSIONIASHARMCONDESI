@@ -1,0 +1,120 @@
+# Immobiliare Acireale - Real Estate Platform
+
+## Overview
+
+This is a modern full-stack real estate web application built for the Acireale area in Sicily, Italy. The application provides a platform for browsing, searching, and viewing property listings with support for sales, rentals, and vacation rentals. It features a clean, responsive design with Italian localization and modern web technologies.
+
+## System Architecture
+
+### Frontend Architecture
+- **Framework**: React 18 with TypeScript
+- **Routing**: Wouter for client-side routing
+- **State Management**: TanStack Query for server state management
+- **UI Framework**: Tailwind CSS with shadcn/ui component library
+- **Build Tool**: Vite for development and production builds
+- **Form Handling**: React Hook Form with Zod validation
+
+### Backend Architecture
+- **Runtime**: Node.js with Express.js server
+- **Database**: PostgreSQL with Drizzle ORM
+- **Database Provider**: Neon Database (serverless PostgreSQL)
+- **API Design**: RESTful API with JSON responses
+- **Development**: tsx for TypeScript execution in development
+
+### Project Structure
+- `client/` - React frontend application
+- `server/` - Express.js backend server
+- `shared/` - Shared TypeScript schemas and types
+- `migrations/` - Database migration files (Drizzle)
+
+## Key Components
+
+### Database Schema
+The application uses a single main table `properties` with the following key fields:
+- Property details (title, description, price, type, location)
+- Physical attributes (bedrooms, bathrooms, area)
+- Media (images array, YouTube video ID)
+- Agent information (name, phone, email, image)
+- Status flags (featured, available)
+- Pricing types (total, monthly, nightly)
+
+### Property Types
+- **Vendita** (Sales) - Properties for purchase
+- **Affitto** (Rentals) - Properties for rent
+- **Casa Vacanza** (Vacation Rentals) - Short-term vacation properties
+
+### Search and Filtering
+- Municipality-based location filtering
+- Property type filtering
+- Price range filtering
+- Bedroom/bathroom count filtering
+- Area size filtering
+
+### User Interface
+- Hero section with property search
+- Property grid with responsive cards
+- Detailed property pages with image galleries
+- Contact forms for inquiries
+- Mobile-responsive navigation
+
+## Data Flow
+
+1. **Property Display**: Frontend fetches property data from `/api/properties` endpoints
+2. **Search**: User searches trigger API calls to `/api/properties/search` with query parameters
+3. **Property Details**: Individual property pages load data from `/api/properties/:id`
+4. **Featured Properties**: Homepage displays featured properties from `/api/properties/featured`
+
+### API Endpoints
+- `GET /api/properties` - Get all properties
+- `GET /api/properties/featured` - Get featured properties only
+- `GET /api/properties/search` - Search properties with filters
+- `GET /api/properties/:id` - Get single property by ID
+
+## External Dependencies
+
+### Frontend Dependencies
+- **UI Components**: Extensive use of Radix UI primitives through shadcn/ui
+- **Icons**: Lucide React for consistent iconography
+- **Date Handling**: date-fns for date manipulation
+- **Carousel**: Embla Carousel for image galleries
+
+### Backend Dependencies
+- **Database**: @neondatabase/serverless for PostgreSQL connection
+- **ORM**: drizzle-orm with drizzle-zod for schema validation
+- **Session Management**: connect-pg-simple for PostgreSQL session storage
+
+### Development Tools
+- **TypeScript**: Full type safety across frontend and backend
+- **ESBuild**: Production bundling for server code
+- **Replit Integration**: Special Replit plugins for development environment
+
+## Deployment Strategy
+
+### Development
+- Uses tsx for TypeScript execution
+- Vite dev server for hot module replacement
+- Development runs on port 5000
+
+### Production Build
+1. Frontend: `vite build` creates optimized static files in `dist/public`
+2. Backend: `esbuild` bundles server code to `dist/index.js`
+3. Database: `drizzle-kit push` applies schema changes
+
+### Environment Configuration
+- **DATABASE_URL**: PostgreSQL connection string (required)
+- **NODE_ENV**: Environment flag (development/production)
+- **REPL_ID**: Replit-specific environment detection
+
+### Hosting
+- Configured for Replit deployment with autoscaling
+- Static files served from `dist/public`
+- API routes handled by Express server
+- PostgreSQL database hosted on Neon
+
+## Changelog
+
+- June 19, 2025. Initial setup
+
+## User Preferences
+
+Preferred communication style: Simple, everyday language.

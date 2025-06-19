@@ -1,0 +1,108 @@
+import { useQuery } from "@tanstack/react-query";
+import { PropertyCard } from "./property-card";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { Property, SearchFilters } from "@shared/schema";
+import { useLocation } from "wouter";
+
+interface PropertyGridProps {
+  filters?: SearchFilters;
+  showAll?: boolean;
+}
+
+export function PropertyGrid({ filters, showAll = false }: PropertyGridProps) {
+  const [location] = useLocation();
+  
+  const { data: properties, isLoading, error } = useQuery<Property[]>({
+    queryKey: filters ? ['/api/properties/search', filters] : ['/api/properties/featured'],
+    queryFn: async () => {
+      let url = filters ? '/api/properties/search' : '/api/properties/featured';
+      
+      if (filters) {
+        const searchParams = new URLSearchParams();
+        Object.entries(filters).forEach(([key, value]) => {
+          if (value !== undefined && value !== '') {
+            searchParams.set(key, value.toString());
+          }
+        });
+        if (searchParams.toString()) {
+          url += `?${searchParams.toString()}`;
+        }
+      }
+      
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch properties');
+      }
+      return response.json();
+    }
+  });
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="space-y-4">
+            <Skeleton className="h-64 w-full rounded-2xl" />
+            <div className="space-y-2 p-6">
+              <Skeleton className="h-6 w-3/4" />
+              <Skeleton className="h-4 w-1/2" />
+              <div className="flex space-x-4">
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-4 w-20" />
+              </div>
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-2/3" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-600 mb-4">Errore nel caricamento delle proprietà</p>
+        <Button onClick={() => window.location.reload()}>
+          Riprova
+        </Button>
+      </div>
+    );
+  }
+
+  if (!properties || properties.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-600 text-lg mb-4">
+          Nessuna proprietà trovata con i filtri selezionati
+        </p>
+        <Button onClick={() => window.location.href = '/'}>
+          Rimuovi filtri
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {properties.map((property) => (
+          <PropertyCard key={property.id} property={property} />
+        ))}
+      </div>
+
+      {!showAll && !filters && (
+        <div className="text-center">
+          <Button 
+            onClick={() => window.location.href = '/properties'}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
+          >
+            Vedi Tutte le Proprietà
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
