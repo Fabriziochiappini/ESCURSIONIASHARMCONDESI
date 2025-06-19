@@ -273,57 +273,85 @@ export default function PropertyDetail() {
             </div>
 
             {/* Video and Contact */}
-            <div>
+            <div className="space-y-8">
               {/* Video Section */}
               {property.youtubeVideoId && (
-                <div className="mb-8">
-                  <h3 className="text-xl font-semibold mb-4">Video Tour</h3>
-                  <div className="aspect-video bg-gray-100 rounded-xl overflow-hidden">
+                <div className="glass-card rounded-3xl p-8">
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center mr-4">
+                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-900">Video Tour Esclusivo</h3>
+                      <p className="text-gray-600">Scopri ogni dettaglio della proprietà</p>
+                    </div>
+                  </div>
+                  
+                  <div className="aspect-video bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
                     <iframe 
                       className="w-full h-full"
-                      src={`https://www.youtube.com/embed/${property.youtubeVideoId}`}
-                      title="Video Tour"
+                      src={`https://www.youtube.com/embed/${property.youtubeVideoId}?rel=0&showinfo=0`}
+                      title="Video Tour Esclusivo"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                     />
                   </div>
-                  <p className="text-sm text-gray-600 mt-2">
-                    Tour virtuale della proprietà con riprese aeree e dettagli degli interni
-                  </p>
+                  
+                  <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
+                    <div className="flex items-center">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                      Riprese aeree HD
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                      Tour degli interni
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
+                      Vista del quartiere
+                    </div>
+                  </div>
                 </div>
               )}
 
-              {/* Contact Form */}
-              <Card className="bg-gray-50">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-4">Contatta l'Agente</h3>
-                  <div className="flex items-center mb-4">
-                    {property.agentImage && (
-                      <img 
-                        src={property.agentImage}
-                        alt={property.agentName}
-                        className="w-16 h-16 rounded-full object-cover mr-4"
-                      />
-                    )}
-                    <div>
-                      <h4 className="font-semibold text-gray-900">{property.agentName}</h4>
-                      <p className="text-gray-600">Agente Immobiliare Senior</p>
+              {/* Modern Contact Form */}
+              <div className="glass-card rounded-3xl p-8">
+                <div className="mb-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Richiedi Informazioni</h3>
+                  <p className="text-gray-600">Il nostro agente ti contatterà entro 24 ore</p>
+                </div>
+                
+                <div className="flex items-center p-6 bg-gradient-to-r from-purple-50 to-blue-50 rounded-2xl mb-8">
+                  {property.agentImage && (
+                    <img 
+                      src={property.agentImage}
+                      alt={property.agentName}
+                      className="w-20 h-20 rounded-full object-cover mr-6 ring-4 ring-white shadow-lg"
+                    />
+                  )}
+                  <div>
+                    <h4 className="text-xl font-bold text-gray-900">{property.agentName}</h4>
+                    <p className="text-purple-600 font-semibold mb-2">Agente Immobiliare Senior</p>
+                    <div className="flex items-center space-x-4 text-sm text-gray-600">
+                      <span className="flex items-center">
+                        <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                        Online ora
+                      </span>
+                      <span>Risposta in 2h</span>
                     </div>
                   </div>
-                  
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                </div>
+                
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Input
                       placeholder="Nome e Cognome"
                       value={contactForm.name}
                       onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
-                      required
-                    />
-                    <Input
-                      type="email"
-                      placeholder="Email"
-                      value={contactForm.email}
-                      onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+                      className="h-12 rounded-xl border-gray-200"
                       required
                     />
                     <Input
@@ -331,41 +359,68 @@ export default function PropertyDetail() {
                       placeholder="Telefono"
                       value={contactForm.phone}
                       onChange={(e) => setContactForm(prev => ({ ...prev, phone: e.target.value }))}
+                      className="h-12 rounded-xl border-gray-200"
                     />
-                    <Textarea
-                      placeholder="Messaggio..."
-                      rows={4}
-                      value={contactForm.message}
-                      onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
-                      required
-                    />
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-blue-600 hover:bg-blue-700"
-                      disabled={contactMutation.isPending}
-                    >
-                      {contactMutation.isPending ? "Invio..." : "Invia Richiesta"}
-                    </Button>
-                  </form>
-                  
-                  <div className="mt-4 flex items-center justify-center space-x-4 text-sm text-gray-600">
-                    <a 
-                      href={`tel:${property.agentPhone}`} 
-                      className="flex items-center hover:text-blue-600 transition-colors"
-                    >
-                      <Phone className="h-4 w-4 mr-1" />
-                      {property.agentPhone}
-                    </a>
-                    <a 
-                      href={`mailto:${property.agentEmail}`} 
-                      className="flex items-center hover:text-blue-600 transition-colors"
-                    >
-                      <Mail className="h-4 w-4 mr-1" />
-                      Email
-                    </a>
                   </div>
-                </CardContent>
-              </Card>
+                  
+                  <Input
+                    type="email"
+                    placeholder="Indirizzo Email"
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+                    className="h-12 rounded-xl border-gray-200"
+                    required
+                  />
+                  
+                  <Textarea
+                    placeholder="Ciao! Sono interessato a questa proprietà. Potreste inviarmi maggiori informazioni?"
+                    rows={4}
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
+                    className="rounded-xl border-gray-200 resize-none"
+                    required
+                  />
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full h-12 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                    disabled={contactMutation.isPending}
+                  >
+                    {contactMutation.isPending ? (
+                      <div className="flex items-center">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                        Invio in corso...
+                      </div>
+                    ) : (
+                      "Invia Richiesta"
+                    )}
+                  </Button>
+                </form>
+                
+                <div className="mt-8 pt-6 border-t border-gray-200">
+                  <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+                    <div className="flex items-center space-x-6">
+                      <a 
+                        href={`tel:${property.agentPhone}`} 
+                        className="flex items-center bg-green-50 text-green-700 px-4 py-2 rounded-xl hover:bg-green-100 transition-colors"
+                      >
+                        <Phone className="h-4 w-4 mr-2" />
+                        Chiama Ora
+                      </a>
+                      <a 
+                        href={`mailto:${property.agentEmail}`} 
+                        className="flex items-center bg-blue-50 text-blue-700 px-4 py-2 rounded-xl hover:bg-blue-100 transition-colors"
+                      >
+                        <Mail className="h-4 w-4 mr-2" />
+                        Email
+                      </a>
+                    </div>
+                    <p className="text-sm text-gray-500">
+                      Disponibile Lun-Ven 9:00-19:00
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
