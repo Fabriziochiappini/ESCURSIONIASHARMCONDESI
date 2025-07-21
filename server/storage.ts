@@ -1,4 +1,6 @@
 import { properties, type Property, type InsertProperty, type SearchFilters } from "@shared/schema";
+import { db } from "./db";
+import { eq, and, gte, lte, like, desc } from "drizzle-orm";
 
 export interface IStorage {
   getAllProperties(): Promise<Property[]>;
@@ -6,6 +8,65 @@ export interface IStorage {
   searchProperties(filters: SearchFilters): Promise<Property[]>;
   getFeaturedProperties(): Promise<Property[]>;
   createProperty(property: InsertProperty): Promise<Property>;
+}
+
+export class DatabaseStorage implements IStorage {
+  async getAllProperties(): Promise<Property[]> {
+    const allProperties = await db.select().from(properties).orderBy(desc(properties.id));
+    return allProperties;
+  }
+
+  async getProperty(id: number): Promise<Property | undefined> {
+    const [property] = await db.select().from(properties).where(eq(properties.id, id));
+    return property || undefined;
+  }
+
+  async getFeaturedProperties(): Promise<Property[]> {
+    const featuredProperties = await db.select()
+      .from(properties)
+      .where(eq(properties.featured, true))
+      .orderBy(desc(properties.id));
+    return featuredProperties;
+  }
+
+  async searchProperties(filters: SearchFilters): Promise<Property[]> {
+    let query = db.select().from(properties);
+    const conditions = [];
+
+    if (filters.type) {
+      conditions.push(eq(properties.type, filters.type));
+    }
+    if (filters.municipality) {
+      conditions.push(eq(properties.municipality, filters.municipality));
+    }
+    if (filters.maxPrice) {
+      const priceStr = filters.maxPrice.toString();
+      conditions.push(lte(properties.price, priceStr));
+    }
+    if (filters.minBedrooms) {
+      conditions.push(gte(properties.bedrooms, filters.minBedrooms));
+    }
+    if (filters.minBathrooms) {
+      conditions.push(gte(properties.bathrooms, filters.minBathrooms));
+    }
+
+    if (conditions.length > 0) {
+      query = query.where(and(...conditions));
+    }
+
+    const results = await query.orderBy(desc(properties.id));
+    return results;
+  }
+
+  async createProperty(property: InsertProperty): Promise<Property> {
+    const [newProperty] = await db.insert(properties).values({
+      ...property,
+      priceType: property.priceType || null,
+      available: property.available ?? true,
+      featured: property.featured ?? false
+    }).returning();
+    return newProperty;
+  }
 }
 
 export class MemStorage implements IStorage {
@@ -540,4 +601,4 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
