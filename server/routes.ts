@@ -2,8 +2,10 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 // Authentication removed per user request
-import { searchFiltersSchema, insertPropertySchema, insertBlogPostSchema } from "@shared/schema";
+import { searchFiltersSchema, insertPropertySchema, insertBlogPostSchema, insertPropertyImageSchema } from "@shared/schema";
 import { z } from "zod";
+import { upload, getImageUrl, deleteImageFile } from "./imageUpload";
+import express from "express";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Admin routes - no authentication required per user request
@@ -271,6 +273,119 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ message: "Messaggio inviato con successo!" });
     } catch (error) {
       res.status(500).json({ message: "Errore nell'invio del messaggio" });
+    }
+  });
+
+  // Serve uploaded images
+  app.use('/uploads', express.static('uploads'));
+
+  // Property images routes
+  app.get("/api/properties/:id/images", async (req, res) => {
+    try {
+      const propertyId = parseInt(req.params.id);
+      const images = await storage.getPropertyImages(propertyId);
+      res.json(images);
+    } catch (error) {
+      console.error("Error fetching property images:", error);
+      res.status(500).json({ message: "Error fetching property images" });
+    }
+  });
+
+  app.post("/api/properties/:id/images", upload.array('images', 20), async (req, res) => {
+    try {
+      const propertyId = parseInt(req.params.id);
+      const files = req.files as Express.Multer.File[];
+      
+      if (!files || files.length === 0) {
+        return res.status(400).json({ message: "No files uploaded" });
+      }
+
+      const uploadedImages = [];
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const imageData = {
+          propertyId,
+          filename: file.filename,
+          originalName: file.originalname,
+          url: getImageUrl(file.filename),
+          size: file.size,
+          mimeType: file.mimetype,
+          sortOrder: i,
+          isMain: i === 0 // First image is main by default
+        };
+        
+        const savedImage = await storage.addPropertyImage(imageData);
+        uploadedImages.push(savedImage);
+      }
+
+      res.json(uploadedImages);
+    } catch (error) {
+      console.error("Error uploading images:", error);
+      res.status(500).json({ message: "Error uploading images" });
+    }
+  });
+
+  app.delete("/api/property-images/:id", async (req, res) => {
+    try {
+      const imageId = parseInt(req.params.id);
+      
+      // Get all images to find the one to delete (temporary workaround)
+      const allImages = await storage.getPropertyImages(0);
+      const imageToDelete = allImages.find(img => img.id === imageId);
+      
+      if (imageToDelete) {
+        // Delete from filesystem
+        deleteImageFile(imageToDelete.filename);
+        
+        // Delete from database
+        const deleted = await storage.deletePropertyImage(imageId);
+        
+        if (deleted) {
+          res.json({ message: "Image deleted successfully" });
+        } else {
+          res.status(404).json({ message: "Image not found" });
+        }
+      } else {
+        res.status(404).json({ message: "Image not found" });
+      }
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      res.status(500).json({ message: "Error deleting image" });
+    }
+  });
+
+  app.put("/api/property-images/reorder", async (req, res) => {
+    try {
+      const { images } = req.body;
+      const success = await storage.updatePropertyImageOrder(images);
+      
+      if (success) {
+        res.json({ message: "Images reordered successfully" });
+      } else {
+        res.status(500).json({ message: "Error reordering images" });
+      }
+    } catch (error) {
+      console.error("Error reordering images:", error);
+      res.status(500).json({ message: "Error reordering images" });
+    }
+  });
+
+  app.put("/api/properties/:propertyId/images/:imageId/main", async (req, res) => {
+    try {
+      const propertyId = parseInt(req.params.propertyId);
+      const imageId = parseInt(req.params.imageId);
+      
+      const success = await storage.setMainPropertyImage(propertyId, imageId);
+      
+      if (success) {
+        res.json({ message: "Main image set successfully" });
+      } else {
+        res.status(500).json({ message: "Error setting main image" });
+      }
+    } catch (error) {
+      console.error("Error setting main image:", error);
+      res.status(500).json({ message: "Error setting main image" });
     }
   });
 

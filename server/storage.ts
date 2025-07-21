@@ -28,9 +28,11 @@ export interface IStorage {
   
   // Property images operations
   getPropertyImages(propertyId: number): Promise<PropertyImage[]>;
+  getPropertyImageById(id: number): Promise<PropertyImage | undefined>;
   addPropertyImage(image: InsertPropertyImage): Promise<PropertyImage>;
   deletePropertyImage(id: number): Promise<boolean>;
-  updatePropertyImageOrder(id: number, order: number): Promise<boolean>;
+  updatePropertyImageOrder(images: {id: number, sortOrder: number}[]): Promise<boolean>;
+  setMainPropertyImage(propertyId: number, imageId: number): Promise<boolean>;
   
   // Blog operations
   getAllBlogPosts(published?: boolean): Promise<BlogPost[]>;
@@ -130,6 +132,62 @@ export class DatabaseStorage implements IStorage {
   async deleteProperty(id: number): Promise<boolean> {
     const result = await db.delete(properties).where(eq(properties.id, id));
     return result.rowCount > 0;
+  }
+
+  // Property images operations
+  async getPropertyImages(propertyId: number): Promise<PropertyImage[]> {
+    const results = await db
+      .select()
+      .from(propertyImages)
+      .where(eq(propertyImages.propertyId, propertyId))
+      .orderBy(propertyImages.sortOrder);
+    return results;
+  }
+
+  async addPropertyImage(image: InsertPropertyImage): Promise<PropertyImage> {
+    const [newImage] = await db.insert(propertyImages).values(image).returning();
+    return newImage;
+  }
+
+  async deletePropertyImage(id: number): Promise<boolean> {
+    const result = await db.delete(propertyImages).where(eq(propertyImages.id, id));
+    return result.rowCount > 0;
+  }
+
+  async updatePropertyImageOrder(images: {id: number, sortOrder: number}[]): Promise<boolean> {
+    try {
+      for (const image of images) {
+        await db
+          .update(propertyImages)
+          .set({ sortOrder: image.sortOrder })
+          .where(eq(propertyImages.id, image.id));
+      }
+      return true;
+    } catch (error) {
+      console.error('Error updating image order:', error);
+      return false;
+    }
+  }
+
+  async setMainPropertyImage(propertyId: number, imageId: number): Promise<boolean> {
+    try {
+      // First, set all images for this property to not main
+      await db
+        .update(propertyImages)
+        .set({ isMain: false })
+        .where(eq(propertyImages.propertyId, propertyId));
+      
+      // Then set the specified image as main
+      await db
+        .update(propertyImages)
+        .set({ isMain: true })
+        .where(eq(propertyImages.id, imageId));
+      
+      return true;
+    } catch (error) {
+      console.error('Error setting main image:', error);
+      return false;
+    }
   }
 
   // Property images operations

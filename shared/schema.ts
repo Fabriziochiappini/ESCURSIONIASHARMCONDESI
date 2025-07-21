@@ -44,6 +44,8 @@ export const insertPropertySchema = createInsertSchema(properties).omit({
 export type InsertProperty = z.infer<typeof insertPropertySchema>;
 export type Property = typeof properties.$inferSelect;
 
+
+
 // Search filters schema
 export const searchFiltersSchema = z.object({
   type: z.enum(["vendita", "affitto", "casa_vacanza"]).optional(),
@@ -120,12 +122,14 @@ export type BlogPost = typeof blogPosts.$inferSelect;
 // Property images table for better management
 export const propertyImages = pgTable("property_images", {
   id: serial("id").primaryKey(),
-  propertyId: integer("property_id").references(() => properties.id, { onDelete: "cascade" }),
+  propertyId: integer("property_id").references(() => properties.id, { onDelete: "cascade" }).notNull(),
+  filename: text("filename").notNull(),
+  originalName: text("original_name").notNull(),
   url: text("url").notNull(),
-  alt: text("alt"),
-  caption: text("caption"),
-  order: integer("order").default(0),
-  isFeatured: boolean("is_featured").default(false),
+  size: integer("size").notNull(),
+  mimeType: text("mime_type").notNull(),
+  sortOrder: integer("sort_order").default(0),
+  isMain: boolean("is_main").default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
