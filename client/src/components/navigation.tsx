@@ -10,6 +10,8 @@ export function Navigation() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/#properties", label: "Proprietà" },
+    { href: "/servizi", label: "Servizi" },
+    { href: "/news", label: "News" },
     { href: "/chi-siamo", label: "Chi Siamo" },
     { href: "/contatti", label: "Contatti" }
   ];
