@@ -33,7 +33,7 @@ export default function Properties() {
   const [selectedMunicipality, setSelectedMunicipality] = useState("Tutti i comuni");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [bedrooms, setBedrooms] = useState("");
+  const [bedrooms, setBedrooms] = useState("all");
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties', { 
@@ -42,7 +42,7 @@ export default function Properties() {
       municipality: selectedMunicipality !== "Tutti i comuni" ? selectedMunicipality : undefined,
       minPrice: minPrice || undefined,
       maxPrice: maxPrice || undefined,
-      bedrooms: bedrooms || undefined
+      bedrooms: bedrooms !== "all" ? bedrooms : undefined
     }],
   });
 
@@ -187,7 +187,7 @@ export default function Properties() {
                     <SelectValue placeholder="Camere" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Tutte</SelectItem>
+                    <SelectItem value="all">Tutte</SelectItem>
                     <SelectItem value="1">1+</SelectItem>
                     <SelectItem value="2">2+</SelectItem>
                     <SelectItem value="3">3+</SelectItem>
@@ -233,7 +233,7 @@ export default function Properties() {
                 setSelectedMunicipality("Tutti i comuni");
                 setMinPrice("");
                 setMaxPrice("");
-                setBedrooms("");
+                setBedrooms("all");
               }}>
                 Cancella Filtri
               </Button>
