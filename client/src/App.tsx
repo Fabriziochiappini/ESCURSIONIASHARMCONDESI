@@ -9,6 +9,7 @@ import Properties from "@/pages/properties";
 import PropertyDetail from "@/pages/property-detail";
 import Services from "@/pages/services";
 import News from "@/pages/news";
+import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/servizi" component={Services} />
       <Route path="/news" component={News} />
       <Route path="/news/:id" component={PropertyDetail} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );

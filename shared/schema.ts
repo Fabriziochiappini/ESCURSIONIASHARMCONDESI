@@ -1,4 +1,15 @@
-import { pgTable, text, serial, integer, boolean, decimal, json } from "drizzle-orm/pg-core";
+import { 
+  pgTable, 
+  text, 
+  serial, 
+  integer, 
+  boolean, 
+  decimal, 
+  json, 
+  timestamp,
+  varchar,
+  index 
+} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -46,3 +57,82 @@ export const searchFiltersSchema = z.object({
 });
 
 export type SearchFilters = z.infer<typeof searchFiltersSchema>;
+
+// Session storage table.
+// (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
+export const sessions = pgTable(
+  "sessions",
+  {
+    sid: varchar("sid").primaryKey(),
+    sess: json("sess").notNull(),
+    expire: timestamp("expire").notNull(),
+  },
+  (table) => [index("IDX_session_expire").on(table.expire)],
+);
+
+// User storage table.
+// (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
+export const users = pgTable("users", {
+  id: varchar("id").primaryKey().notNull(),
+  email: varchar("email").unique(),
+  firstName: varchar("first_name"),
+  lastName: varchar("last_name"),
+  profileImageUrl: varchar("profile_image_url"),
+  role: varchar("role").default("user"), // "admin", "user"
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type UpsertUser = typeof users.$inferInsert;
+export type User = typeof users.$inferSelect;
+
+// Blog posts table
+export const blogPosts = pgTable("blog_posts", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  excerpt: text("excerpt").notNull(),
+  content: text("content").notNull(),
+  featuredImage: text("featured_image"),
+  category: text("category").notNull(),
+  tags: json("tags").$type<string[]>().default([]),
+  published: boolean("published").default(false),
+  featured: boolean("featured").default(false),
+  authorId: varchar("author_id").references(() => users.id),
+  views: integer("views").default(0),
+  readTime: integer("read_time").notNull(), // in minutes
+  metaDescription: text("meta_description"),
+  metaKeywords: text("meta_keywords"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  views: true,
+});
+
+export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
+export type BlogPost = typeof blogPosts.$inferSelect;
+
+// Property images table for better management
+export const propertyImages = pgTable("property_images", {
+  id: serial("id").primaryKey(),
+  propertyId: integer("property_id").references(() => properties.id, { onDelete: "cascade" }),
+  url: text("url").notNull(),
+  alt: text("alt"),
+  caption: text("caption"),
+  order: integer("order").default(0),
+  isFeatured: boolean("is_featured").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertPropertyImageSchema = createInsertSchema(propertyImages).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertPropertyImage = z.infer<typeof insertPropertyImageSchema>;
+export type PropertyImage = typeof propertyImages.$inferSelect;
