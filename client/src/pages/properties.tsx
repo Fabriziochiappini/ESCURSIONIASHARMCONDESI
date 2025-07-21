@@ -81,21 +81,16 @@ export default function Properties() {
     <div className="min-h-screen bg-white">
       <Navigation />
       
-      <main>
+      <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-purple-900">
-          {/* Background Effects */}
-          <div className="absolute inset-0 glass-bg"></div>
-          <div className="absolute top-20 left-20 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
-          <div className="absolute top-40 right-20 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float-delayed"></div>
-          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
-          
-          <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
-              Tutte le <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Proprietà</span>
+        <section className="py-20 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Tutte le Proprietà
             </h1>
-            <p className="text-xl md:text-2xl text-gray-200 mb-12 leading-relaxed">
-              Trova la tua casa ideale tra vendite, affitti e case vacanza ad Acireale e dintorni
+            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
+              Trova la tua casa ideale tra vendite, affitti e case vacanza ad Acireale e dintorni. 
+              Scopri la proprietà perfetta per te.
             </p>
           </div>
         </section>

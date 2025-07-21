@@ -113,7 +113,10 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
-- June 19, 2025. Initial setup
+- January 21, 2025: Uniformato design hero di tutte le pagine con stile coerente
+- January 21, 2025: Aggiunto database PostgreSQL e seeded con dati di esempio
+- January 21, 2025: Create pagine Chi Siamo e Proprietà con design uniforme
+- June 19, 2025: Initial setup
 
 ## User Preferences
 
