@@ -82,15 +82,6 @@ export function PropertyManager() {
       });
     },
     onError: (error) => {
-      if (isUnauthorizedError(error as Error)) {
-        toast({
-          title: "Accesso scaduto",
-          description: "Effettua nuovamente il login",
-          variant: "destructive",
-        });
-        setTimeout(() => window.location.href = "/api/login", 1000);
-        return;
-      }
       toast({
         title: "Errore",
         description: "Errore nella creazione della proprietà",
@@ -116,15 +107,6 @@ export function PropertyManager() {
       });
     },
     onError: (error) => {
-      if (isUnauthorizedError(error as Error)) {
-        toast({
-          title: "Accesso scaduto",
-          description: "Effettua nuovamente il login",
-          variant: "destructive",
-        });
-        setTimeout(() => window.location.href = "/api/login", 1000);
-        return;
-      }
       toast({
         title: "Errore",
         description: "Errore nell'aggiornamento della proprietà",
@@ -147,15 +129,6 @@ export function PropertyManager() {
       });
     },
     onError: (error) => {
-      if (isUnauthorizedError(error as Error)) {
-        toast({
-          title: "Accesso scaduto",
-          description: "Effettua nuovamente il login",
-          variant: "destructive",
-        });
-        setTimeout(() => window.location.href = "/api/login", 1000);
-        return;
-      }
       toast({
         title: "Errore",
         description: "Errore nell'eliminazione della proprietà",

@@ -84,15 +84,6 @@ export function BlogManager() {
       });
     },
     onError: (error) => {
-      if (isUnauthorizedError(error as Error)) {
-        toast({
-          title: "Accesso scaduto",
-          description: "Effettua nuovamente il login",
-          variant: "destructive",
-        });
-        setTimeout(() => window.location.href = "/api/login", 1000);
-        return;
-      }
       toast({
         title: "Errore",
         description: "Errore nella creazione dell'articolo",
@@ -119,15 +110,6 @@ export function BlogManager() {
       });
     },
     onError: (error) => {
-      if (isUnauthorizedError(error as Error)) {
-        toast({
-          title: "Accesso scaduto",
-          description: "Effettua nuovamente il login",
-          variant: "destructive",
-        });
-        setTimeout(() => window.location.href = "/api/login", 1000);
-        return;
-      }
       toast({
         title: "Errore",
         description: "Errore nell'aggiornamento dell'articolo",
@@ -151,15 +133,6 @@ export function BlogManager() {
       });
     },
     onError: (error) => {
-      if (isUnauthorizedError(error as Error)) {
-        toast({
-          title: "Accesso scaduto",
-          description: "Effettua nuovamente il login",
-          variant: "destructive",
-        });
-        setTimeout(() => window.location.href = "/api/login", 1000);
-        return;
-      }
       toast({
         title: "Errore",
         description: "Errore nell'eliminazione dell'articolo",

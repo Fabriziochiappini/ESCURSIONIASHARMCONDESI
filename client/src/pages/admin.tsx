@@ -1,6 +1,4 @@
-import { useEffect } from "react";
 import { useAdmin } from "@/hooks/useAuth";
-import { useToast } from "@/hooks/use-toast";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,35 +16,7 @@ import {
 } from "lucide-react";
 
 export default function AdminPanel() {
-  const { toast } = useToast();
-  const { user, isAdmin, isLoading, error } = useAdmin();
-
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!isLoading && error) {
-      toast({
-        title: "Accesso Richiesto",
-        description: "Effettua il login per accedere al pannello admin.",
-        variant: "destructive",
-      });
-      setTimeout(() => {
-        window.location.href = "/api/login";
-      }, 1000);
-      return;
-    }
-
-    if (!isLoading && !isAdmin) {
-      toast({
-        title: "Accesso Negato",
-        description: "Non hai i permessi per accedere al pannello admin.",
-        variant: "destructive",
-      });
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 2000);
-      return;
-    }
-  }, [isAdmin, isLoading, error, toast]);
+  const { user, isLoading } = useAdmin();
 
   if (isLoading) {
     return (
@@ -54,10 +24,6 @@ export default function AdminPanel() {
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-600"></div>
       </div>
     );
-  }
-
-  if (!isAdmin) {
-    return null; // Will redirect via useEffect
   }
 
   return (
@@ -78,11 +44,11 @@ export default function AdminPanel() {
                 </p>
               </div>
               <Button
-                onClick={() => window.location.href = "/api/logout"}
+                onClick={() => window.location.href = "/"}
                 variant="outline"
               >
                 <Settings className="h-4 w-4 mr-2" />
-                Logout
+                Torna al Sito
               </Button>
             </div>
           </div>

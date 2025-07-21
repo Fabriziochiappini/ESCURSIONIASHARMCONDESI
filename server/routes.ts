@@ -1,35 +1,22 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated, isAdmin } from "./replitAuth";
+// Authentication removed per user request
 import { searchFiltersSchema, insertPropertySchema, insertBlogPostSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Auth middleware
-  await setupAuth(app);
-
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
-
-  app.get('/api/auth/admin', isAdmin, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json({ user, isAdmin: true });
-    } catch (error) {
-      console.error("Error fetching admin user:", error);
-      res.status(500).json({ message: "Failed to fetch admin user" });
-    }
+  // Admin routes - no authentication required per user request
+  app.get('/api/auth/admin', async (req: any, res) => {
+    // Always return admin access for demo purposes
+    res.json({ 
+      user: { 
+        id: "demo-admin",
+        firstName: "Admin", 
+        email: "admin@demo.com" 
+      }, 
+      isAdmin: true 
+    });
   });
   // Get all properties
   app.get("/api/properties", async (req, res) => {
@@ -85,8 +72,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Admin Property Management
-  app.post("/api/admin/properties", isAdmin, async (req, res) => {
+  // Admin Property Management - no auth required
+  app.post("/api/admin/properties", async (req, res) => {
     try {
       const property = insertPropertySchema.parse(req.body);
       const newProperty = await storage.createProperty(property);
@@ -100,7 +87,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/admin/properties/:id", isAdmin, async (req, res) => {
+  app.put("/api/admin/properties/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const updates = insertPropertySchema.partial().parse(req.body);
@@ -118,7 +105,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/admin/properties/:id", isAdmin, async (req, res) => {
+  app.delete("/api/admin/properties/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const success = await storage.deleteProperty(id);
@@ -180,8 +167,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Admin Blog Management
-  app.get("/api/admin/blog/posts", isAdmin, async (req, res) => {
+  // Admin Blog Management - no auth required
+  app.get("/api/admin/blog/posts", async (req, res) => {
     try {
       const posts = await storage.getAllBlogPosts(); // Get all posts including drafts
       res.json(posts);
@@ -190,11 +177,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/admin/blog/posts", isAdmin, async (req: any, res) => {
+  app.post("/api/admin/blog/posts", async (req: any, res) => {
     try {
       const postData = insertBlogPostSchema.parse({
         ...req.body,
-        authorId: req.user.claims.sub
+        authorId: "demo-admin"
       });
       const newPost = await storage.createBlogPost(postData);
       res.json(newPost);
@@ -207,7 +194,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/admin/blog/posts/:id", isAdmin, async (req, res) => {
+  app.put("/api/admin/blog/posts/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const updates = insertBlogPostSchema.partial().parse(req.body);
@@ -225,7 +212,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/admin/blog/posts/:id", isAdmin, async (req, res) => {
+  app.delete("/api/admin/blog/posts/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const success = await storage.deleteBlogPost(id);
@@ -249,7 +236,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/admin/properties/:id/images", isAdmin, async (req, res) => {
+  app.post("/api/admin/properties/:id/images", async (req, res) => {
     try {
       const propertyId = parseInt(req.params.id);
       const imageData = { ...req.body, propertyId };
@@ -260,7 +247,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/admin/properties/images/:id", isAdmin, async (req, res) => {
+  app.delete("/api/admin/properties/images/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const success = await storage.deletePropertyImage(id);
