@@ -7,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 import type { Property } from "@shared/schema";
 
 const MUNICIPALITIES = [
@@ -68,66 +70,44 @@ export default function Properties() {
 
   const getTypeBadgeColor = (type: string) => {
     switch(type) {
-      case "vendita": return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400";
-      case "affitto": return "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400";
-      case "casa_vacanza": return "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400";
-      default: return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
+      case "vendita": return "bg-green-100 text-green-800";
+      case "affitto": return "bg-blue-100 text-blue-800";
+      case "casa_vacanza": return "bg-purple-100 text-purple-800";
+      default: return "bg-gray-100 text-gray-800";
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 backdrop-blur-lg bg-white/80 dark:bg-gray-900/80 border-b border-gray-200/50 dark:border-gray-700/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <Building2 className="h-8 w-8 text-blue-600 dark:text-blue-400" />
-              <span className="text-xl font-bold text-gray-900 dark:text-white">Immobiliare Acireale</span>
-            </Link>
-            
-            <div className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">
-                Home
-              </Link>
-              <Link href="/chi-siamo" className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">
-                Chi Siamo
-              </Link>
-              <Link href="/proprieta" className="text-blue-600 dark:text-blue-400 font-medium">
-                Proprietà
-              </Link>
-              <Link href="/servizi" className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">
-                Servizi
-              </Link>
-              <Link href="/news" className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">
-                News
-              </Link>
-            </div>
+    <div className="min-h-screen bg-white">
+      <Navigation />
+      
+      <main>
+        {/* Hero Section */}
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-purple-900">
+          {/* Background Effects */}
+          <div className="absolute inset-0 glass-bg"></div>
+          <div className="absolute top-20 left-20 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
+          <div className="absolute top-40 right-20 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float-delayed"></div>
+          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
+          
+          <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+              Tutte le <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Proprietà</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-200 mb-12 leading-relaxed">
+              Trova la tua casa ideale tra vendite, affitti e case vacanza ad Acireale e dintorni
+            </p>
           </div>
-        </div>
-      </nav>
+        </section>
 
-      {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-blue-600/10 dark:from-blue-400/5 dark:via-purple-400/5 dark:to-blue-400/5"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-6">
-            Tutte le Proprietà
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Trova la tua casa ideale tra vendite, affitti e case vacanza ad Acireale e dintorni
-          </p>
-        </div>
-      </section>
-
-      {/* Search and Filters */}
-      <section className="py-8 bg-white/50 dark:bg-gray-800/50">
+        {/* Search and Filters */}
+        <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Card>
+          <Card className="glass-card">
             <CardHeader>
               <div className="flex items-center space-x-2">
-                <Filter className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Filtra Proprietà</h3>
+                <Filter className="h-5 w-5 text-purple-600" />
+                <h3 className="text-lg font-semibold text-gray-900">Filtra Proprietà</h3>
               </div>
             </CardHeader>
             <CardContent>
@@ -200,8 +180,8 @@ export default function Properties() {
         </div>
       </section>
 
-      {/* Properties Grid */}
-      <section className="py-16">
+        {/* Properties Grid */}
+        <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -241,14 +221,14 @@ export default function Properties() {
           ) : (
             <>
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <h2 className="text-3xl font-bold text-gray-900">
                   {properties.length} Proprietà Trovate
                 </h2>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {properties.map((property) => (
-                  <Card key={property.id} className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                  <Card key={property.id} className="group glass-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                     <div className="relative aspect-video overflow-hidden rounded-t-lg">
                       <img 
                         src={property.images[0]} 
@@ -270,20 +250,20 @@ export default function Properties() {
                     </div>
                     
                     <CardContent className="p-6">
-                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      <div className="flex items-center text-sm text-gray-600 mb-2">
                         <MapPin className="h-4 w-4 mr-1" />
                         {property.location}
                       </div>
                       
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
                         {property.title}
                       </h3>
                       
-                      <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
+                      <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                         {property.description}
                       </p>
                       
-                      <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-4">
+                      <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
                         <div className="flex items-center space-x-4">
                           <div className="flex items-center">
                             <Bed className="h-4 w-4 mr-1" />
@@ -301,7 +281,7 @@ export default function Properties() {
                       </div>
                       
                       <div className="flex items-center justify-between">
-                        <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                        <div className="text-2xl font-bold text-purple-600">
                           {formatPrice(property.price, property.type, property.priceType)}
                         </div>
                         <Button asChild size="sm">
@@ -318,6 +298,9 @@ export default function Properties() {
           )}
         </div>
       </section>
+      </main>
+      
+      <Footer />
     </div>
   );
 }
