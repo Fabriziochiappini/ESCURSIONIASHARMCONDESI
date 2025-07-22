@@ -289,6 +289,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve uploaded images
   app.use('/uploads', express.static('uploads'));
 
+  // Image upload endpoint for admin
+  app.post('/api/admin/upload-images', async (req, res) => {
+    upload.array('images', 20)(req, res, (err) => {
+      if (err) {
+        console.error('Upload error:', err);
+        return res.status(400).json({ error: err.message });
+      }
+
+      try {
+        if (!req.files || !Array.isArray(req.files)) {
+          return res.status(400).json({ error: 'Nessuna immagine caricata' });
+        }
+
+        const imageUrls = req.files.map(file => `/uploads/properties/${file.filename}`);
+        
+        res.json({ 
+          success: true, 
+          imageUrls,
+          message: `${imageUrls.length} immagini caricate con successo` 
+        });
+      } catch (error) {
+        console.error('Error processing uploaded images:', error);
+        res.status(500).json({ error: 'Errore nel caricamento delle immagini' });
+      }
+    });
+  });
+
   // Property images routes
   app.get("/api/properties/:id/images", async (req, res) => {
     try {

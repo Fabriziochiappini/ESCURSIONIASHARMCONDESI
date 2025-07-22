@@ -28,7 +28,6 @@ import { isUnauthorizedError } from "@/lib/authUtils";
 import { ImageManager } from "./ImageManager";
 
 interface PropertyFormData extends Omit<InsertProperty, 'images' | 'features'> {
-  images: string;
   features: string;
 }
 
@@ -44,7 +43,6 @@ const initialFormData: PropertyFormData = {
   bedrooms: 1,
   bathrooms: 1,
   area: 50,
-  images: "",
   features: "",
   youtubeVideoId: "",
   agentName: "",
@@ -61,6 +59,7 @@ export function PropertyManager() {
   const [formData, setFormData] = useState<PropertyFormData>(initialFormData);
   const [imageManagerOpen, setImageManagerOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState<number | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -163,6 +162,7 @@ export function PropertyManager() {
   const resetForm = () => {
     setFormData(initialFormData);
     setEditingProperty(null);
+    setSelectedFiles(null);
   };
 
   const handleManageImages = (propertyId: number) => {
@@ -176,26 +176,58 @@ export function PropertyManager() {
     setEditingProperty(property);
     setFormData({
       ...property,
-      images: Array.isArray(property.images) ? property.images.join('\n') : '',
       features: Array.isArray(property.features) ? property.features.join('\n') : '',
     });
+    setSelectedFiles(null);
     setIsDialogOpen(true);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const propertyData: InsertProperty = {
-      ...formData,
-      images: formData.images.split('\n').filter(img => img.trim()),
-      features: formData.features.split('\n').filter(feature => feature.trim()),
-      price: formData.price.toString(),
-    };
+    try {
+      // First upload images if any are selected
+      let imageUrls: string[] = [];
+      if (selectedFiles && selectedFiles.length > 0) {
+        const formDataImages = new FormData();
+        Array.from(selectedFiles).forEach(file => {
+          formDataImages.append('images', file);
+        });
 
-    if (editingProperty) {
-      updateMutation.mutate({ id: editingProperty.id, data: propertyData });
-    } else {
-      createMutation.mutate(propertyData);
+        const uploadResponse = await fetch('/api/admin/upload-images', {
+          method: 'POST',
+          body: formDataImages,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error('Errore nel caricamento delle immagini');
+        }
+
+        const uploadResult = await uploadResponse.json();
+        imageUrls = uploadResult.imageUrls || [];
+      }
+
+      // Prepare property data
+      const propertyData: InsertProperty = {
+        ...formData,
+        images: editingProperty && imageUrls.length === 0 
+          ? editingProperty.images // Keep existing images if no new ones uploaded
+          : imageUrls, // Use new uploaded images
+        features: formData.features.split('\n').filter(feature => feature.trim()),
+        price: formData.price.toString(),
+      };
+
+      if (editingProperty) {
+        updateMutation.mutate({ id: editingProperty.id, data: propertyData });
+      } else {
+        createMutation.mutate(propertyData);
+      }
+    } catch (error) {
+      toast({
+        title: "Errore",
+        description: error instanceof Error ? error.message : "Errore sconosciuto",
+        variant: "destructive",
+      });
     }
   };
 
@@ -365,14 +397,33 @@ export function PropertyManager() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="images">URL Immagini (una per riga)</Label>
-                <Textarea
+                <Label htmlFor="images">Immagini</Label>
+                <Input
                   id="images"
-                  value={formData.images}
-                  onChange={(e) => setFormData(prev => ({ ...prev, images: e.target.value }))}
-                  rows={4}
-                  placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={(e) => setSelectedFiles(e.target.files)}
+                  className="cursor-pointer"
                 />
+                <p className="text-sm text-gray-500">
+                  {editingProperty ? 'Seleziona nuove immagini per sostituire quelle esistenti (opzionale)' : 'Seleziona una o più immagini'}
+                </p>
+                {editingProperty && editingProperty.images && editingProperty.images.length > 0 && (
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-600 mb-2">Immagini attuali: {editingProperty.images.length}</p>
+                    <div className="grid grid-cols-4 gap-2">
+                      {editingProperty.images.slice(0, 4).map((img, index) => (
+                        <img 
+                          key={index} 
+                          src={img} 
+                          alt={`Immagine ${index + 1}`}
+                          className="w-16 h-16 object-cover rounded border"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="space-y-2">
