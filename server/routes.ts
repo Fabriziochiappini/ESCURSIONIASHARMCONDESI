@@ -30,6 +30,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get unique municipalities from properties
+  app.get("/api/municipalities", async (req, res) => {
+    try {
+      const municipalities = await storage.getUniqueMunicipalities();
+      res.json(municipalities);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching municipalities" });
+    }
+  });
+
   // Get featured properties
   app.get("/api/properties/featured", async (req, res) => {
     try {

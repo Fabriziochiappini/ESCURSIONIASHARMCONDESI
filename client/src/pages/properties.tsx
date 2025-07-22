@@ -11,17 +11,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import type { Property } from "@shared/schema";
 
-const MUNICIPALITIES = [
-  "Tutti i comuni",
-  "Acireale", 
-  "Aci Castello", 
-  "Aci Catena", 
-  "Aci Sant'Antonio",
-  "Acireale Centro",
-  "Viagrande",
-  "Santa Venerina",
-  "Frosinone"
-];
+// Municipalities now loaded dynamically from API
 
 const PROPERTY_TYPES = [
   { value: "all", label: "Tutti i tipi" },
@@ -37,6 +27,14 @@ export default function Properties() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [bedrooms, setBedrooms] = useState("all");
+
+  // Fetch dynamic municipalities
+  const { data: dynamicMunicipalities = [] } = useQuery<string[]>({
+    queryKey: ['/api/municipalities']
+  });
+
+  // Combine with "Tutti i comuni" option
+  const municipalities = ["Tutti i comuni", ...dynamicMunicipalities];
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties/search', { 
@@ -155,7 +153,7 @@ export default function Properties() {
                     <SelectValue placeholder="Comune" />
                   </SelectTrigger>
                   <SelectContent>
-                    {MUNICIPALITIES.map((municipality) => (
+                    {municipalities.map((municipality) => (
                       <SelectItem key={municipality} value={municipality}>
                         {municipality}
                       </SelectItem>

@@ -13,7 +13,7 @@ import {
   type User,
   type UpsertUser
 } from "@shared/schema";
-import { eq, and, gte, lte, sql, desc, like, or, ilike } from "drizzle-orm";
+import { eq, and, gte, lte, sql, desc, like, or, ilike, distinct } from "drizzle-orm";
 import { db } from "./db";
 
 export interface IStorage {
@@ -22,6 +22,7 @@ export interface IStorage {
   getProperty(id: number): Promise<Property | undefined>;
   getFeaturedProperties(): Promise<Property[]>;
   searchProperties(filters: SearchFilters): Promise<Property[]>;
+  getUniqueMunicipalities(): Promise<string[]>;
   createProperty(property: InsertProperty): Promise<Property>;
   updateProperty(id: number, property: Partial<InsertProperty>): Promise<Property | undefined>;
   deleteProperty(id: number): Promise<boolean>;
@@ -117,6 +118,15 @@ export class DatabaseStorage implements IStorage {
 
     const results = await query.orderBy(desc(properties.id));
     return results;
+  }
+
+  async getUniqueMunicipalities(): Promise<string[]> {
+    const result = await db
+      .selectDistinct({ municipality: properties.municipality })
+      .from(properties)
+      .orderBy(properties.municipality);
+    
+    return result.map(row => row.municipality);
   }
 
   async createProperty(property: InsertProperty): Promise<Property> {

@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search } from "lucide-react";
-import { MUNICIPALITIES, PROPERTY_TYPES, PRICE_RANGES } from "@/lib/types";
+import { PROPERTY_TYPES, PRICE_RANGES } from "@/lib/types";
 import { useLocation } from "wouter";
 
 export function PropertySearch() {
@@ -11,6 +12,11 @@ export function PropertySearch() {
     type: "",
     municipality: "",
     maxPrice: ""
+  });
+
+  // Fetch dynamic municipalities
+  const { data: municipalities = [] } = useQuery<string[]>({
+    queryKey: ['/api/municipalities']
   });
 
   const handleSearch = () => {
@@ -54,7 +60,7 @@ export function PropertySearch() {
               <SelectValue placeholder="Seleziona zona" />
             </SelectTrigger>
             <SelectContent>
-              {MUNICIPALITIES.map((municipality) => (
+              {municipalities.map((municipality) => (
                 <SelectItem key={municipality} value={municipality}>
                   {municipality}
                 </SelectItem>
