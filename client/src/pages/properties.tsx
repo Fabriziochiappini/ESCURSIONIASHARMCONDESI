@@ -40,17 +40,22 @@ export default function Properties() {
 
   // Initialize filters from URL parameters
   const [location] = useLocation();
-  const urlParams = new URLSearchParams(location.split('?')[1] || '');
   
   // Set initial values from URL on component mount
   React.useEffect(() => {
+    const urlParams = new URLSearchParams(location.split('?')[1] || '');
+    
+    const searchFromUrl = urlParams.get('search');
     const typeFromUrl = urlParams.get('type');
     const municipalityFromUrl = urlParams.get('municipality');
     const maxPriceFromUrl = urlParams.get('maxPrice');
+    const bedroomsFromUrl = urlParams.get('bedrooms');
     
+    if (searchFromUrl) setSearchTerm(searchFromUrl);
     if (typeFromUrl) setSelectedType(typeFromUrl);
     if (municipalityFromUrl) setSelectedMunicipality(municipalityFromUrl);
     if (maxPriceFromUrl) setMaxPrice(maxPriceFromUrl);
+    if (bedroomsFromUrl) setBedrooms(bedroomsFromUrl);
   }, [location]);
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
