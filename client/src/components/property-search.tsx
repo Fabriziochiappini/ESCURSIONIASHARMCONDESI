@@ -27,7 +27,7 @@ export function PropertySearch() {
     if (filters.maxPrice) searchParams.set("maxPrice", filters.maxPrice);
     
     const queryString = searchParams.toString();
-    setLocation(`/?${queryString}#properties`);
+    setLocation(`/proprieta${queryString ? `?${queryString}` : ''}`);
   };
 
   return (

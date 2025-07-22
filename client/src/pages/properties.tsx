@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Building2, Search, Filter, MapPin, Bed, Bath, Square, Euro } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -35,6 +37,21 @@ export default function Properties() {
 
   // Combine with "Tutti i comuni" option
   const municipalities = ["Tutti i comuni", ...dynamicMunicipalities];
+
+  // Initialize filters from URL parameters
+  const [location] = useLocation();
+  const urlParams = new URLSearchParams(location.split('?')[1] || '');
+  
+  // Set initial values from URL on component mount
+  React.useEffect(() => {
+    const typeFromUrl = urlParams.get('type');
+    const municipalityFromUrl = urlParams.get('municipality');
+    const maxPriceFromUrl = urlParams.get('maxPrice');
+    
+    if (typeFromUrl) setSelectedType(typeFromUrl);
+    if (municipalityFromUrl) setSelectedMunicipality(municipalityFromUrl);
+    if (maxPriceFromUrl) setMaxPrice(maxPriceFromUrl);
+  }, [location]);
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties/search', { 
