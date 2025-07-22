@@ -87,7 +87,7 @@ export function HeroSection() {
                 placeholder="Cerca per titolo..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm"
+                className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm text-gray-900 placeholder:text-gray-500"
               />
             </div>
             
@@ -96,7 +96,7 @@ export function HeroSection() {
                 Tipo di Contratto
               </label>
               <Select value={selectedType} onValueChange={setSelectedType}>
-                <SelectTrigger className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm">
+                <SelectTrigger className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm text-gray-900">
                   <SelectValue placeholder="Seleziona tipo" />
                 </SelectTrigger>
                 <SelectContent>
@@ -114,7 +114,7 @@ export function HeroSection() {
                 Zona
               </label>
               <Select value={selectedMunicipality} onValueChange={setSelectedMunicipality}>
-                <SelectTrigger className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm">
+                <SelectTrigger className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm text-gray-900">
                   <SelectValue placeholder="Seleziona zona" />
                 </SelectTrigger>
                 <SelectContent>
@@ -136,7 +136,7 @@ export function HeroSection() {
                 placeholder="€ Max"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
-                className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm"
+                className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm text-gray-900 placeholder:text-gray-500"
               />
             </div>
             

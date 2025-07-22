@@ -51,13 +51,7 @@ export default function Properties() {
     const maxPriceFromUrl = urlParams.get('maxPrice');
     const bedroomsFromUrl = urlParams.get('bedrooms');
     
-    console.log('URL Params:', {
-      search: searchFromUrl,
-      type: typeFromUrl,
-      municipality: municipalityFromUrl,
-      maxPrice: maxPriceFromUrl,
-      bedrooms: bedroomsFromUrl
-    });
+    // Debug logging removed
     
     if (searchFromUrl) setSearchTerm(searchFromUrl);
     if (typeFromUrl) setSelectedType(typeFromUrl);
