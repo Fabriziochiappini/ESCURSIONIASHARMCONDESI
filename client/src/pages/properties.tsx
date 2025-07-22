@@ -43,7 +43,7 @@ export default function Properties() {
   
   // Set initial values from URL on component mount
   React.useEffect(() => {
-    const urlParams = new URLSearchParams(location.split('?')[1] || '');
+    const urlParams = new URLSearchParams(window.location.search);
     
     const searchFromUrl = urlParams.get('search');
     const typeFromUrl = urlParams.get('type');
@@ -51,12 +51,20 @@ export default function Properties() {
     const maxPriceFromUrl = urlParams.get('maxPrice');
     const bedroomsFromUrl = urlParams.get('bedrooms');
     
+    console.log('URL Params:', {
+      search: searchFromUrl,
+      type: typeFromUrl,
+      municipality: municipalityFromUrl,
+      maxPrice: maxPriceFromUrl,
+      bedrooms: bedroomsFromUrl
+    });
+    
     if (searchFromUrl) setSearchTerm(searchFromUrl);
     if (typeFromUrl) setSelectedType(typeFromUrl);
     if (municipalityFromUrl) setSelectedMunicipality(municipalityFromUrl);
     if (maxPriceFromUrl) setMaxPrice(maxPriceFromUrl);
     if (bedroomsFromUrl) setBedrooms(bedroomsFromUrl);
-  }, [location]);
+  }, []);
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties/search', { 
