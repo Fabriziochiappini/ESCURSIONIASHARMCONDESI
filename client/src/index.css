@@ -53,12 +53,12 @@
   --card-foreground: hsl(0, 0%, 98%);
   --border: hsl(240, 3.7%, 15.9%);
   --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(222.2, 84%, 4.9%);
-  --secondary: hsl(240, 3.7%, 15.9%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(240, 3.7%, 15.9%);
-  --accent-foreground: hsl(0, 0%, 98%);
+  --primary: hsl(219, 91%, 32%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(0, 84%, 55%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --accent: hsl(42, 93%, 57%);
+  --accent-foreground: hsl(0, 0%, 0%);
   --destructive: hsl(0, 62.8%, 30.6%);
   --destructive-foreground: hsl(0, 0%, 98%);
   --ring: hsl(240, 4.9%, 83.9%);
@@ -111,38 +111,69 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Modern property card animations */
+/* Modern property card animations with brand colors */
 .property-card {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
+  border: 1px solid hsl(var(--primary) / 0.1);
 }
 
 .property-card:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 40px hsl(var(--primary) / 0.15);
+  border-color: hsl(var(--accent) / 0.3);
 }
 
-/* Modern gradient overlays */
+/* Modern gradient overlays with brand colors */
 .gradient-overlay {
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(30, 144, 255, 0.1) 100%);
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--secondary) / 0.1) 100%);
 }
 
 .hero-gradient {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(138, 43, 226, 0.3) 100%);
+  background: linear-gradient(135deg, 
+    rgba(0, 0, 0, 0.7) 0%, 
+    rgba(0, 0, 0, 0.4) 50%, 
+    hsl(var(--primary) / 0.3) 100%);
 }
 
-/* Modern glassmorphism effects */
+/* Modern glassmorphism effects with brand colors */
 .glass-card {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid hsl(var(--primary) / 0.1);
+  box-shadow: 0 8px 32px hsl(var(--primary) / 0.08);
 }
 
 .glass-nav {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid hsl(var(--primary) / 0.1);
+  box-shadow: 0 8px 32px hsl(var(--primary) / 0.1);
+}
+
+/* Brand business card styles */
+.brand-card {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--primary) / 0.9) 100%);
+  border: 2px solid hsl(var(--accent));
+  box-shadow: 0 12px 40px hsl(var(--primary) / 0.15);
+}
+
+.brand-card-accent {
+  background: linear-gradient(135deg, 
+    hsl(var(--accent)) 0%, 
+    hsl(var(--accent) / 0.9) 100%);
+  border: 2px solid hsl(var(--primary));
+  box-shadow: 0 12px 40px hsl(var(--accent) / 0.25);
+}
+
+.brand-card-secondary {
+  background: linear-gradient(135deg, 
+    hsl(var(--secondary)) 0%, 
+    hsl(var(--secondary) / 0.9) 100%);
+  border: 2px solid hsl(var(--accent));
+  box-shadow: 0 12px 40px hsl(var(--secondary) / 0.15);
 }
 
 /* YouTube video responsive */
@@ -150,17 +181,20 @@ html {
   aspect-ratio: 16 / 9;
 }
 
-/* Modern badge styles with gradients */
+/* Badge styles with brand colors */
 .badge-vendita {
-  @apply bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-lg;
+  background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--secondary) / 0.9) 100%);
+  @apply text-secondary-foreground shadow-lg;
 }
 
 .badge-affitto {
-  @apply bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg;
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.9) 100%);
+  @apply text-primary-foreground shadow-lg;
 }
 
 .badge-casa-vacanza {
-  @apply bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg;
+  background: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--accent) / 0.9) 100%);
+  @apply text-accent-foreground shadow-lg;
 }
 
 /* Image galleries with modern effects */

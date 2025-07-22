@@ -1,128 +1,135 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  Home, 
-  Calculator, 
-  FileText, 
-  Camera, 
-  MapPin, 
-  Users,
-  TrendingUp,
-  Shield,
-  Clock
-} from "lucide-react";
+import { FileText, Scale, Home, CreditCard, ArrowRight, CheckCircle } from "lucide-react";
+import { useLocation } from "wouter";
 
 const services = [
   {
-    icon: Home,
-    title: "Vendita Immobili",
-    description: "Supporto completo per la vendita della tua proprietà con valutazione gratuita e marketing mirato.",
-    features: ["Valutazione gratuita", "Marketing professionale", "Gestione documentale"]
+    category: "Perizie e Valutazioni",
+    icon: <FileText className="h-12 w-12" />,
+    description: "Valutazioni professionali e perizie tecniche certificate per ogni esigenza immobiliare",
+    color: "bg-primary text-primary-foreground",
+    items: ["Perizia Immobile", "Visure catastali", "Visure ipotecarie", "A.P.E."],
+    popular: true
   },
   {
-    icon: Calculator,
-    title: "Affitti e Locazioni",
-    description: "Gestione completa di affitti residenziali e commerciali con contratti sicuri e trasparenti.",
-    features: ["Ricerca inquilini", "Contratti legali", "Gestione pagamenti"]
+    category: "Servizi Legali", 
+    icon: <Scale className="h-12 w-12" />,
+    description: "Supporto legale specializzato in diritto immobiliare e pratiche urbanistiche",
+    color: "bg-secondary text-secondary-foreground",
+    items: ["Diritto civile immobiliare", "Sanatorie Urbanistiche", "Successioni"],
+    popular: false
   },
   {
-    icon: Camera,
-    title: "Fotografia Immobiliare",
-    description: "Servizio fotografico professionale con riprese aeree e tour virtuali per valorizzare la tua proprietà.",
-    features: ["Foto professionali", "Riprese aeree", "Tour virtuali 360°"]
+    category: "Compravendita Immobili",
+    icon: <Home className="h-12 w-12" />,
+    description: "Servizi completi per ogni tipologia di proprietà da appartamenti a terreni",
+    color: "bg-accent text-accent-foreground",
+    items: ["Appartamenti", "Villini e Ville", "Terreni", "Ruderi"],
+    popular: false
   },
   {
-    icon: FileText,
-    title: "Consulenza Legale",
-    description: "Assistenza legale specializzata in diritto immobiliare per acquisti, vendite e locazioni.",
-    features: ["Verifica documenti", "Contrattualistica", "Assistenza notarile"]
-  },
-  {
-    icon: TrendingUp,
-    title: "Investimenti Immobiliari",
-    description: "Consulenza per investimenti immobiliari redditizi con analisi di mercato dettagliate.",
-    features: ["Analisi mercato", "ROI calculator", "Portfolio management"]
-  },
-  {
-    icon: Shield,
-    title: "Assicurazioni Casa",
-    description: "Polizze assicurative personalizzate per proteggere la tua proprietà e i tuoi beni.",
-    features: ["Polizze casa", "Protezione contenuto", "Assistenza sinistri"]
+    category: "Servizi Finanziari",
+    icon: <CreditCard className="h-12 w-12" />,
+    description: "Consulenza finanziaria e creditizia specializzata nel settore immobiliare",
+    color: "bg-primary/80 text-primary-foreground",
+    items: ["Mutui Agevolati"],
+    popular: false
   }
 ];
 
 export function ServicesSection() {
+  const [, setLocation] = useLocation();
+
   return (
-    <section id="servizi" className="py-20 bg-gradient-to-br from-gray-50 to-white">
+    <section id="servizi" className="py-20 bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            I Nostri 
-            <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"> Servizi</span>
+          <div className="inline-flex items-center px-4 py-2 bg-accent text-accent-foreground rounded-full text-sm font-medium mb-6">
+            <Home className="h-4 w-4 mr-2" />
+            Servizi Professionali
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-6">
+            I Nostri Servizi Specializzati
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Offriamo una gamma completa di servizi immobiliari per soddisfare ogni tua esigenza, 
-            dalla vendita all'acquisto, dagli affitti agli investimenti.
+            <strong>AGENZIA 2 Servizi Immobiliari</strong> offre una gamma completa di servizi professionali 
+            per soddisfare ogni esigenza nel settore immobiliare ad Acireale.
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto mt-8 rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mt-8 rounded-full"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {services.map((service, index) => (
-            <Card key={index} className="service-card glass-card rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 group border-0">
-              <CardContent className="p-0">
-                <div className="mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <service.icon className="h-8 w-8 text-white" />
+            <Card key={index} className="group hover:shadow-xl transition-all duration-500 border-0 shadow-lg overflow-hidden">
+              <CardHeader className="relative pb-4">
+                <div className="flex items-start space-x-4">
+                  <div className={`flex-shrink-0 w-16 h-16 rounded-xl ${service.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                    {service.icon}
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed mb-6">
-                    {service.description}
-                  </p>
+                  <div className="flex-grow">
+                    <CardTitle className="text-xl font-bold text-primary group-hover:text-secondary transition-colors mb-2">
+                      {service.category}
+                      {service.popular && (
+                        <span className="ml-2 px-2 py-1 bg-accent text-accent-foreground text-xs rounded-full">
+                          Popolare
+                        </span>
+                      )}
+                    </CardTitle>
+                    <CardDescription className="text-gray-600">
+                      {service.description}
+                    </CardDescription>
+                  </div>
                 </div>
-
-                <div className="space-y-3 mb-6">
-                  {service.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center text-sm text-gray-700">
-                      <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full mr-3"></div>
-                      {feature}
+              </CardHeader>
+              
+              <CardContent className="pt-0">
+                <div className="space-y-2 mb-6">
+                  {service.items.map((item, itemIndex) => (
+                    <div key={itemIndex} className="flex items-center space-x-2">
+                      <CheckCircle className="h-4 w-4 text-accent flex-shrink-0" />
+                      <span className="text-sm text-gray-700">{item}</span>
                     </div>
                   ))}
                 </div>
-
-                <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-xl transition-all duration-300 hover:scale-105">
+                
+                <Button 
+                  onClick={() => setLocation('/servizi')}
+                  className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground font-semibold transition-all duration-300 group-hover:scale-105"
+                >
                   Scopri di Più
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        <div className="text-center">
-          <div className="glass-card rounded-3xl p-8 max-w-4xl mx-auto">
-            <div className="flex items-center justify-center mb-6">
-              <Clock className="h-12 w-12 text-purple-600 mr-4" />
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900">Assistenza 24/7</h3>
-                <p className="text-gray-600">Il nostro team è sempre a tua disposizione</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-              <div>
-                <div className="text-3xl font-bold text-purple-600 mb-2">500+</div>
-                <div className="text-gray-600">Proprietà Vendute</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-blue-600 mb-2">15+</div>
-                <div className="text-gray-600">Anni di Esperienza</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-green-600 mb-2">98%</div>
-                <div className="text-gray-600">Clienti Soddisfatti</div>
-              </div>
-            </div>
+        {/* CTA Section */}
+        <div className="text-center bg-gradient-to-br from-primary to-primary/80 rounded-3xl p-12 text-primary-foreground">
+          <h3 className="text-3xl font-bold mb-4">
+            Hai bisogno di una consulenza personalizzata?
+          </h3>
+          <p className="text-xl mb-8 opacity-90">
+            <strong>Geometra Antonio Cannavò</strong> è a tua disposizione per ogni esigenza immobiliare
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button 
+              size="lg" 
+              variant="secondary"
+              className="group"
+              onClick={() => setLocation('/servizi')}
+            >
+              <ArrowRight className="h-5 w-5 mr-2 group-hover:translate-x-1 transition-transform" />
+              Tutti i Servizi
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary"
+            >
+              Contattaci Ora
+            </Button>
           </div>
         </div>
       </div>

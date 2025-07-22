@@ -20,9 +20,9 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center group">
-            <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              <Home className="inline mr-3 h-7 w-7 text-purple-600 group-hover:scale-110 transition-transform" />
-              Immobiliare Acireale
+            <div className="text-2xl font-bold text-primary">
+              <Home className="inline mr-3 h-7 w-7 text-primary group-hover:scale-110 transition-transform" />
+              AGENZIA 2
             </div>
           </Link>
 
@@ -32,14 +32,14 @@ export function Navigation() {
               <Link 
                 key={link.href}
                 href={link.href}
-                className="relative text-gray-700 hover:text-purple-600 transition-colors font-medium group"
+                className="relative text-gray-700 hover:text-primary transition-colors font-medium group"
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-blue-600 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary group-hover:w-full transition-all duration-300"></span>
               </Link>
             ))}
-            <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              Valuta la tua Casa
+            <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground font-semibold px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              Contattaci
             </Button>
           </div>
 
@@ -49,9 +49,9 @@ export function Navigation() {
               variant="ghost"
               size="sm"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-full hover:bg-purple-50"
+              className="p-2 rounded-full hover:bg-primary/10"
             >
-              {isMenuOpen ? <X className="h-6 w-6 text-purple-600" /> : <Menu className="h-6 w-6 text-purple-600" />}
+              {isMenuOpen ? <X className="h-6 w-6 text-primary" /> : <Menu className="h-6 w-6 text-primary" />}
             </Button>
           </div>
         </div>
