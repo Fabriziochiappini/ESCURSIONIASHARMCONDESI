@@ -13,7 +13,7 @@ import {
   type User,
   type UpsertUser
 } from "@shared/schema";
-import { eq, and, gte, lte, sql, desc, like, or } from "drizzle-orm";
+import { eq, and, gte, lte, sql, desc, like, or, ilike } from "drizzle-orm";
 import { db } from "./db";
 
 export interface IStorage {
@@ -75,6 +75,15 @@ export class DatabaseStorage implements IStorage {
     let query = db.select().from(properties);
     const conditions = [];
 
+    if (filters.search) {
+      conditions.push(
+        or(
+          ilike(properties.title, `%${filters.search}%`),
+          ilike(properties.description, `%${filters.search}%`),
+          ilike(properties.location, `%${filters.search}%`)
+        )
+      );
+    }
     if (filters.type) {
       conditions.push(eq(properties.type, filters.type));
     }

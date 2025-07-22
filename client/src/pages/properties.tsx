@@ -38,7 +38,7 @@ export default function Properties() {
   const [bedrooms, setBedrooms] = useState("all");
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
-    queryKey: ['/api/properties', { 
+    queryKey: ['/api/properties/search', { 
       search: searchTerm,
       type: selectedType !== "all" ? selectedType : undefined,
       municipality: selectedMunicipality !== "Tutti i comuni" ? selectedMunicipality : undefined,
@@ -46,6 +46,25 @@ export default function Properties() {
       maxPrice: maxPrice || undefined,
       bedrooms: bedrooms !== "all" ? bedrooms : undefined
     }],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      
+      if (searchTerm) params.set('search', searchTerm);
+      if (selectedType !== "all") params.set('type', selectedType);
+      if (selectedMunicipality !== "Tutti i comuni") params.set('municipality', selectedMunicipality);
+      if (minPrice) params.set('minPrice', minPrice);
+      if (maxPrice) params.set('maxPrice', maxPrice);
+      if (bedrooms !== "all") params.set('bedrooms', bedrooms);
+      
+      const url = params.toString() ? `/api/properties/search?${params.toString()}` : '/api/properties';
+      const response = await fetch(url);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch properties');
+      }
+      
+      return response.json();
+    }
   });
 
   const formatPrice = (price: string, type: string, priceType: string | null) => {

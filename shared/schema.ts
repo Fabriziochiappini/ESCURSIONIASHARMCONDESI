@@ -48,6 +48,7 @@ export type Property = typeof properties.$inferSelect;
 
 // Search filters schema
 export const searchFiltersSchema = z.object({
+  search: z.string().optional(),
   type: z.enum(["vendita", "affitto", "casa_vacanza"]).optional(),
   municipality: z.string().optional(),
   minPrice: z.number().optional(),
