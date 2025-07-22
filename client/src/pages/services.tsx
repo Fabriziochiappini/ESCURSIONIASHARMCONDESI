@@ -1,280 +1,242 @@
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Home, 
-  Calculator, 
-  FileText, 
-  Camera, 
-  MapPin, 
-  Users,
-  TrendingUp,
-  Shield,
-  Clock,
-  CheckCircle,
-  Star,
-  Phone,
-  Mail
-} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { FileText, Scale, Home, CreditCard, CheckCircle, MapPin, Phone, Mail, Clock } from "lucide-react";
 
 const services = [
   {
-    icon: Home,
-    title: "Vendita Immobili",
-    description: "Supporto completo per la vendita della tua proprietà con valutazione gratuita e marketing mirato per massimizzare il valore della tua casa.",
-    features: [
-      "Valutazione gratuita professionale",
-      "Marketing digitale avanzato",
-      "Gestione documentale completa",
-      "Fotografia professionale inclusa",
-      "Assistenza fino al rogito"
-    ],
-    price: "Commissione dal 3%",
-    popular: true
+    category: "Servizi di Perizia e Valutazione",
+    icon: <FileText className="h-8 w-8" />,
+    description: "Valutazioni professionali e perizie tecniche certificate",
+    color: "bg-primary text-primary-foreground",
+    items: [
+      "Perizia Immobile",
+      "Visure catastali",
+      "Visure ipotecarie", 
+      "Visure CRIF",
+      "A.P.E. (Attestato di Prestazione Energetica)"
+    ]
   },
   {
-    icon: Calculator,
-    title: "Affitti e Locazioni",
-    description: "Gestione completa di affitti residenziali e commerciali con contratti sicuri, ricerca inquilini qualificati e amministrazione.",
-    features: [
-      "Ricerca inquilini affidabili",
-      "Contratti legali conformi",
-      "Gestione pagamenti automatica",
-      "Manutenzione ordinaria",
-      "Reportistica mensile"
-    ],
-    price: "Una mensilità",
-    popular: false
+    category: "Servizi Legali e Urbanistici",
+    icon: <Scale className="h-8 w-8" />,
+    description: "Supporto legale specializzato in diritto immobiliare",
+    color: "bg-secondary text-secondary-foreground",
+    items: [
+      "Diritto civile immobiliare",
+      "Sanatorie Urbanistiche",
+      "Cancellazione ipoteche",
+      "Estinzione Ipoteca con stralcio e saldo",
+      "Successioni"
+    ]
   },
   {
-    icon: Camera,
-    title: "Fotografia Immobiliare",
-    description: "Servizio fotografico professionale con riprese aeree, tour virtuali 360° e video promozionali per valorizzare al massimo la tua proprietà.",
-    features: [
-      "Foto professionali HD",
-      "Riprese aeree con drone",
-      "Tour virtuali 360°",
-      "Video promozionali",
-      "Editing professionale"
-    ],
-    price: "Da €299",
-    popular: false
+    category: "Compravendita Immobili",
+    icon: <Home className="h-8 w-8" />,
+    description: "Servizi completi per ogni tipologia di proprietà",
+    color: "bg-accent text-accent-foreground",
+    items: [
+      "Appartamenti",
+      "Villini e Ville",
+      "Casa singola con terreno",
+      "Ruderi con Terreno",
+      "Terreni"
+    ]
   },
   {
-    icon: FileText,
-    title: "Consulenza Legale",
-    description: "Assistenza legale specializzata in diritto immobiliare per acquisti, vendite, locazioni e risoluzione di controversie.",
-    features: [
-      "Verifica documenti catastali",
-      "Contrattualistica personalizzata",
-      "Assistenza notarile",
-      "Risoluzione controversie",
-      "Consulenza fiscale"
-    ],
-    price: "Da €150/ora",
-    popular: false
-  },
-  {
-    icon: TrendingUp,
-    title: "Investimenti Immobiliari",
-    description: "Consulenza per investimenti immobiliari redditizi con analisi di mercato dettagliate e gestione del portfolio.",
-    features: [
-      "Analisi mercato completa",
-      "ROI calculator avanzato",
-      "Portfolio management",
-      "Strategie fiscali",
-      "Monitoraggio performance"
-    ],
-    price: "Consulenza gratuita",
-    popular: true
-  },
-  {
-    icon: Shield,
-    title: "Assicurazioni Casa",
-    description: "Polizze assicurative personalizzate per proteggere la tua proprietà, i contenuti e garantire assistenza in caso di sinistri.",
-    features: [
-      "Polizze casa complete",
-      "Protezione contenuto",
-      "Assistenza sinistri 24/7",
-      "Copertura danni naturali",
-      "Responsabilità civile"
-    ],
-    price: "Da €200/anno",
-    popular: false
+    category: "Servizi Finanziari",
+    icon: <CreditCard className="h-8 w-8" />,
+    description: "Consulenza finanziaria e creditizia specializzata",
+    color: "bg-primary text-primary-foreground",
+    items: [
+      "Mutui Agevolati"
+    ]
   }
 ];
 
-const testimonials = [
-  {
-    name: "Marco Rossi",
-    service: "Vendita Immobili",
-    rating: 5,
-    comment: "Servizio eccellente! Hanno venduto la mia casa in meno di 2 mesi al prezzo che desideravo."
-  },
-  {
-    name: "Laura Bianchi",
-    service: "Affitti e Locazioni",
-    rating: 5,
-    comment: "Gestione professionale dei miei affitti. Non devo preoccuparmi di nulla, pensano a tutto loro."
-  },
-  {
-    name: "Giuseppe Verdi",
-    service: "Investimenti",
-    rating: 5,
-    comment: "Grazie ai loro consigli ho fatto investimenti immobiliari molto redditizi. Consigliatissimi!"
-  }
-];
+const contactInfo = {
+  name: "AGENZIA 2 Servizi Immobiliari",
+  geometra: "Geometra: Antonio Cannavò",
+  address: "Via San Girolamo, 20 - 95024 ACIREALE (CT)",
+  phone: "346 800 3234",
+  email: "agenzia2acireale@virgilio.it",
+  pec: "antoniocannavoagenzia2serviziimmobiliari@pec.it"
+};
 
 export default function Services() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <Navigation />
       
-      <main className="pt-20">
-        {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              I Nostri Servizi
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-              Soluzioni complete per ogni tua esigenza immobiliare. 
-              Dalla vendita agli investimenti, siamo il tuo partner di fiducia.
-            </p>
-            <div className="flex justify-center items-center space-x-8 text-sm">
-              <span className="flex items-center">
-                <CheckCircle className="h-5 w-5 mr-2" />
-                15+ Anni di Esperienza
-              </span>
-              <span className="flex items-center">
-                <CheckCircle className="h-5 w-5 mr-2" />
-                500+ Clienti Soddisfatti
-              </span>
-              <span className="flex items-center">
-                <CheckCircle className="h-5 w-5 mr-2" />
-                Assistenza 24/7
-              </span>
-            </div>
+      {/* Hero Section */}
+      <section className="relative py-20 px-4 bg-gradient-to-br from-primary to-primary/80">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-secondary/20"></div>
+        <div className="relative max-w-6xl mx-auto text-center">
+          <div className="inline-flex items-center px-4 py-2 bg-accent text-accent-foreground rounded-full text-sm font-medium mb-6">
+            <Home className="h-4 w-4 mr-2" />
+            Servizi Professionali Immobiliari
           </div>
-        </section>
-
-        {/* Services Grid */}
-        <section className="py-20 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service, index) => (
-                <Card key={index} className={`service-card glass-card rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 group border-0 ${service.popular ? 'ring-2 ring-purple-500' : ''}`}>
-                  {service.popular && (
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                      <Badge className="bg-purple-500 text-white px-4 py-1">
-                        <Star className="h-3 w-3 mr-1" />
-                        Più Richiesto
-                      </Badge>
-                    </div>
-                  )}
-                  
-                  <CardContent className="p-0">
-                    <div className="mb-6">
-                      <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <service.icon className="h-8 w-8 text-white" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
-                        {service.title}
-                      </h3>
-                      <p className="text-gray-600 leading-relaxed mb-6">
-                        {service.description}
-                      </p>
-                    </div>
-
-                    <div className="space-y-3 mb-6">
-                      {service.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center text-sm text-gray-700">
-                          <CheckCircle className="w-4 h-4 text-green-500 mr-3 flex-shrink-0" />
-                          {feature}
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="border-t border-gray-200 pt-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <span className="text-sm text-gray-500">A partire da</span>
-                          <div className="text-2xl font-bold text-purple-600">{service.price}</div>
-                        </div>
-                      </div>
-                      
-                      <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-xl transition-all duration-300 hover:scale-105">
-                        Richiedi Preventivo
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+          <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6">
+            I Nostri Servizi
+          </h1>
+          <p className="text-xl text-primary-foreground/90 max-w-3xl mx-auto mb-8">
+            Soluzioni complete per ogni esigenza immobiliare ad Acireale. 
+            Professionalità, esperienza e competenza al vostro servizio.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" variant="secondary" className="group">
+              <Phone className="h-5 w-5 mr-2 group-hover:animate-pulse" />
+              Chiamaci Ora
+            </Button>
+            <Button size="lg" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary">
+              <Mail className="h-5 w-5 mr-2" />
+              Contattaci
+            </Button>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Testimonials */}
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Cosa Dicono i Nostri Clienti
-              </h2>
-              <p className="text-xl text-gray-600">
-                La soddisfazione dei nostri clienti è la nostra priorità
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {testimonials.map((testimonial, index) => (
-                <Card key={index} className="glass-card rounded-3xl p-8 border-0">
-                  <CardContent className="p-0">
-                    <div className="flex items-center mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                      ))}
-                    </div>
-                    <p className="text-gray-700 mb-6 italic">
-                      "{testimonial.comment}"
-                    </p>
-                    <div>
-                      <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                      <div className="text-sm text-purple-600">{testimonial.service}</div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-4xl font-bold mb-6">
-              Pronto a Iniziare?
+      {/* Services Grid */}
+      <section className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
+              Servizi Specializzati
             </h2>
-            <p className="text-xl mb-8 opacity-90">
-              Contattaci oggi per una consulenza gratuita e scopri come possiamo aiutarti 
-              a raggiungere i tuoi obiettivi immobiliari.
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Offriamo una gamma completa di servizi professionali per soddisfare ogni esigenza nel settore immobiliare
             </p>
-            <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-              <Button className="bg-white text-purple-600 hover:bg-gray-100 font-semibold px-8 py-3 rounded-xl">
-                <Phone className="mr-2 h-5 w-5" />
-                Chiamaci Ora
-              </Button>
-              <Button variant="outline" className="border-white text-white hover:bg-white/10 font-semibold px-8 py-3 rounded-xl">
-                <Mail className="mr-2 h-5 w-5" />
-                Invia Email
-              </Button>
-            </div>
           </div>
-        </section>
-      </main>
-      
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {services.map((service, index) => (
+              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden">
+                <CardHeader className="relative">
+                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl ${service.color} mb-4`}>
+                    {service.icon}
+                  </div>
+                  <CardTitle className="text-xl font-bold text-primary group-hover:text-secondary transition-colors">
+                    {service.category}
+                  </CardTitle>
+                  <CardDescription className="text-gray-600">
+                    {service.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {service.items.map((item, itemIndex) => (
+                    <div key={itemIndex} className="flex items-center space-x-3">
+                      <div className="flex-shrink-0">
+                        <CheckCircle className="h-5 w-5 text-accent" />
+                      </div>
+                      <span className="text-gray-700 font-medium">{item}</span>
+                    </div>
+                  ))}
+                  <div className="pt-4">
+                    <Button className="w-full bg-primary hover:bg-secondary transition-colors">
+                      Richiedi Informazioni
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-16 px-4 bg-gradient-to-br from-primary to-primary/90">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+              Contattaci Oggi
+            </h2>
+            <p className="text-xl text-primary-foreground/90">
+              Il nostro team è pronto ad assisterti per ogni tua esigenza immobiliare
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card className="bg-white/10 border-white/20 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-primary-foreground flex items-center">
+                  <MapPin className="h-6 w-6 mr-2 text-accent" />
+                  {contactInfo.name}
+                </CardTitle>
+                <CardDescription className="text-primary-foreground/80">
+                  {contactInfo.geometra}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4 text-primary-foreground/90">
+                <div className="flex items-center space-x-3">
+                  <MapPin className="h-5 w-5 text-accent flex-shrink-0" />
+                  <span>{contactInfo.address}</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Phone className="h-5 w-5 text-accent flex-shrink-0" />
+                  <span>{contactInfo.phone}</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Mail className="h-5 w-5 text-accent flex-shrink-0" />
+                  <span className="break-all">{contactInfo.email}</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Mail className="h-5 w-5 text-accent flex-shrink-0" />
+                  <span className="text-sm break-all">{contactInfo.pec}</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white/10 border-white/20 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-primary-foreground flex items-center">
+                  <Clock className="h-6 w-6 mr-2 text-accent" />
+                  Orari di Apertura
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-primary-foreground/90">
+                <div className="flex justify-between">
+                  <span>Lunedì - Venerdì</span>
+                  <span className="text-accent font-medium">9:00 - 19:00</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Sabato</span>
+                  <span className="text-accent font-medium">9:00 - 13:00</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Domenica</span>
+                  <span className="text-primary-foreground/60">Chiuso</span>
+                </div>
+                <div className="pt-4">
+                  <Badge className="bg-accent text-accent-foreground">
+                    Consulenze su appuntamento
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Google Maps */}
+          <div className="mt-12">
+            <Card className="overflow-hidden">
+              <CardContent className="p-0">
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3049.7285661445895!2d15.163847076255!3d37.61088227981743!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1313fdc5b0f8b8c5%3A0x4f8b8c8c8c8c8c8c!2sVia%20San%20Girolamo%2C%2020%2C%2095024%20Acireale%20CT%2C%20Italy!5e0!3m2!1sen!2sus!4v1703234567890!5m2!1sen!2sus"
+                  width="100%" 
+                  height="400" 
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="AGENZIA 2 Servizi Immobiliari - Via San Girolamo 20, Acireale"
+                ></iframe>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );

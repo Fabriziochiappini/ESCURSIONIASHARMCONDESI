@@ -12,13 +12,17 @@ export default function About() {
       
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
+        <section className="py-20 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <div className="inline-flex items-center px-4 py-2 bg-accent text-accent-foreground rounded-full text-sm font-medium mb-6">
+              <Users className="h-4 w-4 mr-2" />
               Chi Siamo
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              AGENZIA 2 Servizi Immobiliari
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-              La tua agenzia immobiliare di fiducia ad Acireale e dintorni dal 1995. 
+              <strong>Geometra Antonio Cannavò</strong> - La tua agenzia immobiliare di fiducia ad Acireale. 
               Esperienza, professionalità e conoscenza del territorio al tuo servizio.
             </p>
           </div>
@@ -29,27 +33,34 @@ export default function About() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                  La Nostra Storia
+                <h2 className="text-3xl font-bold text-primary mb-6">
+                  La Nostra Missione
                 </h2>
                 <p className="text-lg text-gray-600 mb-6">
-                  Fondata nel 1995, Immobiliare Acireale è diventata un punto di riferimento nel settore immobiliare della provincia di Catania. Con oltre 25 anni di esperienza, abbiamo aiutato migliaia di famiglie a trovare la casa dei loro sogni.
+                  <strong>AGENZIA 2 Servizi Immobiliari</strong>, guidata dal Geometra Antonio Cannavò, è il tuo partner di fiducia per ogni esigenza immobiliare ad Acireale e provincia di Catania. Offriamo un servizio completo e professionale nel settore immobiliare.
                 </p>
                 <p className="text-lg text-gray-600 mb-6">
-                  La nostra passione per il territorio siciliano e la profonda conoscenza del mercato locale ci permettono di offrire servizi personalizzati e di alta qualità.
+                  La nostra passione per il territorio siciliano e la profonda conoscenza del mercato locale, unite alla competenza tecnica del Geometra Cannavò, ci permettono di offrire servizi specializzati e di alta qualità.
                 </p>
-                <div className="flex items-center space-x-4">
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-purple-600">25+</div>
-                    <div className="text-sm text-gray-600">Anni di esperienza</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-purple-600">2000+</div>
-                    <div className="text-sm text-gray-600">Clienti soddisfatti</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-purple-600">500+</div>
-                    <div className="text-sm text-gray-600">Proprietà vendute</div>
+                <div className="bg-accent/10 p-6 rounded-lg">
+                  <h3 className="text-xl font-bold text-primary mb-4">I Nostri Contatti</h3>
+                  <div className="space-y-3 text-left">
+                    <div className="flex items-center space-x-3">
+                      <MapPin className="h-5 w-5 text-secondary flex-shrink-0" />
+                      <span className="text-gray-700">Via San Girolamo, 20 - 95024 ACIREALE (CT)</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <Phone className="h-5 w-5 text-secondary flex-shrink-0" />
+                      <span className="text-gray-700">346 800 3234</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
+                      <span className="text-gray-700">agenzia2acireale@virgilio.it</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
+                      <span className="text-sm text-gray-600">antoniocannavoagenzia2serviziimmobiliari@pec.it</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -81,8 +92,8 @@ export default function About() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card className="text-center glass-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Users className="h-8 w-8 text-purple-600" />
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Users className="h-8 w-8 text-primary" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">
                     Professionalità
@@ -95,8 +106,8 @@ export default function About() {
 
               <Card className="text-center glass-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Award className="h-8 w-8 text-purple-600" />
+                  <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Award className="h-8 w-8 text-secondary" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">
                     Trasparenza
@@ -109,8 +120,8 @@ export default function About() {
 
               <Card className="text-center glass-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <MapPin className="h-8 w-8 text-purple-600" />
+                  <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MapPin className="h-8 w-8 text-accent" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">
                     Territorio
@@ -147,11 +158,11 @@ export default function About() {
                     />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    Marco Siciliano
+                    Antonio Cannavò
                   </h3>
-                  <p className="text-purple-600 mb-2">Founder & CEO</p>
+                  <p className="text-primary mb-2">Geometra & Fondatore</p>
                   <p className="text-gray-600 text-sm mb-4">
-                    Esperto del mercato immobiliare siciliano con oltre 25 anni di esperienza.
+                    Esperto in servizi immobiliari, perizie e consulenze tecniche ad Acireale.
                   </p>
                   <div className="flex justify-center space-x-2">
                     <Phone className="h-4 w-4 text-gray-400" />

@@ -113,6 +113,22 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
+- July 22, 2025: Implementato schema colori brand completo basato su biglietti da visita
+  * Colore principale: Blu scuro (#1e3a8a)
+  * Colore secondario: Rosso (#dc2626) 
+  * Colore accent: Giallo/oro (#fbbf24)
+- July 22, 2025: Aggiornati servizi completi con struttura reale agenzia
+  * Perizie e valutazioni (Visure catastali, CRIF, A.P.E.)
+  * Servizi legali (Diritto immobiliare, sanatorie, successioni)
+  * Compravendita immobili (Appartamenti, ville, terreni)
+  * Servizi finanziari (Mutui agevolati)
+- July 22, 2025: Implementati contatti reali AGENZIA 2 Servizi Immobiliari
+  * Geometra: Antonio Cannavò
+  * Via San Girolamo, 20 - 95024 ACIREALE (CT)
+  * Tel: 346 800 3234
+  * Email: agenzia2acireale@virgilio.it
+  * PEC: antoniocannavoagenzia2serviziimmobiliari@pec.it
+- July 22, 2025: Aggiunti mappa Google Maps e orari di apertura
 - January 21, 2025: Uniformato design hero di tutte le pagine con stile coerente
 - January 21, 2025: Aggiunto database PostgreSQL e seeded con dati di esempio
 - January 21, 2025: Create pagine Chi Siamo e Proprietà con design uniforme
