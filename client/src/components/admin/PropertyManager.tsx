@@ -59,6 +59,8 @@ export function PropertyManager() {
   const [formData, setFormData] = useState<PropertyFormData>(initialFormData);
 
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [showImageManager, setShowImageManager] = useState(false);
+  const [tempImages, setTempImages] = useState<string[]>([]);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -162,6 +164,8 @@ export function PropertyManager() {
     setFormData(initialFormData);
     setEditingProperty(null);
     setSelectedFiles(null);
+    setTempImages([]);
+    setShowImageManager(false);
   };
 
 
@@ -174,8 +178,28 @@ export function PropertyManager() {
       ...property,
       features: Array.isArray(property.features) ? property.features.join('\n') : '',
     });
+    setTempImages(property.images || []);
     setSelectedFiles(null);
     setIsDialogOpen(true);
+  };
+
+  const removeImage = (index: number) => {
+    if (editingProperty) {
+      const newImages = [...tempImages];
+      newImages.splice(index, 1);
+      setTempImages(newImages);
+      setEditingProperty({ ...editingProperty, images: newImages });
+    }
+  };
+
+  const moveImage = (fromIndex: number, toIndex: number) => {
+    const newImages = [...tempImages];
+    const [movedImage] = newImages.splice(fromIndex, 1);
+    newImages.splice(toIndex, 0, movedImage);
+    setTempImages(newImages);
+    if (editingProperty) {
+      setEditingProperty({ ...editingProperty, images: newImages });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -207,8 +231,10 @@ export function PropertyManager() {
       const propertyData: InsertProperty = {
         ...formData,
         images: editingProperty && imageUrls.length === 0 
-          ? editingProperty.images // Keep existing images if no new ones uploaded
-          : imageUrls, // Use new uploaded images
+          ? tempImages // Use the managed image list
+          : editingProperty && imageUrls.length > 0
+            ? [...tempImages, ...imageUrls] // Add new images to managed list
+            : imageUrls, // Use new uploaded images for new properties
         features: formData.features.split('\n').filter(feature => feature.trim()),
         price: formData.price.toString(),
       };
@@ -403,19 +429,42 @@ export function PropertyManager() {
                   className="cursor-pointer"
                 />
                 <p className="text-sm text-gray-500">
-                  {editingProperty ? 'Seleziona nuove immagini per sostituire quelle esistenti (opzionale)' : 'Seleziona una o più immagini'}
+                  {editingProperty ? 'Seleziona nuove immagini da aggiungere (opzionale)' : 'Seleziona una o più immagini'}
                 </p>
-                {editingProperty && editingProperty.images && editingProperty.images.length > 0 && (
+                {editingProperty && tempImages && tempImages.length > 0 && (
                   <div className="mt-2">
-                    <p className="text-sm text-gray-600 mb-2">Immagini attuali: {editingProperty.images.length}</p>
-                    <div className="grid grid-cols-4 gap-2">
-                      {editingProperty.images.slice(0, 4).map((img, index) => (
-                        <img 
-                          key={index} 
-                          src={img} 
-                          alt={`Immagine ${index + 1}`}
-                          className="w-16 h-16 object-cover rounded border"
-                        />
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm text-gray-600">Immagini attuali: {tempImages.length}</p>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowImageManager(true)}
+                      >
+                        Gestisci Ordine
+                      </Button>
+                    </div>
+                    <div className="grid grid-cols-6 gap-2">
+                      {tempImages.map((img, index) => (
+                        <div key={index} className="relative group">
+                          <img 
+                            src={img} 
+                            alt={`Immagine ${index + 1}`}
+                            className="w-16 h-16 object-cover rounded border"
+                          />
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            className="absolute -top-2 -right-2 w-5 h-5 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => removeImage(index)}
+                          >
+                            ×
+                          </Button>
+                          <div className="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white text-xs px-1 rounded-br">
+                            {index + 1}
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -506,6 +555,64 @@ export function PropertyManager() {
             </form>
           </DialogContent>
         </Dialog>
+
+        {/* Image Order Manager Modal */}
+        {showImageManager && editingProperty && (
+          <Dialog open={showImageManager} onOpenChange={setShowImageManager}>
+            <DialogContent className="max-w-4xl">
+              <DialogHeader>
+                <DialogTitle>Gestisci Ordine Immagini</DialogTitle>
+              </DialogHeader>
+              <div className="grid grid-cols-3 gap-4 max-h-96 overflow-y-auto">
+                {tempImages.map((img, index) => (
+                  <div key={index} className="relative group border rounded-lg p-2">
+                    <img 
+                      src={img} 
+                      alt={`Immagine ${index + 1}`}
+                      className="w-full h-32 object-cover rounded"
+                    />
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="text-sm">Posizione {index + 1}</span>
+                      <div className="flex gap-1">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => moveImage(index, Math.max(0, index - 1))}
+                          disabled={index === 0}
+                        >
+                          ↑
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => moveImage(index, Math.min(tempImages.length - 1, index + 1))}
+                          disabled={index === tempImages.length - 1}
+                        >
+                          ↓
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => removeImage(index)}
+                        >
+                          ×
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-end">
+                <Button onClick={() => setShowImageManager(false)}>
+                  Fatto
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
 
       {/* Properties Grid */}
