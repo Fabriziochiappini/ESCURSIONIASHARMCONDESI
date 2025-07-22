@@ -13,7 +13,7 @@ interface PropertyGridProps {
 export function PropertyGrid({ filters, showAll = false }: PropertyGridProps) {
   const [location] = useLocation();
   
-  const { data: properties, isLoading, error } = useQuery<Property[]>({
+  const { data: allProperties, isLoading, error } = useQuery<Property[]>({
     queryKey: filters ? ['/api/properties/search', filters] : ['/api/properties/featured'],
     queryFn: async () => {
       let url = filters ? '/api/properties/search' : '/api/properties/featured';
@@ -37,6 +37,9 @@ export function PropertyGrid({ filters, showAll = false }: PropertyGridProps) {
       return response.json();
     }
   });
+
+  // Limit to 6 properties for homepage grid alignment, show all if showAll is true or filters are applied
+  const properties = showAll || filters ? allProperties : allProperties?.slice(0, 6);
 
   if (isLoading) {
     return (
@@ -96,7 +99,7 @@ export function PropertyGrid({ filters, showAll = false }: PropertyGridProps) {
       {!showAll && !filters && (
         <div className="text-center">
           <Button 
-            onClick={() => window.location.href = '/properties'}
+            onClick={() => window.location.href = '/proprieta'}
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
           >
             Vedi Tutte le Proprietà
