@@ -484,13 +484,24 @@ export function PropertyManager() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="youtubeVideoId">ID Video YouTube</Label>
+                  <Label htmlFor="youtubeVideoId">Video YouTube</Label>
                   <Input
                     id="youtubeVideoId"
                     value={formData.youtubeVideoId || ''}
-                    onChange={(e) => setFormData(prev => ({ ...prev, youtubeVideoId: e.target.value }))}
-                    placeholder="dQw4w9WgXcQ"
+                    onChange={(e) => {
+                      let value = e.target.value;
+                      // Extract YouTube video ID from URL if pasted
+                      const match = value.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                      if (match) {
+                        value = match[1];
+                      }
+                      setFormData(prev => ({ ...prev, youtubeVideoId: value }));
+                    }}
+                    placeholder="Incolla URL YouTube o solo ID: x8WntjPQtw4"
                   />
+                  <p className="text-xs text-gray-500">
+                    Puoi incollare l'URL completo YouTube o solo l'ID del video
+                  </p>
                 </div>
                 
                 <div className="space-y-2">
