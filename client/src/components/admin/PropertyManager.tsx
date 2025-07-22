@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import type { Property, InsertProperty } from "@shared/schema";
 import { isUnauthorizedError } from "@/lib/authUtils";
-import { ImageManager } from "./ImageManager";
+
 
 interface PropertyFormData extends Omit<InsertProperty, 'images' | 'features'> {
   features: string;
@@ -57,8 +57,7 @@ export function PropertyManager() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [formData, setFormData] = useState<PropertyFormData>(initialFormData);
-  const [imageManagerOpen, setImageManagerOpen] = useState(false);
-  const [selectedPropertyId, setSelectedPropertyId] = useState<number | null>(null);
+
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -165,10 +164,7 @@ export function PropertyManager() {
     setSelectedFiles(null);
   };
 
-  const handleManageImages = (propertyId: number) => {
-    setSelectedPropertyId(propertyId);
-    setImageManagerOpen(true);
-  };
+
 
 
 
@@ -572,14 +568,6 @@ export function PropertyManager() {
                   {formatPrice(property.price, property.type)}
                 </div>
                 <div className="flex space-x-1">
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
-                    onClick={() => handleManageImages(property.id)}
-                    title="Gestisci Immagini"
-                  >
-                    <ImageIcon className="h-4 w-4" />
-                  </Button>
                   <Button size="sm" variant="outline" asChild>
                     <a href={`/proprieta/${property.id}`} target="_blank">
                       <Eye className="h-4 w-4" />
@@ -610,17 +598,7 @@ export function PropertyManager() {
         </div>
       )}
 
-      {/* Image Manager Dialog */}
-      <Dialog open={imageManagerOpen} onOpenChange={setImageManagerOpen}>
-        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Gestione Immagini Proprietà</DialogTitle>
-          </DialogHeader>
-          {selectedPropertyId && (
-            <ImageManager propertyId={selectedPropertyId} />
-          )}
-        </DialogContent>
-      </Dialog>
+
     </div>
   );
 }
