@@ -19,7 +19,8 @@ const MUNICIPALITIES = [
   "Aci Sant'Antonio",
   "Acireale Centro",
   "Viagrande",
-  "Santa Venerina"
+  "Santa Venerina",
+  "Frosinone"
 ];
 
 const PROPERTY_TYPES = [

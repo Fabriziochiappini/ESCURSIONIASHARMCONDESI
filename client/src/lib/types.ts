@@ -3,8 +3,11 @@ export const MUNICIPALITIES = [
   "Aci Castello", 
   "Aci Catena",
   "Aci Sant'Antonio",
+  "Acireale Centro",
+  "Viagrande",
   "Santa Venerina",
-  "Zafferana Etnea"
+  "Zafferana Etnea",
+  "Frosinone"
 ] as const;
 
 export const PROPERTY_TYPES = [
