@@ -113,6 +113,10 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
+- July 23, 2025: Rimossa completamente sezione blog/news dal sito
+  * Eliminati link navigazione, route, componenti e API del blog
+  * Semplificato pannello amministrativo (solo gestione proprietà)
+  * Migliorato allineamento servizi homepage con layout flexbox
 - July 22, 2025: Implementato schema colori brand completo basato su biglietti da visita
   * Colore principale: Blu scuro (#1e3a8a)
   * Colore secondario: Rosso (#dc2626) 

@@ -61,8 +61,8 @@ export function ServicesSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {services.map((service, index) => (
-            <Card key={index} className="group hover:shadow-xl transition-all duration-500 border-0 shadow-lg overflow-hidden">
-              <CardHeader className="relative pb-4">
+            <Card key={index} className="group hover:shadow-xl transition-all duration-500 border-0 shadow-lg overflow-hidden h-full flex flex-col">
+              <CardHeader className="relative pb-4 flex-shrink-0">
                 <div className="flex items-start space-x-4">
                   <div className={`flex-shrink-0 w-16 h-16 rounded-xl ${service.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                     {service.icon}
@@ -76,26 +76,26 @@ export function ServicesSection() {
                         </span>
                       )}
                     </CardTitle>
-                    <CardDescription className="text-gray-600">
+                    <CardDescription className="text-gray-600 leading-relaxed">
                       {service.description}
                     </CardDescription>
                   </div>
                 </div>
               </CardHeader>
               
-              <CardContent className="pt-0">
-                <div className="space-y-2 mb-6">
+              <CardContent className="pt-0 flex-grow flex flex-col">
+                <div className="space-y-3 mb-6 flex-grow">
                   {service.items.map((item, itemIndex) => (
-                    <div key={itemIndex} className="flex items-center space-x-2">
+                    <div key={itemIndex} className="flex items-center space-x-3">
                       <CheckCircle className="h-4 w-4 text-accent flex-shrink-0" />
-                      <span className="text-sm text-gray-700">{item}</span>
+                      <span className="text-sm text-gray-700 font-medium">{item}</span>
                     </div>
                   ))}
                 </div>
                 
                 <Button 
                   onClick={() => setLocation('/servizi')}
-                  className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground font-semibold transition-all duration-300 group-hover:scale-105"
+                  className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground font-semibold transition-all duration-300 group-hover:scale-105 mt-auto"
                 >
                   Scopri di Più
                   <ArrowRight className="ml-2 h-4 w-4" />
