@@ -13,7 +13,7 @@ import {
   type User,
   type UpsertUser
 } from "@shared/schema";
-import { eq, and, gte, lte, sql, desc, like, or, ilike, distinct } from "drizzle-orm";
+import { eq, and, gte, lte, sql, desc, like, or, ilike } from "drizzle-orm";
 import { db } from "./db";
 
 export interface IStorage {
@@ -113,7 +113,7 @@ export class DatabaseStorage implements IStorage {
     }
 
     if (conditions.length > 0) {
-      query = query.where(and(...conditions));
+      query = query.where(and(...conditions)) as typeof query;
     }
 
     const results = await query.orderBy(desc(properties.id));
@@ -130,19 +130,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createProperty(property: InsertProperty): Promise<Property> {
-    const [newProperty] = await db.insert(properties).values({
-      ...property,
-      priceType: property.priceType || null,
-      available: property.available ?? true,
-      featured: property.featured ?? false
-    }).returning();
+    const [newProperty] = await db.insert(properties).values(property as any).returning();
     return newProperty;
   }
 
   async updateProperty(id: number, property: Partial<InsertProperty>): Promise<Property | undefined> {
     const [updatedProperty] = await db
       .update(properties)
-      .set(property)
+      .set(property as any)
       .where(eq(properties.id, id))
       .returning();
     return updatedProperty || undefined;
@@ -150,7 +145,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteProperty(id: number): Promise<boolean> {
     const result = await db.delete(properties).where(eq(properties.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   // Property images operations
@@ -163,6 +158,11 @@ export class DatabaseStorage implements IStorage {
     return results;
   }
 
+  async getPropertyImageById(id: number): Promise<PropertyImage | undefined> {
+    const [image] = await db.select().from(propertyImages).where(eq(propertyImages.id, id));
+    return image || undefined;
+  }
+
   async addPropertyImage(image: InsertPropertyImage): Promise<PropertyImage> {
     const [newImage] = await db.insert(propertyImages).values(image).returning();
     return newImage;
@@ -170,7 +170,7 @@ export class DatabaseStorage implements IStorage {
 
   async deletePropertyImage(id: number): Promise<boolean> {
     const result = await db.delete(propertyImages).where(eq(propertyImages.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   async updatePropertyImageOrder(images: {id: number, sortOrder: number}[]): Promise<boolean> {
@@ -209,40 +209,12 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  // Property images operations
-  async getPropertyImages(propertyId: number): Promise<PropertyImage[]> {
-    const images = await db
-      .select()
-      .from(propertyImages)
-      .where(eq(propertyImages.propertyId, propertyId))
-      .orderBy(propertyImages.order);
-    return images;
-  }
-
-  async addPropertyImage(image: InsertPropertyImage): Promise<PropertyImage> {
-    const [newImage] = await db.insert(propertyImages).values(image).returning();
-    return newImage;
-  }
-
-  async deletePropertyImage(id: number): Promise<boolean> {
-    const result = await db.delete(propertyImages).where(eq(propertyImages.id, id));
-    return result.rowCount > 0;
-  }
-
-  async updatePropertyImageOrder(id: number, order: number): Promise<boolean> {
-    const result = await db
-      .update(propertyImages)
-      .set({ order })
-      .where(eq(propertyImages.id, id));
-    return result.rowCount > 0;
-  }
-
   // Blog operations
   async getAllBlogPosts(published?: boolean): Promise<BlogPost[]> {
     let query = db.select().from(blogPosts);
     
     if (published !== undefined) {
-      query = query.where(eq(blogPosts.published, published));
+      query = query.where(eq(blogPosts.published, published)) as typeof query;
     }
     
     const posts = await query.orderBy(desc(blogPosts.createdAt));
@@ -273,13 +245,14 @@ export class DatabaseStorage implements IStorage {
     const conditions = [eq(blogPosts.published, true)];
 
     if (query) {
-      conditions.push(
-        or(
-          like(blogPosts.title, `%${query}%`),
-          like(blogPosts.excerpt, `%${query}%`),
-          like(blogPosts.content, `%${query}%`)
-        )
+      const searchCondition = or(
+        like(blogPosts.title, `%${query}%`),
+        like(blogPosts.excerpt, `%${query}%`),
+        like(blogPosts.content, `%${query}%`)
       );
+      if (searchCondition) {
+        conditions.push(searchCondition);
+      }
     }
 
     if (category) {
@@ -293,14 +266,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createBlogPost(post: InsertBlogPost): Promise<BlogPost> {
-    const [newPost] = await db.insert(blogPosts).values(post).returning();
+    const [newPost] = await db.insert(blogPosts).values(post as any).returning();
     return newPost;
   }
 
   async updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost | undefined> {
     const [updatedPost] = await db
       .update(blogPosts)
-      .set({ ...post, updatedAt: new Date() })
+      .set({ ...post as any, updatedAt: new Date() })
       .where(eq(blogPosts.id, id))
       .returning();
     return updatedPost || undefined;
@@ -308,7 +281,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteBlogPost(id: number): Promise<boolean> {
     const result = await db.delete(blogPosts).where(eq(blogPosts.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   async incrementBlogPostViews(id: number): Promise<void> {
