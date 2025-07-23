@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 // Authentication removed per user request
-import { searchFiltersSchema, insertPropertySchema, insertBlogPostSchema, insertPropertyImageSchema } from "@shared/schema";
+import { searchFiltersSchema, insertPropertySchema, insertPropertyImageSchema } from "@shared/schema";
 import { z } from "zod";
 import { upload, getImageUrl, deleteImageFile } from "./imageUpload";
 import express from "express";
@@ -130,112 +130,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Blog Posts (Public)
-  app.get("/api/blog/posts", async (req, res) => {
-    try {
-      const published = req.query.published !== 'false';
-      const posts = await storage.getAllBlogPosts(published);
-      res.json(posts);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching blog posts" });
-    }
-  });
 
-  app.get("/api/blog/posts/featured", async (req, res) => {
-    try {
-      const posts = await storage.getFeaturedBlogPosts();
-      res.json(posts);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching featured blog posts" });
-    }
-  });
 
-  app.get("/api/blog/posts/search", async (req, res) => {
-    try {
-      const { q: query, category } = req.query;
-      const posts = await storage.searchBlogPosts(query as string, category as string);
-      res.json(posts);
-    } catch (error) {
-      res.status(500).json({ message: "Error searching blog posts" });
-    }
-  });
 
-  app.get("/api/blog/posts/:slug", async (req, res) => {
-    try {
-      const { slug } = req.params;
-      const post = await storage.getBlogPostBySlug(slug);
-      if (!post) {
-        return res.status(404).json({ message: "Blog post not found" });
-      }
-      
-      // Increment views for published posts
-      if (post.published) {
-        await storage.incrementBlogPostViews(post.id);
-      }
-      
-      res.json(post);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching blog post" });
-    }
-  });
-
-  // Admin Blog Management - no auth required
-  app.get("/api/admin/blog/posts", async (req, res) => {
-    try {
-      const posts = await storage.getAllBlogPosts(); // Get all posts including drafts
-      res.json(posts);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching blog posts" });
-    }
-  });
-
-  app.post("/api/admin/blog/posts", async (req: any, res) => {
-    try {
-      const postData = insertBlogPostSchema.parse({
-        ...req.body,
-        authorId: "demo-admin"
-      });
-      const newPost = await storage.createBlogPost(postData);
-      res.json(newPost);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400).json({ message: "Invalid blog post data", errors: error.errors });
-      } else {
-        res.status(500).json({ message: "Error creating blog post" });
-      }
-    }
-  });
-
-  app.put("/api/admin/blog/posts/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const updates = insertBlogPostSchema.partial().parse(req.body);
-      const updatedPost = await storage.updateBlogPost(id, updates);
-      if (!updatedPost) {
-        return res.status(404).json({ message: "Blog post not found" });
-      }
-      res.json(updatedPost);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400).json({ message: "Invalid blog post data", errors: error.errors });
-      } else {
-        res.status(500).json({ message: "Error updating blog post" });
-      }
-    }
-  });
-
-  app.delete("/api/admin/blog/posts/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const success = await storage.deleteBlogPost(id);
-      if (!success) {
-        return res.status(404).json({ message: "Blog post not found" });
-      }
-      res.json({ message: "Blog post deleted successfully" });
-    } catch (error) {
-      res.status(500).json({ message: "Error deleting blog post" });
-    }
-  });
 
   // Property Image Management
   app.get("/api/properties/:id/images", async (req, res) => {

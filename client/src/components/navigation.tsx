@@ -11,8 +11,7 @@ export function Navigation() {
     { href: "/", label: "Home" },
     { href: "/chi-siamo", label: "Chi Siamo" },
     { href: "/proprieta", label: "Proprietà" },
-    { href: "/servizi", label: "Servizi" },
-    { href: "/news", label: "News" }
+    { href: "/servizi", label: "Servizi" }
   ];
 
   return (

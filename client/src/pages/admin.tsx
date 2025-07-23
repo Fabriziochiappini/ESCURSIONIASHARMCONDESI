@@ -3,9 +3,9 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { PropertyManager } from "@/components/admin/PropertyManager";
-import { BlogManager } from "@/components/admin/BlogManager";
+
 import { 
   Building2, 
   FileText, 
@@ -70,12 +70,12 @@ export default function AdminPanel() {
             
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Articoli Blog</CardTitle>
+                <CardTitle className="text-sm font-medium">Proprietà in Evidenza</CardTitle>
                 <FileText className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">6</div>
-                <p className="text-xs text-muted-foreground">+1 questa settimana</p>
+                <div className="text-2xl font-bold">3</div>
+                <p className="text-xs text-muted-foreground">Aggiornate questa settimana</p>
               </CardContent>
             </Card>
             
@@ -102,27 +102,10 @@ export default function AdminPanel() {
             </Card>
           </div>
 
-          {/* Main Content Tabs */}
-          <Tabs defaultValue="properties" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="properties" className="flex items-center gap-2">
-                <Building2 className="h-4 w-4" />
-                Gestione Proprietà
-              </TabsTrigger>
-              <TabsTrigger value="blog" className="flex items-center gap-2">
-                <FileText className="h-4 w-4" />
-                Gestione Blog
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="properties">
-              <PropertyManager />
-            </TabsContent>
-
-            <TabsContent value="blog">
-              <BlogManager />
-            </TabsContent>
-          </Tabs>
+          {/* Main Content */}
+          <div className="space-y-6">
+            <PropertyManager />
+          </div>
         </div>
       </main>
       
