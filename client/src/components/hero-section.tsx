@@ -47,7 +47,7 @@ export function HeroSection() {
       {/* Modern Background with Parallax Effect */}
       <div className="absolute inset-0 hero-gradient"></div>
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110 animate-pulse"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110"
         style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&h=1600')"
         }}
@@ -55,9 +55,9 @@ export function HeroSection() {
       
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute top-20 left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
       </div>
       
       <div className="relative z-10 text-center text-primary-foreground max-w-6xl mx-auto px-4 animate-slide-up">
@@ -158,15 +158,15 @@ export function HeroSection() {
         <div className="glass-card rounded-2xl p-6 max-w-4xl mx-auto backdrop-blur-lg bg-white/15 border border-white/25 shadow-xl">
           <div className="flex justify-center items-center space-x-8 text-sm font-medium">
             <span className="flex items-center text-primary">
-              <div className="w-2 h-2 bg-accent rounded-full mr-2 animate-pulse"></div>
+              <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
               20+ Proprietà Disponibili
             </span>
             <span className="flex items-center text-secondary">
-              <div className="w-2 h-2 bg-secondary rounded-full mr-2 animate-pulse"></div>
+              <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
               Tour Virtuali 360°
             </span>
             <span className="flex items-center text-primary">
-              <div className="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse"></div>
+              <div className="w-2 h-2 bg-primary rounded-full mr-2"></div>
               <strong>Geometra Antonio Cannavò</strong>
             </span>
           </div>
@@ -174,11 +174,11 @@ export function HeroSection() {
       </div>
       
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-primary-foreground/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-primary-foreground/70 rounded-full mt-2 animate-pulse"></div>
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+        <div className="w-6 h-10 border-2 border-primary/50 rounded-full flex justify-center">
+          <div className="w-1 h-3 bg-primary/70 rounded-full mt-2"></div>
         </div>
-        <ChevronDown className="w-6 h-6 text-primary-foreground/70 mx-auto mt-2" />
+        <ChevronDown className="w-6 h-6 text-primary/70 mx-auto mt-2" />
       </div>
     </section>
   );
