@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { HeroSection } from "@/components/hero-section";
 import { PropertyGrid } from "@/components/property-grid";
 import { ServicesSection } from "@/components/services-section";
+import { SpecializedServices } from "@/components/specialized-services";
 
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -62,6 +63,7 @@ export default function Home() {
         </section>
         
         <ServicesSection />
+        <SpecializedServices />
       </main>
       <Footer />
     </div>
