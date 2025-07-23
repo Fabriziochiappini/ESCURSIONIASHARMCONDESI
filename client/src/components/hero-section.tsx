@@ -61,20 +61,24 @@ export function HeroSection() {
       </div>
       
       <div className="relative z-10 text-center text-primary-foreground max-w-6xl mx-auto px-4 animate-slide-up">
-        <div className="mb-8">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Trova la Casa dei Tuoi Sogni ad{' '}
-            <span className="text-accent">Acireale</span>
-          </h1>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-8 rounded-full"></div>
+        {/* Contenitore trasparente per testi */}
+        <div className="glass-card rounded-3xl p-8 mb-12 backdrop-blur-xl bg-white/10 border border-white/20">
+          <div className="mb-8">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              Trova la Casa dei Tuoi Sogni ad{' '}
+              <span className="text-accent">Acireale</span>
+            </h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-8 rounded-full"></div>
+          </div>
+          
+          <p className="text-xl md:text-2xl mb-8 text-primary-foreground/95 max-w-3xl mx-auto leading-relaxed font-light">
+            Scopri le proprietà più esclusive di <strong>Acireale</strong> e dintorni. 
+            Con <strong>AGENZIA 2 Servizi Immobiliari</strong>, la tua nuova vita inizia qui.
+          </p>
         </div>
         
-        <p className="text-xl md:text-2xl mb-16 text-primary-foreground/90 max-w-3xl mx-auto leading-relaxed font-light">
-          Scopri le proprietà più esclusive di <strong>Acireale</strong> e dintorni. 
-          Con <strong>AGENZIA 2 Servizi Immobiliari</strong>, la tua nuova vita inizia qui.
-        </p>
-        
-        <div className="glass-card rounded-3xl p-8 max-w-5xl mx-auto mb-12">
+        {/* Contenitore trasparente per filtri */}
+        <div className="glass-card rounded-3xl p-8 max-w-5xl mx-auto mb-12 backdrop-blur-xl bg-white/15 border border-white/30 shadow-2xl">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-end">
             <div>
               <label className="block text-sm font-semibold text-gray-800 mb-3">
@@ -150,19 +154,22 @@ export function HeroSection() {
           </div>
         </div>
         
-        <div className="flex justify-center items-center space-x-8 text-sm text-primary-foreground/80">
-          <span className="flex items-center">
-            <div className="w-2 h-2 bg-accent rounded-full mr-2 animate-pulse"></div>
-            20+ Proprietà Disponibili
-          </span>
-          <span className="flex items-center">
-            <div className="w-2 h-2 bg-secondary rounded-full mr-2 animate-pulse"></div>
-            Tour Virtuali 360°
-          </span>
-          <span className="flex items-center">
-            <div className="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse"></div>
-            Geometra Antonio Cannavò
-          </span>
+        {/* Contenitore trasparente per info */}
+        <div className="glass-card rounded-2xl p-6 max-w-4xl mx-auto backdrop-blur-lg bg-white/10 border border-white/20">
+          <div className="flex justify-center items-center space-x-8 text-sm text-primary-foreground/90">
+            <span className="flex items-center">
+              <div className="w-2 h-2 bg-accent rounded-full mr-2 animate-pulse"></div>
+              20+ Proprietà Disponibili
+            </span>
+            <span className="flex items-center">
+              <div className="w-2 h-2 bg-secondary rounded-full mr-2 animate-pulse"></div>
+              Tour Virtuali 360°
+            </span>
+            <span className="flex items-center">
+              <div className="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse"></div>
+              Geometra Antonio Cannavò
+            </span>
+          </div>
         </div>
       </div>
       

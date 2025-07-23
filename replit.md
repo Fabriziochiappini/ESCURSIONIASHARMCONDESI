@@ -128,6 +128,10 @@ The application uses a single main table `properties` with the following key fie
   * Tel: 346 800 3234
   * Email: agenzia2acireale@virgilio.it
   * PEC: antoniocannavoagenzia2serviziimmobiliari@pec.it
+- July 23, 2025: Aggiunto riquadro trasparente nella hero home attorno a testi e filtri
+  * Tre contenitori glassmorphism per testi, filtri e informazioni
+  * Effetto backdrop-blur con trasparenze progressive
+  * Design coerente con stile biglietto da visita
 - July 22, 2025: Aggiunti mappa Google Maps e orari di apertura
 - January 21, 2025: Uniformato design hero di tutte le pagine con stile coerente
 - January 21, 2025: Aggiunto database PostgreSQL e seeded con dati di esempio
