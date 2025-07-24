@@ -31,7 +31,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
   return (
     <Link href={`/property/${property.id}`} className="block">
-      <Card className="property-card bg-white rounded-3xl shadow-xl overflow-hidden cursor-pointer group border-0 h-[450px] flex flex-col hover:shadow-2xl transition-all duration-300">
+      <Card className="property-card bg-white rounded-3xl shadow-xl overflow-hidden cursor-pointer group border-0 h-[400px] flex flex-col hover:shadow-2xl transition-all duration-300">
         <div className="relative h-64 overflow-hidden flex-shrink-0">
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
@@ -64,37 +64,33 @@ export function PropertyCard({ property }: PropertyCardProps) {
           </div>
         </div>
         
-        <CardContent className="p-6 flex flex-col flex-grow">
-          <div className="mb-4">
-            <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-purple-600 transition-colors min-h-[3.5rem]">
+        <CardContent className="p-8 flex flex-col justify-between flex-grow">
+          <div className="mb-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-4 line-clamp-2 group-hover:text-purple-600 transition-colors min-h-[3.5rem]">
               {property.title}
             </h3>
-            <p className="text-gray-600 flex items-center text-sm">
+            <p className="text-gray-600 flex items-center text-sm mb-6">
               <MapPin className="h-4 w-4 mr-2 text-purple-500 flex-shrink-0" />
               <span className="truncate">{property.location}</span>
             </p>
           </div>
           
-          <div className="flex items-center justify-center mb-4">
-            <div className="flex items-center space-x-4 text-sm text-gray-600">
-              <span className="flex items-center bg-gray-100 px-3 py-2 rounded-lg">
-                <Bed className="h-4 w-4 mr-1 text-purple-500" />
+          <div className="flex items-center justify-center">
+            <div className="flex items-center space-x-6 text-sm text-gray-600">
+              <span className="flex items-center bg-gray-100 px-4 py-3 rounded-lg">
+                <Bed className="h-5 w-5 mr-2 text-purple-500" />
                 {property.bedrooms}
               </span>
-              <span className="flex items-center bg-gray-100 px-3 py-2 rounded-lg">
-                <Bath className="h-4 w-4 mr-1 text-blue-500" />
+              <span className="flex items-center bg-gray-100 px-4 py-3 rounded-lg">
+                <Bath className="h-5 w-5 mr-2 text-blue-500" />
                 {property.bathrooms}
               </span>
-              <span className="flex items-center bg-gray-100 px-3 py-2 rounded-lg">
-                <Square className="h-4 w-4 mr-1 text-green-500" />
+              <span className="flex items-center bg-gray-100 px-4 py-3 rounded-lg">
+                <Square className="h-5 w-5 mr-2 text-green-500" />
                 {property.area} mq
               </span>
             </div>
           </div>
-          
-          <p className="text-gray-700 text-sm line-clamp-3 leading-relaxed flex-grow text-center">
-            {property.description}
-          </p>
         </CardContent>
       </Card>
     </Link>
