@@ -30,9 +30,9 @@ export function PropertyCard({ property }: PropertyCardProps) {
   };
 
   return (
-    <Card className="property-card bg-white rounded-3xl shadow-xl overflow-hidden cursor-pointer group border-0 h-[520px] flex flex-col">
-      <Link href={`/property/${property.id}`} className="flex-shrink-0">
-        <div className="relative h-64 overflow-hidden">
+    <Link href={`/property/${property.id}`} className="block">
+      <Card className="property-card bg-white rounded-3xl shadow-xl overflow-hidden cursor-pointer group border-0 h-[450px] flex flex-col hover:shadow-2xl transition-all duration-300">
+        <div className="relative h-64 overflow-hidden flex-shrink-0">
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
             style={{ backgroundImage: `url('${property.images[0]}')` }}
@@ -63,58 +63,40 @@ export function PropertyCard({ property }: PropertyCardProps) {
             </div>
           </div>
         </div>
-      </Link>
-      
-      <CardContent className="p-6 flex flex-col flex-grow">
-        <div className="mb-4">
-          <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-purple-600 transition-colors min-h-[3.5rem]">
-            {property.title}
-          </h3>
-          <p className="text-gray-600 flex items-center text-sm">
-            <MapPin className="h-4 w-4 mr-2 text-purple-500 flex-shrink-0" />
-            <span className="truncate">{property.location}</span>
-          </p>
-        </div>
         
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-4 text-sm text-gray-600">
-            <span className="flex items-center bg-gray-100 px-2 py-1 rounded-lg">
-              <Bed className="h-4 w-4 mr-1 text-purple-500" />
-              {property.bedrooms}
-            </span>
-            <span className="flex items-center bg-gray-100 px-2 py-1 rounded-lg">
-              <Bath className="h-4 w-4 mr-1 text-blue-500" />
-              {property.bathrooms}
-            </span>
-            <span className="flex items-center bg-gray-100 px-2 py-1 rounded-lg">
-              <Square className="h-4 w-4 mr-1 text-green-500" />
-              {property.area} mq
-            </span>
+        <CardContent className="p-6 flex flex-col flex-grow">
+          <div className="mb-4">
+            <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-purple-600 transition-colors min-h-[3.5rem]">
+              {property.title}
+            </h3>
+            <p className="text-gray-600 flex items-center text-sm">
+              <MapPin className="h-4 w-4 mr-2 text-purple-500 flex-shrink-0" />
+              <span className="truncate">{property.location}</span>
+            </p>
           </div>
-        </div>
-        
-        <p className="text-gray-700 text-sm line-clamp-2 leading-relaxed flex-grow min-h-[2.5rem]">
-          {property.description}
-        </p>
-        
-        <div className="mt-4 pt-4 border-t border-gray-100 mt-auto">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center min-w-0 flex-1 mr-3">
-              {property.agentImage && (
-                <img 
-                  src={property.agentImage}
-                  alt={property.agentName}
-                  className="w-8 h-8 rounded-full object-cover mr-2 flex-shrink-0"
-                />
-              )}
-              <span className="text-sm text-gray-600 truncate">{property.agentName}</span>
+          
+          <div className="flex items-center justify-center mb-4">
+            <div className="flex items-center space-x-4 text-sm text-gray-600">
+              <span className="flex items-center bg-gray-100 px-3 py-2 rounded-lg">
+                <Bed className="h-4 w-4 mr-1 text-purple-500" />
+                {property.bedrooms}
+              </span>
+              <span className="flex items-center bg-gray-100 px-3 py-2 rounded-lg">
+                <Bath className="h-4 w-4 mr-1 text-blue-500" />
+                {property.bathrooms}
+              </span>
+              <span className="flex items-center bg-gray-100 px-3 py-2 rounded-lg">
+                <Square className="h-4 w-4 mr-1 text-green-500" />
+                {property.area} mq
+              </span>
             </div>
-            <Button size="sm" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-full px-4 py-2 flex-shrink-0">
-              Dettagli
-            </Button>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+          
+          <p className="text-gray-700 text-sm line-clamp-3 leading-relaxed flex-grow text-center">
+            {property.description}
+          </p>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
