@@ -30,9 +30,9 @@ export function PropertyCard({ property }: PropertyCardProps) {
   };
 
   return (
-    <Card className="property-card bg-white rounded-3xl shadow-xl overflow-hidden cursor-pointer group border-0">
-      <Link href={`/property/${property.id}`}>
-        <div className="relative h-72 overflow-hidden">
+    <Card className="property-card bg-white rounded-3xl shadow-xl overflow-hidden cursor-pointer group border-0 h-[520px] flex flex-col">
+      <Link href={`/property/${property.id}`} className="flex-shrink-0">
+        <div className="relative h-64 overflow-hidden">
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
             style={{ backgroundImage: `url('${property.images[0]}')` }}
@@ -65,14 +65,14 @@ export function PropertyCard({ property }: PropertyCardProps) {
         </div>
       </Link>
       
-      <CardContent className="p-6">
+      <CardContent className="p-6 flex flex-col flex-grow">
         <div className="mb-4">
-          <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-purple-600 transition-colors">
+          <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-purple-600 transition-colors min-h-[3.5rem]">
             {property.title}
           </h3>
           <p className="text-gray-600 flex items-center text-sm">
-            <MapPin className="h-4 w-4 mr-2 text-purple-500" />
-            {property.location}
+            <MapPin className="h-4 w-4 mr-2 text-purple-500 flex-shrink-0" />
+            <span className="truncate">{property.location}</span>
           </p>
         </div>
         
@@ -93,21 +93,21 @@ export function PropertyCard({ property }: PropertyCardProps) {
           </div>
         </div>
         
-        <p className="text-gray-700 text-sm line-clamp-2 leading-relaxed">
+        <p className="text-gray-700 text-sm line-clamp-2 leading-relaxed flex-grow min-h-[2.5rem]">
           {property.description}
         </p>
         
-        <div className="mt-4 pt-4 border-t border-gray-100">
+        <div className="mt-4 pt-4 border-t border-gray-100 mt-auto">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              {property.agentImage && (
+              {property.agent_image && (
                 <img 
-                  src={property.agentImage}
-                  alt={property.agentName}
+                  src={property.agent_image}
+                  alt={property.agent_name}
                   className="w-8 h-8 rounded-full object-cover mr-2"
                 />
               )}
-              <span className="text-sm text-gray-600">{property.agentName}</span>
+              <span className="text-sm text-gray-600">{property.agent_name}</span>
             </div>
             <Button size="sm" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-full px-4">
               Dettagli
