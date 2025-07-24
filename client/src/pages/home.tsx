@@ -63,7 +63,7 @@ export default function Home() {
                   </p>
                 </div>
 
-                <PropertyGrid filters={hasFilters ? filters : undefined} maxColumns={2} />
+                <PropertyGrid filters={hasFilters ? filters : undefined} maxColumns={2} showAll={true} />
               </div>
               
               {/* Sidebar destra - Servizi */}
@@ -77,20 +77,64 @@ export default function Home() {
                     </h3>
                     <div className="space-y-4">
                       <div className="p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl">
-                        <h4 className="font-bold text-primary mb-2">🏠 Compravendita</h4>
-                        <p className="text-sm text-gray-600">Appartamenti, ville, terreni e immobili commerciali</p>
+                        <h4 className="font-bold text-primary mb-2">🏠 Compravendita Immobili</h4>
+                        <p className="text-sm text-gray-600 mb-2">Appartamenti, ville, terreni e immobili commerciali</p>
+                        <ul className="text-xs text-gray-500 space-y-1">
+                          <li>• Valutazioni gratuite</li>
+                          <li>• Marketing professionale</li>
+                          <li>• Gestione contratti</li>
+                        </ul>
                       </div>
                       <div className="p-4 bg-gradient-to-r from-secondary/10 to-accent/10 rounded-xl">
                         <h4 className="font-bold text-primary mb-2">📋 Perizie e Valutazioni</h4>
-                        <p className="text-sm text-gray-600">Visure catastali, CRIF, A.P.E. e consulenze tecniche</p>
+                        <p className="text-sm text-gray-600 mb-2">Consulenze tecniche specializzate</p>
+                        <ul className="text-xs text-gray-500 space-y-1">
+                          <li>• Visure catastali complete</li>
+                          <li>• Verifiche CRIF</li>
+                          <li>• Certificazioni A.P.E.</li>
+                          <li>• Perizie giurate</li>
+                        </ul>
                       </div>
                       <div className="p-4 bg-gradient-to-r from-accent/10 to-primary/10 rounded-xl">
                         <h4 className="font-bold text-primary mb-2">⚖️ Servizi Legali</h4>
-                        <p className="text-sm text-gray-600">Diritto immobiliare, sanatorie e successioni</p>
+                        <p className="text-sm text-gray-600 mb-2">Assistenza legale specializzata</p>
+                        <ul className="text-xs text-gray-500 space-y-1">
+                          <li>• Diritto immobiliare</li>
+                          <li>• Sanatorie edilizie</li>
+                          <li>• Successioni ereditarie</li>
+                          <li>• Contrattualistica</li>
+                        </ul>
                       </div>
                       <div className="p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl">
                         <h4 className="font-bold text-primary mb-2">💰 Servizi Finanziari</h4>
-                        <p className="text-sm text-gray-600">Mutui agevolati e consulenza finanziaria</p>
+                        <p className="text-sm text-gray-600 mb-2">Soluzioni di finanziamento</p>
+                        <ul className="text-xs text-gray-500 space-y-1">
+                          <li>• Mutui agevolati</li>
+                          <li>• Surroga mutui</li>
+                          <li>• Consulenza finanziaria</li>
+                          <li>• Finanziamenti ristrutturazioni</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Servizi Tecnici Specializzati */}
+                  <div className="bg-gradient-to-br from-accent/20 to-primary/20 rounded-2xl p-6 shadow-lg border">
+                    <h3 className="text-xl font-bold text-primary mb-4 text-center">
+                      🔧 Servizi Tecnici Evoluti
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="bg-white/70 rounded-lg p-3">
+                        <h4 className="font-semibold text-primary mb-1">Ristrutturazioni Smart</h4>
+                        <p className="text-xs text-gray-600">Progettazione e direzione lavori con tecnologie moderne</p>
+                      </div>
+                      <div className="bg-white/70 rounded-lg p-3">
+                        <h4 className="font-semibold text-primary mb-1">Efficienza Energetica</h4>
+                        <p className="text-xs text-gray-600">Diagnosi energetiche e interventi di riqualificazione</p>
+                      </div>
+                      <div className="bg-white/70 rounded-lg p-3">
+                        <h4 className="font-semibold text-primary mb-1">Domotica e Automazione</h4>
+                        <p className="text-xs text-gray-600">Sistemi intelligenti per la casa del futuro</p>
                       </div>
                     </div>
                   </div>
@@ -102,16 +146,72 @@ export default function Home() {
                     </h3>
                     <div className="space-y-3">
                       <div className="bg-white/10 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1">Casa all'Asta</h4>
-                        <p className="text-sm opacity-90">Ti aiutiamo a evitare l'asta e trovare soluzioni</p>
+                        <h4 className="font-semibold mb-1">Casa all'Asta - Ti Aiutiamo</h4>
+                        <p className="text-sm opacity-90 mb-2">La tua casa rischia di andare all'asta? Possiamo aiutarti.</p>
+                        <ul className="text-xs opacity-80 space-y-1">
+                          <li>• Valutazione situazione debitoria</li>
+                          <li>• Strategie di vendita rapida</li>
+                          <li>• Negoziazione con banche</li>
+                          <li>• Soluzioni alternative all'asta</li>
+                        </ul>
                       </div>
                       <div className="bg-white/10 rounded-lg p-3">
                         <h4 className="font-semibold mb-1">Problemi di Mutuo</h4>
-                        <p className="text-sm opacity-90">Rinegoziazione e ristrutturazione del debito</p>
+                        <p className="text-sm opacity-90 mb-2">Difficoltà nel pagamento delle rate?</p>
+                        <ul className="text-xs opacity-80 space-y-1">
+                          <li>• Rinegoziazione del mutuo</li>
+                          <li>• Ristrutturazione del debito</li>
+                          <li>• Moratorie e sospensioni</li>
+                          <li>• Surroga a condizioni migliori</li>
+                        </ul>
                       </div>
                       <div className="bg-white/10 rounded-lg p-3">
                         <h4 className="font-semibold mb-1">Eredità Complicate</h4>
-                        <p className="text-sm opacity-90">Gestione successioni e divisioni ereditarie</p>
+                        <p className="text-sm opacity-90 mb-2">Successioni difficili e divisioni problematiche</p>
+                        <ul className="text-xs opacity-80 space-y-1">
+                          <li>• Gestione pratiche successorie</li>
+                          <li>• Divisioni ereditarie</li>
+                          <li>• Vendita immobili ereditati</li>
+                          <li>• Risoluzione conflitti familiari</li>
+                        </ul>
+                      </div>
+                      <div className="bg-white/10 rounded-lg p-3">
+                        <h4 className="font-semibold mb-1">Immobili Compromessi</h4>
+                        <p className="text-sm opacity-90 mb-2">Situazioni particolari che richiedono expertise</p>
+                        <ul className="text-xs opacity-80 space-y-1">
+                          <li>• Immobili con vizi occulti</li>
+                          <li>• Problemi urbanistici</li>
+                          <li>• Contenziosi condominiali</li>
+                          <li>• Recupero crediti immobiliari</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Servizi di Acquisizione */}
+                  <div className="bg-gradient-to-br from-primary to-primary/80 rounded-2xl p-6 text-white shadow-lg">
+                    <h3 className="text-xl font-bold mb-4 text-center">
+                      🏡 Ti Aiutiamo ad Acquistare
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="bg-white/10 rounded-lg p-3">
+                        <h4 className="font-semibold mb-1">Acquisto Senza Anticipi</h4>
+                        <p className="text-sm opacity-90 mb-2">Percorsi facilitati per l'acquisto della casa</p>
+                        <ul className="text-xs opacity-80 space-y-1">
+                          <li>• Mutui 100% del valore</li>
+                          <li>• Garanzie statali giovani</li>
+                          <li>• Bonus prima casa</li>
+                        </ul>
+                      </div>
+                      <div className="bg-white/10 rounded-lg p-3">
+                        <h4 className="font-semibold mb-1">Supporto Completo</h4>
+                        <p className="text-sm opacity-90 mb-2">Ti seguiamo in ogni fase dell'acquisto</p>
+                        <ul className="text-xs opacity-80 space-y-1">
+                          <li>• Ricerca immobile ideale</li>
+                          <li>• Negoziazione prezzo</li>
+                          <li>• Pratiche burocratiche</li>
+                          <li>• Assistenza post-vendita</li>
+                        </ul>
                       </div>
                     </div>
                   </div>
@@ -143,6 +243,10 @@ export default function Home() {
             </div>
           </div>
         </section>
+        
+        {/* Sezioni aggiuntive sotto per completezza */}
+        <ServicesSection />
+        <SpecializedServices />
       </main>
       <Footer />
     </div>
