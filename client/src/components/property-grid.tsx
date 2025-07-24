@@ -8,9 +8,10 @@ import { useLocation } from "wouter";
 interface PropertyGridProps {
   filters?: SearchFilters;
   showAll?: boolean;
+  maxColumns?: number;
 }
 
-export function PropertyGrid({ filters, showAll = false }: PropertyGridProps) {
+export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: PropertyGridProps) {
   const [location] = useLocation();
   
   const { data: allProperties, isLoading, error } = useQuery<Property[]>({
@@ -42,8 +43,9 @@ export function PropertyGrid({ filters, showAll = false }: PropertyGridProps) {
   const properties = showAll || filters ? allProperties : allProperties?.slice(0, 6);
 
   if (isLoading) {
+    const gridCols = maxColumns === 2 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className={`grid ${gridCols} gap-8`}>
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="space-y-4">
             <Skeleton className="h-64 w-full rounded-2xl" />
@@ -90,7 +92,7 @@ export function PropertyGrid({ filters, showAll = false }: PropertyGridProps) {
 
   return (
     <div className="space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className={`grid ${maxColumns === 2 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"} gap-8`}>
         {properties.map((property) => (
           <PropertyCard key={property.id} property={property} />
         ))}
