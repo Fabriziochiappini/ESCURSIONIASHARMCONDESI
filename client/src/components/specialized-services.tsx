@@ -223,7 +223,7 @@ export function SpecializedServices() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {technicalServices.map((service, index) => (
               <div key={index} className="text-center group">
-                <div className="w-16 h-16 rounded-xl bg-gradient-to-r from-primary to-secondary text-primary-foreground flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 rounded-xl bg-blue-600 text-white flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 border-2 border-blue-500">
                   {service.icon}
                 </div>
                 <h4 className="text-lg font-bold text-primary mb-2">{service.title}</h4>
@@ -246,15 +246,14 @@ export function SpecializedServices() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
-              className="bg-white text-secondary hover:bg-gray-100 font-semibold group"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold group border-2 border-blue-500"
             >
               <Phone className="h-5 w-5 mr-2 group-hover:animate-pulse" />
               346 800 3234
             </Button>
             <Button 
               size="lg" 
-              variant="outline"
-              className="border-white/30 text-white hover:bg-white/10"
+              className="bg-blue-600 hover:bg-blue-700 text-white border-2 border-blue-500"
             >
               Scrivici una Email
               <ArrowRight className="h-5 w-5 ml-2" />

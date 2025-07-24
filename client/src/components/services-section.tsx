@@ -95,7 +95,7 @@ export function ServicesSection() {
                 
                 <Button 
                   onClick={() => setLocation('/servizi')}
-                  className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground font-semibold transition-all duration-300 group-hover:scale-105 mt-auto"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all duration-300 group-hover:scale-105 mt-auto border-2 border-blue-500"
                 >
                   Scopri di Più
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -116,8 +116,7 @@ export function ServicesSection() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
-              variant="secondary"
-              className="group"
+              className="group bg-blue-600 hover:bg-blue-700 text-white border-2 border-blue-500"
               onClick={() => setLocation('/servizi')}
             >
               <ArrowRight className="h-5 w-5 mr-2 group-hover:translate-x-1 transition-transform" />
@@ -125,8 +124,7 @@ export function ServicesSection() {
             </Button>
             <Button 
               size="lg" 
-              variant="outline"
-              className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary"
+              className="bg-blue-600 hover:bg-blue-700 text-white border-2 border-blue-500"
             >
               Contattaci Ora
             </Button>

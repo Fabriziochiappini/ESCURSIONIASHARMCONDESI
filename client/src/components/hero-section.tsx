@@ -65,7 +65,7 @@ export function HeroSection() {
       
       <div className="relative z-10 text-center text-primary-foreground max-w-6xl mx-auto px-4 animate-slide-up">
         {/* Contenitore trasparente per testi */}
-        <div className="glass-card rounded-3xl p-8 mb-12 backdrop-blur-xl bg-white/25 border border-white/40 shadow-2xl">
+        <div className="glass-card rounded-3xl p-8 mb-12 backdrop-blur-xl bg-white/30 border-4 border-orange-500 shadow-2xl ring-2 ring-orange-400/50">
           <div className="mb-8">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-primary">
               Trova la Casa dei Tuoi Sogni ad{' '}
@@ -81,7 +81,7 @@ export function HeroSection() {
         </div>
         
         {/* Contenitore trasparente per filtri */}
-        <div className="glass-card rounded-3xl p-8 max-w-5xl mx-auto mb-12 backdrop-blur-xl bg-white/30 border-2 border-white/30 shadow-2xl">
+        <div className="glass-card rounded-3xl p-8 max-w-5xl mx-auto mb-12 backdrop-blur-xl bg-white/35 border-4 border-orange-500 shadow-2xl ring-2 ring-orange-400/50">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-end">
             <div>
               <label className="block text-sm font-bold text-primary mb-3">
@@ -148,7 +148,7 @@ export function HeroSection() {
             <div>
               <Button 
                 onClick={handleSearch}
-                className="w-full h-12 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-blue-500"
               >
                 <Search className="mr-2 h-5 w-5" />
                 Cerca Ora
@@ -158,7 +158,7 @@ export function HeroSection() {
         </div>
         
         {/* Contenitore trasparente per info */}
-        <div className="glass-card rounded-2xl p-6 max-w-4xl mx-auto backdrop-blur-lg bg-white/25 border border-white/30 shadow-xl">
+        <div className="glass-card rounded-2xl p-6 max-w-4xl mx-auto backdrop-blur-lg bg-white/30 border-4 border-orange-400 shadow-xl ring-2 ring-orange-300/40">
           <div className="flex justify-center items-center space-x-8 text-sm font-medium">
             <span className="flex items-center text-primary">
               <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
