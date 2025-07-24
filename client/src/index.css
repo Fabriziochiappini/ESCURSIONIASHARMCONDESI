@@ -111,6 +111,24 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Hero section glass cards with heavy orange borders */
+.glass-card {
+  position: relative;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 8px solid hsl(25, 95%, 58%);
+  border-radius: inherit;
+  box-shadow: 
+    0 0 0 4px hsl(25, 95%, 58% / 0.3),
+    0 0 0 8px hsl(25, 95%, 58% / 0.15),
+    0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
 /* Modern property card animations with brand colors */
 .property-card {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
