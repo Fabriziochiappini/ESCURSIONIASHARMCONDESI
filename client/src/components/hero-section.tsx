@@ -65,7 +65,7 @@ export function HeroSection() {
       
       <div className="relative z-10 text-center text-primary-foreground max-w-6xl mx-auto px-4 animate-slide-up">
         {/* Contenitore trasparente per testi */}
-        <div className="glass-card rounded-3xl p-10 mb-12 backdrop-blur-xl bg-white/35 border-8 border-orange-500 shadow-2xl ring-4 ring-orange-400/60 ring-offset-4 ring-offset-orange-200/30">
+        <div className="glass-card rounded-3xl p-10 mb-12 backdrop-blur-xl bg-white/35">
           <div className="mb-8">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-primary">
               Trova la Casa dei Tuoi Sogni ad{' '}
@@ -81,7 +81,7 @@ export function HeroSection() {
         </div>
         
         {/* Contenitore trasparente per filtri */}
-        <div className="glass-card rounded-3xl p-10 max-w-5xl mx-auto mb-12 backdrop-blur-xl bg-white/40 border-8 border-orange-500 shadow-2xl ring-4 ring-orange-400/60 ring-offset-4 ring-offset-orange-200/30">
+        <div className="glass-card rounded-3xl p-10 max-w-5xl mx-auto mb-12 backdrop-blur-xl bg-white/40">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-end">
             <div>
               <label className="block text-sm font-bold text-primary mb-3">
@@ -158,7 +158,7 @@ export function HeroSection() {
         </div>
         
         {/* Contenitore trasparente per info */}
-        <div className="glass-card rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-lg bg-white/35 border-6 border-orange-400 shadow-xl ring-3 ring-orange-300/50 ring-offset-2 ring-offset-orange-100/20">
+        <div className="glass-card rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-lg bg-white/35">
           <div className="flex justify-center items-center space-x-8 text-sm font-medium">
             <span className="flex items-center text-primary">
               <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
