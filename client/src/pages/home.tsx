@@ -119,66 +119,66 @@ export default function Home() {
                   </div>
 
                   {/* Servizi Tecnici Specializzati */}
-                  <div className="bg-gradient-to-br from-accent/20 to-primary/20 rounded-2xl p-6 shadow-lg border">
-                    <h3 className="text-xl font-bold text-primary mb-4 text-center">
+                  <div className="bg-accent rounded-2xl p-6 shadow-lg border text-gray-800">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
                       🔧 Servizi Tecnici Evoluti
                     </h3>
                     <div className="space-y-3">
-                      <div className="bg-green-600 rounded-lg p-3 text-white">
-                        <h4 className="font-semibold mb-1">Ristrutturazioni Smart</h4>
-                        <p className="text-xs text-green-100">Progettazione e direzione lavori con tecnologie moderne</p>
+                      <div className="bg-white/70 rounded-lg p-3">
+                        <h4 className="font-semibold text-gray-800 mb-1">Ristrutturazioni Smart</h4>
+                        <p className="text-xs text-gray-600">Progettazione e direzione lavori con tecnologie moderne</p>
                       </div>
-                      <div className="bg-teal-600 rounded-lg p-3 text-white">
-                        <h4 className="font-semibold mb-1">Efficienza Energetica</h4>
-                        <p className="text-xs text-teal-100">Diagnosi energetiche e interventi di riqualificazione</p>
+                      <div className="bg-white/70 rounded-lg p-3">
+                        <h4 className="font-semibold text-gray-800 mb-1">Efficienza Energetica</h4>
+                        <p className="text-xs text-gray-600">Diagnosi energetiche e interventi di riqualificazione</p>
                       </div>
-                      <div className="bg-cyan-600 rounded-lg p-3 text-white">
-                        <h4 className="font-semibold mb-1">Domotica e Automazione</h4>
-                        <p className="text-xs text-cyan-100">Sistemi intelligenti per la casa del futuro</p>
+                      <div className="bg-white/70 rounded-lg p-3">
+                        <h4 className="font-semibold text-gray-800 mb-1">Domotica e Automazione</h4>
+                        <p className="text-xs text-gray-600">Sistemi intelligenti per la casa del futuro</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Situazioni Complesse */}
-                  <div className="bg-gradient-to-br from-secondary to-secondary/80 rounded-2xl p-6 text-white shadow-lg">
+                  <div className="bg-secondary rounded-2xl p-6 text-white shadow-lg">
                     <h3 className="text-xl font-bold mb-4 text-center">
                       🆘 Situazioni Complesse
                     </h3>
                     <div className="space-y-3">
-                      <div className="bg-red-700 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1 text-white">Casa all'Asta - Ti Aiutiamo</h4>
-                        <p className="text-sm text-red-100 mb-2">La tua casa rischia di andare all'asta? Possiamo aiutarti.</p>
-                        <ul className="text-xs text-red-200 space-y-1">
+                      <div className="bg-white/10 rounded-lg p-3">
+                        <h4 className="font-semibold mb-1">Casa all'Asta - Ti Aiutiamo</h4>
+                        <p className="text-sm opacity-90 mb-2">La tua casa rischia di andare all'asta? Possiamo aiutarti.</p>
+                        <ul className="text-xs opacity-80 space-y-1">
                           <li>• Valutazione situazione debitoria</li>
                           <li>• Strategie di vendita rapida</li>
                           <li>• Negoziazione con banche</li>
                           <li>• Soluzioni alternative all'asta</li>
                         </ul>
                       </div>
-                      <div className="bg-orange-600 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1 text-white">Problemi di Mutuo</h4>
-                        <p className="text-sm text-orange-100 mb-2">Difficoltà nel pagamento delle rate?</p>
-                        <ul className="text-xs text-orange-200 space-y-1">
+                      <div className="bg-white/10 rounded-lg p-3">
+                        <h4 className="font-semibold mb-1">Problemi di Mutuo</h4>
+                        <p className="text-sm opacity-90 mb-2">Difficoltà nel pagamento delle rate?</p>
+                        <ul className="text-xs opacity-80 space-y-1">
                           <li>• Rinegoziazione del mutuo</li>
                           <li>• Ristrutturazione del debito</li>
                           <li>• Moratorie e sospensioni</li>
                           <li>• Surroga a condizioni migliori</li>
                         </ul>
                       </div>
-                      <div className="bg-amber-600 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1 text-white">Eredità Complicate</h4>
-                        <p className="text-sm text-amber-100 mb-2">Successioni difficili e divisioni problematiche</p>
-                        <ul className="text-xs text-amber-200 space-y-1">
+                      <div className="bg-white/10 rounded-lg p-3">
+                        <h4 className="font-semibold mb-1">Eredità Complicate</h4>
+                        <p className="text-sm opacity-90 mb-2">Successioni difficili e divisioni problematiche</p>
+                        <ul className="text-xs opacity-80 space-y-1">
                           <li>• Gestione pratiche successorie</li>
                           <li>• Divisioni ereditarie</li>
                           <li>• Vendita immobili ereditati</li>
                           <li>• Risoluzione conflitti familiari</li>
                         </ul>
                       </div>
-                      <div className="bg-yellow-600 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1 text-white">Immobili Compromessi</h4>
-                        <p className="text-sm text-yellow-100 mb-2">Situazioni particolari che richiedono expertise</p>
-                        <ul className="text-xs text-yellow-200 space-y-1">
+                      <div className="bg-white/10 rounded-lg p-3">
+                        <h4 className="font-semibold mb-1">Immobili Compromessi</h4>
+                        <p className="text-sm opacity-90 mb-2">Situazioni particolari che richiedono expertise</p>
+                        <ul className="text-xs opacity-80 space-y-1">
                           <li>• Immobili con vizi occulti</li>
                           <li>• Problemi urbanistici</li>
                           <li>• Contenziosi condominiali</li>
@@ -191,24 +191,24 @@ export default function Home() {
 
 
                   {/* Servizi di Acquisizione */}
-                  <div className="bg-gradient-to-br from-primary to-primary/80 rounded-2xl p-6 text-white shadow-lg">
+                  <div className="bg-primary rounded-2xl p-6 text-white shadow-lg">
                     <h3 className="text-xl font-bold mb-4 text-center">
                       🏡 Ti Aiutiamo ad Acquistare
                     </h3>
                     <div className="space-y-3">
-                      <div className="bg-blue-700 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1 text-white">Acquisto Senza Anticipi</h4>
-                        <p className="text-sm text-blue-100 mb-2">Percorsi facilitati per l'acquisto della casa</p>
-                        <ul className="text-xs text-blue-200 space-y-1">
+                      <div className="bg-white/10 rounded-lg p-3">
+                        <h4 className="font-semibold mb-1">Acquisto Senza Anticipi</h4>
+                        <p className="text-sm opacity-90 mb-2">Percorsi facilitati per l'acquisto della casa</p>
+                        <ul className="text-xs opacity-80 space-y-1">
                           <li>• Mutui 100% del valore</li>
                           <li>• Garanzie statali giovani</li>
                           <li>• Bonus prima casa</li>
                         </ul>
                       </div>
-                      <div className="bg-indigo-700 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1 text-white">Supporto Completo</h4>
-                        <p className="text-sm text-indigo-100 mb-2">Ti seguiamo in ogni fase dell'acquisto</p>
-                        <ul className="text-xs text-indigo-200 space-y-1">
+                      <div className="bg-white/10 rounded-lg p-3">
+                        <h4 className="font-semibold mb-1">Supporto Completo</h4>
+                        <p className="text-sm opacity-90 mb-2">Ti seguiamo in ogni fase dell'acquisto</p>
+                        <ul className="text-xs opacity-80 space-y-1">
                           <li>• Ricerca immobile ideale</li>
                           <li>• Negoziazione prezzo</li>
                           <li>• Pratiche burocratiche</li>
