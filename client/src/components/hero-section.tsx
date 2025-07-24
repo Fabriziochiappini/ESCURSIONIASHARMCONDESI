@@ -52,15 +52,15 @@ export function HeroSection() {
         }}
       />
       
-      {/* Professional Blue Filter Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 via-blue-800/50 to-primary/70"></div>
-      <div className="absolute inset-0 bg-blue-900/20"></div>
+      {/* Vivace Color Filter Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/50 via-primary/40 to-secondary/30"></div>
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-accent/10 to-primary/20"></div>
       
-      {/* Subtle Animated Background Elements */}
+      {/* Vivace Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-blue-400/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-20 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary/15 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-primary/15 rounded-full blur-3xl animate-pulse"></div>
       </div>
       
       <div className="relative z-10 text-center text-primary-foreground max-w-6xl mx-auto px-4 animate-slide-up">

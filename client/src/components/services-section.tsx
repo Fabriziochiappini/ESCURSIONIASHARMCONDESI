@@ -8,7 +8,7 @@ const services = [
     category: "Perizie e Valutazioni",
     icon: <FileText className="h-12 w-12" />,
     description: "Valutazioni professionali e perizie tecniche certificate per ogni esigenza immobiliare",
-    color: "bg-primary text-primary-foreground",
+    color: "bg-gradient-to-br from-primary to-blue-500 text-primary-foreground",
     items: ["Perizia Immobile", "Visure catastali", "Visure ipotecarie", "A.P.E."],
     popular: true
   },
@@ -16,7 +16,7 @@ const services = [
     category: "Servizi Legali", 
     icon: <Scale className="h-12 w-12" />,
     description: "Supporto legale specializzato in diritto immobiliare e pratiche urbanistiche",
-    color: "bg-secondary text-secondary-foreground",
+    color: "bg-gradient-to-br from-secondary to-red-500 text-secondary-foreground",
     items: ["Diritto civile immobiliare", "Sanatorie Urbanistiche", "Successioni"],
     popular: false
   },
@@ -24,7 +24,7 @@ const services = [
     category: "Compravendita Immobili",
     icon: <Home className="h-12 w-12" />,
     description: "Servizi completi per ogni tipologia di proprietà da appartamenti a terreni",
-    color: "bg-accent text-accent-foreground",
+    color: "bg-gradient-to-br from-accent to-yellow-400 text-accent-foreground",
     items: ["Appartamenti", "Villini e Ville", "Terreni", "Ruderi"],
     popular: false
   },
@@ -32,7 +32,7 @@ const services = [
     category: "Servizi Finanziari",
     icon: <CreditCard className="h-12 w-12" />,
     description: "Consulenza finanziaria e creditizia specializzata nel settore immobiliare",
-    color: "bg-primary/80 text-primary-foreground",
+    color: "bg-gradient-to-br from-green-500 to-emerald-600 text-white",
     items: ["Mutui Agevolati"],
     popular: false
   }

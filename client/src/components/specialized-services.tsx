@@ -20,8 +20,8 @@ const services = [
   {
     title: "Casa all'asta? Ti aiutiamo",
     icon: <AlertTriangle className="h-6 w-6" />,
-    color: "bg-red-50 border-red-200 text-red-800",
-    iconColor: "text-red-600",
+    color: "bg-gradient-to-br from-red-50 to-secondary/10 border-secondary/30 text-red-800",
+    iconColor: "text-secondary",
     description: "Soluzioni concrete per evitare la perdita della tua casa",
     content: [
       "Soluzioni di saldo e stralcio per ridurre significativamente il debito",
@@ -34,8 +34,8 @@ const services = [
   {
     title: "Debiti con Agenzia delle Entrate",
     icon: <FileText className="h-6 w-6" />,
-    color: "bg-orange-50 border-orange-200 text-orange-800",
-    iconColor: "text-orange-600",
+    color: "bg-gradient-to-br from-orange-50 to-accent/20 border-accent/40 text-orange-800",
+    iconColor: "text-accent",
     description: "Verifiche e soluzioni per ipoteche e debiti fiscali",
     content: [
       "Verifica legittimità delle ipoteche iscritte",
@@ -47,8 +47,8 @@ const services = [
   {
     title: "Divisione Ereditaria",
     icon: <Users className="h-6 w-6" />,
-    color: "bg-blue-50 border-blue-200 text-blue-800",
-    iconColor: "text-blue-600",
+    color: "bg-gradient-to-br from-blue-50 to-primary/20 border-primary/40 text-blue-800",
+    iconColor: "text-primary",
     description: "Risoluzione conflitti e accordi trasparenti tra eredi",
     content: [
       "Consulenza su procedure legali e rischi",
@@ -61,8 +61,8 @@ const services = [
   {
     title: "Casa con Ipoteca da Ristrutturare",
     icon: <Home className="h-6 w-6" />,
-    color: "bg-green-50 border-green-200 text-green-800", 
-    iconColor: "text-green-600",
+    color: "bg-gradient-to-br from-green-50 to-emerald-100 border-emerald-300 text-green-800", 
+    iconColor: "text-emerald-600",
     description: "Vendita garantita senza costi anticipati",
     content: [
       "Contratto trasparente con prezzo minimo garantito",

@@ -113,6 +113,11 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
+- July 23, 2025: Implementata palette colori vivace e moderna
+  * Azzurro professionale: hsl(205, 87%, 45%) - colore primario
+  * Arancione vacanziero: hsl(25, 95%, 58%) - colore secondario  
+  * Giallo energico: hsl(48, 100%, 67%) - colore accent
+  * Aggiornati gradienti hero e servizi con nuovi colori
 - July 23, 2025: Rimossa completamente sezione blog/news dal sito
   * Eliminati link navigazione, route, componenti e API del blog
   * Semplificato pannello amministrativo (solo gestione proprietà)
