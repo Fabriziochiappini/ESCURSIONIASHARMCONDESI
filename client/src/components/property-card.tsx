@@ -99,17 +99,17 @@ export function PropertyCard({ property }: PropertyCardProps) {
         
         <div className="mt-4 pt-4 border-t border-gray-100 mt-auto">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              {property.agent_image && (
+            <div className="flex items-center min-w-0 flex-1 mr-3">
+              {property.agentImage && (
                 <img 
-                  src={property.agent_image}
-                  alt={property.agent_name}
-                  className="w-8 h-8 rounded-full object-cover mr-2"
+                  src={property.agentImage}
+                  alt={property.agentName}
+                  className="w-8 h-8 rounded-full object-cover mr-2 flex-shrink-0"
                 />
               )}
-              <span className="text-sm text-gray-600">{property.agent_name}</span>
+              <span className="text-sm text-gray-600 truncate">{property.agentName}</span>
             </div>
-            <Button size="sm" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-full px-4">
+            <Button size="sm" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-full px-4 py-2 flex-shrink-0">
               Dettagli
             </Button>
           </div>
