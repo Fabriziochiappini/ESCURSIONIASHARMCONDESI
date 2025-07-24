@@ -44,8 +44,7 @@ export function HeroSection() {
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Modern Background with Parallax Effect */}
-      <div className="absolute inset-0 hero-gradient"></div>
+      {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110"
         style={{
@@ -53,16 +52,20 @@ export function HeroSection() {
         }}
       />
       
-      {/* Animated Background Elements */}
+      {/* Professional Blue Filter Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 via-blue-800/50 to-primary/70"></div>
+      <div className="absolute inset-0 bg-blue-900/20"></div>
+      
+      {/* Subtle Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-blue-400/5 rounded-full blur-3xl"></div>
       </div>
       
       <div className="relative z-10 text-center text-primary-foreground max-w-6xl mx-auto px-4 animate-slide-up">
         {/* Contenitore trasparente per testi */}
-        <div className="glass-card rounded-3xl p-8 mb-12 backdrop-blur-xl bg-white/15 border border-white/30 shadow-2xl">
+        <div className="glass-card rounded-3xl p-8 mb-12 backdrop-blur-xl bg-white/25 border border-white/40 shadow-2xl">
           <div className="mb-8">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-primary">
               Trova la Casa dei Tuoi Sogni ad{' '}
@@ -78,7 +81,7 @@ export function HeroSection() {
         </div>
         
         {/* Contenitore trasparente per filtri */}
-        <div className="glass-card rounded-3xl p-8 max-w-5xl mx-auto mb-12 backdrop-blur-xl bg-white/20 border-2 border-primary/20 shadow-2xl">
+        <div className="glass-card rounded-3xl p-8 max-w-5xl mx-auto mb-12 backdrop-blur-xl bg-white/30 border-2 border-white/30 shadow-2xl">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-end">
             <div>
               <label className="block text-sm font-bold text-primary mb-3">
@@ -155,7 +158,7 @@ export function HeroSection() {
         </div>
         
         {/* Contenitore trasparente per info */}
-        <div className="glass-card rounded-2xl p-6 max-w-4xl mx-auto backdrop-blur-lg bg-white/15 border border-white/25 shadow-xl">
+        <div className="glass-card rounded-2xl p-6 max-w-4xl mx-auto backdrop-blur-lg bg-white/25 border border-white/30 shadow-xl">
           <div className="flex justify-center items-center space-x-8 text-sm font-medium">
             <span className="flex items-center text-primary">
               <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
