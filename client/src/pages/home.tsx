@@ -76,43 +76,33 @@ export default function Home() {
                       I Nostri Servizi
                     </h3>
                     <div className="space-y-4">
-                      <div className="p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl">
-                        <h4 className="font-bold text-primary mb-2">🏠 Compravendita Immobili</h4>
-                        <p className="text-sm text-gray-600 mb-2">Appartamenti, ville, terreni e immobili commerciali</p>
-                        <ul className="text-xs text-gray-500 space-y-1">
-                          <li>• Valutazioni gratuite</li>
-                          <li>• Marketing professionale</li>
-                          <li>• Gestione contratti</li>
+                      <div className="p-5 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl">
+                        <h4 className="font-bold text-primary mb-3 text-lg">🏠 Compravendita Immobili</h4>
+                        <p className="text-base text-gray-600 mb-3">Appartamenti, ville, terreni e immobili commerciali</p>
+                        <ul className="text-sm text-gray-600 space-y-2">
+                          <li>• Valutazioni gratuite e marketing professionale</li>
+                          <li>• Gestione completa contratti</li>
                         </ul>
                       </div>
-                      <div className="p-4 bg-gradient-to-r from-secondary/10 to-accent/10 rounded-xl">
-                        <h4 className="font-bold text-primary mb-2">📋 Perizie e Valutazioni</h4>
-                        <p className="text-sm text-gray-600 mb-2">Consulenze tecniche specializzate</p>
-                        <ul className="text-xs text-gray-500 space-y-1">
-                          <li>• Visure catastali complete</li>
-                          <li>• Verifiche CRIF</li>
-                          <li>• Certificazioni A.P.E.</li>
-                          <li>• Perizie giurate</li>
+                      <div className="p-5 bg-gradient-to-r from-secondary/10 to-accent/10 rounded-xl">
+                        <h4 className="font-bold text-primary mb-3 text-lg">📋 Perizie e Valutazioni</h4>
+                        <ul className="text-sm text-gray-600 space-y-2">
+                          <li>• Visure catastali e verifiche CRIF</li>
+                          <li>• Certificazioni A.P.E. e perizie</li>
                         </ul>
                       </div>
-                      <div className="p-4 bg-gradient-to-r from-accent/10 to-primary/10 rounded-xl">
-                        <h4 className="font-bold text-primary mb-2">⚖️ Servizi Legali</h4>
-                        <p className="text-sm text-gray-600 mb-2">Assistenza legale specializzata</p>
-                        <ul className="text-xs text-gray-500 space-y-1">
-                          <li>• Diritto immobiliare</li>
-                          <li>• Sanatorie edilizie</li>
-                          <li>• Successioni ereditarie</li>
-                          <li>• Contrattualistica</li>
+                      <div className="p-5 bg-gradient-to-r from-accent/10 to-primary/10 rounded-xl">
+                        <h4 className="font-bold text-primary mb-3 text-lg">⚖️ Servizi Legali</h4>
+                        <ul className="text-sm text-gray-600 space-y-2">
+                          <li>• Diritto immobiliare e sanatorie</li>
+                          <li>• Successioni e contrattualistica</li>
                         </ul>
                       </div>
-                      <div className="p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl">
-                        <h4 className="font-bold text-primary mb-2">💰 Servizi Finanziari</h4>
-                        <p className="text-sm text-gray-600 mb-2">Soluzioni di finanziamento</p>
-                        <ul className="text-xs text-gray-500 space-y-1">
-                          <li>• Mutui agevolati</li>
-                          <li>• Surroga mutui</li>
-                          <li>• Consulenza finanziaria</li>
-                          <li>• Finanziamenti ristrutturazioni</li>
+                      <div className="p-5 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl">
+                        <h4 className="font-bold text-primary mb-3 text-lg">💰 Servizi Finanziari</h4>
+                        <ul className="text-sm text-gray-600 space-y-2">
+                          <li>• Mutui agevolati e surroga</li>
+                          <li>• Consulenza e finanziamenti</li>
                         </ul>
                       </div>
                     </div>
@@ -123,18 +113,18 @@ export default function Home() {
                     <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
                       🔧 Servizi Tecnici Evoluti
                     </h3>
-                    <div className="space-y-3">
-                      <div className="bg-white/70 rounded-lg p-3">
-                        <h4 className="font-semibold text-gray-800 mb-1">Ristrutturazioni Smart</h4>
-                        <p className="text-xs text-gray-600">Progettazione e direzione lavori con tecnologie moderne</p>
+                    <div className="space-y-4">
+                      <div className="bg-white/70 rounded-lg p-4">
+                        <h4 className="font-semibold text-gray-800 mb-2 text-base">Ristrutturazioni Smart</h4>
+                        <p className="text-sm text-gray-600">Progettazione e direzione lavori moderni</p>
                       </div>
-                      <div className="bg-white/70 rounded-lg p-3">
-                        <h4 className="font-semibold text-gray-800 mb-1">Efficienza Energetica</h4>
-                        <p className="text-xs text-gray-600">Diagnosi energetiche e interventi di riqualificazione</p>
+                      <div className="bg-white/70 rounded-lg p-4">
+                        <h4 className="font-semibold text-gray-800 mb-2 text-base">Efficienza Energetica</h4>
+                        <p className="text-sm text-gray-600">Diagnosi e riqualificazione energetica</p>
                       </div>
-                      <div className="bg-white/70 rounded-lg p-3">
-                        <h4 className="font-semibold text-gray-800 mb-1">Domotica e Automazione</h4>
-                        <p className="text-xs text-gray-600">Sistemi intelligenti per la casa del futuro</p>
+                      <div className="bg-white/70 rounded-lg p-4">
+                        <h4 className="font-semibold text-gray-800 mb-2 text-base">Domotica e Automazione</h4>
+                        <p className="text-sm text-gray-600">Sistemi intelligenti per la casa</p>
                       </div>
                     </div>
                   </div>
@@ -144,45 +134,37 @@ export default function Home() {
                     <h3 className="text-xl font-bold mb-4 text-center">
                       🆘 Situazioni Complesse
                     </h3>
-                    <div className="space-y-3">
-                      <div className="bg-white/10 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1">Casa all'Asta - Ti Aiutiamo</h4>
-                        <p className="text-sm opacity-90 mb-2">La tua casa rischia di andare all'asta? Possiamo aiutarti.</p>
-                        <ul className="text-xs opacity-80 space-y-1">
-                          <li>• Valutazione situazione debitoria</li>
-                          <li>• Strategie di vendita rapida</li>
-                          <li>• Negoziazione con banche</li>
-                          <li>• Soluzioni alternative all'asta</li>
+                    <div className="space-y-4">
+                      <div className="bg-white/10 rounded-lg p-4">
+                        <h4 className="font-semibold mb-2 text-base">Casa all'Asta - Ti Aiutiamo</h4>
+                        <p className="text-sm mb-3">La tua casa rischia di andare all'asta? Possiamo aiutarti.</p>
+                        <ul className="text-sm space-y-2">
+                          <li>• Valutazione situazione e vendita rapida</li>
+                          <li>• Negoziazione banche e soluzioni alternative</li>
                         </ul>
                       </div>
-                      <div className="bg-white/10 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1">Problemi di Mutuo</h4>
-                        <p className="text-sm opacity-90 mb-2">Difficoltà nel pagamento delle rate?</p>
-                        <ul className="text-xs opacity-80 space-y-1">
-                          <li>• Rinegoziazione del mutuo</li>
-                          <li>• Ristrutturazione del debito</li>
-                          <li>• Moratorie e sospensioni</li>
-                          <li>• Surroga a condizioni migliori</li>
+                      <div className="bg-white/10 rounded-lg p-4">
+                        <h4 className="font-semibold mb-2 text-base">Problemi di Mutuo</h4>
+                        <p className="text-sm mb-3">Difficoltà nel pagamento delle rate?</p>
+                        <ul className="text-sm space-y-2">
+                          <li>• Rinegoziazione e ristrutturazione debito</li>
+                          <li>• Moratorie e surroga migliorative</li>
                         </ul>
                       </div>
-                      <div className="bg-white/10 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1">Eredità Complicate</h4>
-                        <p className="text-sm opacity-90 mb-2">Successioni difficili e divisioni problematiche</p>
-                        <ul className="text-xs opacity-80 space-y-1">
-                          <li>• Gestione pratiche successorie</li>
-                          <li>• Divisioni ereditarie</li>
-                          <li>• Vendita immobili ereditati</li>
-                          <li>• Risoluzione conflitti familiari</li>
+                      <div className="bg-white/10 rounded-lg p-4">
+                        <h4 className="font-semibold mb-2 text-base">Eredità Complicate</h4>
+                        <p className="text-sm mb-3">Successioni difficili e divisioni problematiche</p>
+                        <ul className="text-sm space-y-2">
+                          <li>• Pratiche successorie e divisioni</li>
+                          <li>• Vendita immobili e conflitti familiari</li>
                         </ul>
                       </div>
-                      <div className="bg-white/10 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1">Immobili Compromessi</h4>
-                        <p className="text-sm opacity-90 mb-2">Situazioni particolari che richiedono expertise</p>
-                        <ul className="text-xs opacity-80 space-y-1">
-                          <li>• Immobili con vizi occulti</li>
-                          <li>• Problemi urbanistici</li>
-                          <li>• Contenziosi condominiali</li>
-                          <li>• Recupero crediti immobiliari</li>
+                      <div className="bg-white/10 rounded-lg p-4">
+                        <h4 className="font-semibold mb-2 text-base">Immobili Compromessi</h4>
+                        <p className="text-sm mb-3">Situazioni particolari che richiedono expertise</p>
+                        <ul className="text-sm space-y-2">
+                          <li>• Immobili con vizi e problemi urbanistici</li>
+                          <li>• Contenziosi e recupero crediti</li>
                         </ul>
                       </div>
                     </div>
@@ -195,24 +177,21 @@ export default function Home() {
                     <h3 className="text-xl font-bold mb-4 text-center">
                       🏡 Ti Aiutiamo ad Acquistare
                     </h3>
-                    <div className="space-y-3">
-                      <div className="bg-white/10 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1">Acquisto Senza Anticipi</h4>
-                        <p className="text-sm opacity-90 mb-2">Percorsi facilitati per l'acquisto della casa</p>
-                        <ul className="text-xs opacity-80 space-y-1">
-                          <li>• Mutui 100% del valore</li>
-                          <li>• Garanzie statali giovani</li>
-                          <li>• Bonus prima casa</li>
+                    <div className="space-y-4">
+                      <div className="bg-white/10 rounded-lg p-4">
+                        <h4 className="font-semibold mb-2 text-base">Acquisto Senza Anticipi</h4>
+                        <p className="text-sm mb-3">Percorsi facilitati per l'acquisto della casa</p>
+                        <ul className="text-sm space-y-2">
+                          <li>• Mutui 100% e garanzie statali giovani</li>
+                          <li>• Bonus prima casa e agevolazioni</li>
                         </ul>
                       </div>
-                      <div className="bg-white/10 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1">Supporto Completo</h4>
-                        <p className="text-sm opacity-90 mb-2">Ti seguiamo in ogni fase dell'acquisto</p>
-                        <ul className="text-xs opacity-80 space-y-1">
-                          <li>• Ricerca immobile ideale</li>
-                          <li>• Negoziazione prezzo</li>
-                          <li>• Pratiche burocratiche</li>
-                          <li>• Assistenza post-vendita</li>
+                      <div className="bg-white/10 rounded-lg p-4">
+                        <h4 className="font-semibold mb-2 text-base">Supporto Completo</h4>
+                        <p className="text-sm mb-3">Ti seguiamo in ogni fase dell'acquisto</p>
+                        <ul className="text-sm space-y-2">
+                          <li>• Ricerca immobile e negoziazione prezzo</li>
+                          <li>• Pratiche burocratiche e assistenza post-vendita</li>
                         </ul>
                       </div>
                     </div>
