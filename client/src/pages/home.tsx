@@ -63,7 +63,7 @@ export default function Home() {
                   </p>
                 </div>
 
-                <PropertyGrid filters={hasFilters ? filters : undefined} maxColumns={2} showAll={true} />
+                <PropertyGrid filters={hasFilters ? filters : undefined} maxColumns={2} />
               </div>
               
               {/* Sidebar destra - Servizi */}
@@ -243,10 +243,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        
-        {/* Sezioni aggiuntive sotto per completezza */}
-        <ServicesSection />
-        <SpecializedServices />
+
       </main>
       <Footer />
     </div>

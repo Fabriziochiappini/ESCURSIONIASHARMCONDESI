@@ -39,8 +39,8 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
     }
   });
 
-  // Limit to 6 properties for homepage grid alignment, show all if showAll is true or filters are applied
-  const properties = showAll || filters ? allProperties : allProperties?.slice(0, 6);
+  // Limit to 12 properties for homepage grid alignment, show all if showAll is true or filters are applied
+  const properties = showAll || filters ? allProperties : allProperties?.slice(0, 12);
 
   if (isLoading) {
     const gridCols = maxColumns === 2 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";

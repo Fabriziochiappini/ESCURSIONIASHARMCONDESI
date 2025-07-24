@@ -113,6 +113,12 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
+- July 24, 2025: Implementato layout homepage con sidebar come i vecchi siti web
+  * Layout 2/3 proprietà + 1/3 sidebar con tutti i servizi sempre visibili
+  * Proprietà limitate a 2 colonne e aumentate a 12 per homepage
+  * Sidebar destra con servizi dettagliati, situazioni complesse e contatti
+  * Rimossi ServicesSection e SpecializedServices dalla homepage (solo in sidebar)
+  * Hero con bordi arancioni ridotti e ombreggiature per rilievo
 - July 23, 2025: Implementata palette colori vivace e moderna
   * Azzurro professionale: hsl(205, 87%, 45%) - colore primario
   * Arancione vacanziero: hsl(25, 95%, 58%) - colore secondario  
