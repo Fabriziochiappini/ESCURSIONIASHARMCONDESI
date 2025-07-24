@@ -188,33 +188,7 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Servizi di Acquisizione */}
-                  <div className="bg-gradient-to-br from-primary to-primary/80 rounded-2xl p-6 text-white shadow-lg">
-                    <h3 className="text-xl font-bold mb-4 text-center">
-                      🏡 Ti Aiutiamo ad Acquistare
-                    </h3>
-                    <div className="space-y-3">
-                      <div className="bg-white/10 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1">Acquisto Senza Anticipi</h4>
-                        <p className="text-sm opacity-90 mb-2">Percorsi facilitati per l'acquisto della casa</p>
-                        <ul className="text-xs opacity-80 space-y-1">
-                          <li>• Mutui 100% del valore</li>
-                          <li>• Garanzie statali giovani</li>
-                          <li>• Bonus prima casa</li>
-                        </ul>
-                      </div>
-                      <div className="bg-white/10 rounded-lg p-3">
-                        <h4 className="font-semibold mb-1">Supporto Completo</h4>
-                        <p className="text-sm opacity-90 mb-2">Ti seguiamo in ogni fase dell'acquisto</p>
-                        <ul className="text-xs opacity-80 space-y-1">
-                          <li>• Ricerca immobile ideale</li>
-                          <li>• Negoziazione prezzo</li>
-                          <li>• Pratiche burocratiche</li>
-                          <li>• Assistenza post-vendita</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+
 
                   {/* Contatti Rapidi */}
                   <div className="bg-primary rounded-2xl p-6 text-white shadow-lg">
@@ -243,6 +217,74 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Sezione Ti Aiutiamo ad Acquistare Casa */}
+        <section className="py-20 bg-gradient-to-br from-primary to-primary/80">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-white mb-4">
+                Ti Aiutiamo ad Acquistare Casa
+              </h2>
+              <p className="text-xl text-white/90">
+                Senza anticipi e con supporto completo in ogni fase
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-white/10 rounded-2xl p-8 text-white">
+                <h3 className="text-2xl font-bold mb-4">Acquisto Senza Anticipi</h3>
+                <p className="text-lg mb-6 opacity-90">
+                  Percorsi facilitati per l'acquisto della prima casa
+                </p>
+                <ul className="space-y-3">
+                  <li className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                    <span>Mutui 100% del valore dell'immobile</span>
+                  </li>
+                  <li className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                    <span>Garanzie statali per giovani sotto i 36 anni</span>
+                  </li>
+                  <li className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                    <span>Bonus prima casa e agevolazioni fiscali</span>
+                  </li>
+                  <li className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                    <span>Consulenza gratuita personalizzata</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-white/10 rounded-2xl p-8 text-white">
+                <h3 className="text-2xl font-bold mb-4">Supporto Completo</h3>
+                <p className="text-lg mb-6 opacity-90">
+                  Ti seguiamo passo dopo passo fino alle chiavi
+                </p>
+                <ul className="space-y-3">
+                  <li className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                    <span>Ricerca dell'immobile ideale secondo le tue esigenze</span>
+                  </li>
+                  <li className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                    <span>Negoziazione del prezzo e delle condizioni</span>
+                  </li>
+                  <li className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                    <span>Gestione di tutte le pratiche burocratiche</span>
+                  </li>
+                  <li className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                    <span>Assistenza post-vendita e supporto continuo</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <SpecializedServices />
 
       </main>
       <Footer />
