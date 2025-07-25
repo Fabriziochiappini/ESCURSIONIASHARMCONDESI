@@ -15,7 +15,7 @@ export function ComplexSituations() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          
+
           {/* Situazione 1 - Casa con ipoteca */}
           <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-lg border border-blue-200">
             <div className="flex items-start mb-6">
@@ -31,7 +31,7 @@ export function ComplexSituations() {
                 </p>
               </div>
             </div>
-            
+
             <ul className="space-y-3 mb-6">
               <li className="flex items-center text-gray-700">
                 <CheckCircle className="w-5 h-5 text-green-600 mr-3 flex-shrink-0" />
@@ -46,43 +46,7 @@ export function ComplexSituations() {
                 <span className="text-base">Azzeramento di debiti e gravami</span>
               </li>
             </ul>
-            
-            <p className="text-sm text-gray-600 italic">
-              Tutto avviene attraverso un accordo trasparente e condiviso.
-            </p>
-          </div>
 
-          {/* Situazione 2 - Divisione ereditaria */}
-          <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl p-8 shadow-lg border border-amber-200">
-            <div className="flex items-start mb-6">
-              <div className="bg-accent text-white p-3 rounded-xl mr-4">
-                <Scale className="w-8 h-8" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                  Divisione ereditaria: troppi litigi?
-                </h3>
-                <p className="text-lg text-gray-700 mb-4">
-                  Perizie di stima e soluzioni concrete:
-                </p>
-              </div>
-            </div>
-            
-            <ul className="space-y-3 mb-6">
-              <li className="flex items-start text-gray-700">
-                <div className="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                <span className="text-base">Divisione con compensazione economica equa</span>
-              </li>
-              <li className="flex items-start text-gray-700">
-                <div className="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                <span className="text-base">Vendita con ripartizione del ricavato</span>
-              </li>
-              <li className="flex items-start text-gray-700">
-                <div className="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                <span className="text-base">Assegnazione concordata tra le parti</span>
-              </li>
-            </ul>
-            
             <p className="text-sm text-gray-600 italic">
               Tutto avviene attraverso un accordo trasparente e condiviso.
             </p>
@@ -103,7 +67,7 @@ export function ComplexSituations() {
                 </p>
               </div>
             </div>
-            
+
             <div className="text-gray-700 mb-6 space-y-3">
               <p className="text-base">
                 Grazie al nostro team legale e perizie specializzate, proponiamo 
@@ -133,7 +97,7 @@ export function ComplexSituations() {
                 </p>
               </div>
             </div>
-            
+
             <div className="text-gray-700 mb-6 space-y-3">
               <p className="text-base">
                 Verifichiamo la <strong className="text-green-600">legittimità delle ipoteche</strong> 
