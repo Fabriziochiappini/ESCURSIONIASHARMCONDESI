@@ -46,68 +46,67 @@ export default function Home() {
         
         <section id="properties" className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Proprietà a tutta larghezza */}
-            <div className="mb-16">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                  {hasFilters ? "Risultati Ricerca" : "Proprietà in Evidenza"}
-                </h2>
-                <p className="text-xl text-gray-600">
-                  {hasFilters 
-                    ? "Proprietà che corrispondono ai tuoi criteri di ricerca"
-                    : "Scopri le migliori proprietà disponibili ad Acireale e nei comuni limitrofi"
-                  }
-                </p>
-              </div>
-
-              <PropertyGrid filters={hasFilters ? filters : undefined} maxColumns={3} />
-            </div>
-            
-            {/* Layout con galleria e servizi */}
+            {/* Layout con proprietà e sidebar */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               
-              {/* Galleria immagini */}
-              <div className="lg:col-span-1">
-                <div className="bg-white rounded-2xl p-6 shadow-lg border sticky top-8">
-                  <h3 className="text-2xl font-bold text-primary mb-6 text-center">
-                    I Nostri Progetti
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="rounded-xl overflow-hidden shadow-md">
-                      <img 
-                        src="/attached_assets/WhatsApp Image 2025-07-25 at 10.34.53_1753432954804.jpeg"
-                        alt="Progetto immobiliare 1"
-                        className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="rounded-xl overflow-hidden shadow-md">
-                      <img 
-                        src="/attached_assets/WhatsApp Image 2025-07-25 at 10.34.52 (2)_1753432954806.jpeg"
-                        alt="Progetto immobiliare 2"
-                        className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="rounded-xl overflow-hidden shadow-md">
-                      <img 
-                        src="/attached_assets/WhatsApp Image 2025-07-25 at 10.34.52 (1)_1753432954807.jpeg"
-                        alt="Progetto immobiliare 3"
-                        className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="rounded-xl overflow-hidden shadow-md">
-                      <img 
-                        src="/attached_assets/WhatsApp Image 2025-07-25 at 10.34.52_1753432954809.jpeg"
-                        alt="Progetto immobiliare 4"
-                        className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  </div>
+              {/* Proprietà - 2/3 della larghezza */}
+              <div className="lg:col-span-2">
+                <div className="text-center mb-16">
+                  <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                    {hasFilters ? "Risultati Ricerca" : "Proprietà in Evidenza"}
+                  </h2>
+                  <p className="text-xl text-gray-600">
+                    {hasFilters 
+                      ? "Proprietà che corrispondono ai tuoi criteri di ricerca"
+                      : "Scopri le migliori proprietà disponibili ad Acireale e nei comuni limitrofi"
+                    }
+                  </p>
                 </div>
+
+                <PropertyGrid filters={hasFilters ? filters : undefined} maxColumns={2} />
               </div>
               
-              {/* Servizi - 2/3 della larghezza */}
-              <div className="lg:col-span-2">
-                <div className="space-y-8">
+              {/* Sidebar destra - Galleria immagini */}
+              <div className="lg:col-span-1">
+                <div className="sticky top-8 space-y-8">
+                  
+                  {/* Galleria Progetti */}
+                  <div className="bg-white rounded-2xl p-6 shadow-lg border">
+                    <h3 className="text-2xl font-bold text-primary mb-6 text-center">
+                      I Nostri Progetti
+                    </h3>
+                    <div className="space-y-4">
+                      <div className="rounded-xl overflow-hidden shadow-md">
+                        <img 
+                          src="/attached_assets/WhatsApp Image 2025-07-25 at 10.34.53_1753432954804.jpeg"
+                          alt="Progetto immobiliare 1"
+                          className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="rounded-xl overflow-hidden shadow-md">
+                        <img 
+                          src="/attached_assets/WhatsApp Image 2025-07-25 at 10.34.52 (2)_1753432954806.jpeg"
+                          alt="Progetto immobiliare 2"
+                          className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="rounded-xl overflow-hidden shadow-md">
+                        <img 
+                          src="/attached_assets/WhatsApp Image 2025-07-25 at 10.34.52 (1)_1753432954807.jpeg"
+                          alt="Progetto immobiliare 3"
+                          className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="rounded-xl overflow-hidden shadow-md">
+                        <img 
+                          src="/attached_assets/WhatsApp Image 2025-07-25 at 10.34.52_1753432954809.jpeg"
+                          alt="Progetto immobiliare 4"
+                          className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   
                   {/* Servizi Principali */}
                   <div className="bg-white rounded-2xl p-6 shadow-lg border">
