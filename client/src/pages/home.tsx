@@ -78,29 +78,29 @@ export default function Home() {
                     <div className="space-y-4">
                       <div className="rounded-xl overflow-hidden shadow-md">
                         <img 
-                          src="/attached_assets/WhatsApp Image 2025-07-25 at 10.34.53_1753432954804.jpeg"
-                          alt="Progetto immobiliare 1"
+                          src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+                          alt="Progetto immobiliare moderno"
                           className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                       <div className="rounded-xl overflow-hidden shadow-md">
                         <img 
-                          src="/attached_assets/WhatsApp Image 2025-07-25 at 10.34.52 (2)_1753432954806.jpeg"
-                          alt="Progetto immobiliare 2"
+                          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+                          alt="Villa di lusso completata"
                           className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                       <div className="rounded-xl overflow-hidden shadow-md">
                         <img 
-                          src="/attached_assets/WhatsApp Image 2025-07-25 at 10.34.52 (1)_1753432954807.jpeg"
-                          alt="Progetto immobiliare 3"
+                          src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+                          alt="Appartamento ristrutturato"
                           className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                       <div className="rounded-xl overflow-hidden shadow-md">
                         <img 
-                          src="/attached_assets/WhatsApp Image 2025-07-25 at 10.34.52_1753432954809.jpeg"
-                          alt="Progetto immobiliare 4"
+                          src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+                          alt="Casa vacanza realizzata"
                           className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                         />
                       </div>
