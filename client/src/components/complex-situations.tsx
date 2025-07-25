@@ -67,53 +67,55 @@ export function ComplexSituations() {
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Situazioni Complesse? Abbiamo la Soluzione
+        <div className="text-center mb-16">
+          <h2 className="text-5xl font-black text-gray-900 mb-6 uppercase tracking-wider">
+            PROBLEMI IMMOBILIARI?<br/>
+            <span className="text-red-700">RISOLVIAMO TUTTO</span>
           </h2>
-          <p className="text-xl text-gray-600">
-            Il nostro team specializzato risolve le situazioni immobiliari più difficili
+          <p className="text-xl font-bold text-gray-700 uppercase tracking-wide">
+            30 ANNI DI ESPERIENZA - RISULTATI GARANTITI
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {situations.map((situation, index) => {
             const IconComponent = situation.icon;
             return (
               <div
                 key={index}
-                className={`${situation.bgColor} ${situation.borderColor} border-2 rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group`}
+                className={`${situation.bgColor} border-l-8 ${situation.borderColor} shadow-2xl p-8 hover:shadow-3xl transition-shadow duration-200`}
               >
-                <div className="text-center mb-6">
-                  <div className={`inline-flex items-center justify-center w-14 h-14 ${situation.iconColor} bg-gray-50 rounded-lg mb-4 group-hover:bg-gray-100 transition-colors`}>
-                    <IconComponent className="w-7 h-7" />
+                <div className="mb-6">
+                  <div className={`w-16 h-16 ${situation.iconColor} bg-gray-100 flex items-center justify-center mb-6`}>
+                    <IconComponent className="w-9 h-9" strokeWidth={2.5} />
                   </div>
-                  <h3 className={`text-lg font-bold mb-2 leading-tight ${situation.titleColor}`}>
+                  <h3 className="text-xl font-black mb-3 leading-tight text-gray-900 uppercase tracking-wide">
                     {situation.title}
                   </h3>
-                  <p className={`text-sm ${situation.subtitleColor} mb-4`}>
+                  <p className="text-base font-bold text-gray-700 mb-6">
                     {situation.subtitle}
                   </p>
                 </div>
 
-                <div className="space-y-3 mb-6">
+                <div className="space-y-4 mb-8">
                   {situation.benefits.map((benefit, benefitIndex) => (
-                    <div key={benefitIndex} className="flex items-start text-sm text-gray-700">
-                      <div className={`w-1.5 h-1.5 ${situation.iconColor} rounded-full mt-2 mr-3 flex-shrink-0`}></div>
-                      <span className="leading-relaxed">{benefit}</span>
+                    <div key={benefitIndex} className="flex items-start">
+                      <div className={`w-3 h-3 ${situation.iconColor} mt-1 mr-4 flex-shrink-0`} style={{clipPath: 'polygon(0 0, 100% 50%, 0 100%)'}}>
+                      </div>
+                      <span className="text-sm font-semibold text-gray-800 leading-relaxed uppercase tracking-wide">{benefit}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="text-center">
-                  <button className={`${situation.iconColor} border-2 ${situation.borderColor} px-6 py-2 rounded-md font-semibold text-sm hover:bg-gray-50 transition-colors`}>
-                    Contattaci Ora
+                <div className="border-t-2 border-gray-200 pt-6">
+                  <button className={`w-full ${situation.iconColor} bg-gray-900 text-white px-6 py-4 font-black text-sm uppercase tracking-widest hover:bg-gray-800 transition-colors border-2 border-gray-900`}>
+                    CONTATTACI ORA
                   </button>
                 </div>
 
-                <div className="text-center mt-4">
-                  <p className="text-xs text-gray-500 italic">
-                    Accordo trasparente garantito
+                <div className="mt-4 text-center">
+                  <p className="text-xs font-bold text-gray-600 uppercase tracking-wider">
+                    GARANZIA TOTALE
                   </p>
                 </div>
               </div>
@@ -121,10 +123,13 @@ export function ComplexSituations() {
           })}
         </div>
 
-        <div className="text-center mt-12">
-          <button className="bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-primary/90 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-            Richiedi Consulenza Gratuita
+        <div className="text-center mt-16">
+          <button className="bg-red-700 text-white px-12 py-5 font-black text-xl uppercase tracking-widest hover:bg-red-800 transition-colors shadow-2xl border-4 border-red-700">
+            CONSULENZA GRATUITA IMMEDIATA
           </button>
+          <p className="mt-4 text-sm font-bold text-gray-600 uppercase tracking-wider">
+            CHIAMACI ADESSO - NON ASPETTARE
+          </p>
         </div>
       </div>
     </section>
