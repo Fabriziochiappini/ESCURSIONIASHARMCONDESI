@@ -11,8 +11,11 @@ export function ComplexSituations() {
         "Prezzo minimo garantito",
         "Azzeramento debiti e gravami"
       ],
-      bgColor: "bg-gradient-to-br from-red-500 to-red-600",
-      textColor: "text-white"
+      bgColor: "bg-white",
+      borderColor: "border-red-200",
+      iconColor: "text-red-600",
+      titleColor: "text-gray-900",
+      subtitleColor: "text-gray-600"
     },
     {
       icon: Users,
@@ -23,8 +26,11 @@ export function ComplexSituations() {
         "Vendita con ripartizione",
         "Assegnazione concordata"
       ],
-      bgColor: "bg-gradient-to-br from-blue-600 to-blue-700",
-      textColor: "text-white"
+      bgColor: "bg-white",
+      borderColor: "border-blue-200",
+      iconColor: "text-blue-600",
+      titleColor: "text-gray-900",
+      subtitleColor: "text-gray-600"
     },
     {
       icon: Gavel,
@@ -35,8 +41,11 @@ export function ComplexSituations() {
         "Vendita a valore ridotto",
         "Recupero massimo possibile"
       ],
-      bgColor: "bg-gradient-to-br from-orange-500 to-orange-600",
-      textColor: "text-white"
+      bgColor: "bg-white",
+      borderColor: "border-orange-200",
+      iconColor: "text-orange-600",
+      titleColor: "text-gray-900",
+      subtitleColor: "text-gray-600"
     },
     {
       icon: DollarSign,
@@ -47,13 +56,16 @@ export function ComplexSituations() {
         "Rimozione gravami irregolari",
         "Piani rateizzati personalizzati"
       ],
-      bgColor: "bg-gradient-to-br from-yellow-500 to-yellow-600",
-      textColor: "text-white"
+      bgColor: "bg-white",
+      borderColor: "border-yellow-200",
+      iconColor: "text-yellow-600",
+      titleColor: "text-gray-900",
+      subtitleColor: "text-gray-600"
     }
   ];
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -70,38 +82,38 @@ export function ComplexSituations() {
             return (
               <div
                 key={index}
-                className={`${situation.bgColor} ${situation.textColor} rounded-2xl p-6 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer group`}
+                className={`${situation.bgColor} ${situation.borderColor} border-2 rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group`}
               >
-                <div className="text-center mb-4">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4 group-hover:bg-white/30 transition-colors">
-                    <IconComponent className="w-8 h-8" />
+                <div className="text-center mb-6">
+                  <div className={`inline-flex items-center justify-center w-14 h-14 ${situation.iconColor} bg-gray-50 rounded-lg mb-4 group-hover:bg-gray-100 transition-colors`}>
+                    <IconComponent className="w-7 h-7" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2 leading-tight">
+                  <h3 className={`text-lg font-bold mb-2 leading-tight ${situation.titleColor}`}>
                     {situation.title}
                   </h3>
-                  <p className="text-sm opacity-90 mb-4">
+                  <p className={`text-sm ${situation.subtitleColor} mb-4`}>
                     {situation.subtitle}
                   </p>
                 </div>
 
-                <div className="space-y-2 mb-6">
+                <div className="space-y-3 mb-6">
                   {situation.benefits.map((benefit, benefitIndex) => (
-                    <div key={benefitIndex} className="flex items-center text-sm">
-                      <div className="w-2 h-2 bg-white rounded-full mr-3 flex-shrink-0"></div>
-                      <span>{benefit}</span>
+                    <div key={benefitIndex} className="flex items-start text-sm text-gray-700">
+                      <div className={`w-1.5 h-1.5 ${situation.iconColor} rounded-full mt-2 mr-3 flex-shrink-0`}></div>
+                      <span className="leading-relaxed">{benefit}</span>
                     </div>
                   ))}
                 </div>
 
                 <div className="text-center">
-                  <button className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold text-sm hover:bg-gray-100 transition-colors shadow-md">
+                  <button className={`${situation.iconColor} border-2 ${situation.borderColor} px-6 py-2 rounded-md font-semibold text-sm hover:bg-gray-50 transition-colors`}>
                     Contattaci Ora
                   </button>
                 </div>
 
-                <div className="text-center mt-3">
-                  <p className="text-xs opacity-80">
-                    Tutto con accordo trasparente
+                <div className="text-center mt-4">
+                  <p className="text-xs text-gray-500 italic">
+                    Accordo trasparente garantito
                   </p>
                 </div>
               </div>
