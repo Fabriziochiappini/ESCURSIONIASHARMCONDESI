@@ -9,6 +9,12 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import type { SearchFilters } from "@shared/schema";
 
+// Import immagini progetti
+import progetto1 from "@assets/WhatsApp Image 2025-07-25 at 10.34.53_1753433410915.jpeg";
+import progetto2 from "@assets/WhatsApp Image 2025-07-25 at 10.34.52 (2)_1753433410916.jpeg";
+import progetto3 from "@assets/WhatsApp Image 2025-07-25 at 10.34.52 (1)_1753433410917.jpeg";
+import progetto4 from "@assets/WhatsApp Image 2025-07-25 at 10.34.52_1753433410918.jpeg";
+
 export default function Home() {
   const [location] = useLocation();
   const [filters, setFilters] = useState<SearchFilters>({});
@@ -78,29 +84,29 @@ export default function Home() {
                     <div className="space-y-4">
                       <div className="rounded-xl overflow-hidden shadow-md">
                         <img 
-                          src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
-                          alt="Progetto immobiliare moderno"
+                          src={progetto1}
+                          alt="Progetto immobiliare 1"
                           className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                       <div className="rounded-xl overflow-hidden shadow-md">
                         <img 
-                          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
-                          alt="Villa di lusso completata"
+                          src={progetto2}
+                          alt="Progetto immobiliare 2"
                           className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                       <div className="rounded-xl overflow-hidden shadow-md">
                         <img 
-                          src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
-                          alt="Appartamento ristrutturato"
+                          src={progetto3}
+                          alt="Progetto immobiliare 3"
                           className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                       <div className="rounded-xl overflow-hidden shadow-md">
                         <img 
-                          src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
-                          alt="Casa vacanza realizzata"
+                          src={progetto4}
+                          alt="Progetto immobiliare 4"
                           className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                         />
                       </div>
