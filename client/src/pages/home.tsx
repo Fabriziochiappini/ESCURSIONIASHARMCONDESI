@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { HeroSection } from "@/components/hero-section";
+import { ComplexSituations } from "@/components/complex-situations";
 import { PropertyGrid } from "@/components/property-grid";
 import { ServicesSection } from "@/components/services-section";
 import { SpecializedServices } from "@/components/specialized-services";
@@ -49,6 +50,7 @@ export default function Home() {
       <Navigation />
       <main>
         <HeroSection />
+        <ComplexSituations />
         
         <section id="properties" className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
