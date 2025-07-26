@@ -2,77 +2,70 @@ import { Home, MapPin, Phone, Mail, Clock, Facebook, Instagram, Linkedin } from 
 
 export function Footer() {
   return (
-    <footer className="relative py-24 overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-secondary/30"></div>
-      </div>
-      
-      <div className="relative z-10 max-w-[1920px] mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+    <footer className="bg-gray-900 text-white py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-2">
-            <div className="text-3xl font-bold mb-6 flex items-center">
-              <Home className="mr-4 h-8 w-8 text-primary" />
-              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                AGENZIA 2 Servizi Immobiliari
-              </span>
+            <div className="text-2xl font-bold mb-4 flex items-center text-white">
+              <Home className="mr-2 h-6 w-6 text-primary" />
+              AGENZIA 2 Servizi Immobiliari
             </div>
-            <p className="text-foreground/90 mb-4 max-w-md text-lg">
-              <span className="text-accent font-bold">Geometra Antonio Cannavò</span>
+            <p className="text-gray-300 mb-2 max-w-md">
+              <span className="text-primary font-medium">Geometra Antonio Cannavò</span>
             </p>
-            <p className="text-foreground/80 mb-8 max-w-md text-lg leading-relaxed">
+            <p className="text-gray-300 mb-6 max-w-md">
               La tua agenzia immobiliare di fiducia ad Acireale. Esperienza, professionalità e competenza tecnica 
               per ogni esigenza immobiliare.
             </p>
-            <div className="flex space-x-6">
-              <a href="#" className="glass-card p-4 rounded-2xl text-primary hover:scale-110 transition-all duration-300 hover:text-primary">
-                <Facebook className="h-8 w-8" />
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-300 hover:text-primary text-xl transition-colors bg-gray-800 p-3 rounded-lg">
+                <Facebook className="h-6 w-6" />
               </a>
-              <a href="#" className="glass-card p-4 rounded-2xl text-secondary hover:scale-110 transition-all duration-300 hover:text-secondary">
-                <Instagram className="h-8 w-8" />
+              <a href="#" className="text-gray-300 hover:text-primary text-xl transition-colors bg-gray-800 p-3 rounded-lg">
+                <Instagram className="h-6 w-6" />
               </a>
-              <a href="#" className="glass-card p-4 rounded-2xl text-accent hover:scale-110 transition-all duration-300 hover:text-accent">
-                <Linkedin className="h-8 w-8" />
+              <a href="#" className="text-gray-300 hover:text-primary text-xl transition-colors bg-gray-800 p-3 rounded-lg">
+                <Linkedin className="h-6 w-6" />
               </a>
             </div>
           </div>
           
           <div>
-            <h4 className="font-bold mb-6 text-2xl text-primary">Servizi</h4>
-            <ul className="space-y-4 text-foreground/80 text-lg">
-              <li><a href="/servizi" className="hover:text-accent transition-colors hover:scale-105 inline-block">Perizie Immobiliari</a></li>
-              <li><a href="/servizi" className="hover:text-accent transition-colors hover:scale-105 inline-block">Servizi Legali</a></li>
-              <li><a href="/servizi" className="hover:text-accent transition-colors hover:scale-105 inline-block">Compravendita</a></li>
-              <li><a href="/servizi" className="hover:text-accent transition-colors hover:scale-105 inline-block">Mutui Agevolati</a></li>
-              <li><a href="/servizi" className="hover:text-accent transition-colors hover:scale-105 inline-block">A.P.E. Certificazioni</a></li>
+            <h4 className="font-semibold mb-4 text-white">Servizi</h4>
+            <ul className="space-y-2 text-gray-300">
+              <li><a href="/servizi" className="hover:text-primary transition-colors">Perizie Immobiliari</a></li>
+              <li><a href="/servizi" className="hover:text-primary transition-colors">Servizi Legali</a></li>
+              <li><a href="/servizi" className="hover:text-primary transition-colors">Compravendita</a></li>
+              <li><a href="/servizi" className="hover:text-primary transition-colors">Mutui Agevolati</a></li>
+              <li><a href="/servizi" className="hover:text-primary transition-colors">A.P.E. Certificazioni</a></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-bold mb-6 text-2xl text-secondary">Contatti</h4>
-            <ul className="space-y-4 text-foreground/80 text-lg">
-              <li className="flex items-center hover:scale-105 transition-all duration-300">
-                <MapPin className="mr-4 h-6 w-6 text-primary" />
+            <h4 className="font-semibold mb-4 text-white">Contatti</h4>
+            <ul className="space-y-2 text-gray-300">
+              <li className="flex items-center">
+                <MapPin className="mr-2 h-4 w-4 text-primary" />
                 Via San Girolamo, 20 - 95024 ACIREALE (CT)
               </li>
-              <li className="flex items-center hover:scale-105 transition-all duration-300">
-                <Phone className="mr-4 h-6 w-6 text-secondary" />
+              <li className="flex items-center">
+                <Phone className="mr-2 h-4 w-4 text-primary" />
                 346 800 3234
               </li>
-              <li className="flex items-center hover:scale-105 transition-all duration-300">
-                <Mail className="mr-4 h-6 w-6 text-accent" />
+              <li className="flex items-center">
+                <Mail className="mr-2 h-4 w-4 text-primary" />
                 agenzia2acireale@virgilio.it
               </li>
-              <li className="flex items-center hover:scale-105 transition-all duration-300">
-                <Clock className="mr-4 h-6 w-6 text-primary" />
+              <li className="flex items-center">
+                <Clock className="mr-2 h-4 w-4 text-primary" />
                 Lun-Ven 9:00-19:00, Sab 9:00-13:00
               </li>
             </ul>
           </div>
         </div>
         
-        <div className="border-t border-foreground/20 mt-16 pt-12 text-center">
-          <p className="text-foreground/60 text-lg">&copy; 2024 AGENZIA 2 Servizi Immobiliari - Geometra Antonio Cannavò. Tutti i diritti riservati.</p>
+        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+          <p>&copy; 2024 AGENZIA 2 Servizi Immobiliari - Geometra Antonio Cannavò. Tutti i diritti riservati.</p>
         </div>
       </div>
     </footer>

@@ -113,17 +113,23 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
+- July 26, 2025: Design overhaul completo ispirato a immobiliaremichelangelo.it
+  * Implementato design elegante con sfondo bianco pulito per tutto il sito
+  * Sfondo scuro mantenuto SOLO per la sezione proprietà come richiesto
+  * Navigazione moderna pulita con dropdown eleganti e sfondo bianco
+  * Hero section ridisegnata con overlay leggero e contenitori glass moderni
+  * Situazioni complesse rinnovate con card pulite su sfondo grigio chiaro
+  * Property cards aggiornate con design minimalista e ombre sottili
+  * Footer scuro professionale con layout pulito
+  * Nuova palette colori: arancione primario, blu secondario, giallo accent
+  * Tipografia elegante con font-weight leggeri per titoli principali
+  * Transizioni dolci e effetti hover sottili per eleganza
 - July 24, 2025: Implementato layout homepage con sidebar come i vecchi siti web
   * Layout 2/3 proprietà + 1/3 sidebar con tutti i servizi sempre visibili
   * Proprietà limitate a 2 colonne e aumentate a 12 per homepage
   * Sidebar destra con servizi dettagliati, situazioni complesse e contatti
   * Rimossi ServicesSection e SpecializedServices dalla homepage (solo in sidebar)
   * Hero con bordi arancioni ridotti e ombreggiature per rilievo
-- July 23, 2025: Implementata palette colori vivace e moderna
-  * Azzurro professionale: hsl(205, 87%, 45%) - colore primario
-  * Arancione vacanziero: hsl(25, 95%, 58%) - colore secondario  
-  * Giallo energico: hsl(48, 100%, 67%) - colore accent
-  * Aggiornati gradienti hero e servizi con nuovi colori
 - July 23, 2025: Rimossa completamente sezione blog/news dal sito
   * Eliminati link navigazione, route, componenti e API del blog
   * Semplificato pannello amministrativo (solo gestione proprietà)

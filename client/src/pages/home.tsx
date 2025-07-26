@@ -46,19 +46,14 @@ export default function Home() {
         <HeroSection />
         <ComplexSituations />
         
-        <section id="properties" className="py-32 relative overflow-hidden">
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-secondary/20"></div>
-          </div>
-          
-          <div className="relative z-10 max-w-[1920px] mx-auto px-6 lg:px-12">
+        <section id="properties" className="py-20 dark-section relative overflow-hidden">
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Proprietà a tutta larghezza */}
-            <div className="text-center mb-20 animate-fade-in">
-              <h2 className="text-6xl lg:text-7xl font-bold mb-6 neon-text">
+            <div className="text-center mb-16 animate-fade-in">
+              <h2 className="text-4xl lg:text-5xl font-light mb-4 text-white">
                 {hasFilters ? "Risultati Ricerca" : "Proprietà in Evidenza"}
               </h2>
-              <p className="text-2xl text-foreground/80 max-w-4xl mx-auto leading-relaxed">
+              <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
                 {hasFilters 
                   ? "Proprietà che corrispondono ai tuoi criteri di ricerca"
                   : "Scopri le migliori proprietà disponibili ad Acireale e nei comuni limitrofi"
@@ -73,13 +68,8 @@ export default function Home() {
         </section>
 
         {/* Sezione Servizi */}
-        <section className="py-32 relative overflow-hidden">
-          {/* Parallax Background */}
-          <div className="absolute inset-0 parallax">
-            <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 via-transparent to-accent/10"></div>
-          </div>
-          
-          <div className="relative z-10 max-w-[1920px] mx-auto px-6 lg:px-12">
+        <section className="py-20 bg-gray-50">
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-20 animate-fade-in">
               <h2 className="text-6xl lg:text-7xl font-bold mb-6 neon-text">
                 I Nostri Servizi

@@ -65,64 +65,58 @@ export function ComplexSituations() {
   ];
 
   return (
-    <section className="py-32 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-secondary/30"></div>
-      </div>
-      
-      <div className="relative z-10 max-w-[1920px] mx-auto px-6 lg:px-12">
-        <div className="text-center mb-20 animate-fade-in">
-          <h2 className="text-6xl lg:text-7xl font-black mb-8 uppercase tracking-wider neon-text">
+    <section className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16 animate-fade-in">
+          <h2 className="text-4xl lg:text-5xl font-light mb-6 text-gray-900">
             PROBLEMI IMMOBILIARI?<br/>
-            <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">RISOLVIAMO TUTTO</span>
+            <span className="text-primary font-medium">RISOLVIAMO TUTTO</span>
           </h2>
-          <p className="text-2xl font-bold text-foreground/80 uppercase tracking-wide max-w-4xl mx-auto">
-            30 ANNI DI ESPERIENZA - RISULTATI GARANTITI
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            30 anni di esperienza al tuo servizio per soluzioni concrete
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 animate-scale-in">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 animate-scale-in">
           {situations.map((situation, index) => {
             const IconComponent = situation.icon;
-            const gradientClass = index === 0 ? 'gradient-primary' : 
-                                 index === 1 ? 'gradient-secondary' : 
-                                 index === 2 ? 'gradient-accent' : 'gradient-primary';
+            const iconColors = ['text-primary', 'text-secondary', 'text-orange-500', 'text-amber-500'];
+            const iconColor = iconColors[index] || 'text-primary';
             
             return (
               <div
                 key={index}
-                className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500 border-l-8 border-primary/50"
+                className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-primary/30 group"
               >
-                <div className="mb-8">
-                  <div className={`w-20 h-20 ${gradientClass} rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300 shadow-2xl`}>
-                    <IconComponent className="w-10 h-10 text-white" strokeWidth={2.5} />
+                <div className="mb-6">
+                  <div className="w-16 h-16 bg-gray-50 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <IconComponent className={`w-8 h-8 ${iconColor}`} strokeWidth={2} />
                   </div>
-                  <h3 className="text-2xl font-black mb-4 leading-tight text-foreground uppercase tracking-wide">
+                  <h3 className="text-xl font-bold mb-3 leading-tight text-gray-900">
                     {situation.title}
                   </h3>
-                  <p className="text-lg font-bold text-foreground/80 mb-6">
+                  <p className="text-gray-600 mb-6">
                     {situation.subtitle}
                   </p>
                 </div>
 
-                <div className="space-y-4 mb-8">
+                <div className="space-y-3 mb-8">
                   {situation.benefits.map((benefit, benefitIndex) => (
-                    <div key={benefitIndex} className="flex items-start group/item">
-                      <div className="w-3 h-3 bg-primary rounded-full mt-2 mr-4 flex-shrink-0 group-hover/item:animate-pulse"></div>
-                      <span className="text-foreground/80 leading-relaxed font-semibold">{benefit}</span>
+                    <div key={benefitIndex} className="flex items-start">
+                      <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-700 leading-relaxed text-sm">{benefit}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="border-t border-foreground/20 pt-6">
-                  <button className="w-full gradient-primary text-white px-6 py-4 font-black text-sm uppercase tracking-widest hover:scale-105 transition-all duration-300 rounded-2xl shadow-2xl neon-glow">
+                <div className="border-t border-gray-200 pt-6">
+                  <button className="w-full bg-primary hover:bg-primary/90 text-white px-6 py-3 font-semibold text-sm rounded-lg transition-all duration-300 shadow-md hover:shadow-lg">
                     CONTATTACI ORA
                   </button>
                 </div>
 
-                <div className="mt-6 text-center">
-                  <p className="text-sm font-bold text-primary uppercase tracking-wider">
+                <div className="mt-4 text-center">
+                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                     GARANZIA TOTALE
                   </p>
                 </div>
@@ -131,12 +125,12 @@ export function ComplexSituations() {
           })}
         </div>
 
-        <div className="text-center mt-20 animate-fade-in">
-          <button className="gradient-secondary text-white px-16 py-6 font-black text-2xl uppercase tracking-widest hover:scale-105 transition-all duration-300 shadow-2xl rounded-3xl neon-glow">
+        <div className="text-center mt-16 animate-fade-in">
+          <button className="bg-primary hover:bg-primary/90 text-white px-12 py-4 font-bold text-lg rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl">
             CONSULENZA GRATUITA IMMEDIATA
           </button>
-          <p className="mt-6 text-lg font-bold text-foreground/80 uppercase tracking-wider">
-            CHIAMACI ADESSO - NON ASPETTARE
+          <p className="mt-4 text-gray-600">
+            Chiamaci adesso - non aspettare
           </p>
         </div>
       </div>
