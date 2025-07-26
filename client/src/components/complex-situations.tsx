@@ -70,7 +70,7 @@ export function ComplexSituations() {
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl lg:text-5xl font-light mb-6 text-gray-900">
             PROBLEMI IMMOBILIARI?<br/>
-            <span className="text-primary font-medium">RISOLVIAMO TUTTO</span>
+            <span className="text-primary font-medium">CI SIAMO NOI!</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             30 anni di esperienza al tuo servizio per soluzioni concrete
