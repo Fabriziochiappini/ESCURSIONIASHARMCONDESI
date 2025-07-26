@@ -40,20 +40,25 @@ export default function Home() {
   const hasFilters = Object.keys(filters).some(key => filters[key as keyof SearchFilters] !== undefined);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <Navigation />
-      <main>
+      <main className="relative">
         <HeroSection />
         <ComplexSituations />
         
-        <section id="properties" className="py-20 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="properties" className="py-32 relative overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-secondary/20"></div>
+          </div>
+          
+          <div className="relative z-10 max-w-[1920px] mx-auto px-6 lg:px-12">
             {/* Proprietà a tutta larghezza */}
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <div className="text-center mb-20 animate-fade-in">
+              <h2 className="text-6xl lg:text-7xl font-bold mb-6 neon-text">
                 {hasFilters ? "Risultati Ricerca" : "Proprietà in Evidenza"}
               </h2>
-              <p className="text-xl text-gray-600">
+              <p className="text-2xl text-foreground/80 max-w-4xl mx-auto leading-relaxed">
                 {hasFilters 
                   ? "Proprietà che corrispondono ai tuoi criteri di ricerca"
                   : "Scopri le migliori proprietà disponibili ad Acireale e nei comuni limitrofi"
@@ -61,56 +66,108 @@ export default function Home() {
               </p>
             </div>
 
-            <PropertyGrid filters={hasFilters ? filters : undefined} maxColumns={3} />
+            <div className="animate-slide-up">
+              <PropertyGrid filters={hasFilters ? filters : undefined} maxColumns={3} />
+            </div>
           </div>
         </section>
 
         {/* Sezione Servizi */}
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+        <section className="py-32 relative overflow-hidden">
+          {/* Parallax Background */}
+          <div className="absolute inset-0 parallax">
+            <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 via-transparent to-accent/10"></div>
+          </div>
+          
+          <div className="relative z-10 max-w-[1920px] mx-auto px-6 lg:px-12">
+            <div className="text-center mb-20 animate-fade-in">
+              <h2 className="text-6xl lg:text-7xl font-bold mb-6 neon-text">
                 I Nostri Servizi
               </h2>
-              <p className="text-xl text-gray-600">
+              <p className="text-2xl text-foreground/80 max-w-4xl mx-auto leading-relaxed">
                 Soluzioni complete per ogni esigenza immobiliare
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="bg-white rounded-2xl p-6 shadow-lg border">
-                <h4 className="font-bold text-primary mb-3 text-lg">🏠 Compravendita Immobili</h4>
-                <p className="text-base text-gray-600 mb-3">Appartamenti, ville, terreni e immobili commerciali</p>
-                <ul className="text-sm text-gray-600 space-y-2">
-                  <li>• Valutazioni gratuite e marketing professionale</li>
-                  <li>• Gestione completa contratti</li>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 animate-scale-in">
+              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500">
+                <div className="w-16 h-16 rounded-2xl gradient-primary flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
+                  <span className="text-2xl">🏠</span>
+                </div>
+                <h4 className="font-bold text-primary mb-4 text-2xl">Compravendita Immobili</h4>
+                <p className="text-lg text-foreground/80 mb-4">Appartamenti, ville, terreni e immobili commerciali</p>
+                <ul className="text-foreground/70 space-y-3">
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-primary mr-3"></span>
+                    Valutazioni gratuite e marketing professionale
+                  </li>
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-primary mr-3"></span>
+                    Gestione completa contratti
+                  </li>
                 </ul>
               </div>
               
-              <div className="bg-white rounded-2xl p-6 shadow-lg border">
-                <h4 className="font-bold text-primary mb-3 text-lg">📋 Perizie e Valutazioni</h4>
-                <ul className="text-sm text-gray-600 space-y-2">
-                  <li>• Visure catastali e verifiche CRIF</li>
-                  <li>• Certificazioni A.P.E. e perizie</li>
-                  <li>• Valutazioni immobiliari professionali</li>
+              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500">
+                <div className="w-16 h-16 rounded-2xl gradient-secondary flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
+                  <span className="text-2xl">📋</span>
+                </div>
+                <h4 className="font-bold text-secondary mb-4 text-2xl">Perizie e Valutazioni</h4>
+                <ul className="text-foreground/70 space-y-3">
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-secondary mr-3"></span>
+                    Visure catastali e verifiche CRIF
+                  </li>
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-secondary mr-3"></span>
+                    Certificazioni A.P.E. e perizie
+                  </li>
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-secondary mr-3"></span>
+                    Valutazioni immobiliari professionali
+                  </li>
                 </ul>
               </div>
               
-              <div className="bg-white rounded-2xl p-6 shadow-lg border">
-                <h4 className="font-bold text-primary mb-3 text-lg">⚖️ Servizi Legali</h4>
-                <ul className="text-sm text-gray-600 space-y-2">
-                  <li>• Diritto immobiliare e sanatorie</li>
-                  <li>• Successioni e contrattualistica</li>
-                  <li>• Consulenza legale specializzata</li>
+              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500">
+                <div className="w-16 h-16 rounded-2xl gradient-accent flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
+                  <span className="text-2xl">⚖️</span>
+                </div>
+                <h4 className="font-bold text-accent mb-4 text-2xl">Servizi Legali</h4>
+                <ul className="text-foreground/70 space-y-3">
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-accent mr-3"></span>
+                    Diritto immobiliare e sanatorie
+                  </li>
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-accent mr-3"></span>
+                    Successioni e contrattualistica
+                  </li>
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-accent mr-3"></span>
+                    Consulenza legale specializzata
+                  </li>
                 </ul>
               </div>
               
-              <div className="bg-white rounded-2xl p-6 shadow-lg border">
-                <h4 className="font-bold text-primary mb-3 text-lg">💰 Servizi Finanziari</h4>
-                <ul className="text-sm text-gray-600 space-y-2">
-                  <li>• Mutui agevolati e surroga</li>
-                  <li>• Consulenza e finanziamenti</li>
-                  <li>• Pratiche bancarie complete</li>
+              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500">
+                <div className="w-16 h-16 rounded-2xl gradient-primary flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
+                  <span className="text-2xl">💰</span>
+                </div>
+                <h4 className="font-bold text-primary mb-4 text-2xl">Servizi Finanziari</h4>
+                <ul className="text-foreground/70 space-y-3">
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-primary mr-3"></span>
+                    Mutui agevolati e surroga
+                  </li>
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-primary mr-3"></span>
+                    Consulenza e finanziamenti
+                  </li>
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-primary mr-3"></span>
+                    Pratiche bancarie complete
+                  </li>
                 </ul>
               </div>
             </div>

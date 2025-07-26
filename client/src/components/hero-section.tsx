@@ -43,35 +43,35 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
+    <section className="relative h-screen flex items-center justify-center overflow-hidden parallax">
+      {/* Dynamic Background with Parallax */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110 parallax"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&h=1600')"
+          backgroundImage: "url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=3840&h=2160')"
         }}
       />
       
-      {/* Vivace Color Filter Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/50 via-primary/40 to-secondary/30"></div>
-      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-accent/10 to-primary/20"></div>
+      {/* Modern Dark Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-primary/20 to-secondary/30"></div>
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-accent/10 to-black/40"></div>
       
-      {/* Vivace Animated Background Elements */}
+      {/* Floating Neon Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary/15 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-primary/15 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-20 left-20 w-96 h-96 bg-primary/30 rounded-full blur-3xl float animate-pulse neon-glow"></div>
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-secondary/25 rounded-full blur-3xl float animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-accent/20 rounded-full blur-3xl float" style={{animationDelay: '4s'}}></div>
       </div>
       
-      <div className="relative z-10 text-center text-primary-foreground max-w-6xl mx-auto px-4 animate-slide-up">
-        {/* Contenitore trasparente per testi */}
-        <div className="glass-card rounded-3xl p-10 mb-12 backdrop-blur-xl bg-white/35">
-          <div className="mb-8">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-primary">
+      <div className="relative z-10 text-center max-w-[1400px] mx-auto px-6 lg:px-12 animate-fade-in">
+        {/* Modern Glass Container */}
+        <div className="glass rounded-4xl p-12 lg:p-16 mb-16 mirror-reflection">
+          <div className="mb-12">
+            <h1 className="text-5xl lg:text-8xl font-bold mb-8 leading-tight neon-text">
               Trova la Casa dei Tuoi Sogni ad{' '}
-              <span className="text-secondary">Acireale</span>
+              <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">Acireale</span>
             </h1>
-            <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-8 rounded-full"></div>
+            <div className="w-32 h-2 gradient-primary mx-auto mb-12 rounded-full shadow-2xl"></div>
           </div>
           
           <p className="text-xl md:text-2xl mb-8 text-primary max-w-3xl mx-auto leading-relaxed font-light">
@@ -80,11 +80,11 @@ export function HeroSection() {
           </p>
         </div>
         
-        {/* Contenitore trasparente per filtri */}
-        <div className="glass-card rounded-3xl p-10 max-w-5xl mx-auto mb-12 backdrop-blur-xl bg-white/40">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-end">
-            <div>
-              <label className="block text-sm font-bold text-primary mb-3">
+        {/* Modern Search Container */}
+        <div className="glass rounded-3xl p-12 max-w-6xl mx-auto mb-16 animate-slide-up">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-end">
+            <div className="lg:col-span-1">
+              <label className="block text-lg font-bold text-foreground mb-4">
                 Cerca Proprietà
               </label>
               <Input
@@ -92,19 +92,19 @@ export function HeroSection() {
                 placeholder="Cerca per titolo..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm text-gray-900 placeholder:text-gray-500"
+                className="w-full h-16 rounded-2xl glass-card text-foreground placeholder:text-foreground/60 text-lg"
               />
             </div>
             
-            <div>
-              <label className="block text-sm font-bold text-primary mb-3">
+            <div className="lg:col-span-1">
+              <label className="block text-lg font-bold text-primary mb-4">
                 Tipo di Contratto
               </label>
               <Select value={selectedType} onValueChange={setSelectedType}>
-                <SelectTrigger className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm text-gray-900">
+                <SelectTrigger className="w-full h-16 rounded-2xl glass-card text-foreground text-lg">
                   <SelectValue placeholder="Seleziona tipo" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="glass-card">
                   {PROPERTY_TYPES.map((type) => (
                     <SelectItem key={type.value} value={type.value}>
                       {type.label}
@@ -114,15 +114,15 @@ export function HeroSection() {
               </Select>
             </div>
             
-            <div>
-              <label className="block text-sm font-bold text-secondary mb-3">
+            <div className="lg:col-span-1">
+              <label className="block text-lg font-bold text-secondary mb-4">
                 Zona
               </label>
               <Select value={selectedMunicipality} onValueChange={setSelectedMunicipality}>
-                <SelectTrigger className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm text-gray-900">
+                <SelectTrigger className="w-full h-16 rounded-2xl glass-card text-foreground text-lg">
                   <SelectValue placeholder="Seleziona zona" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="glass-card">
                   {municipalities.map((municipality) => (
                     <SelectItem key={municipality} value={municipality}>
                       {municipality}
@@ -132,8 +132,8 @@ export function HeroSection() {
               </Select>
             </div>
             
-            <div>
-              <label className="block text-sm font-bold text-secondary mb-3">
+            <div className="lg:col-span-1">
+              <label className="block text-lg font-bold text-accent mb-4">
                 Prezzo Max
               </label>
               <Input
@@ -141,37 +141,37 @@ export function HeroSection() {
                 placeholder="€ Max"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
-                className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm text-gray-900 placeholder:text-gray-500"
+                className="w-full h-16 rounded-2xl glass-card text-foreground placeholder:text-foreground/60 text-lg"
               />
             </div>
             
-            <div>
+            <div className="lg:col-span-1">
               <Button 
                 onClick={handleSearch}
-                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-blue-500"
+                className="w-full h-16 gradient-primary text-white font-bold rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300 neon-glow text-lg"
               >
-                <Search className="mr-2 h-5 w-5" />
+                <Search className="mr-3 h-6 w-6" />
                 Cerca Ora
               </Button>
             </div>
           </div>
         </div>
         
-        {/* Contenitore trasparente per info */}
-        <div className="glass-card rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-lg bg-white/35">
-          <div className="flex justify-center items-center space-x-8 text-sm font-medium">
-            <span className="flex items-center text-primary">
-              <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
+        {/* Modern Info Stats */}
+        <div className="glass-card rounded-3xl p-8 max-w-5xl mx-auto animate-scale-in">
+          <div className="flex flex-wrap justify-center items-center gap-8 text-lg font-semibold">
+            <div className="flex items-center text-primary group hover:scale-105 transition-all duration-300">
+              <div className="w-4 h-4 gradient-accent rounded-full mr-3 group-hover:animate-pulse"></div>
               20+ Proprietà Disponibili
-            </span>
-            <span className="flex items-center text-secondary">
-              <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
+            </div>
+            <div className="flex items-center text-secondary group hover:scale-105 transition-all duration-300">
+              <div className="w-4 h-4 gradient-secondary rounded-full mr-3 group-hover:animate-pulse"></div>
               Tour Virtuali 360°
-            </span>
-            <span className="flex items-center text-primary">
-              <div className="w-2 h-2 bg-primary rounded-full mr-2"></div>
+            </div>
+            <div className="flex items-center text-foreground group hover:scale-105 transition-all duration-300">
+              <div className="w-4 h-4 gradient-primary rounded-full mr-3 group-hover:animate-pulse"></div>
               <strong>Geometra Antonio Cannavò</strong>
-            </span>
+            </div>
           </div>
         </div>
       </div>

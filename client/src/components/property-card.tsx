@@ -31,33 +31,33 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
   return (
     <Link href={`/property/${property.id}`} className="block">
-      <Card className="property-card bg-white rounded-3xl shadow-xl overflow-hidden cursor-pointer group border-0 h-[400px] flex flex-col hover:shadow-2xl transition-all duration-300">
-        <div className="relative h-64 overflow-hidden flex-shrink-0">
+      <Card className="glass-card rounded-3xl overflow-hidden cursor-pointer group border-0 h-[500px] flex flex-col hover:scale-105 transition-all duration-500 mirror-reflection">
+        <div className="relative h-80 overflow-hidden flex-shrink-0">
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
             style={{ backgroundImage: `url('${property.images[0]}')` }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
           
-          <div className="absolute top-4 left-4">
-            <Badge className={`badge-${property.type.replace('_', '-')} px-3 py-1 text-xs font-semibold rounded-full`}>
+          <div className="absolute top-6 left-6">
+            <Badge className={`badge-${property.type.replace('_', '-')} px-4 py-2 text-sm font-bold rounded-2xl shadow-2xl`}>
               {getTypeLabel(property.type)}
             </Badge>
           </div>
           
-          <div className="absolute top-4 right-4">
-            <Button variant="ghost" size="sm" className="bg-white/20 backdrop-blur-sm text-white p-2 rounded-full hover:bg-white/30 border border-white/20">
-              <Heart className="h-4 w-4" />
+          <div className="absolute top-6 right-6">
+            <Button variant="ghost" size="sm" className="glass-card text-white p-3 rounded-2xl hover:scale-110 border border-white/20 transition-all duration-300">
+              <Heart className="h-5 w-5" />
             </Button>
           </div>
           
-          <div className="absolute bottom-4 left-4 right-4">
+          <div className="absolute bottom-6 left-6 right-6">
             <div className="flex justify-between items-end">
-              <Badge variant="secondary" className="bg-black/60 backdrop-blur-sm text-white border-0">
-                <Images className="h-3 w-3 mr-1" />
+              <Badge variant="secondary" className="glass text-white border-0 px-4 py-2 rounded-xl">
+                <Images className="h-4 w-4 mr-2" />
                 {property.images.length} foto
               </Badge>
-              <span className="text-3xl font-bold text-white drop-shadow-lg">
+              <span className="text-4xl font-bold text-white drop-shadow-2xl neon-text">
                 {formatPrice(property.price, property.type, property.priceType || undefined)}
               </span>
             </div>
@@ -66,27 +66,27 @@ export function PropertyCard({ property }: PropertyCardProps) {
         
         <CardContent className="p-8 flex flex-col justify-between flex-grow">
           <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-4 line-clamp-2 group-hover:text-purple-600 transition-colors min-h-[3.5rem]">
+            <h3 className="text-2xl font-bold text-foreground mb-4 line-clamp-2 group-hover:text-primary transition-colors min-h-[4rem]">
               {property.title}
             </h3>
-            <p className="text-gray-600 flex items-center text-sm mb-6">
-              <MapPin className="h-4 w-4 mr-2 text-purple-500 flex-shrink-0" />
+            <p className="text-foreground/80 flex items-center text-lg mb-6">
+              <MapPin className="h-5 w-5 mr-3 text-primary flex-shrink-0" />
               <span className="truncate">{property.location}</span>
             </p>
           </div>
           
           <div className="flex items-center justify-center">
-            <div className="flex items-center space-x-6 text-sm text-gray-600">
-              <span className="flex items-center bg-gray-100 px-4 py-3 rounded-lg">
-                <Bed className="h-5 w-5 mr-2 text-purple-500" />
+            <div className="flex items-center space-x-4 text-lg text-foreground/80">
+              <span className="flex items-center glass-card px-4 py-3 rounded-2xl group-hover:scale-105 transition-all duration-300">
+                <Bed className="h-6 w-6 mr-2 text-primary" />
                 {property.bedrooms}
               </span>
-              <span className="flex items-center bg-gray-100 px-4 py-3 rounded-lg">
-                <Bath className="h-5 w-5 mr-2 text-blue-500" />
+              <span className="flex items-center glass-card px-4 py-3 rounded-2xl group-hover:scale-105 transition-all duration-300">
+                <Bath className="h-6 w-6 mr-2 text-secondary" />
                 {property.bathrooms}
               </span>
-              <span className="flex items-center bg-gray-100 px-4 py-3 rounded-lg">
-                <Square className="h-5 w-5 mr-2 text-green-500" />
+              <span className="flex items-center glass-card px-4 py-3 rounded-2xl group-hover:scale-105 transition-all duration-300">
+                <Square className="h-6 w-6 mr-2 text-accent" />
                 {property.area} mq
               </span>
             </div>
