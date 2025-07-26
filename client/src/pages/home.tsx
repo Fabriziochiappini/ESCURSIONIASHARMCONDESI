@@ -75,7 +75,7 @@ export default function Home() {
         <section className="py-20 bg-gray-50">
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-20 animate-fade-in">
-              <h2 className="text-6xl lg:text-7xl font-bold mb-6 neon-text">
+              <h2 className="text-6xl lg:text-7xl font-bold mb-6 text-primary">
                 I Nostri Servizi
               </h2>
               <p className="text-2xl text-foreground/80 max-w-4xl mx-auto leading-relaxed">
