@@ -126,7 +126,7 @@ export function ComplexSituations() {
         </div>
 
         <div className="text-center mt-16 animate-fade-in">
-          <button className="bg-primary hover:bg-primary/90 text-white px-12 py-4 font-bold text-lg rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl">
+          <button className="bg-green-600 hover:bg-green-700 text-white px-12 py-4 font-bold text-lg rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl">
             CONSULENZA GRATUITA IMMEDIATA
           </button>
           <p className="mt-4 text-gray-600">
