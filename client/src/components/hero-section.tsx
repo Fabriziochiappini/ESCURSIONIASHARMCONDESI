@@ -9,17 +9,17 @@ export function HeroSection() {
         }}
       />
       
-      {/* Elegant Overlay - più leggero come Michelangelo */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/60 to-white/40"></div>
+      {/* Elegant Overlay - blu scuro più moderno */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-slate-800/75 to-slate-700/65"></div>
       
       <div className="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
         {/* Clean Modern Container */}
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 lg:p-12 shadow-xl border">
-          <h1 className="text-4xl lg:text-6xl font-light mb-4 leading-tight text-gray-900">
+          <h1 className="text-4xl lg:text-6xl font-light mb-4 leading-tight text-slate-900">
             Trova la tua casa
           </h1>
           <div className="w-24 h-1 bg-primary mx-auto mb-6 rounded-full"></div>
-          <p className="text-xl text-gray-700 leading-relaxed">
+          <p className="text-xl text-slate-700 leading-relaxed">
             Agenzia immobiliare Acireale e Catania
           </p>
         </div>
