@@ -8,6 +8,7 @@ import { SpecializedServices } from "@/components/specialized-services";
 
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { PropertySearchFilter } from "@/components/property-search-filter";
 import type { SearchFilters } from "@shared/schema";
 
 export default function Home() {
@@ -53,12 +54,15 @@ export default function Home() {
               <h2 className="text-4xl lg:text-5xl font-light mb-4 text-white">
                 {hasFilters ? "Risultati Ricerca" : "Proprietà in Evidenza"}
               </h2>
-              <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed mb-12">
                 {hasFilters 
                   ? "Proprietà che corrispondono ai tuoi criteri di ricerca"
                   : "Scopri le migliori proprietà disponibili ad Acireale e nei comuni limitrofi"
                 }
               </p>
+
+              {/* Search Filter in Properties Section */}
+              <PropertySearchFilter />
             </div>
 
             <div className="animate-slide-up">
