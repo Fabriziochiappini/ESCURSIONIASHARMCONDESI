@@ -34,7 +34,7 @@ export function Navigation() {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link href="/chi-siamo" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
-              Chi Siamo
+              Contatti
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link href="/admin" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
@@ -71,7 +71,7 @@ export function Navigation() {
                 Servizi
               </Link>
               <Link href="/chi-siamo" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
-                Chi Siamo
+                Contatti
               </Link>
               <Link href="/admin" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
                 Admin
