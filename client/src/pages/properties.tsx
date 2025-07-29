@@ -57,14 +57,14 @@ export default function Properties() {
     
     const searchFromUrl = urlParams.get('search');
     const typeFromUrl = urlParams.get('type');
+    const propertyTypeFromUrl = urlParams.get('propertyType');
     const municipalityFromUrl = urlParams.get('municipality');
     const maxPriceFromUrl = urlParams.get('maxPrice');
     const bedroomsFromUrl = urlParams.get('bedrooms');
     
-    // Debug logging removed
-    
     if (searchFromUrl) setSearchTerm(searchFromUrl);
     if (typeFromUrl) setSelectedType(typeFromUrl);
+    if (propertyTypeFromUrl) setSelectedCategory(propertyTypeFromUrl);
     if (municipalityFromUrl) setSelectedMunicipality(municipalityFromUrl);
     if (maxPriceFromUrl) setMaxPrice(maxPriceFromUrl);
     if (bedroomsFromUrl) setBedrooms(bedroomsFromUrl);
