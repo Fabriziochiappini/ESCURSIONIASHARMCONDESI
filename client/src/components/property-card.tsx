@@ -31,8 +31,8 @@ export function PropertyCard({ property }: PropertyCardProps) {
 
   return (
     <Link href={`/property/${property.id}`} className="block">
-      <Card className="bg-white rounded-xl overflow-hidden cursor-pointer group border shadow-lg hover:shadow-xl transition-all duration-300 h-[450px] flex flex-col">
-        <div className="relative h-64 overflow-hidden flex-shrink-0">
+      <Card className="bg-white rounded-xl overflow-hidden cursor-pointer group border shadow-lg hover:shadow-xl transition-all duration-300 h-[420px] sm:h-[450px] flex flex-col">
+        <div className="relative h-48 sm:h-64 overflow-hidden flex-shrink-0">
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
             style={{ backgroundImage: `url('${property.images[0]}')` }}
@@ -57,37 +57,37 @@ export function PropertyCard({ property }: PropertyCardProps) {
                 <Images className="h-3 w-3 mr-1" />
                 {property.images.length} foto
               </Badge>
-              <span className="text-2xl font-bold text-white drop-shadow-lg">
+              <span className="text-lg sm:text-2xl font-bold text-white drop-shadow-lg">
                 {formatPrice(property.price, property.type, property.priceType || undefined)}
               </span>
             </div>
           </div>
         </div>
         
-        <CardContent className="p-6 flex flex-col justify-between flex-grow">
-          <div className="mb-4">
-            <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-primary transition-colors min-h-[3rem]">
+        <CardContent className="p-4 sm:p-6 flex flex-col justify-between flex-grow">
+          <div className="mb-3">
+            <h3 className="text-sm sm:text-lg font-bold text-gray-900 mb-2 sm:mb-3 line-clamp-2 group-hover:text-primary transition-colors min-h-[2.5rem] sm:min-h-[3rem]">
               {property.title}
             </h3>
-            <p className="text-gray-600 flex items-center text-sm mb-4">
-              <MapPin className="h-4 w-4 mr-2 text-primary flex-shrink-0" />
+            <p className="text-gray-600 flex items-center text-xs sm:text-sm mb-3 sm:mb-4">
+              <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-primary flex-shrink-0" />
               <span className="truncate">{property.location}</span>
             </p>
           </div>
           
           <div className="flex items-center justify-center">
-            <div className="flex items-center space-x-4 text-sm text-gray-600">
-              <span className="flex items-center bg-gray-50 px-3 py-2 rounded-lg">
-                <Bed className="h-4 w-4 mr-2 text-primary" />
+            <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm text-gray-600">
+              <span className="flex items-center bg-gray-50 px-2 sm:px-3 py-1 sm:py-2 rounded-lg">
+                <Bed className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-primary" />
                 {property.bedrooms}
               </span>
-              <span className="flex items-center bg-gray-50 px-3 py-2 rounded-lg">
-                <Bath className="h-4 w-4 mr-2 text-secondary" />
+              <span className="flex items-center bg-gray-50 px-2 sm:px-3 py-1 sm:py-2 rounded-lg">
+                <Bath className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-secondary" />
                 {property.bathrooms}
               </span>
-              <span className="flex items-center bg-gray-50 px-3 py-2 rounded-lg">
-                <Square className="h-4 w-4 mr-2 text-orange-500" />
-                {property.area} mq
+              <span className="flex items-center bg-gray-50 px-2 sm:px-3 py-1 sm:py-2 rounded-lg">
+                <Square className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-orange-500" />
+                {property.area}
               </span>
             </div>
           </div>
