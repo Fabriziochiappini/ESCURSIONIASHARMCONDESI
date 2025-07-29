@@ -17,8 +17,8 @@ export function HeroSection() {
       <div className="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
         {/* Clean Modern Container */}
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 lg:p-12 shadow-xl border">
-          {/* Logo sopra il titolo */}
-          <div className="mb-8">
+          {/* Logo principale */}
+          <div className="mb-6">
             <img 
               src={logoAgenziaUrl} 
               alt="AGENZIA 2 Servizi Immobiliari" 
@@ -26,13 +26,10 @@ export function HeroSection() {
             />
           </div>
           
-          <h1 className="text-4xl lg:text-6xl font-light mb-4 leading-tight text-slate-900">
+          {/* Sottotitolo al logo */}
+          <h1 className="text-2xl lg:text-3xl font-light text-slate-700 leading-tight">
             Trova la tua casa
           </h1>
-          <div className="w-24 h-1 bg-primary mx-auto mb-6 rounded-full"></div>
-          <p className="text-xl text-slate-700 leading-relaxed">
-            Agenzia immobiliare Acireale e Catania
-          </p>
         </div>
       </div>
     </section>
