@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "wouter";
 import { PropertyCard } from "./property-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -13,12 +14,12 @@ interface PropertyGridProps {
 
 export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: PropertyGridProps) {
   const [location] = useLocation();
-  
+
   const { data: allProperties, isLoading, error } = useQuery<Property[]>({
     queryKey: filters ? ['/api/properties/search', filters] : ['/api/properties/featured'],
     queryFn: async () => {
       let url = filters ? '/api/properties/search' : '/api/properties/featured';
-      
+
       if (filters) {
         const searchParams = new URLSearchParams();
         Object.entries(filters).forEach(([key, value]) => {
@@ -30,7 +31,7 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
           url += `?${searchParams.toString()}`;
         }
       }
-      
+
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Failed to fetch properties');

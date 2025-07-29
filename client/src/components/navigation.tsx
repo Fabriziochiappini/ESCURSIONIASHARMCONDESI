@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import logoAgenziaUrl from "@assets/logo_agenzia_22-removebg-preview_1753804298069.png";
 
@@ -25,26 +25,10 @@ export function Navigation() {
               Home
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <div className="relative group">
-              <button className="text-gray-700 hover:text-primary font-medium transition-all duration-300 flex items-center space-x-1">
-                <span>Proprietà</span>
-                <ChevronDown className="h-4 w-4 group-hover:rotate-180 transition-transform duration-300" />
-              </button>
-              <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                <Link href="/properties" className="block px-4 py-3 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition-all duration-200">
-                  Tutte le Proprietà
-                </Link>
-                <Link href="/properties?type=vendita" className="block px-4 py-3 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition-all duration-200">
-                  In Vendita
-                </Link>
-                <Link href="/properties?type=affitto" className="block px-4 py-3 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition-all duration-200">
-                  In Affitto
-                </Link>
-                <Link href="/properties?type=casa_vacanza" className="block px-4 py-3 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition-all duration-200">
-                  Case Vacanza
-                </Link>
-              </div>
-            </div>
+            <Link href="/properties" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+              Proprietà
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+            </Link>
             <Link href="/chi-siamo" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
               Chi Siamo
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
