@@ -101,12 +101,11 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
 
       {!showAll && !filters && (
         <div className="text-center">
-          <Button 
-            onClick={() => window.location.href = '/proprieta'}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
-          >
-            Vedi Tutte le Proprietà
-          </Button>
+          <Link href="/properties">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
+              Vedi Tutte le Proprietà
+            </Button>
+          </Link>
         </div>
       )}
     </div>
