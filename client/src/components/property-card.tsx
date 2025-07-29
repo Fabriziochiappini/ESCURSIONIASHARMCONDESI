@@ -65,8 +65,8 @@ export function PropertyCard({ property }: PropertyCardProps) {
         </div>
         
         <CardContent className="p-3 sm:p-4">
-          <h3 className="text-sm sm:text-base font-bold text-gray-900 mb-1 sm:mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-            {property.title}
+          <h3 className="text-sm sm:text-base font-bold text-gray-900 mb-1 sm:mb-2 line-clamp-2 group-hover:text-primary transition-colors h-8 sm:h-10 flex items-start">
+            <span className="line-clamp-2">{property.title}</span>
           </h3>
           <p className="text-gray-600 flex items-center text-xs mb-2 sm:mb-3">
             <MapPin className="h-3 w-3 mr-1 text-primary flex-shrink-0" />
