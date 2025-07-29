@@ -1,9 +1,10 @@
+import { Home, Phone, Mail, Clock, MessageCircle, Shield, Award, Users, Building } from "lucide-react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { SEOHead } from "@/components/seo-head";
 import { Button } from "@/components/ui/button";
-import { FileText, Scale, Home, CreditCard, CheckCircle, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { FileText, Scale, Home as HomeIcon, CreditCard, CheckCircle, MapPin, Phone as PhoneIcon, Mail as MailIcon, Clock as ClockIcon } from "lucide-react";
 
 const services = [
   {
@@ -34,7 +35,7 @@ const services = [
   },
   {
     category: "Compravendita Immobili",
-    icon: <Home className="h-8 w-8 text-white" />,
+    icon: <HomeIcon className="h-8 w-8 text-white" />,
     description: "Servizi completi per ogni tipologia di proprietà",
     color: "bg-accent text-white",
     items: [
@@ -68,14 +69,23 @@ const contactInfo = {
 export default function Services() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
+      <SEOHead
+        title="Agenzia 2 Acireale - Servizi Immobiliari Professionali"
+        description="Scopri i nostri servizi immobiliari completi ad Acireale: perizie, valutazioni, assistenza legale, compravendita e servizi finanziari. Contattaci per una consulenza personalizzata."
+        keywords="servizi immobiliari, acireale, perizie, valutazioni, assistenza legale, compravendita, mutui, agenzia immobiliare"
+        ogTitle="Agenzia 2 Acireale - Servizi Immobiliari Professionali"
+        ogDescription="Scopri i nostri servizi immobiliari completi ad Acireale: perizie, valutazioni, assistenza legale, compravendita e servizi finanziari. Contattaci per una consulenza personalizzata."
+        ogUrl="https://agenzia2acireale.com/servizi"
+        ogType="website"
+      />
       <Navigation />
-      
+
       {/* Hero Section */}
       <section className="relative py-20 px-4 bg-gradient-to-br from-primary to-primary/80">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-secondary/20"></div>
         <div className="relative max-w-6xl mx-auto text-center">
           <div className="inline-flex items-center px-4 py-2 bg-white/20 text-white rounded-full text-sm font-medium mb-6">
-            <Home className="h-4 w-4 mr-2 text-white" />
+            <HomeIcon className="h-4 w-4 mr-2 text-white" />
             Servizi Professionali Immobiliari
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
@@ -87,11 +97,11 @@ export default function Services() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="group bg-white text-primary hover:bg-white/90">
-              <Phone className="h-5 w-5 mr-2 group-hover:animate-pulse text-primary" />
+              <PhoneIcon className="h-5 w-5 mr-2 group-hover:animate-pulse text-primary" />
               Chiamaci Ora
             </Button>
             <Button size="lg" className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary">
-              <Mail className="h-5 w-5 mr-2" />
+              <MailIcon className="h-5 w-5 mr-2" />
               Contattaci
             </Button>
           </div>

@@ -1,15 +1,22 @@
-import { Building2, Users, Award, MapPin, Phone, Mail, MessageCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "wouter";
+import { MessageCircle, Phone, Mail, MapPin, Clock, Award, Users, Shield, Home } from "lucide-react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { SEOHead } from "@/components/seo-head";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link } from "wouter";
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
+      <SEOHead 
+        title="Contatti AGENZIA 2 Acireale | Geometra Antonio Cannavò - 30 Anni di Esperienza"
+        description="📞 Contatta AGENZIA 2 Servizi Immobiliari ad Acireale. Geometra Antonio Cannavò - 30 anni di esperienza nel settore immobiliare. Tel: 346 800 3234"
+        keywords="contatti agenzia immobiliare Acireale, geometra Antonio Cannavò, telefono agenzia immobiliare Acireale, dove siamo Acireale"
+        canonicalUrl="https://agenzia2acireale.com/contatti"
+      />
       <Navigation />
-      
+
       <main className="pt-20">
         {/* Hero Section */}
         <section className="py-20 bg-gradient-to-br from-primary to-primary/80 text-white">
@@ -62,7 +69,7 @@ export default function About() {
                       <span className="text-gray-700">antoniocannavo@msn.com</span>
                     </div>
                   </div>
-                  
+
                   {/* Pulsanti di contatto */}
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button 
@@ -120,7 +127,7 @@ export default function About() {
                 Principi che guidano ogni nostra azione nel servizio ai clienti
               </p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card className="text-center glass-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                 <CardContent className="p-8">
@@ -178,7 +185,7 @@ export default function About() {
                 Professionisti esperti al vostro servizio
               </p>
             </div>
-            
+
             <div className="flex justify-center">
               <Card className="text-center glass-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 max-w-sm">
                 <CardContent className="p-8">
@@ -235,7 +242,7 @@ export default function About() {
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </div>
   );

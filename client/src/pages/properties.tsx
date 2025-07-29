@@ -12,6 +12,7 @@ import { Link } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import type { Property } from "@shared/schema";
+import { SEOHead } from "@/components/seo-head";
 
 // Municipalities now loaded dynamically from API
 
@@ -50,18 +51,18 @@ export default function Properties() {
 
   // Initialize filters from URL parameters
   const [location] = useLocation();
-  
+
   // Set initial values from URL on component mount
   React.useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    
+
     const searchFromUrl = urlParams.get('search');
     const typeFromUrl = urlParams.get('type');
     const propertyTypeFromUrl = urlParams.get('propertyType');
     const municipalityFromUrl = urlParams.get('municipality');
     const maxPriceFromUrl = urlParams.get('maxPrice');
     const bedroomsFromUrl = urlParams.get('bedrooms');
-    
+
     if (searchFromUrl) setSearchTerm(searchFromUrl);
     if (typeFromUrl) setSelectedType(typeFromUrl);
     if (propertyTypeFromUrl) setSelectedCategory(propertyTypeFromUrl);
@@ -82,7 +83,7 @@ export default function Properties() {
     }],
     queryFn: async () => {
       const params = new URLSearchParams();
-      
+
       if (searchTerm) params.set('search', searchTerm);
       if (selectedType !== "all") params.set('type', selectedType);
       if (selectedCategory !== "all") params.set('propertyType', selectedCategory);
@@ -90,14 +91,14 @@ export default function Properties() {
       if (minPrice) params.set('minPrice', minPrice);
       if (maxPrice) params.set('maxPrice', maxPrice);
       if (bedrooms !== "all") params.set('bedrooms', bedrooms);
-      
+
       const url = params.toString() ? `/api/properties/search?${params.toString()}` : '/api/properties';
       const response = await fetch(url);
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch properties');
       }
-      
+
       return response.json();
     }
   });
@@ -133,8 +134,14 @@ export default function Properties() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead 
+        title="Proprietà in Vendita e Affitto ad Acireale | AGENZIA 2 Immobiliare"
+        description="🏡 Scopri tutte le proprietà disponibili ad Acireale: case in vendita, appartamenti in affitto, case vacanza. AGENZIA 2 - la tua scelta migliore per l'immobiliare."
+        keywords="case vendita Acireale, appartamenti affitto Acireale, immobili Acireale, proprietà Sicilia orientale, case Catania"
+        canonicalUrl="https://agenzia2acireale.com/properties"
+      />
       <Navigation />
-      
+
       <main className="pt-28">
         {/* Hero Section */}
         <section className="py-20 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
@@ -170,7 +177,7 @@ export default function Properties() {
                     className="pl-10"
                   />
                 </div>
-                
+
                 <Select value={selectedType} onValueChange={setSelectedType}>
                   <SelectTrigger>
                     <SelectValue placeholder="Tipo" />
@@ -287,7 +294,7 @@ export default function Properties() {
                   {properties.length} Proprietà Trovate
                 </h2>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {properties.map((property) => (
                   <Link href={`/property/${property.id}`} key={property.id}>
@@ -311,21 +318,21 @@ export default function Properties() {
                         </div>
                       )}
                     </div>
-                    
+
                     <CardContent className="p-6">
                       <div className="flex items-center text-sm text-gray-600 mb-2">
                         <MapPin className="h-4 w-4 mr-1" />
                         {property.location}
                       </div>
-                      
+
                       <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
                         {property.title}
                       </h3>
-                      
+
                       <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                         {property.description}
                       </p>
-                      
+
                       <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
                         <div className="flex items-center space-x-4">
                           <div className="flex items-center">
@@ -342,7 +349,7 @@ export default function Properties() {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="text-2xl font-bold text-purple-600">
                         {formatPrice(property.price, property.type, property.priceType)}
                       </div>
@@ -356,7 +363,7 @@ export default function Properties() {
         </div>
       </section>
       </main>
-      
+
       <Footer />
     </div>
   );

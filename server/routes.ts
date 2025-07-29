@@ -183,6 +183,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Dynamic sitemap.xml
+  app.get("/sitemap.xml", async (req, res) => {
+    try {
+      const baseUrl = "https://agenzia2acireale.com";
+      const properties = await storage.getAllProperties();
+      
+      let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${baseUrl}/</loc>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/servizi</loc>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/contatti</loc>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/properties</loc>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>`;
+
+      // Add each property to sitemap
+      properties.forEach(property => {
+        sitemap += `
+  <url>
+    <loc>${baseUrl}/property/${property.id}</loc>
+    <lastmod>${new Date(property.createdAt || new Date()).toISOString().split('T')[0]}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>`;
+      });
+
+      sitemap += `
+</urlset>`;
+
+      res.set('Content-Type', 'text/xml');
+      res.send(sitemap);
+    } catch (error) {
+      console.error("Error generating sitemap:", error);
+      res.status(500).send("Error generating sitemap");
+    }
+  });
+
   // Serve uploaded images
   app.use('/uploads', express.static('uploads'));
 

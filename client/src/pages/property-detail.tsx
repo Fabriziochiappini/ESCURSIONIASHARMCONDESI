@@ -1,30 +1,33 @@
-import { useParams, Link } from "wouter";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "wouter";
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { SEOHead } from "@/components/seo-head";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { PhotoGallery } from "@/components/PhotoGallery";
+import type { Property } from "@shared/schema";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Navigation } from "@/components/navigation";
-import { Footer } from "@/components/footer";
 import { 
   ArrowLeft, MapPin, Bed, Bath, Square, Images, 
   CheckCircle, Phone, Mail, Heart
 } from "lucide-react";
-import type { Property } from "@shared/schema";
 import { formatPrice } from "@/lib/types";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { PhotoGallery } from "@/components/PhotoGallery";
 
 export default function PropertyDetail() {
   const params = useParams();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const propertyId = parseInt(params.id as string);
-  
+
   const [contactForm, setContactForm] = useState({
     name: "",
     email: "",
@@ -105,53 +108,56 @@ export default function PropertyDetail() {
     );
   }
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Navigation />
-        <div className="pt-20">
-          {/* Loading skeleton */}
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <Skeleton className="h-8 w-32 mb-6" />
-            <Skeleton className="h-10 w-3/4 mb-4" />
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              <Skeleton className="col-span-2 h-96" />
-              <Skeleton className="h-48" />
-              <Skeleton className="h-48" />
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <Skeleton className="h-6 w-full" />
-                <Skeleton className="h-6 w-3/4" />
-                <Skeleton className="h-32 w-full" />
-              </div>
-              <Skeleton className="h-64" />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (isLoading) return <div>Caricamento...</div>;
+  if (error) return <div>Errore nel caricamento della proprietà</div>;
+  if (!property) return <div>Proprietà non trovata</div>;
 
-  if (error || !property) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Navigation />
-        <div className="pt-20 flex items-center justify-center min-h-screen">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Proprietà non trovata</h1>
-            <p className="text-gray-600 mb-6">La proprietà che stai cercando non esiste o non è più disponibile.</p>
-            <Link href="/">
-              <Button>Torna alle proprietà</Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    "name": property.title,
+    "description": property.description,
+    "url": `https://agenzia2acireale.com/property/${property.id}`,
+    "image": property.images?.[0]?.url ? `https://agenzia2acireale.com${property.images[0].url}` : undefined,
+    "price": property.price,
+    "priceCurrency": "EUR",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": property.municipality,
+      "addressRegion": "Sicilia",
+      "addressCountry": "IT"
+    },
+    "floorSize": {
+      "@type": "QuantitativeValue",
+      "value": property.size,
+      "unitCode": "MTK"
+    },
+    "numberOfRooms": property.rooms,
+    "numberOfBathroomsTotal": property.bathrooms,
+    "yearBuilt": property.yearBuilt,
+    "offers": {
+      "@type": "Offer",
+      "price": property.price,
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "RealEstateAgent",
+        "name": "AGENZIA 2 Servizi Immobiliari"
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead 
+        title={`${property.title} - ${property.municipality} | AGENZIA 2 Acireale`}
+        description={`${property.type === 'vendita' ? '🏠 Casa in vendita' : property.type === 'affitto' ? '🏠 Casa in affitto' : '🏖️ Casa vacanza'} a ${property.municipality}. ${property.rooms} locali, ${property.area}mq. Prezzo: €${property.price?.toLocaleString()}. ${property.description?.slice(0, 100)}...`}
+        keywords={`${property.title}, casa ${property.type} ${property.municipality}, immobile ${property.municipality}, ${property.rooms} locali ${property.municipality}, AGENZIA 2 Acireale`}
+        canonicalUrl={`https://agenzia2acireale.com/property/${property.id}`}
+        ogImage={property.images?.[0]?.url ? `https://agenzia2acireale.com${property.images[0].url}` : undefined}
+        type="article"
+        structuredData={structuredData}
+      />
       <Navigation />
       <main className="pt-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -244,7 +250,7 @@ export default function PropertyDetail() {
                       <p className="text-gray-600">Scopri ogni dettaglio della proprietà</p>
                     </div>
                   </div>
-                  
+
                   <div className="aspect-video bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
                     <iframe 
                       className="w-full h-full"
@@ -255,7 +261,7 @@ export default function PropertyDetail() {
                       allowFullScreen
                     />
                   </div>
-                  
+
                   <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
                     <div className="flex items-center">
                       <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
@@ -279,7 +285,7 @@ export default function PropertyDetail() {
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">Richiedi Informazioni</h3>
                   <p className="text-gray-600">Il nostro agente ti contatterà entro 24 ore</p>
                 </div>
-                
+
                 <div className="flex items-center p-6 bg-gradient-to-r from-purple-50 to-blue-50 rounded-2xl mb-8">
                   {property.agentImage && (
                     <img 
@@ -300,7 +306,7 @@ export default function PropertyDetail() {
                     </div>
                   </div>
                 </div>
-                
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Input
@@ -318,7 +324,7 @@ export default function PropertyDetail() {
                       className="h-12 rounded-xl border-gray-200"
                     />
                   </div>
-                  
+
                   <Input
                     type="email"
                     placeholder="Indirizzo Email"
@@ -327,7 +333,7 @@ export default function PropertyDetail() {
                     className="h-12 rounded-xl border-gray-200"
                     required
                   />
-                  
+
                   <Textarea
                     placeholder="Ciao! Sono interessato a questa proprietà. Potreste inviarmi maggiori informazioni?"
                     rows={4}
@@ -336,7 +342,7 @@ export default function PropertyDetail() {
                     className="rounded-xl border-gray-200 resize-none"
                     required
                   />
-                  
+
                   <Button 
                     type="submit" 
                     className="w-full h-12 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
@@ -352,7 +358,7 @@ export default function PropertyDetail() {
                     )}
                   </Button>
                 </form>
-                
+
                 <div className="mt-8 pt-6 border-t border-gray-200">
                   <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
                     <div className="flex items-center space-x-6">

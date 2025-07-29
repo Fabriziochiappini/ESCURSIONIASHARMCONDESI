@@ -10,6 +10,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { PropertySearchFilter } from "@/components/property-search-filter";
 import type { SearchFilters } from "@shared/schema";
+import { SEOHead } from "@/components/seo-head";
 
 export default function Home() {
   const [location] = useLocation();
@@ -42,11 +43,17 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        title="AGENZIA 2 Servizi Immobiliari - Acireale | Case in Vendita e Affitto"
+        description="🏠 Trova la casa dei tuoi sogni ad Acireale! AGENZIA 2 offre vendita, affitto e case vacanza. Geometra Antonio Cannavò - 30 anni di esperienza nel settore immobiliare siciliano."
+        keywords="agenzia immobiliare Acireale, case vendita Acireale, appartamenti affitto Acireale, case vacanza Sicilia, immobili Catania, geometra Antonio Cannavò"
+        canonicalUrl="https://agenzia2acireale.com/"
+      />
       <Navigation />
       <main className="relative">
         <HeroSection />
         <ComplexSituations />
-        
+
         <section id="properties" className="py-20 dark-section relative overflow-hidden">
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Proprietà a tutta larghezza */}
@@ -101,7 +108,7 @@ export default function Home() {
                   </li>
                 </ul>
               </div>
-              
+
               <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500 flex flex-col h-full">
                 <div className="w-16 h-16 rounded-2xl gradient-secondary flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
                   <span className="text-2xl">📋</span>
@@ -122,7 +129,7 @@ export default function Home() {
                   </li>
                 </ul>
               </div>
-              
+
               <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500 flex flex-col h-full">
                 <div className="w-16 h-16 rounded-2xl gradient-accent flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
                   <span className="text-2xl">⚖️</span>
@@ -143,7 +150,7 @@ export default function Home() {
                   </li>
                 </ul>
               </div>
-              
+
               <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500 flex flex-col h-full">
                 <div className="w-16 h-16 rounded-2xl gradient-primary flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
                   <span className="text-2xl">💰</span>

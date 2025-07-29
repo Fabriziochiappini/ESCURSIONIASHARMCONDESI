@@ -1,0 +1,15 @@
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://agenzia2acireale.com/sitemap.xml
+
+# Disallow admin pages
+Disallow: /admin
+
+# Allow all other pages
+Allow: /
+Allow: /servizi
+Allow: /contatti
+Allow: /properties
