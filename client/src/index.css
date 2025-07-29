@@ -69,6 +69,17 @@ body {
   box-shadow: 0 35px 60px rgba(0, 0, 0, 0.4);
 }
 
+/* Image Gallery Styles */
+.image-gallery-main {
+  min-height: 400px;
+  height: 400px;
+}
+
+.image-gallery-thumb {
+  min-height: 192px;
+  height: 192px;
+}
+
 /* Neon Effects */
 .neon-glow {
   box-shadow: 
