@@ -11,7 +11,7 @@ export function Footer() {
               AGENZIA 2 Servizi Immobiliari
             </div>
             <p className="text-gray-300 mb-2 max-w-md">
-              <span className="text-primary font-medium">Geometra Antonio Cannavò</span>
+              <span className="text-white font-medium">Geometra Antonio Cannavò</span>
             </p>
             <p className="text-gray-300 mb-6 max-w-md">
               La tua agenzia immobiliare di fiducia ad Acireale. Esperienza, professionalità e competenza tecnica 
