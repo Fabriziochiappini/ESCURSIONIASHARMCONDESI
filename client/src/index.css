@@ -3,20 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --primary: hsl(210, 100%, 45%);
-  --secondary: hsl(220, 90%, 50%);
-  --accent: hsl(45, 100%, 50%);
+  /* Professional Real Estate Brand Colors */
+  --primary: hsl(214, 57%, 26%);      /* Blu Navy #1e3a5f */
+  --secondary: hsl(210, 29%, 24%);    /* Grigio Antracite #2c3e50 */
+  --accent: hsl(43, 74%, 49%);        /* Oro Champagne #d4af37 */
+  --growth: hsl(82, 25%, 52%);        /* Verde Salvia #87a96b */
+  --balance: hsl(210, 17%, 98%);      /* Grigio Chiaro #f8f9fa */
+  
   --destructive: hsl(0, 84%, 60%);
-  --muted: hsl(220, 13%, 91%);
-  --muted-foreground: hsl(220, 8%, 46%);
+  --muted: hsl(210, 17%, 98%);        /* Balance color */
+  --muted-foreground: hsl(210, 29%, 24%);
   --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(220, 8%, 15%);
+  --popover-foreground: hsl(214, 57%, 26%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(220, 8%, 15%);
-  --border: hsl(220, 13%, 91%);
-  --input: hsl(220, 13%, 91%);
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(220, 8%, 15%);
+  --card-foreground: hsl(214, 57%, 26%);
+  --border: hsl(210, 17%, 95%);
+  --input: hsl(210, 17%, 95%);
+  --background: hsl(0, 0%, 100%);      /* Bianco Puro */
+  --foreground: hsl(214, 57%, 26%);
   --radius: 1rem;
 }
 

@@ -37,6 +37,12 @@ export default {
           DEFAULT: "var(--accent)",
           foreground: "var(--accent-foreground)",
         },
+        growth: {
+          DEFAULT: "var(--growth)",
+        },
+        balance: {
+          DEFAULT: "var(--balance)",
+        },
         destructive: {
           DEFAULT: "var(--destructive)",
           foreground: "var(--destructive-foreground)",

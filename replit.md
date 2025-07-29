@@ -113,6 +113,15 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
+- July 29, 2025: Implementata palette colori brand professionale per agenzia immobiliare di alto livello
+  * Primary: Blu Navy (#1e3a5f) - 40% dell'uso per trasmettere autorità e fiducia
+  * Secondary: Grigio Antracite (#2c3e50) - 30% dell'uso per competenza professionale
+  * Background: Bianco Puro (#ffffff) - 20% dell'uso per pulizia e modernità
+  * Luxury: Oro Champagne (#d4af37) - 5% dell'uso per accenti di lusso
+  * Growth: Verde Salvia (#87a96b) - 3% dell'uso per pulsanti call-to-action
+  * Balance: Grigio Chiaro (#f8f9fa) - 2% dell'uso per sfondi delicati
+  * Aggiornate tutte le variabili CSS e configurazione Tailwind
+  * Pulsante "CONSULENZA GRATUITA" aggiornato con colore Growth per maggior impatto
 - July 26, 2025: Design overhaul completo ispirato a immobiliaremichelangelo.it
   * Implementato design elegante con sfondo bianco pulito per tutto il sito
   * Sfondo scuro mantenuto SOLO per la sezione proprietà come richiesto
