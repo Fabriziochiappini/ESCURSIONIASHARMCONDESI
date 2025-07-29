@@ -53,11 +53,11 @@ export function PropertyCard({ property }: PropertyCardProps) {
           
           <div className="absolute bottom-4 left-4 right-4">
             <div className="flex justify-between items-end">
-              <Badge variant="secondary" className="bg-black/60 text-white border-0">
+              <Badge variant="secondary" className="bg-black/60 text-white border-0 hidden sm:flex">
                 <Images className="h-3 w-3 mr-1" />
                 {property.images.length} foto
               </Badge>
-              <span className="text-lg sm:text-2xl font-bold text-white drop-shadow-lg">
+              <span className="text-lg sm:text-2xl font-bold text-white drop-shadow-lg ml-auto">
                 {formatPrice(property.price, property.type, property.priceType || undefined)}
               </span>
             </div>
