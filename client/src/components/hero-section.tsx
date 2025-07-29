@@ -1,3 +1,5 @@
+import logoAgenziaUrl from "@assets/logo_agenzia_22-removebg-preview_1753804298069.png";
+
 export function HeroSection() {
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
@@ -15,6 +17,15 @@ export function HeroSection() {
       <div className="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
         {/* Clean Modern Container */}
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 lg:p-12 shadow-xl border">
+          {/* Logo sopra il titolo */}
+          <div className="mb-8">
+            <img 
+              src={logoAgenziaUrl} 
+              alt="AGENZIA 2 Servizi Immobiliari" 
+              className="h-20 lg:h-24 w-auto mx-auto"
+            />
+          </div>
+          
           <h1 className="text-4xl lg:text-6xl font-light mb-4 leading-tight text-slate-900">
             Trova la tua casa
           </h1>

@@ -1,6 +1,7 @@
 import { Link } from "wouter";
-import { Menu, X, ChevronDown, Home } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import logoAgenziaUrl from "@assets/logo_agenzia_22-removebg-preview_1753804298069.png";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,10 +12,11 @@ export function Navigation() {
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <Home className="h-12 w-12 text-primary group-hover:scale-110 transition-all duration-300" />
-            </div>
-            <div className="text-2xl font-bold text-primary">
-              AGENZIA 2
+              <img 
+                src={logoAgenziaUrl} 
+                alt="AGENZIA 2 Servizi Immobiliari" 
+                className="h-12 w-auto group-hover:scale-110 transition-all duration-300"
+              />
             </div>
           </Link>
 
