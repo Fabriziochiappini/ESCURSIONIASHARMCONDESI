@@ -29,7 +29,7 @@ export function Navigation() {
               Proprietà
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/services" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+            <Link href="/servizi" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
               Servizi
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
@@ -67,7 +67,7 @@ export function Navigation() {
               <Link href="/properties" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
                 Proprietà
               </Link>
-              <Link href="/services" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
+              <Link href="/servizi" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
                 Servizi
               </Link>
               <Link href="/chi-siamo" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
