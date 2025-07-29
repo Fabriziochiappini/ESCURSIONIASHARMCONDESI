@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
 import { X, ChevronLeft, ChevronRight, Images, Maximize2 } from "lucide-react";
 
 interface PhotoGalleryProps {
@@ -223,7 +223,11 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
 
       {/* Full Screen Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-7xl w-full h-[90vh] p-0 bg-black/95 border-0 rounded-lg">
+        <DialogContent className="max-w-7xl w-full h-[90vh] p-0 bg-black/95 border-0 rounded-lg" aria-describedby="gallery-description">
+          <DialogTitle className="sr-only">Galleria fotografica - {title}</DialogTitle>
+          <div id="gallery-description" className="sr-only">
+            Navigazione: usa le frecce della tastiera o i pulsanti per scorrere le immagini. Premi Escape per chiudere.
+          </div>
           <div className="relative w-full h-full flex items-center justify-center">
             {/* Close button */}
             <Button

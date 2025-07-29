@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "wouter";
+import { useParams, Link } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
@@ -118,7 +118,7 @@ export default function PropertyDetail() {
     "name": property.title,
     "description": property.description,
     "url": `https://agenzia2acireale.com/property/${property.id}`,
-    "image": property.images?.[0]?.url ? `https://agenzia2acireale.com${property.images[0].url}` : undefined,
+    "image": property.images?.[0] ? `https://agenzia2acireale.com${property.images[0]}` : undefined,
     "price": property.price,
     "priceCurrency": "EUR",
     "address": {
@@ -129,12 +129,11 @@ export default function PropertyDetail() {
     },
     "floorSize": {
       "@type": "QuantitativeValue",
-      "value": property.size,
+      "value": property.area,
       "unitCode": "MTK"
     },
-    "numberOfRooms": property.rooms,
+    "numberOfRooms": property.bedrooms,
     "numberOfBathroomsTotal": property.bathrooms,
-    "yearBuilt": property.yearBuilt,
     "offers": {
       "@type": "Offer",
       "price": property.price,
@@ -151,10 +150,10 @@ export default function PropertyDetail() {
     <div className="min-h-screen bg-white">
       <SEOHead 
         title={`${property.title} - ${property.municipality} | AGENZIA 2 Acireale`}
-        description={`${property.type === 'vendita' ? '🏠 Casa in vendita' : property.type === 'affitto' ? '🏠 Casa in affitto' : '🏖️ Casa vacanza'} a ${property.municipality}. ${property.rooms} locali, ${property.area}mq. Prezzo: €${property.price?.toLocaleString()}. ${property.description?.slice(0, 100)}...`}
-        keywords={`${property.title}, casa ${property.type} ${property.municipality}, immobile ${property.municipality}, ${property.rooms} locali ${property.municipality}, AGENZIA 2 Acireale`}
+        description={`${property.type === 'vendita' ? '🏠 Casa in vendita' : property.type === 'affitto' ? '🏠 Casa in affitto' : '🏖️ Casa vacanza'} a ${property.municipality}. ${property.bedrooms} camere, ${property.area}mq. Prezzo: €${Number(property.price).toLocaleString()}. ${property.description?.slice(0, 100)}...`}
+        keywords={`${property.title}, casa ${property.type} ${property.municipality}, immobile ${property.municipality}, ${property.bedrooms} camere ${property.municipality}, AGENZIA 2 Acireale`}
         canonicalUrl={`https://agenzia2acireale.com/property/${property.id}`}
-        ogImage={property.images?.[0]?.url ? `https://agenzia2acireale.com${property.images[0].url}` : undefined}
+        ogImage={property.images?.[0] ? `https://agenzia2acireale.com${property.images[0]}` : undefined}
         type="article"
         structuredData={structuredData}
       />
