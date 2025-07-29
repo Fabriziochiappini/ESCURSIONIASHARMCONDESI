@@ -65,7 +65,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
         </div>
         
         <CardContent className="p-3 sm:p-4">
-          <h3 className="text-sm sm:text-base font-bold text-gray-900 mb-1 sm:mb-2 line-clamp-2 group-hover:text-primary transition-colors h-8 sm:h-10 flex items-start">
+          <h3 className="text-sm sm:text-base font-bold text-gray-900 mb-1 sm:mb-2 line-clamp-2 group-hover:text-primary transition-colors h-10 sm:h-12 flex items-start leading-tight">
             <span className="line-clamp-2">{property.title}</span>
           </h3>
           <p className="text-gray-600 flex items-center text-xs mb-2 sm:mb-3">
