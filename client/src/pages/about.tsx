@@ -182,50 +182,17 @@ export default function About() {
             <div className="flex justify-center">
               <Card className="text-center glass-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 max-w-sm">
                 <CardContent className="p-8">
-                  <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-6">
-                    <img 
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200" 
-                      alt="Antonio Cannavò"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
                   <h3 className="text-2xl font-semibold text-gray-900 mb-3">
                     Antonio Cannavò
                   </h3>
                   <p className="text-primary mb-3 text-lg">Geometra & Fondatore</p>
-                  <p className="text-gray-600 mb-6">
+                  <p className="text-gray-600 mb-4">
                     Esperto in servizi immobiliari, perizie e consulenze tecniche ad Acireale. 
                     Con anni di esperienza nel settore, offre competenza e professionalità per ogni esigenza immobiliare.
                   </p>
-                  <div className="flex justify-center space-x-2 mb-4">
+                  <div className="flex justify-center space-x-2">
                     <Phone className="h-5 w-5 text-gray-400" />
                     <span className="text-gray-600">346 800 3234</span>
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Button 
-                      size="sm"
-                      className="bg-primary hover:bg-primary/90 text-white"
-                      asChild
-                    >
-                      <a href="tel:+393468003234">
-                        <Phone className="h-4 w-4 mr-2" />
-                        Chiama
-                      </a>
-                    </Button>
-                    <Button 
-                      size="sm"
-                      className="bg-green-500 hover:bg-green-600 text-white"
-                      asChild
-                    >
-                      <a 
-                        href="https://wa.me/393468003234"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <MessageCircle className="h-4 w-4 mr-2" />
-                        WhatsApp
-                      </a>
-                    </Button>
                   </div>
                 </CardContent>
               </Card>
