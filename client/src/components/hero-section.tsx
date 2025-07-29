@@ -26,7 +26,7 @@ export function HeroSection() {
             />
           </div>
           
-          {/* Sottotitolo al logo */}
+          {/* Sottotitolo al logo - più vicino al logo */}
           <h1 className="text-2xl lg:text-3xl font-light text-slate-700 leading-tight">
             Ti aiutiamo con le tue pratiche immobiliari!
           </h1>
