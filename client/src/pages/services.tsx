@@ -73,10 +73,7 @@ export default function Services() {
         title="Agenzia 2 Acireale - Servizi Immobiliari Professionali"
         description="Scopri i nostri servizi immobiliari completi ad Acireale: perizie, valutazioni, assistenza legale, compravendita e servizi finanziari. Contattaci per una consulenza personalizzata."
         keywords="servizi immobiliari, acireale, perizie, valutazioni, assistenza legale, compravendita, mutui, agenzia immobiliare"
-        ogTitle="Agenzia 2 Acireale - Servizi Immobiliari Professionali"
-        ogDescription="Scopri i nostri servizi immobiliari completi ad Acireale: perizie, valutazioni, assistenza legale, compravendita e servizi finanziari. Contattaci per una consulenza personalizzata."
-        ogUrl="https://agenzia2acireale.com/servizi"
-        ogType="website"
+        canonicalUrl="https://agenzia2acireale.com/servizi"
       />
       <Navigation />
 

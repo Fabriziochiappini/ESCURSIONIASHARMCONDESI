@@ -9,6 +9,7 @@
   --accent: hsl(43, 74%, 49%);        /* Oro Champagne #d4af37 */
   --growth: hsl(82, 25%, 52%);        /* Verde Salvia #87a96b */
   --balance: hsl(210, 17%, 98%);      /* Grigio Chiaro #f8f9fa */
+  --growth-foreground: hsl(0, 0%, 100%);
   
   --destructive: hsl(0, 84%, 60%);
   --muted: hsl(210, 17%, 98%);        /* Balance color */

@@ -81,93 +81,93 @@ export default function Home() {
         {/* Sezione Servizi */}
         <section className="py-20 bg-gray-50">
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-20 animate-fade-in">
-              <h2 className="text-6xl lg:text-7xl font-bold mb-6 text-primary">
+            <div className="text-center mb-16 animate-fade-in">
+              <h2 className="text-4xl lg:text-5xl font-light mb-6 text-gray-900">
                 I Nostri Servizi
               </h2>
-              <p className="text-2xl text-foreground/80 max-w-4xl mx-auto leading-relaxed">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 Soluzioni complete per ogni esigenza immobiliare
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-scale-in items-stretch">
-              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500 flex flex-col h-full">
-                <div className="w-16 h-16 rounded-2xl gradient-primary flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
-                  <span className="text-2xl">🏠</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-slide-up items-stretch">
+              <div className="bg-white rounded-xl p-6 group hover:shadow-xl transition-all duration-300 flex flex-col h-full border">
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
+                  <span className="text-xl">🏠</span>
                 </div>
-                <h4 className="font-bold text-primary mb-4 text-2xl">Compravendita Immobili</h4>
-                <p className="text-lg text-foreground/80 mb-4">Appartamenti, ville, terreni e immobili commerciali</p>
-                <ul className="text-foreground/70 space-y-3 flex-grow">
+                <h4 className="font-bold text-primary mb-3 text-lg">Compravendita Immobili</h4>
+                <p className="text-gray-600 mb-4 text-sm">Appartamenti, ville, terreni e immobili commerciali</p>
+                <ul className="text-gray-600 space-y-2 flex-grow text-sm">
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-primary mr-3 flex-shrink-0"></span>
-                    Valutazioni gratuite e marketing professionale
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary mr-2 flex-shrink-0"></span>
+                    Valutazioni gratuite
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-primary mr-3 flex-shrink-0"></span>
-                    Gestione completa contratti
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary mr-2 flex-shrink-0"></span>
+                    Gestione contratti
                   </li>
                 </ul>
               </div>
 
-              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500 flex flex-col h-full">
-                <div className="w-16 h-16 rounded-2xl gradient-secondary flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
-                  <span className="text-2xl">📋</span>
+              <div className="bg-white rounded-xl p-6 group hover:shadow-xl transition-all duration-300 flex flex-col h-full border">
+                <div className="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary/20 transition-colors duration-300">
+                  <span className="text-xl">📋</span>
                 </div>
-                <h4 className="font-bold text-secondary mb-4 text-2xl">Perizie e Valutazioni</h4>
-                <ul className="text-foreground/70 space-y-3 flex-grow">
+                <h4 className="font-bold text-secondary mb-3 text-lg">Perizie e Valutazioni</h4>
+                <ul className="text-gray-600 space-y-2 flex-grow text-sm">
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-secondary mr-3 flex-shrink-0"></span>
-                    Visure catastali e verifiche CRIF
+                    <span className="w-1.5 h-1.5 rounded-full bg-secondary mr-2 flex-shrink-0"></span>
+                    Visure catastali
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-secondary mr-3 flex-shrink-0"></span>
-                    Certificazioni A.P.E. e perizie
+                    <span className="w-1.5 h-1.5 rounded-full bg-secondary mr-2 flex-shrink-0"></span>
+                    Certificazioni A.P.E.
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-secondary mr-3 flex-shrink-0"></span>
-                    Valutazioni immobiliari professionali
+                    <span className="w-1.5 h-1.5 rounded-full bg-secondary mr-2 flex-shrink-0"></span>
+                    Valutazioni professionali
                   </li>
                 </ul>
               </div>
 
-              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500 flex flex-col h-full">
-                <div className="w-16 h-16 rounded-2xl gradient-accent flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
-                  <span className="text-2xl">⚖️</span>
+              <div className="bg-white rounded-xl p-6 group hover:shadow-xl transition-all duration-300 flex flex-col h-full border">
+                <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors duration-300">
+                  <span className="text-xl">⚖️</span>
                 </div>
-                <h4 className="font-bold text-accent mb-4 text-2xl">Servizi Legali</h4>
-                <ul className="text-foreground/70 space-y-3 flex-grow">
+                <h4 className="font-bold text-accent mb-3 text-lg">Servizi Legali</h4>
+                <ul className="text-gray-600 space-y-2 flex-grow text-sm">
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-accent mr-3 flex-shrink-0"></span>
-                    Diritto immobiliare e sanatorie
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent mr-2 flex-shrink-0"></span>
+                    Diritto immobiliare
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-accent mr-3 flex-shrink-0"></span>
-                    Successioni e contrattualistica
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent mr-2 flex-shrink-0"></span>
+                    Successioni
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-accent mr-3 flex-shrink-0"></span>
-                    Consulenza legale specializzata
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent mr-2 flex-shrink-0"></span>
+                    Consulenza specializzata
                   </li>
                 </ul>
               </div>
 
-              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500 flex flex-col h-full">
-                <div className="w-16 h-16 rounded-2xl gradient-primary flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
-                  <span className="text-2xl">💰</span>
+              <div className="bg-white rounded-xl p-6 group hover:shadow-xl transition-all duration-300 flex flex-col h-full border">
+                <div className="w-12 h-12 rounded-lg bg-growth/10 flex items-center justify-center mb-4 group-hover:bg-growth/20 transition-colors duration-300">
+                  <span className="text-xl">💰</span>
                 </div>
-                <h4 className="font-bold text-primary mb-4 text-2xl">Servizi Finanziari</h4>
-                <ul className="text-foreground/70 space-y-3 flex-grow">
+                <h4 className="font-bold text-growth mb-3 text-lg">Servizi Finanziari</h4>
+                <ul className="text-gray-600 space-y-2 flex-grow text-sm">
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-primary mr-3 flex-shrink-0"></span>
-                    Mutui agevolati e surroga
+                    <span className="w-1.5 h-1.5 rounded-full bg-growth mr-2 flex-shrink-0"></span>
+                    Mutui agevolati
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-primary mr-3 flex-shrink-0"></span>
-                    Consulenza e finanziamenti
+                    <span className="w-1.5 h-1.5 rounded-full bg-growth mr-2 flex-shrink-0"></span>
+                    Consulenza finanziaria
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-primary mr-3 flex-shrink-0"></span>
-                    Pratiche bancarie complete
+                    <span className="w-1.5 h-1.5 rounded-full bg-growth mr-2 flex-shrink-0"></span>
+                    Pratiche bancarie
                   </li>
                 </ul>
               </div>
