@@ -123,7 +123,7 @@ export default function Properties() {
     <div className="min-h-screen bg-white">
       <Navigation />
       
-      <main className="pt-20">
+      <main className="pt-28">
         {/* Hero Section */}
         <section className="py-20 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
