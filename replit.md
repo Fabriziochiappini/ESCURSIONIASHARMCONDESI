@@ -152,12 +152,15 @@ The application uses a single main table `properties` with the following key fie
   * Servizi legali (Diritto immobiliare, sanatorie, successioni)
   * Compravendita immobili (Appartamenti, ville, terreni)
   * Servizi finanziari (Mutui agevolati)
-- July 22, 2025: Implementati contatti reali AGENZIA 2 Servizi Immobiliari
+- July 29, 2025: Aggiornati contatti completi AGENZIA 2 Servizi Immobiliari
   * Geometra: Antonio Cannavò
   * Via San Girolamo, 20 - 95024 ACIREALE (CT)
-  * Tel: 346 800 3234
+  * Cell: 346 800 3234
   * Email: agenzia2acireale@virgilio.it
-  * PEC: antoniocannavoagenzia2serviziimmobiliari@pec.it
+  * Email: antoniocannavo@msn.com
+  * Widget WhatsApp floating in tutte le pagine
+  * Pulsanti call-to-action per chiamate e WhatsApp
+  * Mappa Google Maps integrata nella pagina Chi Siamo
 - July 23, 2025: Aggiunto riquadro trasparente nella hero home attorno a testi e filtri
   * Tre contenitori glassmorphism per testi, filtri e informazioni
   * Effetto backdrop-blur con trasparenze progressive

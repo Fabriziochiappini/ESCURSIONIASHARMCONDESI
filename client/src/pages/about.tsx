@@ -1,4 +1,4 @@
-import { Building2, Users, Award, MapPin, Phone, Mail } from "lucide-react";
+import { Building2, Users, Award, MapPin, Phone, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "wouter";
@@ -44,7 +44,7 @@ export default function About() {
                 </p>
                 <div className="bg-accent/10 p-6 rounded-lg">
                   <h3 className="text-xl font-bold text-primary mb-4">I Nostri Contatti</h3>
-                  <div className="space-y-3 text-left">
+                  <div className="space-y-3 text-left mb-6">
                     <div className="flex items-center space-x-3">
                       <MapPin className="h-5 w-5 text-secondary flex-shrink-0" />
                       <span className="text-gray-700">Via San Girolamo, 20 - 95024 ACIREALE (CT)</span>
@@ -59,17 +59,49 @@ export default function About() {
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-sm text-gray-600">antoniocannavoagenzia2serviziimmobiliari@pec.it</span>
+                      <span className="text-gray-700">antoniocannavo@msn.com</span>
                     </div>
+                  </div>
+                  
+                  {/* Pulsanti di contatto */}
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button 
+                      className="bg-primary hover:bg-primary/90 text-white flex-1"
+                      asChild
+                    >
+                      <a href="tel:+393468003234">
+                        <Phone className="h-4 w-4 mr-2" />
+                        Chiama Ora
+                      </a>
+                    </Button>
+                    <Button 
+                      className="bg-green-500 hover:bg-green-600 text-white flex-1"
+                      asChild
+                    >
+                      <a 
+                        href="https://wa.me/393468003234?text=Ciao! Sono interessato ai vostri servizi immobiliari. Potreste darmi maggiori informazioni?"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <MessageCircle className="h-4 w-4 mr-2" />
+                        WhatsApp
+                      </a>
+                    </Button>
                   </div>
                 </div>
               </div>
               <div className="relative">
                 <div className="aspect-square rounded-2xl overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800" 
-                    alt="Ufficio Immobiliare Acireale"
-                    className="w-full h-full object-cover"
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3152.123456789!2d15.1635!3d37.6078!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1313f9b9b9b9b9b9%3A0xabcdef1234567890!2sVia%20San%20Girolamo%2C%2020%2C%2095024%20Acireale%20CT%2C%20Italy!5e0!3m2!1sit!2sit!4v1703025000000!5m2!1sit!2sit"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Mappa AGENZIA 2 Servizi Immobiliari - Via San Girolamo 20, Acireale"
+                    className="rounded-2xl"
                   />
                 </div>
               </div>
@@ -166,7 +198,7 @@ export default function About() {
                   </p>
                   <div className="flex justify-center space-x-2">
                     <Phone className="h-4 w-4 text-gray-400" />
-                    <span className="text-sm text-gray-600">+39 333 123 4567</span>
+                    <span className="text-sm text-gray-600">346 800 3234</span>
                   </div>
                 </CardContent>
               </Card>
@@ -246,7 +278,7 @@ export default function About() {
                 className="border-white text-white hover:bg-white hover:text-purple-600"
                 asChild
               >
-                <a href="tel:+393331234567">
+                <a href="tel:+393468003234">
                   <Phone className="h-5 w-5 mr-2" />
                   Chiamaci Ora
                 </a>

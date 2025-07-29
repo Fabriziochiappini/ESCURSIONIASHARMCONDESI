@@ -62,7 +62,7 @@ const contactInfo = {
   address: "Via San Girolamo, 20 - 95024 ACIREALE (CT)",
   phone: "346 800 3234",
   email: "agenzia2acireale@virgilio.it",
-  pec: "antoniocannavoagenzia2serviziimmobiliari@pec.it"
+  email2: "antoniocannavo@msn.com"
 };
 
 export default function Services() {
@@ -183,7 +183,7 @@ export default function Services() {
                 </div>
                 <div className="flex items-center space-x-3">
                   <Mail className="h-5 w-5 text-accent flex-shrink-0" />
-                  <span className="text-sm break-all">{contactInfo.pec}</span>
+                  <span className="break-all">{contactInfo.email2}</span>
                 </div>
               </CardContent>
             </Card>
