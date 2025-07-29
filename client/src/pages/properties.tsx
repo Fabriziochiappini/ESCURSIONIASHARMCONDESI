@@ -265,7 +265,8 @@ export default function Properties() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {properties.map((property) => (
-                  <Card key={property.id} className="group glass-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                  <Link href={`/property/${property.id}`} key={property.id}>
+                    <Card className="group glass-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
                     <div className="relative aspect-video overflow-hidden rounded-t-lg">
                       <img 
                         src={property.images[0]} 
@@ -317,18 +318,12 @@ export default function Properties() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center justify-between">
-                        <div className="text-2xl font-bold text-purple-600">
-                          {formatPrice(property.price, property.type, property.priceType)}
-                        </div>
-                        <Button asChild size="sm">
-                          <Link href={`/property/${property.id}`}>
-                            Dettagli
-                          </Link>
-                        </Button>
+                      <div className="text-2xl font-bold text-purple-600">
+                        {formatPrice(property.price, property.type, property.priceType)}
                       </div>
                     </CardContent>
                   </Card>
+                  </Link>
                 ))}
               </div>
             </>
