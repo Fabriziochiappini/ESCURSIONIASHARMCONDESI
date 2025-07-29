@@ -80,6 +80,19 @@ body {
   height: 192px;
 }
 
+/* Mobile responsive gallery */
+@media (max-width: 768px) {
+  .image-gallery-main {
+    min-height: 250px;
+    height: 250px;
+  }
+  
+  .image-gallery-thumb {
+    min-height: 120px;
+    height: 120px;
+  }
+}
+
 /* Neon Effects */
 .neon-glow {
   box-shadow: 
