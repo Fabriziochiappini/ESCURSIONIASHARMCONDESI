@@ -113,6 +113,12 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
+- July 29, 2025: Implementati nuovi tipi di proprietà specifici
+  * VILLA, APPARTAMENTO, VILLA SINGOLA, CASA SINGOLA CON TERRENO, RUSTICI E TERRENI
+  * Aggiunto campo propertyType al database schema
+  * Filtri di ricerca aggiornati con nuove categorie di proprietà
+  * Property cards mostrano ora sia tipo contratto che categoria proprietà
+  * Database aggiornato con categorizzazione completa proprietà esistenti
 - July 29, 2025: Implementata palette colori brand professionale per agenzia immobiliare di alto livello
   * Primary: Blu Navy (#1e3a5f) - 40% dell'uso per trasmettere autorità e fiducia
   * Secondary: Grigio Antracite (#2c3e50) - 30% dell'uso per competenza professionale

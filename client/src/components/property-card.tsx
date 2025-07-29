@@ -29,6 +29,19 @@ export function PropertyCard({ property }: PropertyCardProps) {
     }
   };
 
+  const getPropertyTypeLabel = (propertyType?: string): string => {
+    if (!propertyType) return '';
+    
+    switch(propertyType) {
+      case "villa": return "Villa";
+      case "appartamento": return "Appartamento";
+      case "villa_singola": return "Villa Singola";
+      case "casa_singola_con_terreno": return "Casa Singola con Terreno";
+      case "rustici_e_terreni": return "Rustici e Terreni";
+      default: return propertyType;
+    }
+  };
+
   return (
     <Link href={`/property/${property.id}`} className="block">
       <Card className="bg-white rounded-xl overflow-hidden cursor-pointer group border shadow-lg hover:shadow-xl transition-all duration-300 h-auto flex flex-col">
@@ -39,10 +52,15 @@ export function PropertyCard({ property }: PropertyCardProps) {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
           
-          <div className="absolute top-4 left-4">
+          <div className="absolute top-4 left-4 flex flex-col gap-2">
             <Badge className={`${getTypeBadgeColor(property.type)} text-white px-3 py-1 text-xs font-semibold rounded-full`}>
               {getTypeLabel(property.type)}
             </Badge>
+            {property.propertyType && (
+              <Badge className="bg-slate-700 text-white px-3 py-1 text-xs font-medium rounded-full">
+                {getPropertyTypeLabel(property.propertyType)}
+              </Badge>
+            )}
           </div>
           
           <div className="absolute top-4 right-4">

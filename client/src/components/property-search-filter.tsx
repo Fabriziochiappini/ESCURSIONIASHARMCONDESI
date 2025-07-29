@@ -13,10 +13,20 @@ const PROPERTY_TYPES = [
   { value: "casa_vacanza", label: "Casa Vacanza" }
 ];
 
+const PROPERTY_CATEGORIES = [
+  { value: "all", label: "Tutte le categorie" },
+  { value: "villa", label: "Villa" },
+  { value: "appartamento", label: "Appartamento" },
+  { value: "villa_singola", label: "Villa Singola" },
+  { value: "casa_singola_con_terreno", label: "Casa Singola con Terreno" },
+  { value: "rustici_e_terreni", label: "Rustici e Terreni" }
+];
+
 export function PropertySearchFilter() {
   const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedMunicipality, setSelectedMunicipality] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
@@ -29,6 +39,7 @@ export function PropertySearchFilter() {
     
     if (searchTerm) params.set('search', searchTerm);
     if (selectedType && selectedType !== "all") params.set('type', selectedType);
+    if (selectedCategory && selectedCategory !== "all") params.set('propertyType', selectedCategory);
     if (selectedMunicipality) params.set('municipality', selectedMunicipality);
     if (maxPrice) params.set('maxPrice', maxPrice);
 
@@ -38,7 +49,7 @@ export function PropertySearchFilter() {
 
   return (
     <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-5xl mx-auto mb-12 border border-white/20 animate-slide-up">
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-end">
+      <div className="grid grid-cols-1 lg:grid-cols-6 gap-6 items-end">
         <div className="lg:col-span-1">
           <label className="block text-sm font-semibold text-white mb-3">
             Cerca Proprietà
@@ -64,6 +75,24 @@ export function PropertySearchFilter() {
               {PROPERTY_TYPES.map((type) => (
                 <SelectItem key={type.value} value={type.value}>
                   {type.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        
+        <div className="lg:col-span-1">
+          <label className="block text-sm font-semibold text-white mb-3">
+            Categoria
+          </label>
+          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <SelectTrigger className="w-full h-12 rounded-lg bg-white/90 border-white/30 focus:border-primary focus:ring-primary text-gray-900">
+              <SelectValue placeholder="Seleziona categoria" />
+            </SelectTrigger>
+            <SelectContent>
+              {PROPERTY_CATEGORIES.map((category) => (
+                <SelectItem key={category.value} value={category.value}>
+                  {category.label}
                 </SelectItem>
               ))}
             </SelectContent>

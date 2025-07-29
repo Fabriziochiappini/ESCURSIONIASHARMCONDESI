@@ -22,9 +22,19 @@ const PROPERTY_TYPES = [
   { value: "casa_vacanza", label: "Casa Vacanza" }
 ];
 
+const PROPERTY_CATEGORIES = [
+  { value: "all", label: "Tutte le categorie" },
+  { value: "villa", label: "Villa" },
+  { value: "appartamento", label: "Appartamento" },
+  { value: "villa_singola", label: "Villa Singola" },
+  { value: "casa_singola_con_terreno", label: "Casa Singola con Terreno" },
+  { value: "rustici_e_terreni", label: "Rustici e Terreni" }
+];
+
 export default function Properties() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedMunicipality, setSelectedMunicipality] = useState("Tutti i comuni");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -64,6 +74,7 @@ export default function Properties() {
     queryKey: ['/api/properties/search', { 
       search: searchTerm,
       type: selectedType !== "all" ? selectedType : undefined,
+      propertyType: selectedCategory !== "all" ? selectedCategory : undefined,
       municipality: selectedMunicipality !== "Tutti i comuni" ? selectedMunicipality : undefined,
       minPrice: minPrice || undefined,
       maxPrice: maxPrice || undefined,
@@ -74,6 +85,7 @@ export default function Properties() {
       
       if (searchTerm) params.set('search', searchTerm);
       if (selectedType !== "all") params.set('type', selectedType);
+      if (selectedCategory !== "all") params.set('propertyType', selectedCategory);
       if (selectedMunicipality !== "Tutti i comuni") params.set('municipality', selectedMunicipality);
       if (minPrice) params.set('minPrice', minPrice);
       if (maxPrice) params.set('maxPrice', maxPrice);
@@ -167,6 +179,19 @@ export default function Properties() {
                     {PROPERTY_TYPES.map((type) => (
                       <SelectItem key={type.value} value={type.value}>
                         {type.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Categoria" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {PROPERTY_CATEGORIES.map((category) => (
+                      <SelectItem key={category.value} value={category.value}>
+                        {category.label}
                       </SelectItem>
                     ))}
                   </SelectContent>

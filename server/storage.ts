@@ -88,6 +88,9 @@ export class DatabaseStorage implements IStorage {
     if (filters.type) {
       conditions.push(eq(properties.type, filters.type));
     }
+    if (filters.propertyType) {
+      conditions.push(eq(properties.propertyType, filters.propertyType));
+    }
     if (filters.municipality) {
       conditions.push(eq(properties.municipality, filters.municipality));
     }

@@ -19,6 +19,7 @@ export const properties = pgTable("properties", {
   description: text("description").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   type: text("type").notNull(), // "vendita", "affitto", "casa_vacanza"
+  propertyType: text("property_type"), // "villa", "appartamento", "villa_singola", "casa_singola_con_terreno", "rustici_e_terreni"
   priceType: text("price_type"), // "total", "monthly", "nightly"
   location: text("location").notNull(),
   municipality: text("municipality").notNull(),
@@ -50,6 +51,7 @@ export type Property = typeof properties.$inferSelect;
 export const searchFiltersSchema = z.object({
   search: z.string().optional(),
   type: z.enum(["vendita", "affitto", "casa_vacanza"]).optional(),
+  propertyType: z.enum(["villa", "appartamento", "villa_singola", "casa_singola_con_terreno", "rustici_e_terreni"]).optional(),
   municipality: z.string().optional(),
   minPrice: z.number().optional(),
   maxPrice: z.number().optional(),
