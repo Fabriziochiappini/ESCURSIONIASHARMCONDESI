@@ -77,7 +77,7 @@ export function ComplexSituations() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 animate-scale-in">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-scale-in items-stretch justify-items-center">
           {situations.map((situation, index) => {
             const IconComponent = situation.icon;
             const iconColors = ['text-primary', 'text-secondary', 'text-orange-500', 'text-amber-500'];
@@ -86,7 +86,7 @@ export function ComplexSituations() {
             return (
               <div
                 key={index}
-                className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-primary/30 group"
+                className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-primary/30 group w-full h-full flex flex-col"
               >
                 <div className="mb-6">
                   <div className="w-16 h-16 bg-gray-50 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -100,7 +100,7 @@ export function ComplexSituations() {
                   </p>
                 </div>
 
-                <div className="space-y-3 mb-8">
+                <div className="space-y-3 mb-8 flex-grow">
                   {situation.benefits.map((benefit, benefitIndex) => (
                     <div key={benefitIndex} className="flex items-start">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
