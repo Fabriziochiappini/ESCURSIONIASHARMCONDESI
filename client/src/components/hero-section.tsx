@@ -18,7 +18,7 @@ export function HeroSection() {
         {/* Clean Modern Container */}
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 lg:p-12 shadow-xl border">
           {/* Logo principale */}
-          <div className="mb-6">
+          <div className="mb-3">
             <img 
               src={logoAgenziaUrl} 
               alt="AGENZIA 2 Servizi Immobiliari" 
@@ -28,7 +28,7 @@ export function HeroSection() {
           
           {/* Sottotitolo al logo */}
           <h1 className="text-2xl lg:text-3xl font-light text-slate-700 leading-tight">
-            Trova la tua casa
+            Ti aiutiamo con le tue pratiche immobiliari!
           </h1>
         </div>
       </div>
