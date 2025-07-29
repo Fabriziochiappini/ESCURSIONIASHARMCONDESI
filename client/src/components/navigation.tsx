@@ -9,13 +9,13 @@ export function Navigation() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-28">
           <Link href="/" className="flex items-center space-x-3 group">
             <div className="relative">
               <img 
                 src={logoAgenziaUrl} 
                 alt="AGENZIA 2 Servizi Immobiliari" 
-                className="h-12 w-auto group-hover:scale-110 transition-all duration-300"
+                className="h-24 w-auto group-hover:scale-110 transition-all duration-300"
               />
             </div>
           </Link>

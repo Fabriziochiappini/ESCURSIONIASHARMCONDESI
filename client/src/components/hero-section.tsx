@@ -22,7 +22,7 @@ export function HeroSection() {
             <img 
               src={logoAgenziaUrl} 
               alt="AGENZIA 2 Servizi Immobiliari" 
-              className="h-20 lg:h-24 w-auto mx-auto"
+              className="h-40 lg:h-48 w-auto mx-auto"
             />
           </div>
           
