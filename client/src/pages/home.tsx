@@ -83,83 +83,83 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 animate-scale-in">
-              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-scale-in items-stretch">
+              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500 flex flex-col h-full">
                 <div className="w-16 h-16 rounded-2xl gradient-primary flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
                   <span className="text-2xl">🏠</span>
                 </div>
                 <h4 className="font-bold text-primary mb-4 text-2xl">Compravendita Immobili</h4>
                 <p className="text-lg text-foreground/80 mb-4">Appartamenti, ville, terreni e immobili commerciali</p>
-                <ul className="text-foreground/70 space-y-3">
+                <ul className="text-foreground/70 space-y-3 flex-grow">
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-primary mr-3"></span>
+                    <span className="w-2 h-2 rounded-full bg-primary mr-3 flex-shrink-0"></span>
                     Valutazioni gratuite e marketing professionale
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-primary mr-3"></span>
+                    <span className="w-2 h-2 rounded-full bg-primary mr-3 flex-shrink-0"></span>
                     Gestione completa contratti
                   </li>
                 </ul>
               </div>
               
-              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500">
+              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500 flex flex-col h-full">
                 <div className="w-16 h-16 rounded-2xl gradient-secondary flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
                   <span className="text-2xl">📋</span>
                 </div>
                 <h4 className="font-bold text-secondary mb-4 text-2xl">Perizie e Valutazioni</h4>
-                <ul className="text-foreground/70 space-y-3">
+                <ul className="text-foreground/70 space-y-3 flex-grow">
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-secondary mr-3"></span>
+                    <span className="w-2 h-2 rounded-full bg-secondary mr-3 flex-shrink-0"></span>
                     Visure catastali e verifiche CRIF
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-secondary mr-3"></span>
+                    <span className="w-2 h-2 rounded-full bg-secondary mr-3 flex-shrink-0"></span>
                     Certificazioni A.P.E. e perizie
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-secondary mr-3"></span>
+                    <span className="w-2 h-2 rounded-full bg-secondary mr-3 flex-shrink-0"></span>
                     Valutazioni immobiliari professionali
                   </li>
                 </ul>
               </div>
               
-              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500">
+              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500 flex flex-col h-full">
                 <div className="w-16 h-16 rounded-2xl gradient-accent flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
                   <span className="text-2xl">⚖️</span>
                 </div>
                 <h4 className="font-bold text-accent mb-4 text-2xl">Servizi Legali</h4>
-                <ul className="text-foreground/70 space-y-3">
+                <ul className="text-foreground/70 space-y-3 flex-grow">
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-accent mr-3"></span>
+                    <span className="w-2 h-2 rounded-full bg-accent mr-3 flex-shrink-0"></span>
                     Diritto immobiliare e sanatorie
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-accent mr-3"></span>
+                    <span className="w-2 h-2 rounded-full bg-accent mr-3 flex-shrink-0"></span>
                     Successioni e contrattualistica
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-accent mr-3"></span>
+                    <span className="w-2 h-2 rounded-full bg-accent mr-3 flex-shrink-0"></span>
                     Consulenza legale specializzata
                   </li>
                 </ul>
               </div>
               
-              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500">
+              <div className="glass-card rounded-3xl p-8 group hover:scale-105 transition-all duration-500 flex flex-col h-full">
                 <div className="w-16 h-16 rounded-2xl gradient-primary flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
                   <span className="text-2xl">💰</span>
                 </div>
                 <h4 className="font-bold text-primary mb-4 text-2xl">Servizi Finanziari</h4>
-                <ul className="text-foreground/70 space-y-3">
+                <ul className="text-foreground/70 space-y-3 flex-grow">
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-primary mr-3"></span>
+                    <span className="w-2 h-2 rounded-full bg-primary mr-3 flex-shrink-0"></span>
                     Mutui agevolati e surroga
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-primary mr-3"></span>
+                    <span className="w-2 h-2 rounded-full bg-primary mr-3 flex-shrink-0"></span>
                     Consulenza e finanziamenti
                   </li>
                   <li className="flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-primary mr-3"></span>
+                    <span className="w-2 h-2 rounded-full bg-primary mr-3 flex-shrink-0"></span>
                     Pratiche bancarie complete
                   </li>
                 </ul>
