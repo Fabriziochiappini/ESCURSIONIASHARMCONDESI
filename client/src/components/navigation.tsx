@@ -37,6 +37,10 @@ export function Navigation() {
               Contatti
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
+            <Link href="/privacy" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+              Privacy
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+            </Link>
             <Link href="/admin" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
               Admin
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
@@ -72,6 +76,9 @@ export function Navigation() {
               </Link>
               <Link href="/chi-siamo" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
                 Contatti
+              </Link>
+              <Link href="/privacy" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
+                Privacy
               </Link>
               <Link href="/admin" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
                 Admin

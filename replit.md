@@ -113,6 +113,17 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
+- January 31, 2025: Implementata conformità GDPR completa per agenzia immobiliare
+  * Pagina Privacy Policy dettagliata con informazioni specifiche settore immobiliare
+  * Cookie Banner minimalista con gestione preferenze avanzata
+  * Design coerente con l'identità visiva del sito (colori brand, tipografia)
+  * Accordion espandibile per sezioni Privacy Policy (dati raccolti, finalità, diritti)
+  * Cookie categorizzati: necessari, analitici, marketing con controllo granulare
+  * Footer aggiornato con link Privacy Policy e Cookie Policy
+  * Navigazione estesa con sezione Privacy accessibile
+  * Sistema di salvataggio preferenze cookie in localStorage
+  * Informazioni titolare del trattamento (AGENZIA 2 - Geometra Antonio Cannavò)
+  * Base giuridica specifica per servizi immobiliari e comunicazioni commerciali
 - July 29, 2025: Implementati nuovi tipi di proprietà specifici
   * VILLA, APPARTAMENTO, VILLA SINGOLA, CASA SINGOLA CON TERRENO, RUSTICI E TERRENI
   * Aggiunto campo propertyType al database schema

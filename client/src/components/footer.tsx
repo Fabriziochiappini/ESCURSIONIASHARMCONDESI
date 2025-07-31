@@ -69,7 +69,14 @@ export function Footer() {
         </div>
         
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 AGENZIA 2 Servizi Immobiliari - Geometra Antonio Cannavò. Tutti i diritti riservati.</p>
+          <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+            <p>&copy; 2025 AGENZIA 2 Servizi Immobiliari - Geometra Antonio Cannavò. Tutti i diritti riservati.</p>
+            <div className="flex space-x-4 text-sm">
+              <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
+              <span>•</span>
+              <a href="/privacy#cookie" className="hover:text-primary transition-colors">Cookie Policy</a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

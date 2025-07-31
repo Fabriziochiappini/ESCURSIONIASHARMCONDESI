@@ -5,12 +5,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { ScrollToTop } from "@/components/scroll-to-top";
+import { CookieBanner } from "@/components/cookie-banner";
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import Properties from "@/pages/properties";
 import PropertyDetail from "@/pages/property-detail";
 import Services from "@/pages/services";
-
+import Privacy from "@/pages/privacy";
 import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 
@@ -22,7 +23,7 @@ function Router() {
       <Route path="/properties" component={Properties} />
       <Route path="/property/:id" component={PropertyDetail} />
       <Route path="/servizi" component={Services} />
-
+      <Route path="/privacy" component={Privacy} />
       <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
@@ -37,6 +38,7 @@ function App() {
         <Toaster />
         <Router />
         <WhatsAppFloat />
+        <CookieBanner />
       </TooltipProvider>
     </QueryClientProvider>
   );
