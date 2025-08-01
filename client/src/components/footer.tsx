@@ -14,7 +14,7 @@ export function Footer() {
               <span className="text-white font-medium">Geometra Antonio Cannavò</span>
             </p>
             <p className="text-gray-300 mb-6 max-w-md">
-              La tua agenzia immobiliare di fiducia ad Acireale. Esperienza, professionalità e competenza tecnica 
+              La tua agenzia immobiliare di fiducia ad Acireale e in tutta la provincia di Catania. Esperienza, professionalità e competenza tecnica 
               per ogni esigenza immobiliare.
             </p>
             <div className="flex space-x-4">
