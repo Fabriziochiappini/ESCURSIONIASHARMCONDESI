@@ -142,7 +142,9 @@ export class ObjectStorageService {
 
       stream.on("finish", () => {
         // Return the public URL for the uploaded file
-        resolve(`/public-objects/${objectName}`);
+        // Remove bucket prefix from objectName for clean URLs
+        const cleanObjectName = objectName.replace(/^public\//, '');
+        resolve(`/public-objects/${cleanObjectName}`);
       });
 
       stream.end(file.buffer);

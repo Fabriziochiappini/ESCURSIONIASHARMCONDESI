@@ -46,6 +46,19 @@ export default function PropertyDetail() {
     }
   });
 
+  // Fetch property images from the new table
+  const { data: propertyImages = [] } = useQuery({
+    queryKey: ['/api/properties', propertyId, 'images'],
+    queryFn: async () => {
+      const response = await fetch(`/api/properties/${propertyId}/images`);
+      if (!response.ok) {
+        return [];
+      }
+      return response.json();
+    },
+    enabled: !!propertyId
+  });
+
   const contactMutation = useMutation({
     mutationFn: async (data: typeof contactForm) => {
       return apiRequest('POST', '/api/contact', {
@@ -191,7 +204,10 @@ export default function PropertyDetail() {
           </div>
 
           {/* Photo Gallery */}
-          <PhotoGallery images={property.images} title={property.title} />
+          <PhotoGallery 
+            images={propertyImages.length > 0 ? propertyImages.map((img: any) => img.url) : property.images} 
+            title={property.title} 
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Property Details */}

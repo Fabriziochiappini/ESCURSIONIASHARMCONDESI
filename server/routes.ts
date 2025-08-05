@@ -6,10 +6,25 @@ import { searchFiltersSchema, insertPropertySchema, insertPropertyImageSchema } 
 import { z } from "zod";
 import { upload, uploadImageToStorage, deleteImageFile } from "./imageUpload";
 import { ObjectStorageService } from "./objectStorage";
+import { migrateExistingImages } from "./migrateImages";
 import express from "express";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Admin routes - no authentication required per user request
+  
+  // Migration endpoint for existing images
+  app.post("/api/admin/migrate-images", async (req, res) => {
+    try {
+      const migratedCount = await migrateExistingImages();
+      res.json({ 
+        success: true, 
+        message: `Successfully migrated ${migratedCount} images to object storage` 
+      });
+    } catch (error) {
+      console.error("Migration error:", error);
+      res.status(500).json({ error: "Migration failed" });
+    }
+  });
   app.get('/api/auth/admin', async (req: any, res) => {
     // Always return admin access for demo purposes
     res.json({ 
@@ -239,7 +254,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // This endpoint is used to serve public assets.
+  // Serve legacy uploaded images (fallback to local uploads)
+  app.use('/uploads', express.static('uploads'));
+
+  // This endpoint is used to serve public assets from object storage.
   app.get("/public-objects/:filePath(*)", async (req, res) => {
     const filePath = req.params.filePath;
     const objectStorageService = new ObjectStorageService();
