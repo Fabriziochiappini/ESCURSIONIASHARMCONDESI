@@ -9,6 +9,8 @@ interface PhotoGalleryProps {
 }
 
 export function PhotoGallery({ images, title }: PhotoGalleryProps) {
+  console.log('PhotoGallery received images:', images);
+  
   const [selectedImage, setSelectedImage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0]));

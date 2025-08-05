@@ -52,9 +52,12 @@ export default function PropertyDetail() {
     queryFn: async () => {
       const response = await fetch(`/api/properties/${propertyId}/images`);
       if (!response.ok) {
+        console.log('Failed to fetch property images:', response.status);
         return [];
       }
-      return response.json();
+      const images = await response.json();
+      console.log('Fetched property images:', images);
+      return images;
     },
     enabled: !!propertyId
   });
@@ -205,7 +208,11 @@ export default function PropertyDetail() {
 
           {/* Photo Gallery */}
           <PhotoGallery 
-            images={propertyImages.length > 0 ? propertyImages.map((img: any) => img.url) : property.images} 
+            images={(() => {
+              const newImages = propertyImages.length > 0 ? propertyImages.map((img: any) => img.url) : property.images;
+              console.log('PhotoGallery images prop:', newImages);
+              return newImages;
+            })()} 
             title={property.title} 
           />
 
