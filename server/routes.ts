@@ -4,7 +4,8 @@ import { storage } from "./storage";
 // Authentication removed per user request
 import { searchFiltersSchema, insertPropertySchema, insertPropertyImageSchema } from "@shared/schema";
 import { z } from "zod";
-import { upload, getImageUrl, deleteImageFile } from "./imageUpload";
+import { upload, uploadImageToStorage, deleteImageFile } from "./imageUpload";
+import { ObjectStorageService } from "./objectStorage";
 import express from "express";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -238,12 +239,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Serve uploaded images
-  app.use('/uploads', express.static('uploads'));
+  // This endpoint is used to serve public assets.
+  app.get("/public-objects/:filePath(*)", async (req, res) => {
+    const filePath = req.params.filePath;
+    const objectStorageService = new ObjectStorageService();
+    try {
+      const file = await objectStorageService.searchPublicObject(filePath);
+      if (!file) {
+        return res.status(404).json({ error: "File not found" });
+      }
+      objectStorageService.downloadObject(file, res);
+    } catch (error) {
+      console.error("Error searching for public object:", error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  });
 
   // Image upload endpoint for admin
   app.post('/api/admin/upload-images', async (req, res) => {
-    upload.array('images', 20)(req, res, (err) => {
+    upload.array('images', 20)(req, res, async (err) => {
       if (err) {
         console.error('Upload error:', err);
         return res.status(400).json({ error: err.message });
@@ -254,7 +268,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           return res.status(400).json({ error: 'Nessuna immagine caricata' });
         }
 
-        const imageUrls = req.files.map(file => `/uploads/properties/${file.filename}`);
+        const imageUrls = [];
+        for (const file of req.files) {
+          const { url } = await uploadImageToStorage(file as Express.Multer.File);
+          imageUrls.push(url);
+        }
         
         res.json({ 
           success: true, 
@@ -293,11 +311,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
+        const { url, filename } = await uploadImageToStorage(file);
+        
         const imageData = {
           propertyId,
-          filename: file.filename,
+          filename,
           originalName: file.originalname,
-          url: getImageUrl(file.filename),
+          url,
           size: file.size,
           mimeType: file.mimetype,
           sortOrder: i,
@@ -324,8 +344,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const imageToDelete = allImages.find(img => img.id === imageId);
       
       if (imageToDelete) {
-        // Delete from filesystem
-        deleteImageFile(imageToDelete.filename);
+        // Delete from object storage
+        await deleteImageFile(imageToDelete.filename);
         
         // Delete from database
         const deleted = await storage.deletePropertyImage(imageId);
