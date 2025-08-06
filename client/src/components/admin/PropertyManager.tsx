@@ -21,8 +21,31 @@ import {
   Bath,
   Square,
   Euro,
-  Image as ImageIcon
+  Image as ImageIcon,
+  GripVertical,
+  Upload
 } from "lucide-react";
+
+// Drag and Drop imports
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import type { Property, InsertProperty } from "@shared/schema";
 import { isUnauthorizedError } from "@/lib/authUtils";
 
@@ -63,6 +86,14 @@ export function PropertyManager() {
   const [tempImages, setTempImages] = useState<string[]>([]);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  // Drag and drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
@@ -192,13 +223,21 @@ export function PropertyManager() {
     }
   };
 
-  const moveImage = (fromIndex: number, toIndex: number) => {
-    const newImages = [...tempImages];
-    const [movedImage] = newImages.splice(fromIndex, 1);
-    newImages.splice(toIndex, 0, movedImage);
-    setTempImages(newImages);
-    if (editingProperty) {
-      setEditingProperty({ ...editingProperty, images: newImages });
+  // Drag and drop handler
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    
+    if (over && active.id !== over.id) {
+      const oldIndex = tempImages.findIndex((_, index) => `image-${index}` === active.id);
+      const newIndex = tempImages.findIndex((_, index) => `image-${index}` === over.id);
+      
+      if (oldIndex !== -1 && newIndex !== -1) {
+        const newImages = arrayMove(tempImages, oldIndex, newIndex);
+        setTempImages(newImages);
+        if (editingProperty) {
+          setEditingProperty({ ...editingProperty, images: newImages });
+        }
+      }
     }
   };
 
@@ -624,48 +663,30 @@ export function PropertyManager() {
             <DialogContent className="max-w-4xl">
               <DialogHeader>
                 <DialogTitle>Gestisci Ordine Immagini</DialogTitle>
+                <p className="text-sm text-gray-600">
+                  Trascina le immagini per riordinarle. La prima immagine sarà quella principale.
+                </p>
               </DialogHeader>
-              <div className="grid grid-cols-3 gap-4 max-h-96 overflow-y-auto">
-                {tempImages.map((img, index) => (
-                  <div key={index} className="relative group border rounded-lg p-2">
-                    <img 
-                      src={img} 
-                      alt={`Immagine ${index + 1}`}
-                      className="w-full h-32 object-cover rounded"
-                    />
-                    <div className="flex justify-between items-center mt-2">
-                      <span className="text-sm">Posizione {index + 1}</span>
-                      <div className="flex gap-1">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => moveImage(index, Math.max(0, index - 1))}
-                          disabled={index === 0}
-                        >
-                          ↑
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => moveImage(index, Math.min(tempImages.length - 1, index + 1))}
-                          disabled={index === tempImages.length - 1}
-                        >
-                          ↓
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          onClick={() => removeImage(index)}
-                        >
-                          ×
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+              <div className="space-y-2 max-h-96 overflow-y-auto">
+                <DndContext 
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
+                >
+                  <SortableContext 
+                    items={tempImages.map((_, index) => `image-${index}`)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {tempImages.map((img, index) => (
+                      <SortableImageItem
+                        key={`image-${index}`}
+                        image={img}
+                        index={index}
+                        onRemove={removeImage}
+                      />
+                    ))}
+                  </SortableContext>
+                </DndContext>
               </div>
               <div className="flex justify-end">
                 <Button onClick={() => setShowImageManager(false)}>
