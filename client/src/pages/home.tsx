@@ -64,7 +64,7 @@ export default function Home() {
               <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed mb-12">
                 {hasFilters 
                   ? "Proprietà che corrispondono ai tuoi criteri di ricerca"
-                  : "Scopri le migliori proprietà disponibili ad Acireale e in tutta la provincia di Catania"
+                  : "Scopri le migliori proprietà disponibili a Catania e provincia"
                 }
               </p>
 
