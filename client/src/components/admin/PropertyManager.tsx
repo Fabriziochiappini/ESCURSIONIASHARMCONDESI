@@ -185,6 +185,7 @@ export default function PropertyManager() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/municipalities'] });
       setIsDialogOpen(false);
       resetForm();
       toast({
@@ -217,6 +218,7 @@ export default function PropertyManager() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/municipalities'] });
       setIsDialogOpen(false);
       resetForm();
       toast({
@@ -247,6 +249,7 @@ export default function PropertyManager() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/municipalities'] });
       toast({
         title: "Successo",
         description: "Proprietà eliminata con successo",
