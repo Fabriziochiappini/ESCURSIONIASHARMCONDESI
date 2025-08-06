@@ -61,6 +61,10 @@ export function Footer() {
                 antoniocannavo@msn.com
               </li>
               <li className="flex items-center">
+                <Mail className="mr-2 h-4 w-4 text-primary" />
+                <span className="text-xs">PEC:</span> antoniocannavoagenzia2serviziimmobiliari@pec.it
+              </li>
+              <li className="flex items-center">
                 <Clock className="mr-2 h-4 w-4 text-primary" />
                 Lun-Ven 9:00-19:00, Sab 9:00-13:00
               </li>
