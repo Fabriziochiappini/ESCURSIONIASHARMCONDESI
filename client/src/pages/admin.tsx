@@ -4,7 +4,7 @@ import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-import { PropertyManager } from "@/components/admin/PropertyManager";
+import PropertyManager from "@/components/admin/PropertyManager";
 
 import { 
   Building2, 

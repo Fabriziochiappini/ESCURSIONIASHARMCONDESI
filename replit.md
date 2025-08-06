@@ -113,6 +113,19 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
+- August 6, 2025: Sistema foto immobili completamente rivoluzionato per usabilità professionale
+  * Caricamento immediato foto senza chiudere finestre - workflow naturale come WordPress
+  * Pulsante "Aggiungi Foto" accanto a selezione file per caricamento istantaneo  
+  * Anteprima foto caricate in tempo reale durante modifica proprietà
+  * Drag and drop con @dnd-kit per riordinamento intuitivo usando grip handle (⋮⋮)
+  * Visual feedback durante trascinamento con evidenziazione bordi
+  * Gestione incrementale: nuove foto si aggiungono alle esistenti senza sovrascrivere
+  * Messaggi chiari "Le foto esistenti saranno mantenute" per sicurezza utente
+  * Progress feedback con toast notification per operazioni lunghe
+  * Indicazione foto principale sempre visibile (posizione 1)
+  * Rimozione foto con hover effect e conferma visiva
+  * Input file resettato automaticamente dopo caricamento
+  * Gestione completa errori con rollback e messaggi informativi
 - August 5, 2025: Risolti problemi caricamento multiplo foto immobili
   * Aumentati limiti server da 20 a 30 foto per proprietà
   * Ottimizzata gestione payload fino a 50MB per upload batch

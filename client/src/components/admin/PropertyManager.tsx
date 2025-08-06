@@ -47,6 +47,72 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import type { Property, InsertProperty } from "@shared/schema";
+
+// Sortable Image Item Component
+function SortableImageItem({ image, index, onRemove }: { 
+  image: string; 
+  index: number; 
+  onRemove: (index: number) => void;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: `image-${index}` });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`relative group border-2 rounded-lg p-2 bg-white ${
+        isDragging ? 'border-blue-500 shadow-lg' : 'border-gray-200 hover:border-gray-300'
+      }`}
+    >
+      <div className="flex items-center gap-2">
+        <button
+          {...attributes}
+          {...listeners}
+          className="cursor-grab active:cursor-grabbing p-1 hover:bg-gray-100 rounded"
+        >
+          <GripVertical className="h-4 w-4 text-gray-400" />
+        </button>
+        
+        <img 
+          src={image} 
+          alt={`Immagine ${index + 1}`}
+          className="w-16 h-16 object-cover rounded flex-shrink-0"
+        />
+        
+        <div className="flex-1 min-w-0">
+          <span className="text-sm font-medium">Posizione {index + 1}</span>
+          {index === 0 && (
+            <div className="text-xs text-blue-600 font-medium">Foto principale</div>
+          )}
+        </div>
+        
+        <Button
+          type="button"
+          variant="destructive"
+          size="sm"
+          onClick={() => onRemove(index)}
+          className="opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          <Trash2 className="h-3 w-3" />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 import { isUnauthorizedError } from "@/lib/authUtils";
 
 
@@ -76,7 +142,7 @@ const initialFormData: PropertyFormData = {
   available: true,
 };
 
-export function PropertyManager() {
+export default function PropertyManager() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [formData, setFormData] = useState<PropertyFormData>(initialFormData);
@@ -84,6 +150,8 @@ export function PropertyManager() {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [showImageManager, setShowImageManager] = useState(false);
   const [tempImages, setTempImages] = useState<string[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<string>('');
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -197,6 +265,61 @@ export function PropertyManager() {
     setSelectedFiles(null);
     setTempImages([]);
     setShowImageManager(false);
+    setIsUploading(false);
+    setUploadProgress('');
+  };
+
+  // Function to upload images immediately when selected
+  const handleImageUpload = async (files: FileList) => {
+    if (!files || files.length === 0) return;
+    
+    setIsUploading(true);
+    setUploadProgress(`Caricamento di ${files.length} immagini...`);
+    
+    try {
+      const formDataImages = new FormData();
+      Array.from(files).forEach(file => {
+        formDataImages.append('images', file);
+      });
+
+      const uploadResponse = await fetch('/api/admin/upload-images', {
+        method: 'POST',
+        body: formDataImages,
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error('Errore nel caricamento');
+      }
+
+      const uploadResult = await uploadResponse.json();
+      const imageUrls = uploadResult.imageUrls || [];
+      
+      // Add new images to tempImages immediately
+      setTempImages(prev => [...prev, ...imageUrls]);
+      
+      setUploadProgress(`${imageUrls.length} immagini caricate con successo!`);
+      
+      toast({
+        title: "Foto caricate!",
+        description: `${imageUrls.length} nuove foto aggiunte. Puoi riordinarle e continuare ad aggiungerne altre.`,
+      });
+      
+      // Clear file input
+      setSelectedFiles(null);
+      const fileInput = document.getElementById('images') as HTMLInputElement;
+      if (fileInput) fileInput.value = '';
+      
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "Errore caricamento",
+        description: "Errore nel caricamento delle immagini. Riprova.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+      setTimeout(() => setUploadProgress(''), 3000);
+    }
   };
 
 
@@ -245,76 +368,17 @@ export function PropertyManager() {
     e.preventDefault();
     
     try {
-      // First upload images if any are selected with optimized batch processing
-      let imageUrls: string[] = [];
+      // If there are still unuploaded files, upload them first
       if (selectedFiles && selectedFiles.length > 0) {
-        
-        // Show progress toast for large uploads
-        if (selectedFiles.length > 10) {
-          toast({
-            title: "Caricamento in corso...",
-            description: `Caricamento di ${selectedFiles.length} immagini. Questo potrebbe richiedere alcuni minuti.`,
-          });
-        }
-
-        const formDataImages = new FormData();
-        Array.from(selectedFiles).forEach(file => {
-          formDataImages.append('images', file);
-        });
-
-        // Extended timeout for large uploads with production optimization
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 600000); // 10 minutes for production
-        
-        let uploadResponse;
-        try {
-          uploadResponse = await fetch('/api/admin/upload-images', {
-            method: 'POST',
-            body: formDataImages,
-            signal: controller.signal,
-            // Add performance headers for production
-            headers: {
-              'Accept': 'application/json',
-            }
-          });
-          
-          clearTimeout(timeoutId);
-
-          if (!uploadResponse.ok) {
-            const errorText = await uploadResponse.text();
-            throw new Error(`Errore nel caricamento delle immagini: ${errorText}`);
-          }
-        } catch (uploadError: any) {
-          clearTimeout(timeoutId);
-          if (uploadError.name === 'AbortError') {
-            throw new Error('Timeout del caricamento immagini. Prova con meno immagini alla volta.');
-          }
-          throw uploadError;
-        }
-
-        const uploadResult = await uploadResponse.json();
-        imageUrls = uploadResult.imageUrls || [];
-        
-        // For editing properties, add new images to existing tempImages
-        if (editingProperty) {
-          setTempImages(prev => [...prev, ...imageUrls]);
-        }
-        
-        // Success feedback for large uploads
-        if (selectedFiles.length > 10) {
-          toast({
-            title: "Caricamento completato!",
-            description: `${imageUrls.length} immagini caricate con successo.`,
-          });
-        }
+        await handleImageUpload(selectedFiles);
+        // Wait a moment for state to update
+        await new Promise(resolve => setTimeout(resolve, 100));
       }
 
-      // Prepare property data with incremental image management
+      // Prepare property data using tempImages (which contains all managed photos)
       const propertyData: InsertProperty = {
         ...formData,
-        images: editingProperty 
-          ? tempImages // Always use tempImages for editing (contains existing + new photos)
-          : imageUrls, // For new properties use only uploaded images
+        images: tempImages, // Always use tempImages which contains all managed photos
         features: formData.features.split('\n').filter(feature => feature.trim()),
         price: formData.price.toString(),
       };
@@ -500,25 +564,50 @@ export function PropertyManager() {
 
               <div className="space-y-2">
                 <Label htmlFor="images">Immagini</Label>
-                <Input
-                  id="images"
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={(e) => setSelectedFiles(e.target.files)}
-                  className="cursor-pointer"
-                />
+                <div className="flex gap-2">
+                  <Input
+                    id="images"
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={(e) => setSelectedFiles(e.target.files)}
+                    className="cursor-pointer flex-1"
+                    disabled={isUploading}
+                  />
+                  <Button
+                    type="button"
+                    onClick={() => selectedFiles && handleImageUpload(selectedFiles)}
+                    disabled={!selectedFiles || isUploading}
+                    className="flex items-center gap-2"
+                  >
+                    {isUploading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Caricando...
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="h-4 w-4" />
+                        Aggiungi Foto
+                      </>
+                    )}
+                  </Button>
+                </div>
+                {uploadProgress && (
+                  <p className="text-sm text-blue-600 font-medium">{uploadProgress}</p>
+                )}
                 <div className="text-sm text-gray-500">
-                  {editingProperty ? (
-                    <div className="space-y-1">
-                      <p className="text-green-600 font-medium">
-                        Le foto esistenti saranno mantenute - aggiungi nuove foto senza perdere quelle attuali
-                      </p>
-                      <p>Seleziona immagini aggiuntive da aggiungere alla proprietà</p>
-                    </div>
-                  ) : (
-                    <p>Seleziona fino a 30 immagini per la proprietà</p>
-                  )}
+                  <div className="space-y-1">
+                    <p className="text-green-600 font-medium">
+                      ✓ Carica le foto immediatamente senza chiudere la finestra
+                    </p>
+                    <p>
+                      {editingProperty ? 
+                        'Le foto esistenti saranno mantenute - aggiungi senza perdere quelle attuali' : 
+                        'Seleziona e carica fino a 30 immagini per la proprietà'
+                      }
+                    </p>
+                  </div>
                   <span className="text-xs text-blue-600 block mt-1">
                     Ottimizzato per immobili: supporta fino a 30 foto senza rallentamenti
                   </span>
