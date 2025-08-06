@@ -387,16 +387,6 @@ export default function PropertyDetail() {
                       INVIA RICHIESTA
                     </Button>
                   </div>
-
-                  <div className="mt-4">
-                    <a 
-                      href={`mailto:${property.agentEmail}`} 
-                      className="inline-flex items-center justify-center w-full bg-gray-100 text-gray-700 px-4 py-3 rounded-xl hover:bg-gray-200 transition-colors"
-                    >
-                      <Mail className="h-4 w-4 mr-2" />
-                      {property.agentEmail}
-                    </a>
-                  </div>
                 </form>
 
                 <div className="mt-8 pt-6 border-t border-gray-200 text-center">
