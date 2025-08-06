@@ -113,6 +113,16 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
+- August 6, 2025: Ottimizzata galleria foto per caricamento immediato e professionale
+  * ELIMINATI MICROFLASH: Rimossi lazy loading e intersection observers che causavano scatti visivi
+  * CARICAMENTO IMMEDIATO: loading="eager" e decoding="sync" per foto istantanee come siti moderni
+  * DIMENSIONI OTTIMALI: Foto ridimensionate al 80% viewport, perfettamente centrate
+  * UX FLUIDA: Galleria fullscreen elegante senza ritardi o artifacts di caricamento
+  * DESIGN PULITO: Componente SimpleImage semplificato, controlli intuitivi, navigazione tastiera
+  * PERFORMANCE: Eliminata complessità virtual scrolling, focus su velocità e fluidità
+- August 6, 2025: Footer aggiornato con informazioni complete agenzia e credit sviluppatore
+  * AGENZIA 2 - Via San Girolamo, 20 - P.I.04505220873
+  * Credit "Realizzato da WEBPROITALIA" con link https://webproitalia.com
 - August 6, 2025: Sistema WhatsApp integrato completamente per ogni proprietà
   * PULSANTE SPECIFICO: "INVIA RICHIESTA" WhatsApp personalizzato per ogni singola proprietà
   * MESSAGGI PERSONALIZZATI: Ogni proprietà genera messaggio WhatsApp con dettagli specifici (titolo, prezzo, ubicazione, caratteristiche)
