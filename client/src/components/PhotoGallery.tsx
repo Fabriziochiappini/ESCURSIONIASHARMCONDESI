@@ -158,94 +158,61 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
         </Dialog>
       </div>
 
-      {/* Modal Dialog per visualizzazione ottimizzata */}
+      {/* Modal Dialog per visualizzazione a schermo intero */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-4xl w-[90vw] h-[80vh] p-0 bg-white border-0 rounded-2xl overflow-hidden">
+        <DialogContent className="max-w-7xl w-full h-full max-h-screen p-0 bg-black/95 border-0">
           <DialogTitle className="sr-only">{title} - Galleria foto</DialogTitle>
           
-          <div className="relative w-full h-full flex flex-col">
-            {/* Header con controlli */}
-            <div className="flex justify-between items-center p-4 bg-gray-50 border-b">
-              <div className="flex items-center space-x-4">
-                <h3 className="font-semibold text-gray-900">Galleria Foto</h3>
-                <div className="text-sm text-gray-500">
-                  {selectedImage + 1} di {images.length}
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                {/* Navigation arrows */}
-                {images.length > 1 && (
-                  <>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={prevImage}
-                      className="rounded-full"
-                    >
-                      <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                    
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={nextImage}
-                      className="rounded-full"
-                    >
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
-                  </>
-                )}
-                
-                {/* Close button */}
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setIsModalOpen(false)}
-                  className="rounded-full"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
+          <div className="relative w-full h-full flex items-center justify-center">
+            {/* Close button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 z-50 bg-black/50 text-white hover:bg-black/70 rounded-full"
+              onClick={() => setIsModalOpen(false)}
+            >
+              <X className="h-6 w-6" />
+            </Button>
 
-            {/* Immagine principale - dimensione controllata */}
-            <div className="flex-1 flex items-center justify-center p-6 bg-gray-50">
-              <div className="relative max-w-full max-h-full">
-                <img
-                  src={images[selectedImage]}
-                  alt={`${title} - Foto ${selectedImage + 1}`}
-                  className="max-w-full max-h-[60vh] object-contain rounded-lg shadow-lg"
-                  loading="eager"
-                />
-              </div>
-            </div>
-
-            {/* Thumbnails footer - solo se più di 1 immagine */}
+            {/* Navigation arrows */}
             {images.length > 1 && (
-              <div className="p-4 bg-white border-t">
-                <div className="flex space-x-2 overflow-x-auto">
-                  {images.map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedImage(index)}
-                      className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
-                        index === selectedImage
-                          ? 'border-primary ring-2 ring-primary/20'
-                          : 'border-gray-200 hover:border-gray-300'
-                      }`}
-                    >
-                      <img
-                        src={image}
-                        alt={`Miniatura ${index + 1}`}
-                        className="w-full h-full object-cover"
-                        loading="eager"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
+              <>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute left-4 z-50 bg-black/50 text-white hover:bg-black/70 rounded-full"
+                  onClick={prevImage}
+                >
+                  <ChevronLeft className="h-8 w-8" />
+                </Button>
+                
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-4 z-50 bg-black/50 text-white hover:bg-black/70 rounded-full"
+                  onClick={nextImage}
+                >
+                  <ChevronRight className="h-8 w-8" />
+                </Button>
+              </>
             )}
+
+            {/* Main image - centrata e ridimensionata correttamente */}
+            <div className="relative w-full h-full flex items-center justify-center p-16">
+              <img
+                src={images[selectedImage]}
+                alt={`${title} - Foto ${selectedImage + 1}`}
+                className="max-w-[80vw] max-h-[80vh] object-contain"
+                loading="eager"
+              />
+            </div>
+
+            {/* Image counter */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-50">
+              <div className="bg-black/50 text-white px-4 py-2 rounded-full text-sm">
+                {selectedImage + 1} di {images.length}
+              </div>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
