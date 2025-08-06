@@ -62,7 +62,7 @@ export function Footer() {
               </li>
               <li className="flex items-center">
                 <Mail className="mr-2 h-4 w-4 text-primary" />
-                <span className="text-xs">PEC:</span> antoniocannavoagenzia2serviziimmobiliari@pec.it
+                antoniocannavoagenzia2serviziimmobiliari@pec.it
               </li>
               <li className="flex items-center">
                 <Clock className="mr-2 h-4 w-4 text-primary" />
