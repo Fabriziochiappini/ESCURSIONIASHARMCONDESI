@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import logoAgenziaUrl from "@assets/logo_rosso-removebg-preview_1754493166038.png";
+import logoAgenziaUrl from "@assets/Immagine_2025-08-06_182718-removebg-preview_1754497683531.png";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
