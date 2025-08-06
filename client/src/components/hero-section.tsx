@@ -24,6 +24,10 @@ export function HeroSection() {
               src={logoAgenziaUrl} 
               alt="AGENZIA 2 Servizi Immobiliari" 
               className="h-28 sm:h-36 md:h-40 lg:h-48 w-auto mx-auto object-contain"
+              style={{ 
+                clipPath: 'inset(0 2px 0 0)',
+                filter: 'drop-shadow(0 0 0 transparent)'
+              }}
             />
           </div>
           
