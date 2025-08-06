@@ -474,7 +474,7 @@ export default function PropertyManager() {
         <h2 className="text-2xl font-bold text-gray-900">Gestione Proprietà</h2>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={resetForm}>
+            <Button onClick={resetForm} className="bg-purple-600 text-white hover:bg-purple-700">
               <Plus className="h-4 w-4 mr-2" />
               Nuova Proprietà
             </Button>
@@ -814,7 +814,7 @@ export default function PropertyManager() {
                 <Button 
                   type="submit" 
                   disabled={createMutation.isPending || updateMutation.isPending}
-                  className="min-w-[100px]"
+                  className="min-w-[100px] bg-purple-600 text-white hover:bg-purple-700"
                 >
                   {createMutation.isPending || updateMutation.isPending ? (
                     <div className="flex items-center gap-2">
