@@ -295,6 +295,11 @@ export function PropertyManager() {
         const uploadResult = await uploadResponse.json();
         imageUrls = uploadResult.imageUrls || [];
         
+        // For editing properties, add new images to existing tempImages
+        if (editingProperty) {
+          setTempImages(prev => [...prev, ...imageUrls]);
+        }
+        
         // Success feedback for large uploads
         if (selectedFiles.length > 10) {
           toast({
@@ -304,14 +309,12 @@ export function PropertyManager() {
         }
       }
 
-      // Prepare property data
+      // Prepare property data with incremental image management
       const propertyData: InsertProperty = {
         ...formData,
-        images: editingProperty && imageUrls.length === 0 
-          ? tempImages // Use the managed image list
-          : editingProperty && imageUrls.length > 0
-            ? [...tempImages, ...imageUrls] // Add new images to managed list
-            : imageUrls, // Use new uploaded images for new properties
+        images: editingProperty 
+          ? tempImages // Always use tempImages for editing (contains existing + new photos)
+          : imageUrls, // For new properties use only uploaded images
         features: formData.features.split('\n').filter(feature => feature.trim()),
         price: formData.price.toString(),
       };
@@ -505,25 +508,40 @@ export function PropertyManager() {
                   onChange={(e) => setSelectedFiles(e.target.files)}
                   className="cursor-pointer"
                 />
-                <p className="text-sm text-gray-500">
-                  {editingProperty ? 'Seleziona nuove immagini da aggiungere (opzionale)' : 'Seleziona fino a 30 immagini per la proprietà'}
-                  <br />
-                  <span className="text-xs text-blue-600">
+                <div className="text-sm text-gray-500">
+                  {editingProperty ? (
+                    <div className="space-y-1">
+                      <p className="text-green-600 font-medium">
+                        Le foto esistenti saranno mantenute - aggiungi nuove foto senza perdere quelle attuali
+                      </p>
+                      <p>Seleziona immagini aggiuntive da aggiungere alla proprietà</p>
+                    </div>
+                  ) : (
+                    <p>Seleziona fino a 30 immagini per la proprietà</p>
+                  )}
+                  <span className="text-xs text-blue-600 block mt-1">
                     Ottimizzato per immobili: supporta fino a 30 foto senza rallentamenti
                   </span>
-                </p>
+                </div>
                 {editingProperty && tempImages && tempImages.length > 0 && (
                   <div className="mt-2">
                     <div className="flex items-center justify-between mb-2">
-                      <p className="text-sm text-gray-600">Immagini attuali: {tempImages.length}</p>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setShowImageManager(true)}
-                      >
-                        Gestisci Ordine
-                      </Button>
+                      <p className="text-sm text-gray-600">
+                        Immagini attuali: <span className="font-medium text-blue-600">{tempImages.length}</span>
+                        {tempImages.length > 0 && <span className="text-xs text-gray-500 ml-1">(La prima è quella principale)</span>}
+                      </p>
+                      <div className="space-x-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setShowImageManager(true)}
+                          className="flex items-center gap-1"
+                        >
+                          <GripVertical className="h-3 w-3" />
+                          Riordina
+                        </Button>
+                      </div>
                     </div>
                     <div className="grid grid-cols-6 gap-2">
                       {tempImages.map((img, index) => (
