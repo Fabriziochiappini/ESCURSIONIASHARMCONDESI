@@ -173,28 +173,16 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
               }}
             />
             
-            {/* Progressive WebP image with JPEG fallback */}
-            <picture>
-              <source 
-                srcSet={`
-                  ${src.replace(/\.[^.]+$/, '_sm.webp')} 400w,
-                  ${src.replace(/\.[^.]+$/, '_md.webp')} 800w,
-                  ${src.replace(/\.[^.]+$/, '_lg.webp')} 1200w,
-                  ${src.replace(/\.[^.]+$/, '_xl.webp')} 2048w
-                `}
-                type="image/webp"
-                sizes="(max-width: 768px) 400px, (max-width: 1024px) 800px, 1200px"
-              />
-              <img
-                src={src}
-                alt={alt}
-                className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${loadedImages.has(index) ? 'opacity-100' : 'opacity-0'}`}
-                style={{ willChange: 'transform' }}
-                onLoad={() => setIsLoaded(true)}
-                loading="lazy"
-                decoding="async"
-              />
-            </picture>
+            {/* Main image with optimizations */}
+            <img
+              src={src}
+              alt={alt}
+              className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${loadedImages.has(index) ? 'opacity-100' : 'opacity-0'}`}
+              style={{ willChange: 'transform' }}
+              onLoad={() => setIsLoaded(true)}
+              loading="lazy"
+              decoding="async"
+            />
             
             {!loadedImages.has(index) && (
               <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">

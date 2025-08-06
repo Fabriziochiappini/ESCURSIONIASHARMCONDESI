@@ -270,13 +270,17 @@ export default function PropertyManager() {
     setUploadProgress('');
   };
 
-  // Client-side image compression before upload
+  // Client-side image compression before upload - simplified for compatibility
   const compressImage = async (file: File): Promise<File> => {
+    // Only compress very large files to avoid compatibility issues
+    if (file.size < 3 * 1024 * 1024) { // Less than 3MB, skip compression
+      return file;
+    }
+
     const options = {
       maxSizeMB: 2, // Max 2MB after compression
       maxWidthOrHeight: 2048, // Max dimension
-      useWebWorker: true, // Use web worker for better performance
-      fileType: 'image/webp', // Convert to WebP for better compression
+      useWebWorker: false, // Disable web worker for better compatibility
       initialQuality: 0.8 // Good quality vs size balance
     };
 
@@ -666,24 +670,17 @@ export default function PropertyManager() {
                     <div className="grid grid-cols-6 gap-2">
                       {tempImages.map((img, index) => (
                         <div key={index} className="relative group">
-                          {/* Progressive WebP thumbnail with blur placeholder */}
-                          <picture>
-                            <source 
-                              srcSet={img.replace(/\.[^.]+$/, '_sm.webp')} 
-                              type="image/webp"
-                            />
-                            <img 
-                              src={img} 
-                              alt={`Immagine ${index + 1}`}
-                              className="w-16 h-16 object-cover rounded border transition-all duration-300"
-                              style={{
-                                background: `linear-gradient(45deg, #f3f4f6, #e5e7eb)`,
-                                backgroundSize: '8px 8px'
-                              }}
-                              loading="lazy"
-                              decoding="async"
-                            />
-                          </picture>
+                          <img 
+                            src={img} 
+                            alt={`Immagine ${index + 1}`}
+                            className="w-16 h-16 object-cover rounded border transition-all duration-300"
+                            style={{
+                              background: `linear-gradient(45deg, #f3f4f6, #e5e7eb)`,
+                              backgroundSize: '8px 8px'
+                            }}
+                            loading="lazy"
+                            decoding="async"
+                          />
                           
                           <Button
                             type="button"
