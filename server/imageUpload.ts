@@ -1,4 +1,5 @@
 import multer from 'multer';
+import sharp from 'sharp';
 import { ObjectStorageService } from './objectStorage';
 
 // Configure multer to use memory storage instead of disk storage
@@ -30,16 +31,52 @@ export const upload = multer({
 // Initialize object storage service
 const objectStorageService = new ObjectStorageService();
 
-// Helper function to upload image to object storage
+// Helper function to compress and upload image to object storage
 export const uploadImageToStorage = async (
   file: Express.Multer.File
 ): Promise<{ url: string; filename: string }> => {
-  const filename = objectStorageService.generateUniqueFilename(file.originalname);
-  const publicPaths = objectStorageService.getPublicObjectSearchPaths();
-  const uploadPath = `${publicPaths[0]}/properties/${filename}`;
-  
-  const url = await objectStorageService.uploadFile(file, uploadPath);
-  return { url, filename };
+  try {
+    // Generate unique filename
+    const filename = objectStorageService.generateUniqueFilename(file.originalname);
+    
+    // Compress image for web optimization (production performance)
+    let processedBuffer = file.buffer;
+    
+    // Only compress JPEG and PNG files larger than 1MB
+    if ((file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') && file.size > 1024 * 1024) {
+      console.log(`Compressing image ${file.originalname} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
+      
+      processedBuffer = await sharp(file.buffer)
+        .resize(2048, 2048, { 
+          fit: 'inside', 
+          withoutEnlargement: true 
+        })
+        .jpeg({ 
+          quality: 85, 
+          progressive: true 
+        })
+        .toBuffer();
+        
+      console.log(`Compressed from ${(file.size / 1024 / 1024).toFixed(2)}MB to ${(processedBuffer.length / 1024 / 1024).toFixed(2)}MB`);
+    }
+    
+    // Create modified file object with compressed buffer
+    const processedFile: Express.Multer.File = {
+      ...file,
+      buffer: processedBuffer,
+      size: processedBuffer.length,
+      mimetype: file.mimetype === 'image/png' ? 'image/jpeg' : file.mimetype // Convert PNG to JPEG for better compression
+    };
+    
+    const publicPaths = objectStorageService.getPublicObjectSearchPaths();
+    const uploadPath = `${publicPaths[0]}/properties/${filename}`;
+    
+    const url = await objectStorageService.uploadFile(processedFile, uploadPath);
+    return { url, filename };
+  } catch (error) {
+    console.error('Error processing/uploading image:', error);
+    throw error;
+  }
 };
 
 // Helper function to delete image from object storage

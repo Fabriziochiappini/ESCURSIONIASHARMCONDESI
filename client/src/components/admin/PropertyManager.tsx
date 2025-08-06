@@ -223,16 +223,34 @@ export function PropertyManager() {
           formDataImages.append('images', file);
         });
 
-        // Extended timeout for large uploads
-        const uploadResponse = await fetch('/api/admin/upload-images', {
-          method: 'POST',
-          body: formDataImages,
-          signal: AbortSignal.timeout(300000), // 5 minutes timeout
-        });
+        // Extended timeout for large uploads with production optimization
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 600000); // 10 minutes for production
+        
+        let uploadResponse;
+        try {
+          uploadResponse = await fetch('/api/admin/upload-images', {
+            method: 'POST',
+            body: formDataImages,
+            signal: controller.signal,
+            // Add performance headers for production
+            headers: {
+              'Accept': 'application/json',
+            }
+          });
+          
+          clearTimeout(timeoutId);
 
-        if (!uploadResponse.ok) {
-          const errorText = await uploadResponse.text();
-          throw new Error(`Errore nel caricamento delle immagini: ${errorText}`);
+          if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text();
+            throw new Error(`Errore nel caricamento delle immagini: ${errorText}`);
+          }
+        } catch (uploadError: any) {
+          clearTimeout(timeoutId);
+          if (uploadError.name === 'AbortError') {
+            throw new Error('Timeout del caricamento immagini. Prova con meno immagini alla volta.');
+          }
+          throw uploadError;
         }
 
         const uploadResult = await uploadResponse.json();
@@ -583,8 +601,17 @@ export function PropertyManager() {
                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                   Annulla
                 </Button>
-                <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>
-                  {createMutation.isPending || updateMutation.isPending ? 'Salvando...' : 'Salva'}
+                <Button 
+                  type="submit" 
+                  disabled={createMutation.isPending || updateMutation.isPending}
+                  className="min-w-[100px]"
+                >
+                  {createMutation.isPending || updateMutation.isPending ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Salvando...
+                    </div>
+                  ) : 'Salva'}
                 </Button>
               </div>
             </form>

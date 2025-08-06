@@ -21,6 +21,22 @@ app.use('/api/properties/:id/images', (req, res, next) => {
   next();
 });
 
+// Performance headers for production image serving
+app.use('/public-objects', (req, res, next) => {
+  // Add performance headers for static assets
+  res.set({
+    'X-Content-Type-Options': 'nosniff',
+    'Cross-Origin-Resource-Policy': 'cross-origin',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
+    'Access-Control-Max-Age': '86400',
+    // Production optimization headers
+    'Vary': 'Accept-Encoding',
+    'Connection': 'keep-alive'
+  });
+  next();
+});
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;

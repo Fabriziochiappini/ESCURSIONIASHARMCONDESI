@@ -1,5 +1,5 @@
 import { Storage, File } from "@google-cloud/storage";
-import { Response } from "express";
+import { Response, Request } from "express";
 import { randomUUID } from "crypto";
 
 const REPLIT_SIDECAR_ENDPOINT = "http://127.0.0.1:1106";
@@ -87,18 +87,35 @@ export class ObjectStorageService {
     return null;
   }
 
-  // Downloads an object to the response.
-  async downloadObject(file: File, res: Response, cacheTtlSec: number = 3600) {
+  // Downloads an object to the response with optimized caching for production.
+  async downloadObject(file: File, res: Response, req?: Request, cacheTtlSec: number = 86400) { // 24 hours default
     try {
       // Get file metadata
       const [metadata] = await file.getMetadata();
       
-      // Set appropriate headers
+      // Set aggressive caching headers for production performance
       res.set({
         "Content-Type": metadata.contentType || "application/octet-stream",
         "Content-Length": metadata.size,
-        "Cache-Control": `public, max-age=${cacheTtlSec}`,
+        "Cache-Control": `public, max-age=${cacheTtlSec}, immutable`, // Immutable for better caching
+        "ETag": metadata.etag || `"${metadata.generation}"`,
+        "Last-Modified": metadata.updated,
+        "Expires": new Date(Date.now() + cacheTtlSec * 1000).toUTCString(),
+        // Performance headers
+        "X-Content-Type-Options": "nosniff",
+        "Accept-Ranges": "bytes"
       });
+
+      // Handle conditional requests for better performance
+      if (req) {
+        const ifNoneMatch = req.get('If-None-Match');
+        const ifModifiedSince = req.get('If-Modified-Since');
+        
+        if (ifNoneMatch === res.get('ETag') || 
+            (ifModifiedSince && metadata.updated && new Date(ifModifiedSince) >= new Date(metadata.updated))) {
+          return res.status(304).end();
+        }
+      }
 
       // Stream the file to the response
       const stream = file.createReadStream();

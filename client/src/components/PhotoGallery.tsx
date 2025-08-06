@@ -16,13 +16,24 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0]));
   const galleryRef = useRef<HTMLDivElement>(null);
 
-  // Preload images for better UX
+  // Preload images for better UX with error handling and cache optimization
   const preloadImage = (index: number) => {
     if (!loadedImages.has(index) && images[index]) {
       const img = new Image();
+      
+      // Add cache control for production performance
+      img.crossOrigin = 'anonymous';
+      
       img.onload = () => {
         setLoadedImages(prev => new Set([...Array.from(prev), index]));
       };
+      
+      img.onerror = (error) => {
+        console.warn(`Failed to load image ${index}:`, images[index], error);
+        // Don't add to loadedImages so it can retry later
+      };
+      
+      // Use image URL without cache busting for production performance
       img.src = images[index];
     }
   };
@@ -104,10 +115,11 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
         {isInView && (
           <>
             <div 
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+              className="absolute inset-0 bg-cover bg-center transition-all duration-700 group-hover:scale-110"
               style={{ 
                 backgroundImage: `url('${src}')`,
-                opacity: loadedImages.has(index) ? 1 : 0
+                opacity: loadedImages.has(index) ? 1 : 0,
+                willChange: 'transform' // Optimize for performance
               }}
             />
             {!loadedImages.has(index) && (
