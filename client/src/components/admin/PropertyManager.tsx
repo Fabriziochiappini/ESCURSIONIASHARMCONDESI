@@ -126,6 +126,7 @@ const initialFormData: PropertyFormData = {
   description: "",
   price: "0",
   type: "vendita",
+  propertyType: undefined,
   priceType: "total",
   location: "",
   municipality: "",
@@ -366,6 +367,7 @@ export default function PropertyManager() {
     setFormData({
       ...property,
       features: Array.isArray(property.features) ? property.features.join('\n') : '',
+      propertyType: property.propertyType || undefined,
     });
     setTempImages(property.images || []);
     setSelectedFiles(null);
@@ -509,6 +511,25 @@ export default function PropertyManager() {
                       <SelectItem value="vendita">Vendita</SelectItem>
                       <SelectItem value="affitto">Affitto</SelectItem>
                       <SelectItem value="casa_vacanza">Casa Vacanza</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="propertyType">Categoria Proprietà</Label>
+                  <Select
+                    value={formData.propertyType || ""}
+                    onValueChange={(value) => setFormData(prev => ({ ...prev, propertyType: value || undefined }))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleziona categoria" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="villa">Villa</SelectItem>
+                      <SelectItem value="appartamento">Appartamento</SelectItem>
+                      <SelectItem value="villa_singola">Villa Singola</SelectItem>
+                      <SelectItem value="casa_singola_con_terreno">Casa Singola con Terreno</SelectItem>
+                      <SelectItem value="rustici_e_terreni">Rustici e Terreni</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
