@@ -1,7 +1,37 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
 import { X, ChevronLeft, ChevronRight, Images, Maximize2 } from "lucide-react";
+
+// Virtual scrolling hook for large image galleries
+function useVirtualScrolling(items: string[], containerHeight: number = 400, itemHeight: number = 200) {
+  const [scrollTop, setScrollTop] = useState(0);
+  const [containerHeight_, setContainerHeight] = useState(containerHeight);
+  
+  const visibleStart = Math.floor(scrollTop / itemHeight);
+  const visibleEnd = Math.min(
+    visibleStart + Math.ceil(containerHeight_ / itemHeight) + 2, // +2 for buffer
+    items.length
+  );
+  
+  const visibleItems = useMemo(() => 
+    items.slice(visibleStart, visibleEnd).map((item, index) => ({
+      item,
+      index: visibleStart + index,
+      top: (visibleStart + index) * itemHeight
+    })),
+    [items, visibleStart, visibleEnd, itemHeight]
+  );
+  
+  const totalHeight = items.length * itemHeight;
+  
+  return {
+    visibleItems,
+    totalHeight,
+    setScrollTop,
+    setContainerHeight
+  };
+}
 
 interface PhotoGalleryProps {
   images: string[];
@@ -15,6 +45,10 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0]));
   const galleryRef = useRef<HTMLDivElement>(null);
+  
+  // Use virtual scrolling for large galleries (>20 images)
+  const useVirtual = images.length > 20;
+  const virtualScrolling = useVirtualScrolling(images, 600, 250);
 
   // Preload images for better UX with error handling and cache optimization
   const preloadImage = (index: number) => {
@@ -105,6 +139,21 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
       }
     }, [isInView, isLoaded, index]);
 
+    // Generate blur placeholder from image URL
+    const getBlurPlaceholder = (imageUrl: string) => {
+      // Simple base64 blur placeholder
+      return `data:image/svg+xml;base64,${btoa(`
+        <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="blur">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+            </filter>
+          </defs>
+          <rect width="100%" height="100%" fill="#f3f4f6" filter="url(#blur)"/>
+        </svg>
+      `)}`;
+    };
+
     return (
       <div 
         ref={imgRef}
@@ -114,14 +163,39 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
       >
         {isInView && (
           <>
+            {/* Blur placeholder */}
             <div 
-              className="absolute inset-0 bg-cover bg-center transition-all duration-700 group-hover:scale-110"
+              className="absolute inset-0 bg-cover bg-center"
               style={{ 
-                backgroundImage: `url('${src}')`,
-                opacity: loadedImages.has(index) ? 1 : 0,
-                willChange: 'transform' // Optimize for performance
+                backgroundImage: `url('${getBlurPlaceholder(src)}')`,
+                opacity: loadedImages.has(index) ? 0 : 1,
+                transition: 'opacity 0.3s ease-in-out'
               }}
             />
+            
+            {/* Progressive WebP image with JPEG fallback */}
+            <picture>
+              <source 
+                srcSet={`
+                  ${src.replace(/\.[^.]+$/, '_sm.webp')} 400w,
+                  ${src.replace(/\.[^.]+$/, '_md.webp')} 800w,
+                  ${src.replace(/\.[^.]+$/, '_lg.webp')} 1200w,
+                  ${src.replace(/\.[^.]+$/, '_xl.webp')} 2048w
+                `}
+                type="image/webp"
+                sizes="(max-width: 768px) 400px, (max-width: 1024px) 800px, 1200px"
+              />
+              <img
+                src={src}
+                alt={alt}
+                className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${loadedImages.has(index) ? 'opacity-100' : 'opacity-0'}`}
+                style={{ willChange: 'transform' }}
+                onLoad={() => setIsLoaded(true)}
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+            
             {!loadedImages.has(index) && (
               <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
                 <Images className="h-8 w-8 text-gray-400" />

@@ -31,6 +31,51 @@ export const upload = multer({
 // Initialize object storage service
 const objectStorageService = new ObjectStorageService();
 
+// Generate responsive image sizes for different screen sizes
+export const generateResponsiveImages = async (
+  file: Express.Multer.File,
+  basePath: string
+): Promise<{
+  urls: { size: string; url: string; width: number }[];
+  mainUrl: string;
+  filename: string;
+}> => {
+  const sizes = [
+    { width: 400, suffix: 'sm' },   // Mobile
+    { width: 800, suffix: 'md' },   // Tablet
+    { width: 1200, suffix: 'lg' },  // Desktop
+    { width: 2048, suffix: 'xl' },  // Full size
+  ];
+  
+  const urls = [];
+  const baseFilename = objectStorageService.generateUniqueFilename(file.originalname);
+  
+  for (const size of sizes) {
+    const sizedBuffer = await sharp(file.buffer)
+      .resize(size.width, size.width, { 
+        fit: 'inside', 
+        withoutEnlargement: true 
+      })
+      .webp({ quality: 82, effort: 4 })
+      .toBuffer();
+    
+    const filename = baseFilename.replace(/\.[^.]+$/, `_${size.suffix}.webp`);
+    const uploadPath = `${basePath}/${filename}`;
+    const url = await objectStorageService.uploadFile(
+      { ...file, buffer: sizedBuffer, size: sizedBuffer.length, mimetype: 'image/webp' } as Express.Multer.File,
+      uploadPath
+    );
+    
+    urls.push({ size: size.suffix, url, width: size.width });
+  }
+  
+  return {
+    urls,
+    mainUrl: urls[urls.length - 1].url, // Full size as main
+    filename: baseFilename
+  };
+};
+
 // Helper function to compress and upload image to object storage
 export const uploadImageToStorage = async (
   file: Express.Multer.File
@@ -42,22 +87,45 @@ export const uploadImageToStorage = async (
     // Compress image for web optimization (production performance)
     let processedBuffer = file.buffer;
     
-    // Only compress JPEG and PNG files larger than 1MB
-    if ((file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') && file.size > 1024 * 1024) {
-      console.log(`Compressing image ${file.originalname} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
+    // Modern image optimization with WebP and responsive sizes
+    if ((file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') && file.size > 512 * 1024) {
+      console.log(`Optimizing image ${file.originalname} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
       
-      processedBuffer = await sharp(file.buffer)
+      // Generate WebP version for modern browsers (better compression)
+      const webpBuffer = await sharp(file.buffer)
+        .resize(2048, 2048, { 
+          fit: 'inside', 
+          withoutEnlargement: true 
+        })
+        .webp({ 
+          quality: 82, 
+          effort: 4 // Better compression
+        })
+        .toBuffer();
+      
+      // Generate JPEG fallback for compatibility
+      const jpegBuffer = await sharp(file.buffer)
         .resize(2048, 2048, { 
           fit: 'inside', 
           withoutEnlargement: true 
         })
         .jpeg({ 
           quality: 85, 
-          progressive: true 
+          progressive: true,
+          mozjpeg: true // Better compression
         })
         .toBuffer();
-        
-      console.log(`Compressed from ${(file.size / 1024 / 1024).toFixed(2)}MB to ${(processedBuffer.length / 1024 / 1024).toFixed(2)}MB`);
+      
+      // Use the smaller format
+      if (webpBuffer.length < jpegBuffer.length * 0.9) {
+        processedBuffer = webpBuffer;
+        file.mimetype = 'image/webp';
+        console.log(`WebP optimization: ${(file.size / 1024 / 1024).toFixed(2)}MB → ${(processedBuffer.length / 1024 / 1024).toFixed(2)}MB`);
+      } else {
+        processedBuffer = jpegBuffer;
+        file.mimetype = 'image/jpeg';
+        console.log(`JPEG optimization: ${(file.size / 1024 / 1024).toFixed(2)}MB → ${(processedBuffer.length / 1024 / 1024).toFixed(2)}MB`);
+      }
     }
     
     // Create modified file object with compressed buffer

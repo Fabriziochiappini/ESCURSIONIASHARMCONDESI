@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import imageCompression from 'browser-image-compression';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -269,18 +270,48 @@ export default function PropertyManager() {
     setUploadProgress('');
   };
 
-  // Function to upload images immediately when selected
+  // Client-side image compression before upload
+  const compressImage = async (file: File): Promise<File> => {
+    const options = {
+      maxSizeMB: 2, // Max 2MB after compression
+      maxWidthOrHeight: 2048, // Max dimension
+      useWebWorker: true, // Use web worker for better performance
+      fileType: 'image/webp', // Convert to WebP for better compression
+      initialQuality: 0.8 // Good quality vs size balance
+    };
+
+    try {
+      const compressedFile = await imageCompression(file, options);
+      console.log(`Compressed ${file.name}: ${(file.size / 1024 / 1024).toFixed(2)}MB → ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`);
+      return compressedFile;
+    } catch (error) {
+      console.warn(`Compression failed for ${file.name}, using original:`, error);
+      return file;
+    }
+  };
+
+  // Function to upload images immediately when selected with client-side compression
   const handleImageUpload = async (files: FileList) => {
     if (!files || files.length === 0) return;
     
     setIsUploading(true);
-    setUploadProgress(`Caricamento di ${files.length} immagini...`);
+    setUploadProgress(`Ottimizzando ${files.length} immagini...`);
     
     try {
       const formDataImages = new FormData();
-      Array.from(files).forEach(file => {
-        formDataImages.append('images', file);
-      });
+      const compressedFiles = [];
+      
+      // Compress images on client-side first
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        setUploadProgress(`Ottimizzando immagine ${i + 1}/${files.length}...`);
+        
+        const compressedFile = await compressImage(file);
+        compressedFiles.push(compressedFile);
+        formDataImages.append('images', compressedFile);
+      }
+
+      setUploadProgress(`Caricamento di ${compressedFiles.length} immagini ottimizzate...`);
 
       const uploadResponse = await fetch('/api/admin/upload-images', {
         method: 'POST',
@@ -300,8 +331,8 @@ export default function PropertyManager() {
       setUploadProgress(`${imageUrls.length} immagini caricate con successo!`);
       
       toast({
-        title: "Foto caricate!",
-        description: `${imageUrls.length} nuove foto aggiunte. Puoi riordinarle e continuare ad aggiungerne altre.`,
+        title: "Foto ottimizzate e caricate!",
+        description: `${imageUrls.length} nuove foto aggiunte e ottimizzate. Puoi riordinarle e continuare ad aggiungerne altre.`,
       });
       
       // Clear file input
@@ -635,11 +666,25 @@ export default function PropertyManager() {
                     <div className="grid grid-cols-6 gap-2">
                       {tempImages.map((img, index) => (
                         <div key={index} className="relative group">
-                          <img 
-                            src={img} 
-                            alt={`Immagine ${index + 1}`}
-                            className="w-16 h-16 object-cover rounded border"
-                          />
+                          {/* Progressive WebP thumbnail with blur placeholder */}
+                          <picture>
+                            <source 
+                              srcSet={img.replace(/\.[^.]+$/, '_sm.webp')} 
+                              type="image/webp"
+                            />
+                            <img 
+                              src={img} 
+                              alt={`Immagine ${index + 1}`}
+                              className="w-16 h-16 object-cover rounded border transition-all duration-300"
+                              style={{
+                                background: `linear-gradient(45deg, #f3f4f6, #e5e7eb)`,
+                                backgroundSize: '8px 8px'
+                              }}
+                              loading="lazy"
+                              decoding="async"
+                            />
+                          </picture>
+                          
                           <Button
                             type="button"
                             variant="destructive"
@@ -651,6 +696,7 @@ export default function PropertyManager() {
                           </Button>
                           <div className="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white text-xs px-1 rounded-br">
                             {index + 1}
+                            {index === 0 && <span className="text-yellow-400 ml-1">★</span>}
                           </div>
                         </div>
                       ))}
