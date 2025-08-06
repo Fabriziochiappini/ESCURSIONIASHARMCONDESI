@@ -229,14 +229,11 @@ export default function About() {
               </Button>
               <Button 
                 size="lg" 
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-purple-600"
-                asChild
+                className="bg-purple-600 text-white font-semibold border-2 border-purple-500"
+                onClick={() => window.open('tel:+393468003234', '_self')}
               >
-                <a href="tel:+393468003234">
-                  <Phone className="h-5 w-5 mr-2" />
-                  Chiamaci Ora
-                </a>
+                <Phone className="h-5 w-5 mr-2" />
+                Chiamaci Ora
               </Button>
             </div>
           </div>
