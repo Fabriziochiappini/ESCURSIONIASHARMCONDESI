@@ -1,4 +1,4 @@
-import logoAgenziaUrl from "@assets/logo_agenzia_22-removebg-preview_1753804298069.png";
+import logoAgenziaUrl from "@assets/logo_rosso-removebg-preview_1754493166038.png";
 
 export function HeroSection() {
   return (
