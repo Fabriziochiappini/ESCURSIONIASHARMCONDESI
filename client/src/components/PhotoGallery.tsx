@@ -1,37 +1,7 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
 import { X, ChevronLeft, ChevronRight, Images, Maximize2 } from "lucide-react";
-
-// Virtual scrolling hook for large image galleries
-function useVirtualScrolling(items: string[], containerHeight: number = 400, itemHeight: number = 200) {
-  const [scrollTop, setScrollTop] = useState(0);
-  const [containerHeight_, setContainerHeight] = useState(containerHeight);
-  
-  const visibleStart = Math.floor(scrollTop / itemHeight);
-  const visibleEnd = Math.min(
-    visibleStart + Math.ceil(containerHeight_ / itemHeight) + 2, // +2 for buffer
-    items.length
-  );
-  
-  const visibleItems = useMemo(() => 
-    items.slice(visibleStart, visibleEnd).map((item, index) => ({
-      item,
-      index: visibleStart + index,
-      top: (visibleStart + index) * itemHeight
-    })),
-    [items, visibleStart, visibleEnd, itemHeight]
-  );
-  
-  const totalHeight = items.length * itemHeight;
-  
-  return {
-    visibleItems,
-    totalHeight,
-    setScrollTop,
-    setContainerHeight
-  };
-}
 
 interface PhotoGalleryProps {
   images: string[];
@@ -39,57 +9,17 @@ interface PhotoGalleryProps {
 }
 
 export function PhotoGallery({ images, title }: PhotoGalleryProps) {
-  console.log('PhotoGallery received images:', images);
-  
   const [selectedImage, setSelectedImage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0]));
-  const galleryRef = useRef<HTMLDivElement>(null);
-  
-  // Use virtual scrolling for large galleries (>20 images)
-  const useVirtual = images.length > 20;
-  const virtualScrolling = useVirtualScrolling(images, 600, 250);
-
-  // Preload images for better UX with error handling and cache optimization
-  const preloadImage = (index: number) => {
-    if (!loadedImages.has(index) && images[index]) {
-      const img = new Image();
-      
-      // Add cache control for production performance
-      img.crossOrigin = 'anonymous';
-      
-      img.onload = () => {
-        setLoadedImages(prev => new Set([...Array.from(prev), index]));
-      };
-      
-      img.onerror = (error) => {
-        console.warn(`Failed to load image ${index}:`, images[index], error);
-        // Don't add to loadedImages so it can retry later
-      };
-      
-      // Use image URL without cache busting for production performance
-      img.src = images[index];
-    }
-  };
-
-  // Preload adjacent images when modal opens
-  useEffect(() => {
-    if (isModalOpen) {
-      preloadImage(selectedImage - 1);
-      preloadImage(selectedImage + 1);
-    }
-  }, [selectedImage, isModalOpen]);
 
   const nextImage = () => {
     const next = (selectedImage + 1) % images.length;
     setSelectedImage(next);
-    preloadImage(next + 1); // Preload next
   };
 
   const prevImage = () => {
     const prev = selectedImage === 0 ? images.length - 1 : selectedImage - 1;
     setSelectedImage(prev);
-    preloadImage(prev - 1); // Preload previous
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -104,99 +34,33 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isModalOpen, selectedImage]);
 
-  const LazyImage = ({ src, alt, className, onClick, index }: { 
+  // Componente immagine semplificato - NO lazy loading, NO flash, caricamento immediato
+  const SimpleImage = ({ src, alt, className, onClick }: { 
     src: string; 
     alt: string; 
     className: string; 
     onClick?: () => void;
-    index: number;
   }) => {
-    const [isLoaded, setIsLoaded] = useState(loadedImages.has(index));
-    const [isInView, setIsInView] = useState(false);
-    const imgRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setIsInView(true);
-            observer.disconnect();
-          }
-        },
-        { threshold: 0.1 }
-      );
-
-      if (imgRef.current) {
-        observer.observe(imgRef.current);
-      }
-
-      return () => observer.disconnect();
-    }, []);
-
-    useEffect(() => {
-      if (isInView && !isLoaded) {
-        preloadImage(index);
-      }
-    }, [isInView, isLoaded, index]);
-
-    // Generate blur placeholder from image URL
-    const getBlurPlaceholder = (imageUrl: string) => {
-      // Simple base64 blur placeholder
-      return `data:image/svg+xml;base64,${btoa(`
-        <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <filter id="blur">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
-            </filter>
-          </defs>
-          <rect width="100%" height="100%" fill="#f3f4f6" filter="url(#blur)"/>
-        </svg>
-      `)}`;
-    };
-
     return (
       <div 
-        ref={imgRef}
-        className={`${className} bg-gray-100 relative overflow-hidden group cursor-pointer`}
+        className={`${className} bg-gray-50 relative overflow-hidden group cursor-pointer`}
         onClick={onClick}
-        onMouseEnter={() => preloadImage(index)}
       >
-        {isInView && (
-          <>            
-            {/* Main image with optimizations - SENZA transizioni aggressive */}
-            <img
-              src={src}
-              alt={alt}
-              className={`absolute inset-0 w-full h-full object-cover ${loadedImages.has(index) ? 'opacity-100' : 'opacity-0'}`}
-              style={{ 
-                transition: loadedImages.has(index) ? 'none' : 'opacity 0.2s ease-out',
-                willChange: loadedImages.has(index) ? 'auto' : 'opacity'
-              }}
-              onLoad={() => setIsLoaded(true)}
-              loading="lazy"
-              decoding="async"
-            />
-            
-            {/* Loading placeholder SOLO se necessario */}
-            {!loadedImages.has(index) && (
-              <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
-                <Images className="h-6 w-6 text-gray-400" />
-              </div>
-            )}
-            
-            {/* Overlay hover SOLO su immagini caricate */}
-            {loadedImages.has(index) && (
-              <>
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors duration-200" />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <Button size="sm" className="bg-white/90 text-gray-900 hover:bg-white">
-                    <Maximize2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              </>
-            )}
-          </>
-        )}
+        <img
+          src={src}
+          alt={alt}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          loading="eager"
+          decoding="sync"
+        />
+        
+        {/* Overlay hover */}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200" />
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <Button size="sm" className="bg-white/90 text-gray-900 hover:bg-white">
+            <Maximize2 className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     );
   };
@@ -215,17 +79,16 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
   return (
     <div className="mb-12">
       {/* Main Gallery Grid */}
-      <div ref={galleryRef} className="image-gallery rounded-3xl overflow-hidden">
+      <div className="image-gallery rounded-3xl overflow-hidden">
         {images.length === 1 ? (
           // Single image layout
           <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
             <DialogTrigger asChild>
-              <LazyImage
+              <SimpleImage
                 src={images[0]}
                 alt={`${title} - Foto 1`}
                 className="w-full h-96 rounded-3xl"
                 onClick={() => { setSelectedImage(0); setIsModalOpen(true); }}
-                index={0}
               />
             </DialogTrigger>
           </Dialog>
@@ -235,12 +98,11 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
             {/* Main large image */}
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
               <DialogTrigger asChild>
-                <LazyImage
+                <SimpleImage
                   src={images[0]}
                   alt={`${title} - Foto principale`}
-                  className="col-span-2 row-span-2 image-gallery-main rounded-2xl"
+                  className="col-span-2 row-span-2 h-80 rounded-2xl"
                   onClick={() => { setSelectedImage(0); setIsModalOpen(true); }}
-                  index={0}
                 />
               </DialogTrigger>
             </Dialog>
@@ -249,12 +111,11 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
             {images.slice(1, 5).map((image, index) => (
               <Dialog key={index + 1} open={isModalOpen} onOpenChange={setIsModalOpen}>
                 <DialogTrigger asChild>
-                  <LazyImage
+                  <SimpleImage
                     src={image}
                     alt={`${title} - Foto ${index + 2}`}
-                    className="image-gallery-thumb rounded-xl"
+                    className="h-[9.5rem] rounded-xl"
                     onClick={() => { setSelectedImage(index + 1); setIsModalOpen(true); }}
-                    index={index + 1}
                   />
                 </DialogTrigger>
               </Dialog>
@@ -265,7 +126,7 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
               <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                 <DialogTrigger asChild>
                   <div 
-                    className="image-gallery-thumb rounded-xl bg-gray-900/90 flex items-center justify-center cursor-pointer group hover:bg-gray-800/90 transition-colors"
+                    className="h-[9.5rem] rounded-xl bg-gray-900/90 flex items-center justify-center cursor-pointer group hover:bg-gray-800/90 transition-colors"
                     onClick={() => { setSelectedImage(5); setIsModalOpen(true); }}
                   >
                     <div className="text-white text-center">
@@ -297,106 +158,62 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
         </Dialog>
       </div>
 
-      {/* Full Screen Modal */}
+      {/* Modal Dialog per visualizzazione a schermo intero */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-[95vw] w-full h-[95vh] p-0 bg-black border-0" aria-describedby="gallery-description">
-          <DialogTitle className="sr-only">Galleria fotografica - {title}</DialogTitle>
-          <div id="gallery-description" className="sr-only">
-            Navigazione: usa le frecce della tastiera o i pulsanti per scorrere le immagini. Premi Escape per chiudere.
-          </div>
+        <DialogContent className="max-w-7xl w-full h-full max-h-screen p-0 bg-black/95 border-0">
+          <DialogTitle className="sr-only">{title} - Galleria foto</DialogTitle>
           
-          {/* Header con titolo e controlli */}
-          <div className="absolute top-0 left-0 right-0 z-30 bg-gradient-to-b from-black/80 to-transparent p-4">
-            <div className="flex justify-between items-center">
-              <div className="text-white font-medium text-lg">
-                {title}
-              </div>
-              {images.length > 1 && (
-                <div className="text-white/80 text-sm">
-                  {selectedImage + 1} di {images.length}
-                </div>
-              )}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsModalOpen(false)}
-                className="bg-black/50 hover:bg-black/70 text-white border-0 rounded-full p-2"
-              >
-                <X size={20} />
-              </Button>
-            </div>
-          </div>
+          <div className="relative w-full h-full flex items-center justify-center">
+            {/* Close button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 z-50 bg-black/50 text-white hover:bg-black/70 rounded-full"
+              onClick={() => setIsModalOpen(false)}
+            >
+              <X className="h-6 w-6" />
+            </Button>
 
-          {/* Container principale per l'immagine */}
-          <div className="relative w-full h-full flex items-center justify-center bg-black">
-            
-            {/* Area immagine principale - ridimensionata automaticamente */}
-            <div className="flex-1 flex items-center justify-center px-4 py-16 min-h-0" style={{ height: 'calc(100vh - 160px)' }}>
-              <img
-                src={images[selectedImage]}
-                alt={`${title} - Foto ${selectedImage + 1}`}
-                className="max-w-full max-h-full w-auto h-auto object-contain transition-all duration-300"
-                style={{
-                  maxWidth: '100%',
-                  maxHeight: '100%',
-                  width: 'auto',
-                  height: 'auto',
-                  objectFit: 'contain'
-                }}
-                onLoad={() => preloadImage(selectedImage)}
-              />
-            </div>
-
-            {/* Pulsanti di navigazione */}
+            {/* Navigation arrows */}
             {images.length > 1 && (
               <>
                 <Button
                   variant="ghost"
-                  size="lg"
+                  size="icon"
+                  className="absolute left-4 z-50 bg-black/50 text-white hover:bg-black/70 rounded-full"
                   onClick={prevImage}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-3 transition-all hover:scale-110"
                 >
-                  <ChevronLeft size={32} />
+                  <ChevronLeft className="h-8 w-8" />
                 </Button>
+                
                 <Button
                   variant="ghost"
-                  size="lg"
+                  size="icon"
+                  className="absolute right-4 z-50 bg-black/50 text-white hover:bg-black/70 rounded-full"
                   onClick={nextImage}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-3 transition-all hover:scale-110"
                 >
-                  <ChevronRight size={32} />
+                  <ChevronRight className="h-8 w-8" />
                 </Button>
               </>
             )}
-          </div>
 
-          {/* Barra delle miniature in basso */}
-          {images.length > 1 && (
-            <div className="absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/90 to-transparent p-4">
-              <div className="flex justify-center">
-                <div className="flex space-x-2 overflow-x-auto max-w-full px-2 pb-2">
-                  {images.map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedImage(index)}
-                      className={`flex-shrink-0 w-16 h-12 rounded overflow-hidden border-2 transition-all ${
-                        index === selectedImage 
-                          ? 'border-white scale-110 shadow-lg ring-2 ring-white/30' 
-                          : 'border-gray-500 opacity-70 hover:opacity-100 hover:border-gray-300'
-                      }`}
-                    >
-                      <img
-                        src={image}
-                        alt={`Miniatura ${index + 1}`}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    </button>
-                  ))}
-                </div>
+            {/* Main image */}
+            <div className="relative w-full h-full flex items-center justify-center p-8">
+              <img
+                src={images[selectedImage]}
+                alt={`${title} - Foto ${selectedImage + 1}`}
+                className="max-w-full max-h-full object-contain"
+                loading="eager"
+              />
+            </div>
+
+            {/* Image counter */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-50">
+              <div className="bg-black/50 text-white px-4 py-2 rounded-full text-sm">
+                {selectedImage + 1} di {images.length}
               </div>
             </div>
-          )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>
