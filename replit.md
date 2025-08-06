@@ -113,6 +113,15 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
+- August 6, 2025: Sistema WhatsApp integrato completamente per ogni proprietà
+  * PULSANTE SPECIFICO: "INVIA RICHIESTA" WhatsApp personalizzato per ogni singola proprietà
+  * MESSAGGI PERSONALIZZATI: Ogni proprietà genera messaggio WhatsApp con dettagli specifici (titolo, prezzo, ubicazione, caratteristiche)
+  * CONTATTI RIORGANIZZATI: Pulsanti principali "CHIAMA" + "INVIA RICHIESTA" nella pagina dettagli proprietà
+  * WHATSAPP VELOCE: Pulsante WhatsApp rapido aggiunto alle property cards per contatti diretti dalle liste
+  * LAYOUT OTTIMIZZATO: Email spostata sotto i pulsanti principali, rimosso "Chiama Ora" duplicato
+  * NUMERO AGENZIA: Configurato +39 346 800 3234 come numero WhatsApp AGENZIA 2
+  * DUE MODALITÀ: Messaggio completo (pagina dettagli) e messaggio veloce (dalle card)
+  * FUNZIONALITÀ COMPLETA: Ogni proprietà ha ora contatto WhatsApp immediato e specifico
 - August 6, 2025: Sistema foto immobili COMPLETAMENTE rivoluzionato - standard enterprise
   * PERFORMANCE: Compressione client-side con browser-image-compression (WebP, max 2MB)
   * RESPONSIVE: Immagini responsive con srcset per mobile/tablet/desktop (400w-2048w)

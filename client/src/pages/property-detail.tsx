@@ -367,22 +367,13 @@ export default function PropertyDetail() {
                   />
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="button"
+                      onClick={() => window.open(`tel:${property.agentPhone}`, '_blank')}
                       className="h-12 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                      disabled={contactMutation.isPending}
                     >
-                      {contactMutation.isPending ? (
-                        <div className="flex items-center">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                          Invio in corso...
-                        </div>
-                      ) : (
-                        <>
-                          <Send className="mr-2 h-5 w-5" />
-                          INVIA EMAIL
-                        </>
-                      )}
+                      <Phone className="mr-2 h-5 w-5" />
+                      CHIAMA
                     </Button>
                     
                     <Button
@@ -396,30 +387,22 @@ export default function PropertyDetail() {
                       INVIA RICHIESTA
                     </Button>
                   </div>
+
+                  <div className="mt-4">
+                    <a 
+                      href={`mailto:${property.agentEmail}`} 
+                      className="inline-flex items-center justify-center w-full bg-gray-100 text-gray-700 px-4 py-3 rounded-xl hover:bg-gray-200 transition-colors"
+                    >
+                      <Mail className="h-4 w-4 mr-2" />
+                      {property.agentEmail}
+                    </a>
+                  </div>
                 </form>
 
-                <div className="mt-8 pt-6 border-t border-gray-200">
-                  <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-                    <div className="flex items-center space-x-6">
-                      <a 
-                        href={`tel:${property.agentPhone}`} 
-                        className="flex items-center bg-green-50 text-green-700 px-4 py-2 rounded-xl hover:bg-green-100 transition-colors"
-                      >
-                        <Phone className="h-4 w-4 mr-2" />
-                        Chiama Ora
-                      </a>
-                      <a 
-                        href={`mailto:${property.agentEmail}`} 
-                        className="flex items-center bg-blue-50 text-blue-700 px-4 py-2 rounded-xl hover:bg-blue-100 transition-colors"
-                      >
-                        <Mail className="h-4 w-4 mr-2" />
-                        Email
-                      </a>
-                    </div>
-                    <p className="text-sm text-gray-500">
-                      Disponibile Lun-Ven 9:00-19:00
-                    </p>
-                  </div>
+                <div className="mt-8 pt-6 border-t border-gray-200 text-center">
+                  <p className="text-sm text-gray-500">
+                    Disponibile Lun-Ven 9:00-19:00
+                  </p>
                 </div>
               </div>
             </div>
