@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import logoAgenziaUrl from "@assets/logo_agenzia_22-removebg-preview_1753804298069.png";
+import logoAgenziaUrl from "@assets/logo_rosso-removebg-preview_1754493166038.png";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +16,10 @@ export function Navigation() {
                 src={logoAgenziaUrl} 
                 alt="AGENZIA 2 Servizi Immobiliari" 
                 className="h-24 w-auto group-hover:scale-110 transition-all duration-300"
+                style={{ 
+                  clipPath: 'inset(0 2px 0 0)',
+                  filter: 'drop-shadow(0 0 0 transparent)'
+                }}
               />
             </div>
           </Link>
