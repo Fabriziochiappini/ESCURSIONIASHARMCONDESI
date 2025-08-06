@@ -10,7 +10,7 @@
   --growth: hsl(82, 25%, 52%);        /* Verde Salvia #87a96b */
   --balance: hsl(210, 17%, 98%);      /* Grigio Chiaro #f8f9fa */
   --growth-foreground: hsl(0, 0%, 100%);
-  
+
   --destructive: hsl(0, 84%, 60%);
   --muted: hsl(210, 17%, 98%);        /* Balance color */
   --muted-foreground: hsl(210, 29%, 24%);
@@ -72,13 +72,29 @@ body {
 
 /* Image Gallery Styles */
 .image-gallery-main {
-  min-height: 400px;
   height: 400px;
 }
 
 .image-gallery-thumb {
-  min-height: 192px;
-  height: 192px;
+  height: 200px;
+}
+
+/* Elimina scatti nella galleria fotografica */
+.image-gallery img {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Stabilizza hover effects */
+.group:hover .group-hover\:scale-110 {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-out;
+}
+
+/* Previene flash durante il caricamento */
+img[loading="lazy"] {
+  content-visibility: auto;
+  contain-intrinsic-size: 200px 200px;
 }
 
 /* Mobile responsive gallery */
@@ -87,7 +103,7 @@ body {
     min-height: 250px;
     height: 250px;
   }
-  
+
   .image-gallery-thumb {
     min-height: 120px;
     height: 120px;

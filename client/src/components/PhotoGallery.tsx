@@ -162,39 +162,39 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
         onMouseEnter={() => preloadImage(index)}
       >
         {isInView && (
-          <>
-            {/* Blur placeholder */}
-            <div 
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ 
-                backgroundImage: `url('${getBlurPlaceholder(src)}')`,
-                opacity: loadedImages.has(index) ? 0 : 1,
-                transition: 'opacity 0.3s ease-in-out'
-              }}
-            />
-            
-            {/* Main image with optimizations */}
+          <>            
+            {/* Main image with optimizations - SENZA transizioni aggressive */}
             <img
               src={src}
               alt={alt}
-              className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${loadedImages.has(index) ? 'opacity-100' : 'opacity-0'}`}
-              style={{ willChange: 'transform' }}
+              className={`absolute inset-0 w-full h-full object-cover ${loadedImages.has(index) ? 'opacity-100' : 'opacity-0'}`}
+              style={{ 
+                transition: loadedImages.has(index) ? 'none' : 'opacity 0.2s ease-out',
+                willChange: loadedImages.has(index) ? 'auto' : 'opacity'
+              }}
               onLoad={() => setIsLoaded(true)}
               loading="lazy"
               decoding="async"
             />
             
+            {/* Loading placeholder SOLO se necessario */}
             {!loadedImages.has(index) && (
-              <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-                <Images className="h-8 w-8 text-gray-400" />
+              <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                <Images className="h-6 w-6 text-gray-400" />
               </div>
             )}
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300" />
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <Button size="sm" className="bg-white/90 text-gray-900 hover:bg-white">
-                <Maximize2 className="h-4 w-4" />
-              </Button>
-            </div>
+            
+            {/* Overlay hover SOLO su immagini caricate */}
+            {loadedImages.has(index) && (
+              <>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors duration-200" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <Button size="sm" className="bg-white/90 text-gray-900 hover:bg-white">
+                    <Maximize2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </>
+            )}
           </>
         )}
       </div>
