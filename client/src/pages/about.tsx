@@ -73,7 +73,7 @@ export default function About() {
                   {/* Pulsanti di contatto */}
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button 
-                      className="bg-primary text-primary-foreground flex-1 hover:bg-primary"
+                      className="bg-sky-500 text-white flex-1 hover:bg-sky-600"
                       asChild
                     >
                       <a href="tel:+393468003234">
