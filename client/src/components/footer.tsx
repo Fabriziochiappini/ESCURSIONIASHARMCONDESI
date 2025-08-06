@@ -60,10 +60,7 @@ export function Footer() {
                 <Mail className="mr-2 h-4 w-4 text-primary" />
                 antoniocannavo@msn.com
               </li>
-              <li className="flex items-center">
-                <Mail className="mr-2 h-4 w-4 text-primary" />
-                antoniocannavoagenzia2serviziimmobiliari@pec.it
-              </li>
+
               <li className="flex items-center">
                 <Clock className="mr-2 h-4 w-4 text-primary" />
                 Lun-Ven 9:00-19:00
@@ -79,6 +76,7 @@ export function Footer() {
                 <p className="font-medium text-gray-300 mb-1">AGENZIA 2</p>
                 <p className="mb-1">Servizi Immobiliari</p>
                 <p>ACIREALE – Via San Girolamo, 20 P.I.04505220873</p>
+                <p>antoniocannavoagenzia2serviziimmobiliari@pec.it</p>
               </div>
               <div className="flex space-x-4 text-sm">
                 <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
