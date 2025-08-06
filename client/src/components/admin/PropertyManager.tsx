@@ -909,7 +909,7 @@ export default function PropertyManager() {
                 </div>
                 <div className="flex space-x-1">
                   <Button size="sm" variant="outline" asChild>
-                    <a href={`/proprieta/${property.id}`} target="_blank">
+                    <a href={`/property/${property.id}`} target="_blank" rel="noopener noreferrer">
                       <Eye className="h-4 w-4" />
                     </a>
                   </Button>
