@@ -206,25 +206,45 @@ export function PropertyManager() {
     e.preventDefault();
     
     try {
-      // First upload images if any are selected
+      // First upload images if any are selected with optimized batch processing
       let imageUrls: string[] = [];
       if (selectedFiles && selectedFiles.length > 0) {
+        
+        // Show progress toast for large uploads
+        if (selectedFiles.length > 10) {
+          toast({
+            title: "Caricamento in corso...",
+            description: `Caricamento di ${selectedFiles.length} immagini. Questo potrebbe richiedere alcuni minuti.`,
+          });
+        }
+
         const formDataImages = new FormData();
         Array.from(selectedFiles).forEach(file => {
           formDataImages.append('images', file);
         });
 
+        // Extended timeout for large uploads
         const uploadResponse = await fetch('/api/admin/upload-images', {
           method: 'POST',
           body: formDataImages,
+          signal: AbortSignal.timeout(300000), // 5 minutes timeout
         });
 
         if (!uploadResponse.ok) {
-          throw new Error('Errore nel caricamento delle immagini');
+          const errorText = await uploadResponse.text();
+          throw new Error(`Errore nel caricamento delle immagini: ${errorText}`);
         }
 
         const uploadResult = await uploadResponse.json();
         imageUrls = uploadResult.imageUrls || [];
+        
+        // Success feedback for large uploads
+        if (selectedFiles.length > 10) {
+          toast({
+            title: "Caricamento completato!",
+            description: `${imageUrls.length} immagini caricate con successo.`,
+          });
+        }
       }
 
       // Prepare property data
@@ -429,7 +449,11 @@ export function PropertyManager() {
                   className="cursor-pointer"
                 />
                 <p className="text-sm text-gray-500">
-                  {editingProperty ? 'Seleziona nuove immagini da aggiungere (opzionale)' : 'Seleziona una o più immagini'}
+                  {editingProperty ? 'Seleziona nuove immagini da aggiungere (opzionale)' : 'Seleziona fino a 30 immagini per la proprietà'}
+                  <br />
+                  <span className="text-xs text-blue-600">
+                    Ottimizzato per immobili: supporta fino a 30 foto senza rallentamenti
+                  </span>
                 </p>
                 {editingProperty && tempImages && tempImages.length > 0 && (
                   <div className="mt-2">

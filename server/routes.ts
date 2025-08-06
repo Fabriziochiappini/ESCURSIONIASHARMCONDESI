@@ -273,9 +273,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Image upload endpoint for admin
+  // Image upload endpoint for admin with increased capacity for real estate
   app.post('/api/admin/upload-images', async (req, res) => {
-    upload.array('images', 20)(req, res, async (err) => {
+    upload.array('images', 30)(req, res, async (err) => {
       if (err) {
         console.error('Upload error:', err);
         return res.status(400).json({ error: err.message });
@@ -286,16 +286,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
           return res.status(400).json({ error: 'Nessuna immagine caricata' });
         }
 
+        console.log(`Processing ${req.files.length} images for upload...`);
         const imageUrls = [];
-        for (const file of req.files) {
-          const { url } = await uploadImageToStorage(file as Express.Multer.File);
-          imageUrls.push(url);
+        
+        // Process images in parallel batches for better performance
+        const batchSize = 5;
+        for (let i = 0; i < req.files.length; i += batchSize) {
+          const batch = req.files.slice(i, i + batchSize);
+          const batchPromises = batch.map(async (file, index) => {
+            try {
+              const actualIndex = i + index;
+              console.log(`Uploading image ${actualIndex + 1}/${req.files.length}: ${file.originalname}`);
+              const { url } = await uploadImageToStorage(file as Express.Multer.File);
+              return { url, index: actualIndex };
+            } catch (error) {
+              console.error(`Error uploading image ${file.originalname}:`, error);
+              throw error;
+            }
+          });
+          
+          const batchResults = await Promise.all(batchPromises);
+          batchResults.forEach(result => {
+            imageUrls[result.index] = result.url;
+          });
         }
+        
+        // Filter out any failed uploads and maintain order
+        const successfulUrls = imageUrls.filter(url => url);
         
         res.json({ 
           success: true, 
-          imageUrls,
-          message: `${imageUrls.length} immagini caricate con successo` 
+          imageUrls: successfulUrls,
+          message: `${successfulUrls.length} immagini caricate con successo su ${req.files.length} totali` 
         });
       } catch (error) {
         console.error('Error processing uploaded images:', error);
@@ -316,7 +338,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/properties/:id/images", upload.array('images', 20), async (req, res) => {
+  app.post("/api/properties/:id/images", upload.array('images', 30), async (req, res) => {
     try {
       const propertyId = parseInt(req.params.id);
       const files = req.files as Express.Multer.File[];

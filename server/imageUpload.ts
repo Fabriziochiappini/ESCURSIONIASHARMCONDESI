@@ -15,13 +15,15 @@ const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCa
   }
 };
 
-// Configure multer
+// Configure multer with increased limits for real estate photos
 export const upload = multer({
   storage,
   fileFilter,
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB limit
-    files: 20 // Max 20 files at once
+    fileSize: 15 * 1024 * 1024, // 15MB limit per file
+    files: 30, // Max 30 files at once for real estate properties
+    parts: 50, // Increase parts limit
+    fieldSize: 2 * 1024 * 1024 // 2MB field size
   }
 });
 

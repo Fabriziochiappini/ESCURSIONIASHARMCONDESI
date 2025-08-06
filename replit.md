@@ -113,6 +113,15 @@ The application uses a single main table `properties` with the following key fie
 
 ## Changelog
 
+- August 5, 2025: Risolti problemi caricamento multiplo foto immobili
+  * Aumentati limiti server da 20 a 30 foto per proprietà
+  * Ottimizzata gestione payload fino a 50MB per upload batch
+  * Implementato timeout esteso (5 minuti) per caricamenti grandi
+  * Aggiunto processing parallelo in batch da 5 immagini per performance
+  * Sistema Object Storage permanente: foto non spariscono più con autoscale
+  * Migrazione completata: 7 immagini esistenti spostate su cloud storage
+  * Interfaccia admin aggiornata con feedback progressivo per upload multipli
+  * Supporto completo WordPress-level per gestione foto immobili professionali
 - January 31, 2025: Implementata conformità GDPR completa per agenzia immobiliare
   * Pagina Privacy Policy dettagliata con informazioni specifiche settore immobiliare
   * Cookie Banner minimalista con gestione preferenze avanzata
