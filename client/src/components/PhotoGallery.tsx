@@ -299,77 +299,104 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
 
       {/* Full Screen Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-7xl w-full h-[90vh] p-0 bg-black/95 border-0 rounded-lg" aria-describedby="gallery-description">
+        <DialogContent className="max-w-[95vw] w-full h-[95vh] p-0 bg-black border-0" aria-describedby="gallery-description">
           <DialogTitle className="sr-only">Galleria fotografica - {title}</DialogTitle>
           <div id="gallery-description" className="sr-only">
             Navigazione: usa le frecce della tastiera o i pulsanti per scorrere le immagini. Premi Escape per chiudere.
           </div>
-          <div className="relative w-full h-full flex items-center justify-center">
-            {/* Close button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute top-4 right-4 z-50 bg-black/50 text-white hover:bg-black/70"
-              onClick={() => setIsModalOpen(false)}
-            >
-              <X className="h-6 w-6" />
-            </Button>
+          
+          {/* Header con titolo e controlli */}
+          <div className="absolute top-0 left-0 right-0 z-30 bg-gradient-to-b from-black/80 to-transparent p-4">
+            <div className="flex justify-between items-center">
+              <div className="text-white font-medium text-lg">
+                {title}
+              </div>
+              {images.length > 1 && (
+                <div className="text-white/80 text-sm">
+                  {selectedImage + 1} di {images.length}
+                </div>
+              )}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsModalOpen(false)}
+                className="bg-black/50 hover:bg-black/70 text-white border-0 rounded-full p-2"
+              >
+                <X size={20} />
+              </Button>
+            </div>
+          </div>
 
-            {/* Navigation buttons */}
+          {/* Container principale per l'immagine */}
+          <div className="relative w-full h-full flex items-center justify-center bg-black">
+            
+            {/* Area immagine principale - ridimensionata automaticamente */}
+            <div className="flex-1 flex items-center justify-center px-4 py-16 min-h-0" style={{ height: 'calc(100vh - 160px)' }}>
+              <img
+                src={images[selectedImage]}
+                alt={`${title} - Foto ${selectedImage + 1}`}
+                className="max-w-full max-h-full w-auto h-auto object-contain transition-all duration-300"
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  width: 'auto',
+                  height: 'auto',
+                  objectFit: 'contain'
+                }}
+                onLoad={() => preloadImage(selectedImage)}
+              />
+            </div>
+
+            {/* Pulsanti di navigazione */}
             {images.length > 1 && (
               <>
                 <Button
                   variant="ghost"
-                  size="icon"
-                  className="absolute left-4 z-50 bg-black/50 text-white hover:bg-black/70"
+                  size="lg"
                   onClick={prevImage}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-3 transition-all hover:scale-110"
                 >
-                  <ChevronLeft className="h-8 w-8" />
+                  <ChevronLeft size={32} />
                 </Button>
                 <Button
                   variant="ghost"
-                  size="icon"
-                  className="absolute right-4 z-50 bg-black/50 text-white hover:bg-black/70"
+                  size="lg"
                   onClick={nextImage}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/60 hover:bg-black/80 text-white border-0 rounded-full p-3 transition-all hover:scale-110"
                 >
-                  <ChevronRight className="h-8 w-8" />
+                  <ChevronRight size={32} />
                 </Button>
               </>
             )}
-
-            {/* Main image */}
-            <div className="w-full h-full flex items-center justify-center p-8">
-              <img
-                src={images[selectedImage]}
-                alt={`${title} - Foto ${selectedImage + 1}`}
-                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-                style={{ filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5))' }}
-              />
-            </div>
-
-            {/* Image counter and info */}
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-6 py-3 rounded-full text-sm font-medium">
-              {selectedImage + 1} di {images.length}
-            </div>
-
-            {/* Thumbnail strip */}
-            {images.length > 1 && (
-              <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex space-x-2 bg-black/50 p-3 rounded-lg max-w-md overflow-x-auto">
-                {images.map((image, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
-                    className={`w-16 h-12 bg-cover bg-center rounded border-2 transition-all flex-shrink-0 ${
-                      index === selectedImage 
-                        ? 'border-white shadow-lg scale-110' 
-                        : 'border-transparent opacity-60 hover:opacity-100'
-                    }`}
-                    style={{ backgroundImage: `url('${image}')` }}
-                  />
-                ))}
-              </div>
-            )}
           </div>
+
+          {/* Barra delle miniature in basso */}
+          {images.length > 1 && (
+            <div className="absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black/90 to-transparent p-4">
+              <div className="flex justify-center">
+                <div className="flex space-x-2 overflow-x-auto max-w-full px-2 pb-2">
+                  {images.map((image, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImage(index)}
+                      className={`flex-shrink-0 w-16 h-12 rounded overflow-hidden border-2 transition-all ${
+                        index === selectedImage 
+                          ? 'border-white scale-110 shadow-lg ring-2 ring-white/30' 
+                          : 'border-gray-500 opacity-70 hover:opacity-100 hover:border-gray-300'
+                      }`}
+                    >
+                      <img
+                        src={image}
+                        alt={`Miniatura ${index + 1}`}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
