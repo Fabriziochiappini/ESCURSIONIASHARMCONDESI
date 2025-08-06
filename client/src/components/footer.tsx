@@ -69,12 +69,32 @@ export function Footer() {
         </div>
         
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-            <p>&copy; 2025 AGENZIA 2 Servizi Immobiliari - Geometra Antonio Cannavò. Tutti i diritti riservati.</p>
-            <div className="flex space-x-4 text-sm">
-              <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
-              <span>•</span>
-              <a href="/privacy#cookie" className="hover:text-primary transition-colors">Cookie Policy</a>
+          <div className="flex flex-col space-y-4">
+            <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+              <div className="text-sm">
+                <p className="font-medium text-gray-300 mb-1">AGENZIA 2</p>
+                <p className="mb-1">Servizi Immobiliari</p>
+                <p>ACIREALE – Via San Girolamo, 20 P.I.04505220873</p>
+              </div>
+              <div className="flex space-x-4 text-sm">
+                <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
+                <span>•</span>
+                <a href="/privacy#cookie" className="hover:text-primary transition-colors">Cookie Policy</a>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0 text-xs border-t border-gray-800 pt-4">
+              <p>&copy; 2025 AGENZIA 2 Servizi Immobiliari - Geometra Antonio Cannavò. Tutti i diritti riservati.</p>
+              <p>
+                Realizzato da{" "}
+                <a 
+                  href="https://webproitalia.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary hover:text-primary-dark transition-colors font-medium"
+                >
+                  WEBPROITALIA
+                </a>
+              </p>
             </div>
           </div>
         </div>
