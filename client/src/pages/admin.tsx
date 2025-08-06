@@ -1,8 +1,9 @@
-import { useAdmin } from "@/hooks/useAuth";
+import { useState } from "react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { LoginForm } from "@/components/admin/LoginForm";
 
 import PropertyManager from "@/components/admin/PropertyManager";
 
@@ -16,14 +17,10 @@ import {
 } from "lucide-react";
 
 export default function AdminPanel() {
-  const { user, isLoading } = useAdmin();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-600"></div>
-      </div>
-    );
+  if (!isLoggedIn) {
+    return <LoginForm onLogin={() => setIsLoggedIn(true)} />;
   }
 
   return (
@@ -40,16 +37,25 @@ export default function AdminPanel() {
                   Pannello Amministrazione
                 </h1>
                 <p className="text-gray-600 mt-2">
-                  Benvenuto, {user?.firstName || user?.email}
+                  Benvenuto, Antonio Cannavò
                 </p>
               </div>
-              <Button
-                onClick={() => window.location.href = "/"}
-                variant="outline"
-              >
-                <Settings className="h-4 w-4 mr-2" />
-                Torna al Sito
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => setIsLoggedIn(false)}
+                  variant="outline"
+                >
+                  <Settings className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+                <Button
+                  onClick={() => window.location.href = "/"}
+                  variant="outline"
+                >
+                  <Settings className="h-4 w-4 mr-2" />
+                  Torna al Sito
+                </Button>
+              </div>
             </div>
           </div>
         </div>
