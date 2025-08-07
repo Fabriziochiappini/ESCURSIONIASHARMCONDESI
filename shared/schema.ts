@@ -51,7 +51,7 @@ export type Property = typeof properties.$inferSelect;
 export const searchFiltersSchema = z.object({
   search: z.string().optional(),
   type: z.enum(["vendita", "affitto", "casa_vacanza"]).optional(),
-  propertyType: z.enum(["villa", "appartamento", "villa_singola", "casa_singola_con_terreno", "rustici_e_terreni"]).optional(),
+  propertyType: z.enum(["villa", "appartamento", "villa_a_schiera", "casa_singola_con_terreno", "rustici_e_terreni", "terreno_agricolo", "terreno_edificabile"]).optional(),
   municipality: z.string().optional(),
   minPrice: z.number().optional(),
   maxPrice: z.number().optional(),

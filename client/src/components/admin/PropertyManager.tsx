@@ -530,9 +530,11 @@ export default function PropertyManager() {
                     <SelectContent>
                       <SelectItem value="villa">Villa</SelectItem>
                       <SelectItem value="appartamento">Appartamento</SelectItem>
-                      <SelectItem value="villa_singola">Villa Singola</SelectItem>
+                      <SelectItem value="villa_a_schiera">Villa a Schiera</SelectItem>
                       <SelectItem value="casa_singola_con_terreno">Casa Singola con Terreno</SelectItem>
                       <SelectItem value="rustici_e_terreni">Rustici e Terreni</SelectItem>
+                      <SelectItem value="terreno_agricolo">Terreno Agricolo</SelectItem>
+                      <SelectItem value="terreno_edificabile">Terreno Edificabile</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

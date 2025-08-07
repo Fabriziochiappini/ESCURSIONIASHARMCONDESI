@@ -27,9 +27,11 @@ const PROPERTY_CATEGORIES = [
   { value: "all", label: "Tutte le categorie" },
   { value: "villa", label: "Villa" },
   { value: "appartamento", label: "Appartamento" },
-  { value: "villa_singola", label: "Villa Singola" },
+  { value: "villa_a_schiera", label: "Villa a Schiera" },
   { value: "casa_singola_con_terreno", label: "Casa Singola con Terreno" },
-  { value: "rustici_e_terreni", label: "Rustici e Terreni" }
+  { value: "rustici_e_terreni", label: "Rustici e Terreni" },
+  { value: "terreno_agricolo", label: "Terreno Agricolo" },
+  { value: "terreno_edificabile", label: "Terreno Edificabile" }
 ];
 
 export default function Properties() {

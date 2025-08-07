@@ -129,7 +129,7 @@ export class DatabaseStorage implements IStorage {
       .from(properties)
       .orderBy(properties.municipality);
     
-    return result.map(row => row.municipality);
+    return result.map(row => row.municipality).filter(municipality => municipality && municipality.trim() !== "");
   }
 
   async createProperty(property: InsertProperty): Promise<Property> {

@@ -35,9 +35,11 @@ export function PropertyCard({ property }: PropertyCardProps) {
     switch(propertyType) {
       case "villa": return "Villa";
       case "appartamento": return "Appartamento";
-      case "villa_singola": return "Villa Singola";
+      case "villa_a_schiera": return "Villa a Schiera";
       case "casa_singola_con_terreno": return "Casa Singola con Terreno";
       case "rustici_e_terreni": return "Rustici e Terreni";
+      case "terreno_agricolo": return "Terreno Agricolo";
+      case "terreno_edificabile": return "Terreno Edificabile";
       default: return propertyType;
     }
   };
