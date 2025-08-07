@@ -21,78 +21,9 @@ async function seed() {
       },
     });
 
-    // Seed properties
-    const sampleProperties = [
-      {
-        title: "Villa di Lusso con Vista Mare",
-        description: "Splendida villa moderna completamente ristrutturata con vista panoramica sul mare e sull'Etna. La proprietà dispone di ampi spazi luminosi, cucina abitabile di design, quattro camere da letto spaziose e tre bagni eleganti. Il giardino privato di 200 mq include una piscina e una zona barbecue perfetta per il relax. Finiture di pregio, impianti moderni e classe energetica A. Posizione strategica a soli 5 minuti dal centro storico di Acireale e dalle principali spiagge.",
-        price: "480000",
-        type: "vendita" as const,
-        priceType: "total" as const,
-        location: "Acireale Centro",
-        municipality: "Acireale",
-        address: "Via Roma 123, Acireale",
-        bedrooms: 4,
-        bathrooms: 3,
-        area: 180,
-        images: [
-          "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
-          "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800",
-          "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-          "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400"
-        ],
-        features: ["Piscina privata", "Giardino 200 mq", "Vista mare", "Posto auto", "Aria condizionata", "Allarme"],
-        youtubeVideoId: "dQw4w9WgXcQ",
-        featured: true,
-        available: true,
-      },
-      {
-        title: "Appartamento Elegante Centro",
-        description: "Moderno appartamento completamente arredato nel cuore di Aci Castello, a pochi passi dal castello normanno e dal mare. Ristrutturato con materiali di qualità e design contemporaneo.",
-        price: "1200",
-        type: "affitto" as const,
-        priceType: "monthly" as const,
-        location: "Aci Castello Centro",
-        municipality: "Aci Castello",
-        address: "Piazza del Castello 15, Aci Castello",
-        bedrooms: 2,
-        bathrooms: 2,
-        area: 85,
-        images: [
-          "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
-          "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
-        ],
-        features: ["Completamente arredato", "Castello normanno vicino", "Vista mare", "Balcone"],
-        youtubeVideoId: "jNQXAC9IVRw",
-        featured: true,
-        available: true,
-      },
-      {
-        title: "Villa Tradizionale Siciliana",
-        description: "Affascinante villa tradizionale con vista sull'Etna, giardino con alberi da frutto e terrazza panoramica. Ideale per vacanze indimenticabili in un ambiente autentico siciliano.",
-        price: "150",
-        type: "casa_vacanza" as const,
-        priceType: "nightly" as const,
-        location: "Zafferana Etnea",
-        municipality: "Zafferana Etnea",
-        address: "Via Etna 45, Zafferana Etnea",
-        bedrooms: 3,
-        bathrooms: 2,
-        area: 120,
-        images: [
-          "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
-          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
-        ],
-        features: ["Vista Etna", "Giardino con alberi da frutto", "Terrazza panoramica", "Stile siciliano tradizionale"],
-        youtubeVideoId: "Me-VhC9ieh0",
-        featured: true,
-        available: true,
-      }
-    ];
-
-    for (const property of sampleProperties) {
-      await db.insert(properties).values(property).onConflictDoNothing();
-    }
+    // DISABLED: Sample properties creation disabled per client request
+    // Client is loading their own real properties and doesn't want demo data
+    console.log("ℹ️  Sample properties creation is disabled - client will add their own properties");
 
     // Seed blog posts
     const sampleBlogPosts = [
@@ -243,7 +174,7 @@ Il nostro team offre servizi completi di gestione per massimizzare il tuo invest
 
     console.log("✅ Database seeded successfully!");
     console.log("- Created admin user");
-    console.log(`- Created ${sampleProperties.length} sample properties`);
+    console.log("- Sample properties creation disabled");
     console.log(`- Created ${sampleBlogPosts.length} sample blog posts`);
     
   } catch (error) {
