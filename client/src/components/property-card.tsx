@@ -44,8 +44,10 @@ export function PropertyCard({ property }: PropertyCardProps) {
     }
   };
 
+  const propertyUrl = property.slug ? `/${property.slug}` : `/property/${property.id}`;
+  
   return (
-    <Link href={`/property/${property.id}`} className="block">
+    <Link href={propertyUrl} className="block">
       <Card className="bg-white rounded-xl overflow-hidden cursor-pointer group border shadow-lg hover:shadow-xl transition-all duration-300 h-auto flex flex-col">
         <div className="relative h-40 sm:h-56 overflow-hidden flex-shrink-0">
           <div 

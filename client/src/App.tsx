@@ -22,6 +22,7 @@ function Router() {
       <Route path="/chi-siamo" component={About} />
       <Route path="/properties" component={Properties} />
       <Route path="/property/:id" component={PropertyDetail} />
+      <Route path="/:type/:municipality/:propertyType" component={PropertyDetail} />
       <Route path="/servizi" component={Services} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/admin" component={Admin} />

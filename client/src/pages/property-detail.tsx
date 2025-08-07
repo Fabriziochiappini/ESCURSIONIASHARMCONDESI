@@ -27,7 +27,10 @@ export default function PropertyDetail() {
   const params = useParams();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const propertyId = parseInt(params.id as string);
+  
+  // Support both old ID-based URLs and new slug-based URLs
+  const propertyId = params.id ? parseInt(params.id as string) : null;
+  const slug = params.id ? null : `${params.type}/${params.municipality}/${params.propertyType}`;
 
   const [contactForm, setContactForm] = useState({
     name: "",
@@ -37,21 +40,24 @@ export default function PropertyDetail() {
   });
 
   const { data: property, isLoading, error } = useQuery<Property>({
-    queryKey: ['/api/properties', propertyId],
+    queryKey: propertyId ? ['/api/properties/id', propertyId] : ['/api/properties/slug', slug],
     queryFn: async () => {
-      const response = await fetch(`/api/properties/${propertyId}`);
+      const apiUrl = propertyId ? `/api/properties/id/${propertyId}` : `/api/properties/slug/${slug}`;
+      const response = await fetch(apiUrl);
       if (!response.ok) {
         throw new Error('Property not found');
       }
       return response.json();
-    }
+    },
+    enabled: !!(propertyId || slug)
   });
 
   // Fetch property images from the new table
   const { data: propertyImages = [] } = useQuery({
-    queryKey: ['/api/properties', propertyId, 'images'],
+    queryKey: ['/api/properties', property?.id, 'images'],
     queryFn: async () => {
-      const response = await fetch(`/api/properties/${propertyId}/images`);
+      if (!property) return [];
+      const response = await fetch(`/api/properties/${property.id}/images`);
       if (!response.ok) {
         console.log('Failed to fetch property images:', response.status);
         return [];
@@ -60,14 +66,14 @@ export default function PropertyDetail() {
       console.log('Fetched property images:', images);
       return images;
     },
-    enabled: !!propertyId
+    enabled: !!property
   });
 
   const contactMutation = useMutation({
     mutationFn: async (data: typeof contactForm) => {
       return apiRequest('POST', '/api/contact', {
         ...data,
-        propertyId
+        propertyId: property?.id
       });
     },
     onSuccess: () => {
@@ -109,21 +115,7 @@ export default function PropertyDetail() {
     contactMutation.mutate(contactForm);
   };
 
-  if (isNaN(propertyId)) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Navigation />
-        <div className="pt-20 flex items-center justify-center min-h-screen">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Proprietà non trovata</h1>
-            <Link href="/">
-              <Button>Torna alle proprietà</Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // Don't check for invalid ID since we support slug-based URLs now
 
   if (isLoading) return <div>Caricamento...</div>;
   if (error) return <div>Errore nel caricamento della proprietà</div>;
@@ -134,7 +126,7 @@ export default function PropertyDetail() {
     "@type": "RealEstateListing",
     "name": property.title,
     "description": property.description,
-    "url": `https://agenzia2acireale.com/property/${property.id}`,
+    "url": property.slug ? `https://agenzia2acireale.com/${property.slug}` : `https://agenzia2acireale.com/property/${property.id}`,
     "image": property.images?.[0] ? `https://agenzia2acireale.com${property.images[0]}` : undefined,
     "price": property.price,
     "priceCurrency": "EUR",
@@ -166,10 +158,10 @@ export default function PropertyDetail() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title={`${property.title} - ${property.municipality} | AGENZIA 2 Acireale`}
-        description={`${property.type === 'vendita' ? '🏠 Casa in vendita' : property.type === 'affitto' ? '🏠 Casa in affitto' : '🏖️ Casa vacanza'} a ${property.municipality}. ${property.bedrooms} camere, ${property.area}mq. Prezzo: €${Number(property.price).toLocaleString()}. ${property.description?.slice(0, 100)}...`}
+        title={property.metaTitle || `${property.title} - ${property.municipality} | AGENZIA 2 Acireale`}
+        description={property.metaDescription || `${property.type === 'vendita' ? '🏠 Casa in vendita' : property.type === 'affitto' ? '🏠 Casa in affitto' : '🏖️ Casa vacanza'} a ${property.municipality}. ${property.bedrooms} camere, ${property.area}mq. Prezzo: €${Number(property.price).toLocaleString()}. ${property.description?.slice(0, 100)}...`}
         keywords={`${property.title}, casa ${property.type} ${property.municipality}, immobile ${property.municipality}, ${property.bedrooms} camere ${property.municipality}, AGENZIA 2 Acireale`}
-        canonicalUrl={`https://agenzia2acireale.com/property/${property.id}`}
+        canonicalUrl={property.slug ? `https://agenzia2acireale.com/${property.slug}` : `https://agenzia2acireale.com/property/${property.id}`}
         ogImage={property.images?.[0] ? `https://agenzia2acireale.com${property.images[0]}` : undefined}
         type="article"
         structuredData={structuredData}

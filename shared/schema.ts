@@ -33,10 +33,14 @@ export const properties = pgTable("properties", {
   featured: boolean("featured").default(false),
   available: boolean("available").default(true),
   sortOrder: integer("sort_order").default(0),
+  slug: text("slug").unique(), // SEO-friendly URL slug
+  metaTitle: text("meta_title"), // SEO meta title
+  metaDescription: text("meta_description"), // SEO meta description
 });
 
 export const insertPropertySchema = createInsertSchema(properties).omit({
   id: true,
+  slug: true, // Auto-generated
 });
 
 export type InsertProperty = z.infer<typeof insertPropertySchema>;
@@ -59,6 +63,108 @@ export const searchFiltersSchema = z.object({
 });
 
 export type SearchFilters = z.infer<typeof searchFiltersSchema>;
+
+// Utility functions for slug generation
+export function generatePropertySlug(property: {
+  type: string;
+  municipality: string;
+  propertyType?: string | null;
+  title: string;
+}): string {
+  const typeMap: Record<string, string> = {
+    vendita: "casa",
+    affitto: "affitto",
+    casa_vacanza: "vacanza"
+  };
+
+  const propertyTypeMap: Record<string, string> = {
+    villa: "villa",
+    appartamento: "appartamento", 
+    villa_a_schiera: "villa-schiera",
+    casa_singola_con_terreno: "casa-terreno",
+    rustici_e_terreni: "rustico",
+    terreno_agricolo: "terreno-agricolo",
+    terreno_edificabile: "terreno-edificabile"
+  };
+
+  const slugifyText = (text: string): string => {
+    return text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "") // Remove accents
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  };
+
+  const typeSlug = typeMap[property.type] || slugifyText(property.type);
+  const municipalitySlug = slugifyText(property.municipality);
+  const propertyTypeSlug = property.propertyType ? 
+    propertyTypeMap[property.propertyType] || slugifyText(property.propertyType) : 
+    "proprieta";
+
+  return `${typeSlug}/${municipalitySlug}/${propertyTypeSlug}`;
+}
+
+export function generatePropertyMetaTitle(property: {
+  type: string;
+  municipality: string;
+  propertyType?: string | null;
+  price: string;
+}): string {
+  const typeMap: Record<string, string> = {
+    vendita: "Casa in Vendita",
+    affitto: "Casa in Affitto",
+    casa_vacanza: "Casa Vacanza"
+  };
+
+  const propertyTypeMap: Record<string, string> = {
+    villa: "Villa",
+    appartamento: "Appartamento", 
+    villa_a_schiera: "Villa a Schiera",
+    casa_singola_con_terreno: "Casa con Terreno",
+    rustici_e_terreni: "Rustico",
+    terreno_agricolo: "Terreno Agricolo",
+    terreno_edificabile: "Terreno Edificabile"
+  };
+
+  const typeText = typeMap[property.type] || property.type;
+  const propertyTypeText = property.propertyType ? 
+    propertyTypeMap[property.propertyType] : "Propriet\u00e0";
+  
+  return `${propertyTypeText} ${property.municipality} - ${typeText} \u20ac${property.price} | Agenzia Immobiliare`;
+}
+
+export function generatePropertyMetaDescription(property: {
+  type: string;
+  municipality: string;
+  propertyType?: string | null;
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
+  price: string;
+}): string {
+  const typeMap: Record<string, string> = {
+    vendita: "vendita",
+    affitto: "affitto",
+    casa_vacanza: "casa vacanza"
+  };
+
+  const propertyTypeMap: Record<string, string> = {
+    villa: "villa",
+    appartamento: "appartamento", 
+    villa_a_schiera: "villa a schiera",
+    casa_singola_con_terreno: "casa con terreno",
+    rustici_e_terreni: "rustico",
+    terreno_agricolo: "terreno agricolo",
+    terreno_edificabile: "terreno edificabile"
+  };
+
+  const typeText = typeMap[property.type] || property.type;
+  const propertyTypeText = property.propertyType ? 
+    propertyTypeMap[property.propertyType] : "propriet\u00e0";
+  
+  return `${propertyTypeText.charAt(0).toUpperCase() + propertyTypeText.slice(1)} in ${typeText} a ${property.municipality}. ${property.bedrooms} camere, ${property.bathrooms} bagni, ${property.area}mq. Prezzo \u20ac${property.price}. Contattaci per maggiori informazioni.`;
+}
 
 // Session storage table.
 // (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.

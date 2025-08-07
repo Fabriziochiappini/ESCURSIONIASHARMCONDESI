@@ -7,6 +7,7 @@ import { z } from "zod";
 import { upload, uploadImageToStorage, deleteImageFile } from "./imageUpload";
 import { ObjectStorageService } from "./objectStorage";
 import { migrateExistingImages } from "./migrateImages";
+import { migratePropertySlugs } from "./migrateSlug";
 import express from "express";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -23,6 +24,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Migration error:", error);
       res.status(500).json({ error: "Migration failed" });
+    }
+  });
+
+  // Migration endpoint for property slugs
+  app.post("/api/admin/migrate-slugs", async (req, res) => {
+    try {
+      const migratedCount = await migratePropertySlugs();
+      res.json({ 
+        success: true, 
+        message: `Successfully generated slugs for ${migratedCount} properties` 
+      });
+    } catch (error) {
+      console.error("Slug migration error:", error);
+      res.status(500).json({ error: "Slug migration failed" });
     }
   });
   app.get('/api/auth/admin', async (req: any, res) => {
@@ -81,7 +96,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get single property
+  // Get single property by ID (backward compatibility)
+  app.get("/api/properties/id/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid property ID" });
+      }
+
+      const property = await storage.getProperty(id);
+      if (!property) {
+        return res.status(404).json({ message: "Property not found" });
+      }
+
+      res.json(property);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching property" });
+    }
+  });
+
+  // Get single property by slug (SEO-friendly)
+  app.get("/api/properties/slug/:slug(*)", async (req, res) => {
+    try {
+      const slug = req.params.slug;
+      if (!slug) {
+        return res.status(400).json({ message: "Invalid property slug" });
+      }
+
+      const property = await storage.getPropertyBySlug(slug);
+      if (!property) {
+        return res.status(404).json({ message: "Property not found" });
+      }
+
+      res.json(property);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching property" });
+    }
+  });
+
+  // Legacy route (backward compatibility) - redirect to new format
   app.get("/api/properties/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
@@ -92,6 +145,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const property = await storage.getProperty(id);
       if (!property) {
         return res.status(404).json({ message: "Property not found" });
+      }
+
+      // Redirect to new slug-based URL if property has a slug
+      if (property.slug) {
+        return res.redirect(301, `/api/properties/slug/${property.slug}`);
       }
 
       res.json(property);
@@ -259,11 +317,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     <priority>0.9</priority>
   </url>`;
 
-      // Add each property to sitemap
+      // Add each property to sitemap with SEO-friendly URLs
       properties.forEach(property => {
+        const propertyUrl = property.slug ? `/${property.slug}` : `/property/${property.id}`;
         sitemap += `
   <url>
-    <loc>${baseUrl}/property/${property.id}</loc>
+    <loc>${baseUrl}${propertyUrl}</loc>
     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>

@@ -11,7 +11,10 @@ import {
   type PropertyImage,
   type InsertPropertyImage,
   type User,
-  type UpsertUser
+  type UpsertUser,
+  generatePropertySlug,
+  generatePropertyMetaTitle,
+  generatePropertyMetaDescription
 } from "@shared/schema";
 import { eq, and, gte, lte, sql, desc, like, or, ilike } from "drizzle-orm";
 import { db } from "./db";
@@ -20,6 +23,7 @@ export interface IStorage {
   // Property operations
   getAllProperties(): Promise<Property[]>;
   getProperty(id: number): Promise<Property | undefined>;
+  getPropertyBySlug(slug: string): Promise<Property | undefined>;
   getFeaturedProperties(): Promise<Property[]>;
   searchProperties(filters: SearchFilters): Promise<Property[]>;
   getUniqueMunicipalities(): Promise<string[]>;
@@ -63,6 +67,11 @@ export class DatabaseStorage implements IStorage {
 
   async getProperty(id: number): Promise<Property | undefined> {
     const [property] = await db.select().from(properties).where(eq(properties.id, id));
+    return property || undefined;
+  }
+
+  async getPropertyBySlug(slug: string): Promise<Property | undefined> {
+    const [property] = await db.select().from(properties).where(eq(properties.slug, slug));
     return property || undefined;
   }
 
@@ -135,14 +144,103 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createProperty(property: InsertProperty): Promise<Property> {
-    const [newProperty] = await db.insert(properties).values(property as any).returning();
+    // Generate slug and meta data automatically
+    const slug = generatePropertySlug({
+      type: property.type,
+      municipality: property.municipality,
+      propertyType: property.propertyType,
+      title: property.title
+    });
+    
+    const metaTitle = generatePropertyMetaTitle({
+      type: property.type,
+      municipality: property.municipality,
+      propertyType: property.propertyType,
+      price: property.price
+    });
+    
+    const metaDescription = generatePropertyMetaDescription({
+      type: property.type,
+      municipality: property.municipality,
+      propertyType: property.propertyType,
+      bedrooms: property.bedrooms,
+      bathrooms: property.bathrooms,
+      area: property.area,
+      price: property.price
+    });
+
+    // Ensure slug is unique
+    let uniqueSlug = slug;
+    let counter = 1;
+    while (true) {
+      const existing = await this.getPropertyBySlug(uniqueSlug);
+      if (!existing) break;
+      uniqueSlug = `${slug}-${counter}`;
+      counter++;
+    }
+
+    const propertyWithMeta = {
+      ...property,
+      slug: uniqueSlug,
+      metaTitle,
+      metaDescription
+    };
+
+    const [newProperty] = await db.insert(properties).values(propertyWithMeta as any).returning();
     return newProperty;
   }
 
   async updateProperty(id: number, property: Partial<InsertProperty>): Promise<Property | undefined> {
+    // If key fields change, regenerate slug and meta data
+    let updateData: any = { ...property };
+    
+    if (property.type || property.municipality || property.propertyType || property.title || property.price) {
+      const currentProperty = await this.getProperty(id);
+      if (currentProperty) {
+        const mergedProperty = { ...currentProperty, ...property };
+        
+        const newSlug = generatePropertySlug({
+          type: mergedProperty.type,
+          municipality: mergedProperty.municipality,
+          propertyType: mergedProperty.propertyType,
+          title: mergedProperty.title
+        });
+        
+        // Only update slug if it actually changed
+        if (newSlug !== currentProperty.slug) {
+          let uniqueSlug = newSlug;
+          let counter = 1;
+          while (true) {
+            const existing = await this.getPropertyBySlug(uniqueSlug);
+            if (!existing || existing.id === id) break;
+            uniqueSlug = `${newSlug}-${counter}`;
+            counter++;
+          }
+          updateData.slug = uniqueSlug;
+        }
+        
+        updateData.metaTitle = generatePropertyMetaTitle({
+          type: mergedProperty.type,
+          municipality: mergedProperty.municipality,
+          propertyType: mergedProperty.propertyType,
+          price: mergedProperty.price
+        });
+        
+        updateData.metaDescription = generatePropertyMetaDescription({
+          type: mergedProperty.type,
+          municipality: mergedProperty.municipality,
+          propertyType: mergedProperty.propertyType,
+          bedrooms: mergedProperty.bedrooms,
+          bathrooms: mergedProperty.bathrooms,
+          area: mergedProperty.area,
+          price: mergedProperty.price
+        });
+      }
+    }
+
     const [updatedProperty] = await db
       .update(properties)
-      .set(property as any)
+      .set(updateData)
       .where(eq(properties.id, id))
       .returning();
     return updatedProperty || undefined;
