@@ -60,7 +60,7 @@ export function PropertySearch() {
               <SelectValue placeholder="Seleziona zona" />
             </SelectTrigger>
             <SelectContent>
-              {municipalities.map((municipality) => (
+              {municipalities.filter(municipality => municipality && municipality.trim() !== "").map((municipality) => (
                 <SelectItem key={municipality} value={municipality}>
                   {municipality}
                 </SelectItem>
