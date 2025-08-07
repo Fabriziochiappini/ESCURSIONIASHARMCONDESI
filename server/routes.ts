@@ -153,27 +153,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Update properties order - admin only
   app.put("/api/admin/properties/reorder", async (req, res) => {
     try {
+      console.log('Reorder request body:', JSON.stringify(req.body, null, 2));
       const { properties: propertiesToUpdate } = req.body;
+      console.log('Properties to update:', propertiesToUpdate);
       
       if (!Array.isArray(propertiesToUpdate)) {
+        console.log('Error: Properties is not an array');
         return res.status(400).json({ message: "Properties must be an array" });
       }
 
       // Validate the properties array
       for (const prop of propertiesToUpdate) {
+        console.log('Validating property:', prop);
         if (!prop.id || typeof prop.sortOrder !== 'number') {
+          console.log('Error: Invalid property format:', prop);
           return res.status(400).json({ message: "Each property must have id and sortOrder" });
         }
       }
 
+      console.log('Calling storage.updatePropertyOrder with:', propertiesToUpdate);
       const success = await storage.updatePropertyOrder(propertiesToUpdate);
+      console.log('Storage update result:', success);
+      
       if (!success) {
         return res.status(500).json({ message: "Failed to update property order" });
       }
 
       res.json({ message: "Property order updated successfully" });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating property order:', error);
+      console.error('Error stack:', error.stack);
       res.status(500).json({ message: "Error updating property order" });
     }
   });
