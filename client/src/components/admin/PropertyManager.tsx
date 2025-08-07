@@ -49,27 +49,16 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import type { Property, InsertProperty } from "@shared/schema";
 
-// Sortable Property Item Component
-function SortablePropertyItem({ property, onEdit, onDelete }: {
+// Simple Property Item with Up/Down buttons
+function PropertyItem({ property, onEdit, onDelete, onMoveUp, onMoveDown, isFirst, isLast }: {
   property: Property;
   onEdit: (property: Property) => void;
   onDelete: (id: number) => void;
+  onMoveUp: (id: number) => void;
+  onMoveDown: (id: number) => void;
+  isFirst: boolean;
+  isLast: boolean;
 }) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: property.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
   const formatPrice = (price: string, type: string) => {
     const numPrice = parseInt(price);
     if (type === "vendita") {
@@ -91,19 +80,30 @@ function SortablePropertyItem({ property, onEdit, onDelete }: {
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className={`bg-white border rounded-lg p-4 ${isDragging ? 'shadow-lg border-blue-500' : 'shadow hover:shadow-md'}`}
-    >
+    <div className="bg-white border rounded-lg p-4 shadow hover:shadow-md">
       <div className="flex items-center gap-4">
-        <button
-          {...attributes}
-          {...listeners}
-          className="cursor-grab active:cursor-grabbing p-2 hover:bg-gray-100 rounded transition-colors"
-        >
-          <GripVertical className="h-5 w-5 text-gray-400" />
-        </button>
+        <div className="flex flex-col space-y-1">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onMoveUp(property.id)}
+            disabled={isFirst}
+            className="h-6 w-6 p-0"
+            title="Sposta su"
+          >
+            ↑
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onMoveDown(property.id)}
+            disabled={isLast}
+            className="h-6 w-6 p-0"
+            title="Sposta giù"
+          >
+            ↓
+          </Button>
+        </div>
         
         {property.images && property.images[0] && (
           <img 
@@ -287,12 +287,10 @@ export default function PropertyManager() {
     queryKey: ['/api/properties'],
   });
 
-  // Reorder mutation for properties
-  const reorderMutation = useMutation({
-    mutationFn: async (reorderedProperties: {id: number, sortOrder: number}[]) => {
-      return apiRequest('PUT', '/api/admin/properties/reorder', {
-        properties: reorderedProperties
-      });
+  // Simple reorder mutation for properties
+  const movePropertyMutation = useMutation({
+    mutationFn: async ({ propertyId, direction }: { propertyId: number, direction: 'up' | 'down' }) => {
+      return apiRequest('PUT', `/api/admin/properties/${propertyId}/move/${direction}`, {});
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
@@ -545,27 +543,13 @@ export default function PropertyManager() {
     }
   };
 
-  // Drag and drop handler for properties
-  const handlePropertyDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    
-    if (over && active.id !== over.id) {
-      const oldIndex = properties.findIndex(p => p.id === active.id);
-      const newIndex = properties.findIndex(p => p.id === over.id);
-      
-      if (oldIndex !== -1 && newIndex !== -1) {
-        const newProperties = arrayMove(properties, oldIndex, newIndex);
-        
-        // Create reorder data with new sort orders
-        const reorderData = newProperties.map((property, index) => ({
-          id: property.id,
-          sortOrder: index
-        }));
-        
-        // Update the order in backend
-        reorderMutation.mutate(reorderData);
-      }
-    }
+  // Simple move handlers
+  const handleMoveUp = (propertyId: number) => {
+    movePropertyMutation.mutate({ propertyId, direction: 'up' });
+  };
+
+  const handleMoveDown = (propertyId: number) => {
+    movePropertyMutation.mutate({ propertyId, direction: 'down' });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -639,55 +623,8 @@ export default function PropertyManager() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">Gestione Proprietà</h2>
-        <div className="flex space-x-2">
-          <Dialog open={showPropertyOrderManager} onOpenChange={setShowPropertyOrderManager}>
-            <DialogTrigger asChild>
-              <Button 
-                variant="outline" 
-                className="bg-blue-600 text-white hover:bg-blue-700"
-                onClick={() => setShowPropertyOrderManager(true)}
-              >
-                <GripVertical className="h-4 w-4 mr-2" />
-                Riordina Proprietà
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>Riordina Proprietà</DialogTitle>
-                <p className="text-sm text-gray-600">
-                  Trascina le proprietà per cambiarle di ordine. L'ordine qui sarà quello mostrato nel sito.
-                </p>
-              </DialogHeader>
-              
-              <div className="space-y-3 max-h-96 overflow-y-auto">
-                <DndContext 
-                  sensors={sensors}
-                  collisionDetection={closestCenter}
-                  onDragEnd={handlePropertyDragEnd}
-                >
-                  <SortableContext 
-                    items={properties.map(p => p.id)}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {properties.map((property) => (
-                      <SortablePropertyItem
-                        key={property.id}
-                        property={property}
-                        onEdit={openEditDialog}
-                        onDelete={handleDelete}
-                      />
-                    ))}
-                  </SortableContext>
-                </DndContext>
-              </div>
-              
-              <div className="flex justify-end">
-                <Button onClick={() => setShowPropertyOrderManager(false)}>
-                  Chiudi
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
+        <div className="text-sm text-gray-600">
+          Usa le frecce ↑↓ accanto a ogni proprietà per riordinarle
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
