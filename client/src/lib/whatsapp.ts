@@ -47,7 +47,7 @@ function getPropertyTypeLabel(propertyType?: string | null): string {
   if (!propertyType) return '';
   
   switch(propertyType) {
-    case "villa": return "Villa";
+    case "villa": return "Villa Singola";
     case "appartamento": return "Appartamento";
     case "villa_a_schiera": return "Villa a Schiera";
     case "casa_singola_con_terreno": return "Casa Singola con Terreno";

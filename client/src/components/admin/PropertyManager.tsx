@@ -528,7 +528,7 @@ export default function PropertyManager() {
                       <SelectValue placeholder="Seleziona categoria" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="villa">Villa</SelectItem>
+                      <SelectItem value="villa">Villa Singola</SelectItem>
                       <SelectItem value="appartamento">Appartamento</SelectItem>
                       <SelectItem value="villa_a_schiera">Villa a Schiera</SelectItem>
                       <SelectItem value="casa_singola_con_terreno">Casa Singola con Terreno</SelectItem>

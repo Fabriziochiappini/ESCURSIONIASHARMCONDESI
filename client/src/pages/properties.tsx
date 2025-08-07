@@ -25,7 +25,7 @@ const PROPERTY_TYPES = [
 
 const PROPERTY_CATEGORIES = [
   { value: "all", label: "Tutte le categorie" },
-  { value: "villa", label: "Villa" },
+  { value: "villa", label: "Villa Singola" },
   { value: "appartamento", label: "Appartamento" },
   { value: "villa_a_schiera", label: "Villa a Schiera" },
   { value: "casa_singola_con_terreno", label: "Casa Singola con Terreno" },
