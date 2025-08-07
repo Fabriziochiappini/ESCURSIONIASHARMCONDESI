@@ -153,20 +153,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Update properties order - admin only
   app.put("/api/admin/properties/reorder", async (req, res) => {
     try {
-      const { properties } = req.body;
+      const { properties: propertiesToUpdate } = req.body;
       
-      if (!Array.isArray(properties)) {
+      if (!Array.isArray(propertiesToUpdate)) {
         return res.status(400).json({ message: "Properties must be an array" });
       }
 
       // Validate the properties array
-      for (const prop of properties) {
+      for (const prop of propertiesToUpdate) {
         if (!prop.id || typeof prop.sortOrder !== 'number') {
           return res.status(400).json({ message: "Each property must have id and sortOrder" });
         }
       }
 
-      const success = await storage.updatePropertyOrder(properties);
+      const success = await storage.updatePropertyOrder(propertiesToUpdate);
       if (!success) {
         return res.status(500).json({ message: "Failed to update property order" });
       }
