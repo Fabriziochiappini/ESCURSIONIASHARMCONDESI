@@ -197,10 +197,12 @@ export default function PropertyDetail() {
                   {getTypeLabel(property.type)}
                 </Badge>
               </div>
-              <p className="text-gray-600 flex items-center">
-                <MapPin className="h-4 w-4 mr-2" />
-                {property.address}
-              </p>
+              {property.address && property.address.trim() !== "" && (
+                <p className="text-gray-600 flex items-center">
+                  <MapPin className="h-4 w-4 mr-2" />
+                  {property.address}
+                </p>
+              )}
             </div>
             <Button variant="ghost" size="sm" className="text-gray-600">
               <Heart className="h-5 w-5" />
