@@ -813,7 +813,7 @@ export default function PropertyManager() {
                   value={formData.features}
                   onChange={(e) => setFormData(prev => ({ ...prev, features: e.target.value }))}
                   rows={4}
-                  placeholder="Piscina&#10;Giardino&#10;Posto auto"
+                  placeholder="Volo incluso&#10;Hotel 4 stelle&#10;Colazione inclusa&#10;Trasferimenti inclusi&#10;Guida turistica&#10;Assicurazione viaggio&#10;Wi-Fi gratuito&#10;Escursioni incluse"
                 />
               </div>
 
