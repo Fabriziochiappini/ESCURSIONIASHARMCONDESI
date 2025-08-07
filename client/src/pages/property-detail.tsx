@@ -178,7 +178,7 @@ export default function PropertyDetail() {
       <main className="pt-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Back Button */}
-          <Link href="/">
+          <Link href="/properties">
             <Button variant="ghost" className="mb-6">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Torna alle proprietà
