@@ -10,6 +10,16 @@ import { migrateExistingImages } from "./migrateImages";
 import express from "express";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Global middleware to log all requests
+  app.use((req, res, next) => {
+    if (req.path.includes('reorder')) {
+      console.log(`=== REQUEST ${req.method} ${req.path} ===`);
+      console.log('Headers:', req.headers);
+      console.log('Body:', req.body);
+    }
+    next();
+  });
+
   // Admin routes - no authentication required per user request
   
   // Migration endpoint for existing images
