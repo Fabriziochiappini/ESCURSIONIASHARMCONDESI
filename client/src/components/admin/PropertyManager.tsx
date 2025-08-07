@@ -18,12 +18,13 @@ import {
   Trash2, 
   Eye, 
   MapPin,
-  Bed,
-  Bath,
-  Square,
+  Calendar,
+  Users,
+  Baby,
   Euro,
   Image as ImageIcon,
-  Upload
+  Upload,
+  Plane
 } from "lucide-react";
 
 // Drag and Drop imports
@@ -103,16 +104,16 @@ function PropertyItem({ property, onEdit, onDelete, onMoveUp, onMoveDown, isFirs
               </p>
               <div className="flex items-center space-x-4 mt-1 text-sm text-gray-600">
                 <span className="flex items-center">
-                  <Bed className="h-3 w-3 mr-1" />
-                  {property.bedrooms}
+                  <Calendar className="h-3 w-3 mr-1" />
+                  {property.bedrooms}g
                 </span>
                 <span className="flex items-center">
-                  <Bath className="h-3 w-3 mr-1" />
-                  {property.bathrooms}
+                  <Users className="h-3 w-3 mr-1" />
+                  {property.bathrooms}pax
                 </span>
                 <span className="flex items-center">
-                  <Square className="h-3 w-3 mr-1" />
-                  {property.area} mq
+                  <Baby className="h-3 w-3 mr-1" />
+                  {property.area}+ anni
                 </span>
               </div>
             </div>
@@ -197,7 +198,7 @@ const initialFormData: PropertyFormData = {
   title: "",
   description: "",
   price: "0",
-  type: "vendita",
+  type: "mare",
   propertyType: undefined,
   priceType: "total",
   location: "",
@@ -272,13 +273,13 @@ export default function PropertyManager() {
       resetForm();
       toast({
         title: "Successo",
-        description: "Proprietà creata con successo",
+        description: "Pacchetto viaggio creato con successo",
       });
     },
     onError: (error) => {
       toast({
         title: "Errore",
-        description: "Errore nella creazione della proprietà",
+        description: "Errore nella creazione del pacchetto viaggio",
         variant: "destructive",
       });
     },
@@ -305,13 +306,13 @@ export default function PropertyManager() {
       resetForm();
       toast({
         title: "Successo",
-        description: "Proprietà aggiornata con successo",
+        description: "Pacchetto viaggio aggiornato con successo",
       });
     },
     onError: (error) => {
       toast({
         title: "Errore",
-        description: "Errore nell'aggiornamento della proprietà",
+        description: "Errore nell'aggiornamento del pacchetto viaggio",
         variant: "destructive",
       });
     },
@@ -334,13 +335,13 @@ export default function PropertyManager() {
       queryClient.invalidateQueries({ queryKey: ['/api/municipalities'] });
       toast({
         title: "Successo",
-        description: "Proprietà eliminata con successo",
+        description: "Pacchetto viaggio eliminato con successo",
       });
     },
     onError: (error) => {
       toast({
         title: "Errore",
-        description: "Errore nell'eliminazione della proprietà",
+        description: "Errore nell'eliminazione del pacchetto viaggio",
         variant: "destructive",
       });
     },
@@ -512,7 +513,7 @@ export default function PropertyManager() {
   };
 
   const handleDelete = (id: number) => {
-    if (confirm('Sei sicuro di voler eliminare questa proprietà?')) {
+    if (confirm('Sei sicuro di voler eliminare questo pacchetto viaggio?')) {
       deleteMutation.mutate(id);
     }
   };
@@ -548,7 +549,7 @@ export default function PropertyManager() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Gestione Proprietà</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Gestione Pacchetti Viaggio</h2>
         <div className="text-sm text-gray-600">
           Usa le frecce ↑↓ accanto a ogni proprietà per riordinarle
         </div>
@@ -556,13 +557,13 @@ export default function PropertyManager() {
           <DialogTrigger asChild>
             <Button onClick={resetForm} className="bg-purple-600 text-white hover:bg-purple-700">
               <Plus className="h-4 w-4 mr-2" />
-              Nuova Proprietà
+              Nuovo Pacchetto Viaggio
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                {editingProperty ? 'Modifica Proprietà' : 'Nuova Proprietà'}
+                {editingProperty ? 'Modifica Pacchetto Viaggio' : 'Nuovo Pacchetto Viaggio'}
               </DialogTitle>
             </DialogHeader>
             
@@ -588,15 +589,18 @@ export default function PropertyManager() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="vendita">Vendita</SelectItem>
-                      <SelectItem value="affitto">Affitto</SelectItem>
-                      <SelectItem value="casa_vacanza">Casa Vacanza</SelectItem>
+                      <SelectItem value="mare">Mare</SelectItem>
+                      <SelectItem value="montagna">Montagna</SelectItem>
+                      <SelectItem value="citta">Città</SelectItem>
+                      <SelectItem value="cultura">Cultura</SelectItem>
+                      <SelectItem value="avventura">Avventura</SelectItem>
+                      <SelectItem value="relax">Relax</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="propertyType">Categoria Proprietà</Label>
+                  <Label htmlFor="propertyType">Tipo Pacchetto</Label>
                   <Select
                     value={formData.propertyType || ""}
                     onValueChange={(value) => setFormData(prev => ({ ...prev, propertyType: value || undefined }))}
@@ -605,13 +609,10 @@ export default function PropertyManager() {
                       <SelectValue placeholder="Seleziona categoria" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="villa">Villa Singola</SelectItem>
-                      <SelectItem value="appartamento">Appartamento</SelectItem>
-                      <SelectItem value="villa_a_schiera">Villa a Schiera</SelectItem>
-                      <SelectItem value="casa_singola_con_terreno">Casa Singola con Terreno</SelectItem>
-                      <SelectItem value="rustici_e_terreni">Rustici e Terreni</SelectItem>
-                      <SelectItem value="terreno_agricolo">Terreno Agricolo</SelectItem>
-                      <SelectItem value="terreno_edificabile">Terreno Edificabile</SelectItem>
+                      <SelectItem value="singolo">Viaggio Singolo</SelectItem>
+                      <SelectItem value="coppia">Viaggio di Coppia</SelectItem>
+                      <SelectItem value="famiglia">Viaggio Famiglia</SelectItem>
+                      <SelectItem value="gruppo">Viaggio di Gruppo</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -641,7 +642,7 @@ export default function PropertyManager() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="bedrooms">Camere da letto</Label>
+                  <Label htmlFor="bedrooms">Durata (giorni)</Label>
                   <Input
                     id="bedrooms"
                     type="number"
@@ -651,7 +652,7 @@ export default function PropertyManager() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="bathrooms">Bagni</Label>
+                  <Label htmlFor="bathrooms">Max Partecipanti</Label>
                   <Input
                     id="bathrooms"
                     type="number"
@@ -681,7 +682,7 @@ export default function PropertyManager() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="area">Superficie (mq)</Label>
+                  <Label htmlFor="area">Età Minima</Label>
                   <Input
                     id="area"
                     type="number"
@@ -742,7 +743,7 @@ export default function PropertyManager() {
                     <p>
                       {editingProperty ? 
                         'Le foto esistenti saranno mantenute - aggiungi senza perdere quelle attuali' : 
-                        'Seleziona e carica fino a 30 immagini per la proprietà'
+                        'Seleziona e carica fino a 30 immagini per il pacchetto viaggio'
                       }
                     </p>
                   </div>
@@ -887,7 +888,7 @@ export default function PropertyManager() {
               <DialogHeader>
                 <DialogTitle>Gestisci Ordine Immagini</DialogTitle>
                 <p className="text-sm text-gray-600">
-                  Gestisci le immagini della proprietà. La prima immagine sarà quella principale.
+                  Gestisci le immagini del pacchetto viaggio. La prima immagine sarà quella principale.
                 </p>
               </DialogHeader>
               <div className="space-y-2 max-h-96 overflow-y-auto">
@@ -929,7 +930,7 @@ export default function PropertyManager() {
       {properties.length === 0 && (
         <div className="text-center py-12">
           <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600">Nessuna proprietà trovata. Inizia creandone una nuova!</p>
+          <p className="text-gray-600">Nessun pacchetto viaggio trovato. Inizia creandone uno nuovo!</p>
         </div>
       )}
 
