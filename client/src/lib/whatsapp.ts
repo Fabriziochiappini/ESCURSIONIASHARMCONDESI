@@ -1,6 +1,6 @@
 import { Property } from "@shared/schema";
 
-const WHATSAPP_NUMBER = "3468003234"; // Numero WhatsApp AGENZIA 2
+const WHATSAPP_NUMBER = "3479123456"; // Numero WhatsApp Propato Travel
 
 export function generateWhatsAppLink(property: Property, customMessage?: string): string {
   const baseMessage = customMessage || generatePropertyMessage(property);
@@ -13,33 +13,33 @@ export function generatePropertyMessage(property: Property): string {
   const propertyTypeLabel = getPropertyTypeLabel(property.propertyType);
   const contractTypeLabel = getContractTypeLabel(property.type);
   
-  return `🏠 Salve! Sono interessato/a a questa proprietà:
+  return `✈️ Salve! Sono interessato/a a questo viaggio:
 
 📍 *${property.title}*
-🏘️ ${property.municipality}, ${property.location}
-🏠 Tipologia: ${propertyTypeLabel || 'Non specificata'}
+🌍 Destinazione: ${property.municipality}, ${property.location}
+🎒 Tipologia: ${propertyTypeLabel || 'Non specificata'}
 💰 Prezzo: ${priceFormatted}
-🛏️ ${property.bedrooms} camere da letto
-🚿 ${property.bathrooms} bagni
-📐 ${property.area} mq
+📅 Durata: ${property.bedrooms} giorni
+👥 Max partecipanti: ${property.bathrooms}
+🎂 Età minima: ${property.area} anni
 
-Vorrei ricevere maggiori informazioni e possibilmente programmare una visita.
+Vorrei ricevere maggiori informazioni e possibilmente prenotare.
 
 Grazie!`;
 }
 
 export function generateQuickInquiryMessage(property: Property): string {
-  return `🏠 Ciao! Sono interessato/a alla proprietà "${property.title}" a ${property.municipality}. Potreste inviarmi maggiori dettagli? Grazie!`;
+  return `✈️ Ciao! Sono interessato/a al viaggio "${property.title}" destinazione ${property.municipality}. Potreste inviarmi maggiori dettagli? Grazie!`;
 }
 
 function formatPrice(price: string, type: string): string {
   const numPrice = parseInt(price);
-  if (type === "vendita") {
-    return `€ ${numPrice.toLocaleString('it-IT')}`;
-  } else if (type === "affitto") {
-    return `€ ${numPrice.toLocaleString('it-IT')}/mese`;
+  if (type === "mare" || type === "montagna") {
+    return `€ ${numPrice.toLocaleString('it-IT')}/persona`;
+  } else if (type === "citta" || type === "cultura") {
+    return `€ ${numPrice.toLocaleString('it-IT')}/persona`;
   } else {
-    return `€ ${numPrice.toLocaleString('it-IT')}/notte`;
+    return `€ ${numPrice.toLocaleString('it-IT')}/persona`;
   }
 }
 
@@ -47,22 +47,22 @@ function getPropertyTypeLabel(propertyType?: string | null): string {
   if (!propertyType) return '';
   
   switch(propertyType) {
-    case "villa": return "Villa Singola";
-    case "appartamento": return "Appartamento";
-    case "villa_a_schiera": return "Villa a Schiera";
-    case "casa_singola_con_terreno": return "Casa Singola con Terreno";
-    case "rustici_e_terreni": return "Rustici e Terreni";
-    case "terreno_agricolo": return "Terreno Agricolo";
-    case "terreno_edificabile": return "Terreno Edificabile";
+    case "singolo": return "Viaggio Singolo";
+    case "coppia": return "Viaggio di Coppia";
+    case "famiglia": return "Viaggio Famiglia";
+    case "gruppo": return "Viaggio di Gruppo";
     default: return propertyType;
   }
 }
 
 function getContractTypeLabel(type: string): string {
   switch (type) {
-    case "vendita": return "Vendita";
-    case "affitto": return "Affitto";
-    case "casa_vacanza": return "Casa Vacanza";
+    case "mare": return "Vacanza al Mare";
+    case "montagna": return "Avventura in Montagna";
+    case "citta": return "City Break";
+    case "cultura": return "Viaggio Culturale";
+    case "avventura": return "Viaggio Avventura";
+    case "relax": return "Viaggio Relax";
     default: return type;
   }
 }

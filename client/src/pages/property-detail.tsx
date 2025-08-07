@@ -118,8 +118,8 @@ export default function PropertyDetail() {
   // Don't check for invalid ID since we support slug-based URLs now
 
   if (isLoading) return <div>Caricamento...</div>;
-  if (error) return <div>Errore nel caricamento della proprietà</div>;
-  if (!property) return <div>Proprietà non trovata</div>;
+  if (error) return <div>Errore nel caricamento del pacchetto viaggio</div>;
+  if (!property) return <div>Pacchetto viaggio non trovato</div>;
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -150,7 +150,7 @@ export default function PropertyDetail() {
       "availability": "https://schema.org/InStock",
       "seller": {
         "@type": "RealEstateAgent",
-        "name": "AGENZIA 2 Servizi Immobiliari"
+        "name": "Propato Travel"
       }
     }
   };
@@ -158,9 +158,9 @@ export default function PropertyDetail() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title={property.metaTitle || `${property.title} - ${property.municipality} | AGENZIA 2 Acireale`}
-        description={property.metaDescription || `${property.type === 'vendita' ? '🏠 Casa in vendita' : property.type === 'affitto' ? '🏠 Casa in affitto' : '🏖️ Casa vacanza'} a ${property.municipality}. ${property.bedrooms} camere, ${property.area}mq. Prezzo: €${Number(property.price).toLocaleString()}. ${property.description?.slice(0, 100)}...`}
-        keywords={`${property.title}, casa ${property.type} ${property.municipality}, immobile ${property.municipality}, ${property.bedrooms} camere ${property.municipality}, AGENZIA 2 Acireale`}
+        title={property.metaTitle || `${property.title} - ${property.municipality} | Propato Travel`}
+        description={property.metaDescription || `✈️ ${property.type === 'mare' ? 'Vacanza al mare' : property.type === 'montagna' ? 'Avventura in montagna' : property.type === 'citta' ? 'City break' : 'Viaggio'} a ${property.municipality}. ${property.bedrooms} giorni, max ${property.bathrooms} persone. Prezzo: €${Number(property.price).toLocaleString()}/persona. ${property.description?.slice(0, 100)}...`}
+        keywords={`${property.title}, viaggio ${property.type} ${property.municipality}, pacchetto ${property.municipality}, ${property.bedrooms} giorni ${property.municipality}, Propato Travel`}
         canonicalUrl={property.slug ? `https://agenzia2acireale.com/${property.slug}` : `https://agenzia2acireale.com/property/${property.id}`}
         ogImage={property.images?.[0] ? `https://agenzia2acireale.com${property.images[0]}` : undefined}
         type="article"
@@ -173,7 +173,7 @@ export default function PropertyDetail() {
           <Link href="/properties">
             <Button variant="ghost" className="mb-6">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Torna alle proprietà
+              Torna ai viaggi
             </Button>
           </Link>
 
@@ -218,15 +218,15 @@ export default function PropertyDetail() {
                 <div className="flex items-center space-x-6 text-gray-600 mb-6">
                   <span className="flex items-center">
                     <Bed className="h-5 w-5 mr-2" />
-                    {property.bedrooms} camere
+                    {property.bedrooms} giorni
                   </span>
                   <span className="flex items-center">
                     <Bath className="h-5 w-5 mr-2" />
-                    {property.bathrooms} bagni
+                    {property.bathrooms} max pax
                   </span>
                   <span className="flex items-center">
                     <Square className="h-5 w-5 mr-2" />
-                    {property.area} mq
+                    {property.area}+ anni
                   </span>
                 </div>
               </div>
@@ -263,8 +263,8 @@ export default function PropertyDetail() {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">Video Tour Esclusivo</h3>
-                      <p className="text-gray-600">Scopri ogni dettaglio della proprietà</p>
+                      <h3 className="text-2xl font-bold text-gray-900">Video Anteprima Viaggio</h3>
+                      <p className="text-gray-600">Scopri ogni dettaglio della destinazione</p>
                     </div>
                   </div>
 
@@ -332,7 +332,7 @@ export default function PropertyDetail() {
                   />
 
                   <Textarea
-                    placeholder="Ciao! Sono interessato a questa proprietà. Potreste inviarmi maggiori informazioni?"
+                    placeholder="Ciao! Sono interessato a questo viaggio. Potreste inviarmi maggiori informazioni e disponibilità?"
                     rows={4}
                     value={contactForm.message}
                     onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}

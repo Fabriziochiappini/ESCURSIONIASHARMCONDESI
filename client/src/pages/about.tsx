@@ -10,9 +10,9 @@ export default function About() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead 
-        title="Contatti AGENZIA 2 Acireale | Geometra Antonio Cannavò - 30 Anni di Esperienza"
-        description="📞 Contatta AGENZIA 2 Servizi Immobiliari ad Acireale. Geometra Antonio Cannavò - 30 anni di esperienza nel settore immobiliare. Tel: 346 800 3234"
-        keywords="contatti agenzia immobiliare Acireale, geometra Antonio Cannavò, telefono agenzia immobiliare Acireale, dove siamo Acireale"
+        title="Contatti Propato Travel | La Tua Agenzia Viaggi di Fiducia"
+        description="✈️ Contatta Propato Travel per organizzare il tuo viaggio perfetto. Agenzia viaggi professionale con esperienza nel settore turistico. Tel: 347 912 3456"
+        keywords="contatti agenzia viaggi, propato travel, telefono agenzia viaggi, dove siamo acireale, organizzazione viaggi"
         canonicalUrl="https://agenzia2acireale.com/contatti"
       />
       <Navigation />
@@ -26,11 +26,11 @@ export default function About() {
               Contatti
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              AGENZIA 2 Servizi Immobiliari
+              Propato Travel
             </h1>
             <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-90">
-              <strong>Geometra Antonio Cannavò</strong> - La tua agenzia immobiliare di fiducia ad Acireale. 
-              Esperienza, professionalità e conoscenza del territorio al tuo servizio.
+              <strong>La Tua Agenzia Viaggi</strong> - I migliori viaggi per esplorare il mondo. 
+              Esperienza, professionalità e passione per farti vivere esperienze indimenticabili.
             </p>
           </div>
         </section>
@@ -44,10 +44,10 @@ export default function About() {
                   La Nostra Missione
                 </h2>
                 <p className="text-lg text-gray-600 mb-6">
-                  <strong>AGENZIA 2 Servizi Immobiliari</strong>, guidata dal Geometra Antonio Cannavò, è il tuo partner di fiducia per ogni esigenza immobiliare ad Acireale e provincia di Catania. Offriamo un servizio completo e professionale nel settore immobiliare.
+                  <strong>Propato Travel</strong> è la tua agenzia viaggi di fiducia per ogni esigenza di viaggio. Offriamo un servizio completo e professionale nel settore turistico con pacchetti personalizzati.
                 </p>
                 <p className="text-lg text-gray-600 mb-6">
-                  La nostra passione per il territorio siciliano e la profonda conoscenza del mercato locale, unite alla competenza tecnica del Geometra Cannavò, ci permettono di offrire servizi specializzati e di alta qualità.
+                  La nostra passione per i viaggi e la profonda conoscenza delle destinazioni più belle del mondo ci permettono di offrire esperienze uniche e servizi di alta qualità.
                 </p>
                 <div className="bg-accent/10 p-6 rounded-lg">
                   <h3 className="text-xl font-bold text-primary mb-4">I Nostri Contatti</h3>
@@ -58,15 +58,15 @@ export default function About() {
                     </div>
                     <div className="flex items-center space-x-3">
                       <Phone className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">346 800 3234</span>
+                      <span className="text-gray-700">347 912 3456</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">agenzia2acireale@virgilio.it</span>
+                      <span className="text-gray-700">info@propatotravel.com</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">antoniocannavo@msn.com</span>
+                      <span className="text-gray-700">booking@propatotravel.com</span>
                     </div>
                   </div>
 
@@ -76,7 +76,7 @@ export default function About() {
                       className="bg-sky-500 text-white flex-1 hover:bg-sky-600"
                       asChild
                     >
-                      <a href="tel:+393468003234">
+                      <a href="tel:+393479123456">
                         <Phone className="h-4 w-4 mr-2" />
                         Chiama Ora
                       </a>
@@ -86,7 +86,7 @@ export default function About() {
                       asChild
                     >
                       <a 
-                        href="https://wa.me/393468003234?text=Ciao! Sono interessato ai vostri servizi immobiliari. Potreste darmi maggiori informazioni?"
+                        href="https://wa.me/393479123456?text=Ciao! Sono interessato ai vostri servizi di viaggio. Potreste darmi maggiori informazioni?"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -107,7 +107,7 @@ export default function About() {
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="Mappa AGENZIA 2 Servizi Immobiliari - Via San Girolamo 20, Acireale"
+                    title="Mappa Propato Travel - Via San Girolamo 20, Acireale"
                     className="rounded-2xl"
                   />
                 </div>
@@ -138,7 +138,7 @@ export default function About() {
                     Professionalità
                   </h3>
                   <p className="text-gray-600">
-                    Competenza e serietà in ogni transazione, con un team di esperti costantemente aggiornato sulle normative del settore.
+                    Competenza e serietà in ogni viaggio, con un team di esperti costantemente aggiornato sulle migliori destinazioni del mondo.
                   </p>
                 </CardContent>
               </Card>
@@ -152,7 +152,7 @@ export default function About() {
                     Trasparenza
                   </h3>
                   <p className="text-gray-600">
-                    Informazioni chiare e complete su ogni proprietà, con prezzi onesti e senza costi nascosti.
+                    Informazioni chiare e complete su ogni viaggio, con prezzi onesti e senza costi nascosti.
                   </p>
                 </CardContent>
               </Card>
@@ -166,7 +166,7 @@ export default function About() {
                     Territorio
                   </h3>
                   <p className="text-gray-600">
-                    Conoscenza approfondita di Acireale e dei comuni limitrofi, per consigli sempre mirati e preziosi.
+                    Conoscenza approfondita delle destinazioni più belle del mondo, per consigli sempre mirati e preziosi.
                   </p>
                 </CardContent>
               </Card>
@@ -190,16 +190,16 @@ export default function About() {
               <Card className="text-center glass-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 max-w-sm">
                 <CardContent className="p-8">
                   <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-                    Antonio Cannavò
+                    Team Propato
                   </h3>
-                  <p className="text-primary mb-3 text-lg">Geometra & Fondatore</p>
+                  <p className="text-primary mb-3 text-lg">Travel Experts</p>
                   <p className="text-gray-600 mb-4">
-                    Esperto in servizi immobiliari, perizie e consulenze tecniche ad Acireale. 
-                    Con anni di esperienza nel settore, offre competenza e professionalità per ogni esigenza immobiliare.
+                    Esperti in organizzazione viaggi e consulenze turistiche. 
+                    Con anni di esperienza nel settore, offriamo competenza e professionalità per ogni esigenza di viaggio.
                   </p>
                   <div className="flex justify-center space-x-2">
                     <Phone className="h-5 w-5 text-gray-400" />
-                    <span className="text-gray-600">346 800 3234</span>
+                    <span className="text-gray-600">347 912 3456</span>
                   </div>
                 </CardContent>
               </Card>
@@ -211,10 +211,10 @@ export default function About() {
         <section className="py-16 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl font-bold mb-4">
-              Pronto a Trovare la Tua Casa Ideale?
+              Pronto a Partire per il Tuo Viaggio Ideale?
             </h2>
             <p className="text-xl mb-8 text-purple-100">
-              Contattaci oggi stesso per una consulenza gratuita
+              Contattaci oggi stesso per organizzare il tuo viaggio
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
@@ -223,14 +223,14 @@ export default function About() {
                 className="bg-white text-purple-600 hover:bg-purple-50"
                 asChild
               >
-                <Link href="/proprieta">
-                  Vedi Proprietà
+                <Link href="/properties">
+                  Vedi Viaggi
                 </Link>
               </Button>
               <Button 
                 size="lg" 
                 className="bg-purple-600 text-white font-semibold border-2 border-purple-500"
-                onClick={() => window.open('tel:+393468003234', '_self')}
+                onClick={() => window.open('tel:+393479123456', '_self')}
               >
                 <Phone className="h-5 w-5 mr-2" />
                 Chiamaci Ora

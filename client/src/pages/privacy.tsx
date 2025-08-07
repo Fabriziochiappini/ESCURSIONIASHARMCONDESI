@@ -9,8 +9,8 @@ export default function Privacy() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead 
-        title="Privacy Policy - AGENZIA 2 Servizi Immobiliari Acireale"
-        description="Informativa sulla Privacy di AGENZIA 2 Servizi Immobiliari. Scopri come proteggiamo i tuoi dati personali in conformità al GDPR."
+        title="Privacy Policy - Propato Travel Agenzia Viaggi"
+        description="Informativa sulla Privacy di Propato Travel. Scopri come proteggiamo i tuoi dati personali in conformità al GDPR."
         keywords="privacy policy, gdpr, protezione dati, agenzia immobiliare acireale, trattamento dati personali"
         canonicalUrl="https://agenzia2acireale.com/privacy"
       />
@@ -48,8 +48,8 @@ export default function Privacy() {
                 <div className="space-y-4">
                   <div>
                     <h3 className="font-bold text-gray-900 mb-2">Titolare del Trattamento</h3>
-                    <p className="text-gray-700 mb-2"><strong>AGENZIA 2 Servizi Immobiliari</strong></p>
-                    <p className="text-gray-700">Geometra Antonio Cannavò</p>
+                    <p className="text-gray-700 mb-2"><strong>Propato Travel</strong></p>
+                    <p className="text-gray-700">Agenzia Viaggi</p>
                     <div className="flex items-center space-x-3 mt-3">
                       <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
                       <span className="text-gray-700">Via San Girolamo, 20 - 95024 ACIREALE (CT)</span>
@@ -103,9 +103,9 @@ export default function Privacy() {
                         </ul>
                       </div>
                       <div>
-                        <h4 className="font-semibold mb-2">Dati Immobiliari:</h4>
+                        <h4 className="font-semibold mb-2">Dati di Viaggio:</h4>
                         <ul className="list-disc list-inside space-y-1 ml-4">
-                          <li>Informazioni su proprietà di interesse</li>
+                          <li>Informazioni su pacchetti viaggio di interesse</li>
                           <li>Criteri di ricerca e preferenze</li>
                           <li>Documenti forniti per valutazioni</li>
                         </ul>
@@ -122,9 +122,9 @@ export default function Privacy() {
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 space-y-3">
                       <div>
-                        <h4 className="font-semibold mb-2">Servizi Immobiliari:</h4>
+                        <h4 className="font-semibold mb-2">Servizi di Viaggio:</h4>
                         <ul className="list-disc list-inside space-y-1 ml-4">
-                          <li>Assistenza nella compravendita e locazione immobiliare</li>
+                          <li>Assistenza nella prenotazione e organizzazione viaggi</li>
                           <li>Valutazioni e perizie tecniche</li>
                           <li>Consulenza legale e finanziaria</li>
                         </ul>
@@ -134,7 +134,7 @@ export default function Privacy() {
                         <ul className="list-disc list-inside space-y-1 ml-4">
                           <li>Risposta a richieste di informazioni</li>
                           <li>Invio di proposte commerciali pertinenti</li>
-                          <li>Aggiornamenti su servizi e proprietà</li>
+                          <li>Aggiornamenti su servizi e offerte viaggio</li>
                         </ul>
                       </div>
                       <div>

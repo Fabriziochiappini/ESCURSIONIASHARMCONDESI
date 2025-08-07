@@ -13,18 +13,24 @@ interface PropertyCardProps {
 export function PropertyCard({ property }: PropertyCardProps) {
   const getTypeBadgeColor = (type: string) => {
     switch (type) {
-      case "vendita": return "bg-green-600";
-      case "affitto": return "bg-blue-600";
-      case "casa_vacanza": return "bg-orange-500";
+      case "mare": return "bg-blue-600";
+      case "montagna": return "bg-green-600";
+      case "citta": return "bg-purple-500";
+      case "cultura": return "bg-orange-500";
+      case "avventura": return "bg-red-500";
+      case "relax": return "bg-teal-500";
       default: return "bg-gray-600";
     }
   };
 
   const getTypeLabel = (type: string) => {
     switch (type) {
-      case "vendita": return "Vendita";
-      case "affitto": return "Affitto";
-      case "casa_vacanza": return "Casa Vacanza";
+      case "mare": return "Mare";
+      case "montagna": return "Montagna";
+      case "citta": return "Città";
+      case "cultura": return "Cultura";
+      case "avventura": return "Avventura";
+      case "relax": return "Relax";
       default: return type;
     }
   };
@@ -33,13 +39,10 @@ export function PropertyCard({ property }: PropertyCardProps) {
     if (!propertyType) return '';
     
     switch(propertyType) {
-      case "villa": return "Villa Singola";
-      case "appartamento": return "Appartamento";
-      case "villa_a_schiera": return "Villa a Schiera";
-      case "casa_singola_con_terreno": return "Casa Singola con Terreno";
-      case "rustici_e_terreni": return "Rustici e Terreni";
-      case "terreno_agricolo": return "Terreno Agricolo";
-      case "terreno_edificabile": return "Terreno Edificabile";
+      case "singolo": return "Viaggio Singolo";
+      case "coppia": return "Viaggio di Coppia";
+      case "famiglia": return "Viaggio Famiglia";
+      case "gruppo": return "Viaggio di Gruppo";
       default: return propertyType;
     }
   };

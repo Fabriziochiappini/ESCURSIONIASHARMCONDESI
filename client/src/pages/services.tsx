@@ -8,71 +8,75 @@ import { FileText, Scale, Home as HomeIcon, CreditCard, CheckCircle, MapPin, Pho
 
 const services = [
   {
-    category: "Servizi di Perizia e Valutazione",
+    category: "Consulenza e Preventivi",
     icon: <FileText className="h-8 w-8 text-white" />,
-    description: "Valutazioni professionali e perizie tecniche certificate",
+    description: "Consulenza professionale per organizzare il viaggio perfetto",
     color: "bg-primary text-white",
     items: [
-      "Perizia Immobile",
-      "Visure catastali",
-      "Visure ipotecarie", 
-      "Visure CRIF",
-      "A.P.E. (Attestato di Prestazione Energetica)"
+      "Preventivi personalizzati",
+      "Consulenza destinazioni",
+      "Pianificazione itinerari", 
+      "Consigli esperti",
+      "Valutazione budget viaggio"
     ]
   },
   {
-    category: "Servizi Legali e Urbanistici",
+    category: "Documentazione e Assistenza",
     icon: <Scale className="h-8 w-8 text-white" />,
-    description: "Supporto legale specializzato in diritto immobiliare",
+    description: "Supporto completo per documenti di viaggio e assistenza",
     color: "bg-secondary text-white",
     items: [
-      "Diritto civile immobiliare",
-      "Sanatorie Urbanistiche",
-      "Cancellazione ipoteche",
-      "Estinzione Ipoteca con stralcio e saldo",
-      "Successioni"
+      "Assistenza visti e passaporti",
+      "Documenti di viaggio",
+      "Assistenza assicurazioni",
+      "Support 24/7 durante il viaggio",
+      "Gestione emergenze"
     ]
   },
   {
-    category: "Compravendita Immobili",
+    category: "Pacchetti Viaggio",
     icon: <HomeIcon className="h-8 w-8 text-white" />,
-    description: "Servizi completi per ogni tipologia di proprietà",
+    description: "Pacchetti completi per ogni tipo di esperienza",
     color: "bg-accent text-white",
     items: [
-      "Appartamenti",
-      "Villini e Ville",
-      "Casa singola con terreno",
-      "Ruderi con Terreno",
-      "Terreni"
+      "Vacanze al mare",
+      "Avventure in montagna",
+      "City break culturali",
+      "Viaggi di gruppo",
+      "Viaggi su misura"
     ]
   },
   {
-    category: "Servizi Finanziari",
+    category: "Prenotazioni e Pagamenti",
     icon: <CreditCard className="h-8 w-8 text-white" />,
-    description: "Consulenza finanziaria e creditizia specializzata",
+    description: "Gestione completa prenotazioni e soluzioni di pagamento",
     color: "bg-primary text-white",
     items: [
-      "Mutui Agevolati"
+      "Prenotazioni hotel",
+      "Biglietti aerei",
+      "Noleggio auto",
+      "Pagamenti dilazionati",
+      "Garanzia miglior prezzo"
     ]
   }
 ];
 
 const contactInfo = {
-  name: "AGENZIA 2 Servizi Immobiliari",
-  geometra: "Geometra: Antonio Cannavò",
+  name: "Propato Travel",
+  role: "Agenzia Viaggi",
   address: "Via San Girolamo, 20 - 95024 ACIREALE (CT)",
-  phone: "346 800 3234",
-  email: "agenzia2acireale@virgilio.it",
-  email2: "antoniocannavo@msn.com"
+  phone: "347 912 3456",
+  email: "info@propatotravel.com",
+  email2: "booking@propatotravel.com"
 };
 
 export default function Services() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead
-        title="Agenzia 2 Acireale - Servizi Immobiliari Professionali"
-        description="Scopri i nostri servizi immobiliari completi ad Acireale: perizie, valutazioni, assistenza legale, compravendita e servizi finanziari. Contattaci per una consulenza personalizzata."
-        keywords="servizi immobiliari, acireale, perizie, valutazioni, assistenza legale, compravendita, mutui, agenzia immobiliare"
+        title="Propato Travel - Servizi di Viaggio Professionali"
+        description="Scopri i nostri servizi di viaggio completi: consulenza personalizzata, pacchetti su misura, assistenza documentale e prenotazioni. Contattaci per organizzare il tuo viaggio perfetto."
+        keywords="servizi viaggio, agenzia viaggi, pacchetti viaggio, consulenza viaggi, prenotazioni, propato travel"
         canonicalUrl="https://agenzia2acireale.com/servizi"
       />
       <Navigation />
@@ -83,14 +87,14 @@ export default function Services() {
         <div className="relative max-w-6xl mx-auto text-center">
           <div className="inline-flex items-center px-4 py-2 bg-white/20 text-white rounded-full text-sm font-medium mb-6">
             <HomeIcon className="h-4 w-4 mr-2 text-white" />
-            Servizi Professionali Immobiliari
+            Servizi di Viaggio Professionali
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
             I Nostri Servizi
           </h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
-            Soluzioni complete per ogni esigenza immobiliare ad Acireale. 
-            Professionalità, esperienza e competenza al vostro servizio.
+            Soluzioni complete per ogni esigenza di viaggio. 
+            Professionalità, esperienza e passione per farti vivere esperienze indimenticabili.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="group bg-white text-primary hover:bg-white/90">
@@ -113,7 +117,7 @@ export default function Services() {
               Servizi Specializzati
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Offriamo una gamma completa di servizi professionali per soddisfare ogni esigenza nel settore immobiliare
+              Offriamo una gamma completa di servizi professionali per soddisfare ogni esigenza di viaggio
             </p>
           </div>
 
