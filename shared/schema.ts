@@ -30,10 +30,6 @@ export const properties = pgTable("properties", {
   images: json("images").$type<string[]>().notNull(),
   features: json("features").$type<string[]>().notNull(),
   youtubeVideoId: text("youtube_video_id"),
-  agentName: text("agent_name").notNull(),
-  agentPhone: text("agent_phone").notNull(),
-  agentEmail: text("agent_email").notNull(),
-  agentImage: text("agent_image"),
   featured: boolean("featured").default(false),
   available: boolean("available").default(true),
 });

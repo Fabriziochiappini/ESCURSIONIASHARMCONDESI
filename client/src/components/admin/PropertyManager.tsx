@@ -136,10 +136,6 @@ const initialFormData: PropertyFormData = {
   area: 50,
   features: "",
   youtubeVideoId: "",
-  agentName: "",
-  agentPhone: "",
-  agentEmail: "",
-  agentImage: "",
   featured: false,
   available: true,
 };
@@ -759,36 +755,6 @@ export default function PropertyManager() {
                   <p className="text-xs text-gray-500">
                     Puoi incollare l'URL completo YouTube o solo l'ID del video
                   </p>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="agentName">Nome Agente</Label>
-                  <Input
-                    id="agentName"
-                    value={formData.agentName}
-                    onChange={(e) => setFormData(prev => ({ ...prev, agentName: e.target.value }))}
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="agentPhone">Telefono Agente</Label>
-                  <Input
-                    id="agentPhone"
-                    value={formData.agentPhone}
-                    onChange={(e) => setFormData(prev => ({ ...prev, agentPhone: e.target.value }))}
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="agentEmail">Email Agente</Label>
-                  <Input
-                    id="agentEmail"
-                    type="email"
-                    value={formData.agentEmail}
-                    onChange={(e) => setFormData(prev => ({ ...prev, agentEmail: e.target.value }))}
-                  />
                 </div>
               </div>
 
