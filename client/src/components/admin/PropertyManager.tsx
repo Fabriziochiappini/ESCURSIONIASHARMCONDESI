@@ -49,6 +49,127 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import type { Property, InsertProperty } from "@shared/schema";
 
+// Sortable Property Item Component
+function SortablePropertyItem({ property, onEdit, onDelete }: {
+  property: Property;
+  onEdit: (property: Property) => void;
+  onDelete: (id: number) => void;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: property.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  const formatPrice = (price: string, type: string) => {
+    const numPrice = parseInt(price);
+    if (type === "vendita") {
+      return `€ ${numPrice.toLocaleString('it-IT')}`;
+    } else if (type === "affitto") {
+      return `€ ${numPrice}/mese`;
+    } else {
+      return `€ ${numPrice}/notte`;
+    }
+  };
+
+  const getTypeBadgeColor = (type: string) => {
+    switch(type) {
+      case "vendita": return "bg-green-100 text-green-800";
+      case "affitto": return "bg-blue-100 text-blue-800";
+      case "casa_vacanza": return "bg-purple-100 text-purple-800";
+      default: return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`bg-white border rounded-lg p-4 ${isDragging ? 'shadow-lg border-blue-500' : 'shadow hover:shadow-md'}`}
+    >
+      <div className="flex items-center gap-4">
+        <button
+          {...attributes}
+          {...listeners}
+          className="cursor-grab active:cursor-grabbing p-2 hover:bg-gray-100 rounded transition-colors"
+        >
+          <GripVertical className="h-5 w-5 text-gray-400" />
+        </button>
+        
+        {property.images && property.images[0] && (
+          <img 
+            src={property.images[0]} 
+            alt={property.title}
+            className="w-16 h-16 object-cover rounded flex-shrink-0"
+          />
+        )}
+        
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between">
+            <div>
+              <h3 className="font-semibold text-gray-900 truncate">{property.title}</h3>
+              <p className="text-sm text-gray-500 flex items-center">
+                <MapPin className="h-3 w-3 mr-1" />
+                {property.location}
+              </p>
+              <div className="flex items-center space-x-4 mt-1 text-sm text-gray-600">
+                <span className="flex items-center">
+                  <Bed className="h-3 w-3 mr-1" />
+                  {property.bedrooms}
+                </span>
+                <span className="flex items-center">
+                  <Bath className="h-3 w-3 mr-1" />
+                  {property.bathrooms}
+                </span>
+                <span className="flex items-center">
+                  <Square className="h-3 w-3 mr-1" />
+                  {property.area} mq
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Badge className={getTypeBadgeColor(property.type)}>
+                {property.type}
+              </Badge>
+              <span className="font-bold text-blue-600">
+                {formatPrice(property.price, property.type)}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onEdit(property)}
+            className="h-8"
+          >
+            <Edit className="h-3 w-3" />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onDelete(property.id)}
+            className="h-8 hover:bg-red-50 hover:border-red-300"
+          >
+            <Trash2 className="h-3 w-3 text-red-600" />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Sortable Image Item Component
 function SortableImageItem({ image, index, onRemove }: { 
   image: string; 
@@ -147,6 +268,7 @@ export default function PropertyManager() {
 
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [showImageManager, setShowImageManager] = useState(false);
+  const [showPropertyOrderManager, setShowPropertyOrderManager] = useState(false);
   const [tempImages, setTempImages] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<string>('');
@@ -163,6 +285,29 @@ export default function PropertyManager() {
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
+  });
+
+  // Reorder mutation for properties
+  const reorderMutation = useMutation({
+    mutationFn: async (reorderedProperties: {id: number, sortOrder: number}[]) => {
+      return apiRequest('PUT', '/api/admin/properties/reorder', {
+        properties: reorderedProperties
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      toast({
+        title: "Successo",
+        description: "Ordine proprietà aggiornato con successo",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Errore",
+        description: "Errore nell'aggiornamento dell'ordine",
+        variant: "destructive",
+      });
+    }
   });
 
   const createMutation = useMutation({
@@ -382,8 +527,8 @@ export default function PropertyManager() {
     }
   };
 
-  // Drag and drop handler
-  const handleDragEnd = (event: DragEndEvent) => {
+  // Drag and drop handler for images
+  const handleImageDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     
     if (over && active.id !== over.id) {
@@ -396,6 +541,29 @@ export default function PropertyManager() {
         if (editingProperty) {
           setEditingProperty({ ...editingProperty, images: newImages });
         }
+      }
+    }
+  };
+
+  // Drag and drop handler for properties
+  const handlePropertyDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    
+    if (over && active.id !== over.id) {
+      const oldIndex = properties.findIndex(p => p.id === active.id);
+      const newIndex = properties.findIndex(p => p.id === over.id);
+      
+      if (oldIndex !== -1 && newIndex !== -1) {
+        const newProperties = arrayMove(properties, oldIndex, newIndex);
+        
+        // Create reorder data with new sort orders
+        const reorderData = newProperties.map((property, index) => ({
+          id: property.id,
+          sortOrder: index
+        }));
+        
+        // Update the order in backend
+        reorderMutation.mutate(reorderData);
       }
     }
   };
@@ -471,6 +639,56 @@ export default function PropertyManager() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">Gestione Proprietà</h2>
+        <div className="flex space-x-2">
+          <Dialog open={showPropertyOrderManager} onOpenChange={setShowPropertyOrderManager}>
+            <DialogTrigger asChild>
+              <Button 
+                variant="outline" 
+                className="bg-blue-600 text-white hover:bg-blue-700"
+                onClick={() => setShowPropertyOrderManager(true)}
+              >
+                <GripVertical className="h-4 w-4 mr-2" />
+                Riordina Proprietà
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Riordina Proprietà</DialogTitle>
+                <p className="text-sm text-gray-600">
+                  Trascina le proprietà per cambiarle di ordine. L'ordine qui sarà quello mostrato nel sito.
+                </p>
+              </DialogHeader>
+              
+              <div className="space-y-3 max-h-96 overflow-y-auto">
+                <DndContext 
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handlePropertyDragEnd}
+                >
+                  <SortableContext 
+                    items={properties.map(p => p.id)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {properties.map((property) => (
+                      <SortablePropertyItem
+                        key={property.id}
+                        property={property}
+                        onEdit={openEditDialog}
+                        onDelete={handleDelete}
+                      />
+                    ))}
+                  </SortableContext>
+                </DndContext>
+              </div>
+              
+              <div className="flex justify-end">
+                <Button onClick={() => setShowPropertyOrderManager(false)}>
+                  Chiudi
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={resetForm} className="bg-purple-600 text-white hover:bg-purple-700">
@@ -813,7 +1031,7 @@ export default function PropertyManager() {
                 <DndContext 
                   sensors={sensors}
                   collisionDetection={closestCenter}
-                  onDragEnd={handleDragEnd}
+                  onDragEnd={handleImageDragEnd}
                 >
                   <SortableContext 
                     items={tempImages.map((_, index) => `image-${index}`)}

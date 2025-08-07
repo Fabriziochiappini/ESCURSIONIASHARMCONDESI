@@ -26,6 +26,7 @@ export interface IStorage {
   createProperty(property: InsertProperty): Promise<Property>;
   updateProperty(id: number, property: Partial<InsertProperty>): Promise<Property | undefined>;
   deleteProperty(id: number): Promise<boolean>;
+  updatePropertyOrder(properties: {id: number, sortOrder: number}[]): Promise<boolean>;
   
   // Property images operations
   getPropertyImages(propertyId: number): Promise<PropertyImage[]>;
@@ -55,7 +56,7 @@ export interface IStorage {
 export class DatabaseStorage implements IStorage {
   // Property operations
   async getAllProperties(): Promise<Property[]> {
-    const allProperties = await db.select().from(properties).orderBy(desc(properties.id));
+    const allProperties = await db.select().from(properties).orderBy(properties.sortOrder, properties.id);
     return allProperties;
   }
 
@@ -68,7 +69,7 @@ export class DatabaseStorage implements IStorage {
     const featuredProperties = await db.select()
       .from(properties)
       .where(eq(properties.featured, true))
-      .orderBy(desc(properties.id));
+      .orderBy(properties.sortOrder, properties.id);
     return featuredProperties;
   }
 
@@ -119,7 +120,7 @@ export class DatabaseStorage implements IStorage {
       query = query.where(and(...conditions)) as typeof query;
     }
 
-    const results = await query.orderBy(desc(properties.id));
+    const results = await query.orderBy(properties.sortOrder, properties.id);
     return results;
   }
 
@@ -149,6 +150,21 @@ export class DatabaseStorage implements IStorage {
   async deleteProperty(id: number): Promise<boolean> {
     const result = await db.delete(properties).where(eq(properties.id, id));
     return (result.rowCount ?? 0) > 0;
+  }
+
+  async updatePropertyOrder(propertiesToUpdate: {id: number, sortOrder: number}[]): Promise<boolean> {
+    try {
+      for (const propertyUpdate of propertiesToUpdate) {
+        await db
+          .update(properties)
+          .set({ sortOrder: propertyUpdate.sortOrder })
+          .where(eq(properties.id, propertyUpdate.id));
+      }
+      return true;
+    } catch (error) {
+      console.error('Error updating property order:', error);
+      return false;
+    }
   }
 
   // Property images operations

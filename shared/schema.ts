@@ -32,6 +32,7 @@ export const properties = pgTable("properties", {
   youtubeVideoId: text("youtube_video_id"),
   featured: boolean("featured").default(false),
   available: boolean("available").default(true),
+  sortOrder: integer("sort_order").default(0),
 });
 
 export const insertPropertySchema = createInsertSchema(properties).omit({
