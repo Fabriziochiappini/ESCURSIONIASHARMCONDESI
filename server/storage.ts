@@ -27,6 +27,7 @@ export interface IStorage {
   updateProperty(id: number, property: Partial<InsertProperty>): Promise<Property | undefined>;
   deleteProperty(id: number): Promise<boolean>;
   updatePropertyOrder(properties: {id: number, sortOrder: number}[]): Promise<boolean>;
+  moveProperty(propertyId: number, direction: 'up' | 'down'): Promise<boolean>;
   
   // Property images operations
   getPropertyImages(propertyId: number): Promise<PropertyImage[]>;
@@ -153,25 +154,57 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updatePropertyOrder(propertiesToUpdate: {id: number, sortOrder: number}[]): Promise<boolean> {
-    console.log('=== STORAGE updatePropertyOrder called ===');
-    console.log('Properties to update in storage:', propertiesToUpdate);
-    
     try {
       for (const propertyUpdate of propertiesToUpdate) {
-        console.log(`Updating property ${propertyUpdate.id} to sortOrder ${propertyUpdate.sortOrder}`);
-        const result = await db
+        await db
           .update(properties)
           .set({ sortOrder: propertyUpdate.sortOrder })
           .where(eq(properties.id, propertyUpdate.id));
-        console.log(`Update result for property ${propertyUpdate.id}:`, result);
       }
-      console.log('All property updates completed successfully');
       return true;
     } catch (error: any) {
-      console.error('STORAGE ERROR updating property order:', error);
-      console.error('Error message:', error.message);
-      console.error('Error stack:', error.stack);
+      console.error('Error updating property order:', error.message);
       throw error;
+    }
+  }
+  
+  async moveProperty(propertyId: number, direction: 'up' | 'down'): Promise<boolean> {
+    try {
+      // Get all properties ordered by sortOrder
+      const allProperties = await db.select().from(properties).orderBy(properties.sortOrder, properties.id);
+      
+      // Find current property index
+      const currentIndex = allProperties.findIndex(p => p.id === propertyId);
+      if (currentIndex === -1) return false;
+      
+      // Calculate new index based on direction
+      let newIndex;
+      if (direction === 'up') {
+        if (currentIndex === 0) return true; // Already at top
+        newIndex = currentIndex - 1;
+      } else {
+        if (currentIndex === allProperties.length - 1) return true; // Already at bottom
+        newIndex = currentIndex + 1;
+      }
+      
+      // Swap sort orders
+      const currentProperty = allProperties[currentIndex];
+      const swapProperty = allProperties[newIndex];
+      
+      await db
+        .update(properties)
+        .set({ sortOrder: swapProperty.sortOrder })
+        .where(eq(properties.id, currentProperty.id));
+        
+      await db
+        .update(properties)
+        .set({ sortOrder: currentProperty.sortOrder })
+        .where(eq(properties.id, swapProperty.id));
+      
+      return true;
+    } catch (error: any) {
+      console.error('Error moving property:', error.message);
+      return false;
     }
   }
 

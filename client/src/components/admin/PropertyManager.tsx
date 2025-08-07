@@ -23,30 +23,10 @@ import {
   Square,
   Euro,
   Image as ImageIcon,
-  GripVertical,
   Upload
 } from "lucide-react";
 
 // Drag and Drop imports
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragEndEvent,
-} from '@dnd-kit/core';
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import {
-  useSortable,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import type { Property, InsertProperty } from "@shared/schema";
 
 // Simple Property Item with Up/Down buttons
@@ -170,44 +150,15 @@ function PropertyItem({ property, onEdit, onDelete, onMoveUp, onMoveDown, isFirs
   );
 }
 
-// Sortable Image Item Component
-function SortableImageItem({ image, index, onRemove }: { 
+// Simple Image Item Component
+function ImageItem({ image, index, onRemove }: { 
   image: string; 
   index: number; 
   onRemove: (index: number) => void;
 }) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: `image-${index}` });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className={`relative group border-2 rounded-lg p-2 bg-white ${
-        isDragging ? 'border-blue-500 shadow-lg' : 'border-gray-200 hover:border-gray-300'
-      }`}
-    >
+    <div className="relative group border-2 rounded-lg p-2 bg-white border-gray-200 hover:border-gray-300">
       <div className="flex items-center gap-2">
-        <button
-          {...attributes}
-          {...listeners}
-          className="cursor-grab active:cursor-grabbing p-1 hover:bg-gray-100 rounded"
-        >
-          <GripVertical className="h-4 w-4 text-gray-400" />
-        </button>
-        
         <img 
           src={image} 
           alt={`Immagine ${index + 1}`}
@@ -268,20 +219,12 @@ export default function PropertyManager() {
 
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [showImageManager, setShowImageManager] = useState(false);
-  const [showPropertyOrderManager, setShowPropertyOrderManager] = useState(false);
   const [tempImages, setTempImages] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<string>('');
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Drag and drop sensors
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
@@ -525,23 +468,6 @@ export default function PropertyManager() {
     }
   };
 
-  // Drag and drop handler for images
-  const handleImageDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    
-    if (over && active.id !== over.id) {
-      const oldIndex = tempImages.findIndex((_, index) => `image-${index}` === active.id);
-      const newIndex = tempImages.findIndex((_, index) => `image-${index}` === over.id);
-      
-      if (oldIndex !== -1 && newIndex !== -1) {
-        const newImages = arrayMove(tempImages, oldIndex, newIndex);
-        setTempImages(newImages);
-        if (editingProperty) {
-          setEditingProperty({ ...editingProperty, images: newImages });
-        }
-      }
-    }
-  };
 
   // Simple move handlers
   const handleMoveUp = (propertyId: number) => {
@@ -839,8 +765,8 @@ export default function PropertyManager() {
                           onClick={() => setShowImageManager(true)}
                           className="flex items-center gap-1"
                         >
-                          <GripVertical className="h-3 w-3" />
-                          Riordina
+                          <ImageIcon className="h-3 w-3" />
+                          Gestisci
                         </Button>
                       </div>
                     </div>
@@ -961,29 +887,18 @@ export default function PropertyManager() {
               <DialogHeader>
                 <DialogTitle>Gestisci Ordine Immagini</DialogTitle>
                 <p className="text-sm text-gray-600">
-                  Trascina le immagini per riordinarle. La prima immagine sarà quella principale.
+                  Gestisci le immagini della proprietà. La prima immagine sarà quella principale.
                 </p>
               </DialogHeader>
               <div className="space-y-2 max-h-96 overflow-y-auto">
-                <DndContext 
-                  sensors={sensors}
-                  collisionDetection={closestCenter}
-                  onDragEnd={handleImageDragEnd}
-                >
-                  <SortableContext 
-                    items={tempImages.map((_, index) => `image-${index}`)}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {tempImages.map((img, index) => (
-                      <SortableImageItem
-                        key={`image-${index}`}
-                        image={img}
-                        index={index}
-                        onRemove={removeImage}
-                      />
-                    ))}
-                  </SortableContext>
-                </DndContext>
+                {tempImages.map((img, index) => (
+                  <ImageItem
+                    key={`image-${index}`}
+                    image={img}
+                    index={index}
+                    onRemove={removeImage}
+                  />
+                ))}
               </div>
               <div className="flex justify-end">
                 <Button onClick={() => setShowImageManager(false)}>
@@ -995,86 +910,19 @@ export default function PropertyManager() {
         )}
       </div>
 
-      {/* Properties Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {properties.map((property) => (
-          <Card key={property.id} className="group hover:shadow-lg transition-shadow">
-            <div className="relative aspect-video overflow-hidden rounded-t-lg">
-              {property.images && property.images.length > 0 ? (
-                <img 
-                  src={property.images[0]} 
-                  alt={property.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              ) : (
-                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                  <ImageIcon className="h-12 w-12 text-gray-400" />
-                </div>
-              )}
-              
-              {property.featured && (
-                <Badge className="absolute top-2 left-2 bg-yellow-500 text-yellow-900">
-                  In evidenza
-                </Badge>
-              )}
-              
-              <Badge className={`absolute top-2 right-2 ${getTypeBadgeColor(property.type)}`}>
-                {property.type === 'vendita' ? 'Vendita' : property.type === 'affitto' ? 'Affitto' : 'Casa Vacanza'}
-              </Badge>
-            </div>
-            
-            <CardContent className="p-4">
-              <div className="flex items-center text-sm text-gray-600 mb-2">
-                <MapPin className="h-4 w-4 mr-1" />
-                {property.location}
-              </div>
-              
-              <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
-                {property.title}
-              </h3>
-              
-              <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center">
-                    <Bed className="h-4 w-4 mr-1" />
-                    {property.bedrooms}
-                  </div>
-                  <div className="flex items-center">
-                    <Bath className="h-4 w-4 mr-1" />
-                    {property.bathrooms}
-                  </div>
-                  <div className="flex items-center">
-                    <Square className="h-4 w-4 mr-1" />
-                    {property.area} mq
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <div className="text-xl font-bold text-purple-600">
-                  {formatPrice(property.price, property.type)}
-                </div>
-                <div className="flex space-x-1">
-                  <Button size="sm" variant="outline" asChild>
-                    <a href={`/property/${property.id}`} target="_blank" rel="noopener noreferrer">
-                      <Eye className="h-4 w-4" />
-                    </a>
-                  </Button>
-                  <Button size="sm" variant="outline" onClick={() => openEditDialog(property)}>
-                    <Edit className="h-4 w-4" />
-                  </Button>
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
-                    onClick={() => handleDelete(property.id)}
-                    disabled={deleteMutation.isPending}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+      {/* Properties List with Reorder */}
+      <div className="space-y-4">
+        {properties.map((property, index) => (
+          <PropertyItem
+            key={property.id}
+            property={property}
+            onEdit={openEditDialog}
+            onDelete={handleDelete}
+            onMoveUp={handleMoveUp}
+            onMoveDown={handleMoveDown}
+            isFirst={index === 0}
+            isLast={index === properties.length - 1}
+          />
         ))}
       </div>
 

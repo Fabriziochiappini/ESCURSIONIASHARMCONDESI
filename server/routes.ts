@@ -10,16 +10,6 @@ import { migrateExistingImages } from "./migrateImages";
 import express from "express";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Global middleware to log all requests
-  app.use((req, res, next) => {
-    if (req.path.includes('reorder')) {
-      console.log(`=== REQUEST ${req.method} ${req.path} ===`);
-      console.log('Headers:', req.headers);
-      console.log('Body:', req.body);
-    }
-    next();
-  });
-
   // Admin routes - no authentication required per user request
   
   // Migration endpoint for existing images
@@ -160,45 +150,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
 
 
-  // Update properties order - admin only
-  app.put("/api/admin/properties/reorder", async (req, res) => {
-    console.log('=== REORDER REQUEST RECEIVED ===');
-    console.log('Request body:', req.body);
-    
+  // Simple move property up/down endpoints
+  app.put("/api/admin/properties/:id/move/:direction", async (req, res) => {
     try {
-      const { properties: propertiesToUpdate } = req.body;
-      console.log('Properties to update:', propertiesToUpdate);
+      const propertyId = parseInt(req.params.id);
+      const direction = req.params.direction;
       
-      if (!Array.isArray(propertiesToUpdate)) {
-        console.log('ERROR: Properties is not an array');
-        return res.status(400).json({ message: "Properties must be an array" });
+      if (isNaN(propertyId)) {
+        return res.status(400).json({ message: "Invalid property ID" });
       }
-
-      // Validate the properties array
-      for (const prop of propertiesToUpdate) {
-        console.log('Validating prop:', prop);
-        if (!prop.id || typeof prop.sortOrder !== 'number') {
-          console.log('ERROR: Invalid property format:', prop);
-          return res.status(400).json({ message: "Each property must have id and sortOrder" });
-        }
+      
+      if (direction !== 'up' && direction !== 'down') {
+        return res.status(400).json({ message: "Direction must be 'up' or 'down'" });
       }
-
-      console.log('About to call storage.updatePropertyOrder...');
-      const success = await storage.updatePropertyOrder(propertiesToUpdate);
-      console.log('Storage result:', success);
+      
+      const success = await storage.moveProperty(propertyId, direction as 'up' | 'down');
       
       if (!success) {
-        console.log('ERROR: Storage returned false');
-        return res.status(500).json({ message: "Failed to update property order" });
+        return res.status(500).json({ message: "Failed to move property" });
       }
-
-      console.log('SUCCESS: Reorder completed');
-      res.json({ message: "Property order updated successfully" });
+      
+      res.json({ message: "Property moved successfully" });
     } catch (error: any) {
-      console.error('CATCH ERROR in reorder endpoint:', error);
-      console.error('Error message:', error.message);
-      console.error('Error stack:', error.stack);
-      res.status(500).json({ message: `Error updating property order: ${error.message}` });
+      console.error('Error moving property:', error.message);
+      res.status(500).json({ message: `Error moving property: ${error.message}` });
     }
   });
 
