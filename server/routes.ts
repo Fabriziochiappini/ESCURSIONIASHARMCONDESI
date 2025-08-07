@@ -152,6 +152,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Update properties order - admin only
   app.put("/api/admin/properties/reorder", async (req, res) => {
+    console.log('=== REORDER ENDPOINT HIT ===');
     try {
       console.log('Reorder request body:', JSON.stringify(req.body, null, 2));
       const { properties: propertiesToUpdate } = req.body;
