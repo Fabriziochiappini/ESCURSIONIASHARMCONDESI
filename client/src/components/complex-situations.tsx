@@ -1,15 +1,15 @@
-import { Home, Users, Gavel, DollarSign } from "lucide-react";
+import { Plane, Users, MapPin, FileText } from "lucide-react";
 
 export function ComplexSituations() {
   const situations = [
     {
-      icon: Home,
-      title: "Casa con Ipoteca da Ristrutturare?",
-      subtitle: "Soluzione trasparente garantita",
+      icon: Plane,
+      title: "Viaggio Last Minute?",
+      subtitle: "Organizziamo tutto in 24 ore",
       benefits: [
-        "Nessun costo anticipato",
-        "Prezzo minimo garantito",
-        "Azzeramento debiti e gravami"
+        "Prenotazioni immediate",
+        "Migliori tariffe last minute",
+        "Assistenza h24"
       ],
       bgColor: "bg-white",
       borderColor: "border-red-200",
@@ -19,12 +19,12 @@ export function ComplexSituations() {
     },
     {
       icon: Users,
-      title: "Divisione Ereditaria Complicata?",
-      subtitle: "Perizie e soluzioni concrete",
+      title: "Gruppo Numeroso da Organizzare?",
+      subtitle: "Gestiamo viaggi di gruppo complessi",
       benefits: [
-        "Divisione con compensi equi",
-        "Vendita con ripartizione",
-        "Assegnazione concordata"
+        "Tariffe speciali per gruppi",
+        "Coordinamento completo",
+        "Pagamenti dilazionati"
       ],
       bgColor: "bg-white",
       borderColor: "border-blue-200",
@@ -33,13 +33,13 @@ export function ComplexSituations() {
       subtitleColor: "text-gray-600"
     },
     {
-      icon: Gavel,
-      title: "Casa all'Asta? Ti Aiutiamo!",
-      subtitle: "Team legale specializzato",
+      icon: MapPin,
+      title: "Destinazione Complicata?",
+      subtitle: "Esperti in viaggi difficili",
       benefits: [
-        "Saldo e stralcio del debito",
-        "Vendita a valore ridotto",
-        "Recupero massimo possibile"
+        "Destinazioni remote",
+        "Visti e permessi speciali",
+        "Itinerari personalizzati"
       ],
       bgColor: "bg-white",
       borderColor: "border-orange-200",
@@ -48,13 +48,13 @@ export function ComplexSituations() {
       subtitleColor: "text-gray-600"
     },
     {
-      icon: DollarSign,
-      title: "Debiti Agenzia Entrate?",
-      subtitle: "Verifichiamo irregolarità",
+      icon: FileText,
+      title: "Documenti Scaduti?",
+      subtitle: "Assistenza urgente documenti",
       benefits: [
-        "Controllo ipoteche illegali",
-        "Rimozione gravami irregolari",
-        "Piani rateizzati personalizzati"
+        "Passaporti urgenti",
+        "Visti in tempi record",
+        "Assistenza burocratica"
       ],
       bgColor: "bg-white",
       borderColor: "border-yellow-200",
@@ -69,11 +69,11 @@ export function ComplexSituations() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl lg:text-5xl font-light mb-6 text-gray-900">
-            PROBLEMI IMMOBILIARI?<br/>
+            ESIGENZE DI VIAGGIO SPECIALI?<br/>
             <span className="text-primary font-medium">CI SIAMO NOI!</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            30 anni di esperienza al tuo servizio per soluzioni concrete
+            Anni di esperienza nel settore viaggi per soluzioni immediate
           </p>
         </div>
 
@@ -127,10 +127,10 @@ export function ComplexSituations() {
 
         <div className="text-center mt-16 animate-fade-in">
           <button className="bg-growth hover:bg-growth/80 text-white px-12 py-4 font-bold text-lg rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl">
-            CONSULENZA GRATUITA IMMEDIATA
+            CONSULENZA VIAGGIO GRATUITA
           </button>
           <p className="mt-4 text-gray-600">
-            Chiamaci adesso - non aspettare
+            Realizziamo il tuo viaggio dei sogni
           </p>
         </div>
       </div>
