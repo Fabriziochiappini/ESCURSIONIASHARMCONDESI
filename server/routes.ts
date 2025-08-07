@@ -287,7 +287,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
 
         console.log(`Processing ${req.files.length} images for upload...`);
-        const imageUrls = [];
+        const imageUrls: string[] = [];
         
         // Process images in parallel batches for better performance
         const batchSize = 5;
@@ -296,7 +296,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const batchPromises = batch.map(async (file, index) => {
             try {
               const actualIndex = i + index;
-              console.log(`Uploading image ${actualIndex + 1}/${req.files.length}: ${file.originalname}`);
+              console.log(`Uploading image ${actualIndex + 1}/${req.files!.length}: ${file.originalname}`);
               const { url } = await uploadImageToStorage(file as Express.Multer.File);
               return { url, index: actualIndex };
             } catch (error) {
@@ -312,7 +312,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
         
         // Filter out any failed uploads and maintain order
-        const successfulUrls = imageUrls.filter(url => url);
+        const successfulUrls: string[] = imageUrls.filter((url): url is string => Boolean(url));
         
         res.json({ 
           success: true, 
