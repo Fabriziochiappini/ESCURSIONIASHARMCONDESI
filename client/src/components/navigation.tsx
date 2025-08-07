@@ -14,7 +14,7 @@ export function Navigation() {
             <div className="relative">
               <img 
                 src={logoAgenziaUrl} 
-                alt="AGENZIA 2 Servizi Immobiliari" 
+                alt="Propato Travel - Agenzia Viaggi" 
                 className="h-24 w-auto group-hover:scale-110 transition-all duration-300"
                 style={{ 
                   clipPath: 'inset(0 2px 0 0)',
@@ -30,7 +30,7 @@ export function Navigation() {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link href="/properties" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
-              Proprietà
+              Viaggi
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link href="/servizi" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
@@ -38,7 +38,7 @@ export function Navigation() {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link href="/chi-siamo" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
-              Contatti
+              Chi Siamo
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link href="/admin" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
@@ -46,10 +46,10 @@ export function Navigation() {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
             <a 
-              href="tel:+393468003234" 
+              href="tel:+393479123456" 
               className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              📞 346 800 3234
+              ✈️ 347 912 3456
             </a>
           </div>
 
@@ -69,22 +69,22 @@ export function Navigation() {
                 Home
               </Link>
               <Link href="/properties" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
-                Proprietà
+                Viaggi
               </Link>
               <Link href="/servizi" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
                 Servizi
               </Link>
               <Link href="/chi-siamo" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
-                Contatti
+                Chi Siamo
               </Link>
               <Link href="/admin" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
                 Admin
               </Link>
               <a 
-                href="tel:+393468003234" 
+                href="tel:+393479123456" 
                 className="block gradient-primary text-white px-6 py-4 rounded-2xl font-bold text-center text-lg mt-6"
               >
-                📞 346 800 3234
+                ✈️ 347 912 3456
               </a>
             </div>
           </div>

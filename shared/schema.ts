@@ -18,15 +18,15 @@ export const properties = pgTable("properties", {
   title: text("title").notNull(),
   description: text("description").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
-  type: text("type").notNull(), // "vendita", "affitto", "casa_vacanza"
-  propertyType: text("property_type"), // "villa", "appartamento", "villa_singola", "casa_singola_con_terreno", "rustici_e_terreni"
-  priceType: text("price_type"), // "total", "monthly", "nightly"
-  location: text("location").notNull(),
-  municipality: text("municipality").notNull(),
-  address: text("address").notNull(),
-  bedrooms: integer("bedrooms").notNull(),
-  bathrooms: integer("bathrooms").notNull(),
-  area: integer("area").notNull(), // in square meters
+  type: text("type").notNull(), // "mare", "montagna", "citta", "avventura", "relax", "cultura"
+  propertyType: text("property_type"), // "singolo", "coppia", "famiglia", "gruppo" (package type)
+  priceType: text("price_type"), // "per_persona", "forfait", "giornaliero"
+  location: text("location").notNull(), // destination
+  municipality: text("municipality").notNull(), // country
+  address: text("address").notNull(), // region
+  bedrooms: integer("bedrooms").notNull(), // duration (days)
+  bathrooms: integer("bathrooms").notNull(), // max participants
+  area: integer("area").notNull(), // min age
   images: json("images").$type<string[]>().notNull(),
   features: json("features").$type<string[]>().notNull(),
   youtubeVideoId: text("youtube_video_id"),
@@ -36,6 +36,10 @@ export const properties = pgTable("properties", {
   slug: text("slug").unique(), // SEO-friendly URL slug
   metaTitle: text("meta_title"), // SEO meta title
   metaDescription: text("meta_description"), // SEO meta description
+  // New travel-specific fields
+  departureDate: timestamp("departure_date"),
+  returnDate: timestamp("return_date"),
+  includedServices: json("included_services").$type<string[]>().default([]),
 });
 
 export const insertPropertySchema = createInsertSchema(properties).omit({
@@ -48,18 +52,20 @@ export type Property = typeof properties.$inferSelect;
 
 
 
-// Search filters schema
+// Search filters schema for travel packages
 export const searchFiltersSchema = z.object({
   search: z.string().optional(),
-  type: z.enum(["vendita", "affitto", "casa_vacanza"]).optional(),
-  propertyType: z.enum(["villa", "appartamento", "villa_a_schiera", "casa_singola_con_terreno", "rustici_e_terreni", "terreno_agricolo", "terreno_edificabile"]).optional(),
-  municipality: z.string().optional(),
+  type: z.enum(["mare", "montagna", "citta", "avventura", "relax", "cultura"]).optional(),
+  propertyType: z.enum(["singolo", "coppia", "famiglia", "gruppo"]).optional(), // package type
+  municipality: z.string().optional(), // country
+  location: z.string().optional(), // destination
   minPrice: z.number().optional(),
   maxPrice: z.number().optional(),
-  bedrooms: z.number().optional(),
-  bathrooms: z.number().optional(),
-  minArea: z.number().optional(),
-  maxArea: z.number().optional(),
+  bedrooms: z.number().optional(), // min duration
+  bathrooms: z.number().optional(), // max participants
+  minArea: z.number().optional(), // min age
+  maxArea: z.number().optional(), // max duration
+  departureMonth: z.string().optional(),
 });
 
 export type SearchFilters = z.infer<typeof searchFiltersSchema>;

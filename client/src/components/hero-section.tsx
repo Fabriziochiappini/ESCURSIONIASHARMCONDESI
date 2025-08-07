@@ -7,13 +7,13 @@ export function HeroSection() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&h=1600')",
+          backgroundImage: "url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&h=1600')", // Aereo su sfondo azzurro
           backgroundAttachment: "scroll" // Evita problemi su mobile
         }}
       />
       
-      {/* Elegant Overlay - blu scuro più moderno */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-slate-800/75 to-slate-700/65"></div>
+      {/* Travel Overlay - gradiente mare-sole */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/75 via-blue-600/65 to-orange-400/55"></div>
       
       <div className="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in w-full">
         {/* Clean Modern Container */}
@@ -22,7 +22,7 @@ export function HeroSection() {
           <div className="mb-3">
             <img 
               src={logoAgenziaUrl} 
-              alt="AGENZIA 2 Servizi Immobiliari" 
+              alt="Propato Travel - La tua Agenzia Viaggi" 
               className="h-28 sm:h-36 md:h-40 lg:h-48 w-auto mx-auto object-contain"
               style={{ 
                 clipPath: 'inset(0 2px 0 0)',
@@ -33,7 +33,7 @@ export function HeroSection() {
           
           {/* Sottotitolo al logo - più vicino al logo */}
           <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light text-slate-700 leading-tight px-2">
-            Ti aiutiamo con le tue pratiche immobiliari!
+            🌍 Scopri il mondo con noi! Viaggi indimenticabili per ogni destinazione ✈️
           </h1>
         </div>
       </div>
