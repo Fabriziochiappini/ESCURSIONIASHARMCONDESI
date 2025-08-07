@@ -153,16 +153,24 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updatePropertyOrder(propertiesToUpdate: {id: number, sortOrder: number}[]): Promise<boolean> {
+    console.log('=== STORAGE updatePropertyOrder called ===');
+    console.log('Properties to update in storage:', propertiesToUpdate);
+    
     try {
       for (const propertyUpdate of propertiesToUpdate) {
-        await db
+        console.log(`Updating property ${propertyUpdate.id} to sortOrder ${propertyUpdate.sortOrder}`);
+        const result = await db
           .update(properties)
           .set({ sortOrder: propertyUpdate.sortOrder })
           .where(eq(properties.id, propertyUpdate.id));
+        console.log(`Update result for property ${propertyUpdate.id}:`, result);
       }
+      console.log('All property updates completed successfully');
       return true;
     } catch (error: any) {
-      console.error('Storage error updating property order:', error.message);
+      console.error('STORAGE ERROR updating property order:', error);
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
       throw error;
     }
   }
