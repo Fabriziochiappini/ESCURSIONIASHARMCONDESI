@@ -2,6 +2,7 @@ import {
   travels, 
   travelImages,
   users,
+  showcases,
   type Travel, 
   type InsertTravel, 
   type SearchFilters,
@@ -9,6 +10,8 @@ import {
   type InsertTravelImage,
   type User,
   type UpsertUser,
+  type Showcase,
+  type InsertShowcase,
   generateTravelSlug,
   generateTravelMetaTitle,
   generateTravelMetaDescription
@@ -43,6 +46,16 @@ export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
   isUserAdmin(id: string): Promise<boolean>;
+  
+  // Showcase operations
+  getAllShowcases(): Promise<Showcase[]>;
+  getActiveShowcases(): Promise<Showcase[]>;
+  getShowcase(id: number): Promise<Showcase | undefined>;
+  getShowcaseByCategory(category: string): Promise<Showcase | undefined>;
+  createShowcase(showcase: InsertShowcase): Promise<Showcase>;
+  updateShowcase(id: number, showcase: Partial<InsertShowcase>): Promise<Showcase | undefined>;
+  deleteShowcase(id: number): Promise<boolean>;
+  getTravelsByShowcaseCategory(category: string): Promise<Travel[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -387,6 +400,59 @@ export class DatabaseStorage implements IStorage {
   async isUserAdmin(id: string): Promise<boolean> {
     const user = await this.getUser(id);
     return user?.role === 'admin';
+  }
+
+  // Showcase operations
+  async getAllShowcases(): Promise<Showcase[]> {
+    const allShowcases = await db.select().from(showcases).orderBy(showcases.sortOrder, showcases.id);
+    return allShowcases;
+  }
+
+  async getActiveShowcases(): Promise<Showcase[]> {
+    const activeShowcases = await db
+      .select()
+      .from(showcases)
+      .where(eq(showcases.isActive, true))
+      .orderBy(showcases.sortOrder, showcases.id);
+    return activeShowcases;
+  }
+
+  async getShowcase(id: number): Promise<Showcase | undefined> {
+    const [showcase] = await db.select().from(showcases).where(eq(showcases.id, id));
+    return showcase || undefined;
+  }
+
+  async getShowcaseByCategory(category: string): Promise<Showcase | undefined> {
+    const [showcase] = await db.select().from(showcases).where(eq(showcases.category, category));
+    return showcase || undefined;
+  }
+
+  async createShowcase(showcase: InsertShowcase): Promise<Showcase> {
+    const [newShowcase] = await db.insert(showcases).values(showcase).returning();
+    return newShowcase;
+  }
+
+  async updateShowcase(id: number, showcase: Partial<InsertShowcase>): Promise<Showcase | undefined> {
+    const [updatedShowcase] = await db
+      .update(showcases)
+      .set(showcase)
+      .where(eq(showcases.id, id))
+      .returning();
+    return updatedShowcase || undefined;
+  }
+
+  async deleteShowcase(id: number): Promise<boolean> {
+    const result = await db.delete(showcases).where(eq(showcases.id, id));
+    return result.rowCount > 0;
+  }
+
+  async getTravelsByShowcaseCategory(category: string): Promise<Travel[]> {
+    const categoryTravels = await db
+      .select()
+      .from(travels)
+      .where(eq(travels.showcaseCategory, category))
+      .orderBy(travels.sortOrder, travels.id);
+    return categoryTravels;
   }
 }
 

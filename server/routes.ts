@@ -1,7 +1,12 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { searchFiltersSchema, insertTravelSchema, insertTravelImageSchema } from "@shared/schema";
+import { 
+  searchFiltersSchema, 
+  insertTravelSchema, 
+  insertTravelImageSchema,
+  insertShowcaseSchema
+} from "@shared/schema";
 import { z } from "zod";
 import { upload, uploadImageToStorage, deleteImageFile } from "./imageUpload";
 import { ObjectStorageService } from "./objectStorage";
@@ -415,6 +420,123 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Search error:', error);
       res.status(400).json({ message: "Invalid search parameters" });
+    }
+  });
+
+  // ===== SHOWCASE ROUTES =====
+
+  // Get all showcases
+  app.get("/api/showcases", async (req, res) => {
+    try {
+      const showcases = await storage.getAllShowcases();
+      res.json(showcases);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching showcases" });
+    }
+  });
+
+  // Get active showcases only
+  app.get("/api/showcases/active", async (req, res) => {
+    try {
+      const showcases = await storage.getActiveShowcases();
+      res.json(showcases);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching active showcases" });
+    }
+  });
+
+  // Get showcase by ID
+  app.get("/api/showcases/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const showcase = await storage.getShowcase(id);
+      
+      if (!showcase) {
+        return res.status(404).json({ message: "Showcase not found" });
+      }
+      
+      res.json(showcase);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching showcase" });
+    }
+  });
+
+  // Get showcase by category
+  app.get("/api/showcases/category/:category", async (req, res) => {
+    try {
+      const category = req.params.category;
+      const showcase = await storage.getShowcaseByCategory(category);
+      
+      if (!showcase) {
+        return res.status(404).json({ message: "Showcase not found" });
+      }
+      
+      res.json(showcase);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching showcase by category" });
+    }
+  });
+
+  // Get travels by showcase category
+  app.get("/api/showcases/:category/travels", async (req, res) => {
+    try {
+      const category = req.params.category;
+      const travels = await storage.getTravelsByShowcaseCategory(category);
+      res.json(travels);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching travels for showcase category" });
+    }
+  });
+
+  // Create new showcase
+  app.post("/api/showcases", async (req, res) => {
+    try {
+      const validatedData = insertShowcaseSchema.parse(req.body);
+      const showcase = await storage.createShowcase(validatedData);
+      res.status(201).json(showcase);
+    } catch (error) {
+      console.error('Create showcase error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid showcase data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Error creating showcase" });
+    }
+  });
+
+  // Update showcase
+  app.put("/api/showcases/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const validatedData = insertShowcaseSchema.partial().parse(req.body);
+      const showcase = await storage.updateShowcase(id, validatedData);
+      
+      if (!showcase) {
+        return res.status(404).json({ message: "Showcase not found" });
+      }
+      
+      res.json(showcase);
+    } catch (error) {
+      console.error('Update showcase error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid showcase data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Error updating showcase" });
+    }
+  });
+
+  // Delete showcase
+  app.delete("/api/showcases/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const success = await storage.deleteShowcase(id);
+      
+      if (!success) {
+        return res.status(404).json({ message: "Showcase not found" });
+      }
+      
+      res.json({ message: "Showcase deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting showcase" });
     }
   });
 

@@ -46,6 +46,18 @@ export const travels = pgTable("travels", {
   agentPhone: text("agent_phone"),
   agentEmail: text("agent_email"),
   agentImage: text("agent_image"),
+  showcaseCategory: text("showcase_category"), // Categoria vetrina per sezioni personalizzate
+});
+
+// Showcase sections (vetrine personalizzabili)
+export const showcases = pgTable("showcases", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  backgroundImage: text("background_image").notNull(),
+  category: text("category").notNull().unique(), // emirati_arabi, europa, asia, etc
+  isActive: boolean("is_active").default(true),
+  sortOrder: integer("sort_order").default(0),
 });
 
 export const insertTravelSchema = createInsertSchema(travels).omit({
@@ -53,8 +65,14 @@ export const insertTravelSchema = createInsertSchema(travels).omit({
   slug: true, // Auto-generated
 });
 
+export const insertShowcaseSchema = createInsertSchema(showcases).omit({
+  id: true,
+});
+
 export type InsertTravel = z.infer<typeof insertTravelSchema>;
 export type Travel = typeof travels.$inferSelect;
+export type InsertShowcase = z.infer<typeof insertShowcaseSchema>;
+export type Showcase = typeof showcases.$inferSelect;
 
 // Search filters schema for travel packages
 export const searchFiltersSchema = z.object({

@@ -12,6 +12,7 @@ import { Footer } from "@/components/footer";
 import { PropertySearchFilter } from "@/components/property-search-filter";
 import type { SearchFilters } from "@shared/schema";
 import { SEOHead } from "@/components/seo-head";
+import { ShowcaseSection } from "@/components/showcase-section";
 
 export default function Home() {
   const [location] = useLocation();
@@ -319,6 +320,12 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Sezioni Vetrina Personalizzabili */}
+        <ShowcaseSection category="emirati_arabi" />
+        <ShowcaseSection category="europa" />
+        <ShowcaseSection category="asia" />
+        <ShowcaseSection category="esotico" />
 
         {/* Destinations Section */}
         <DestinationsSection />
