@@ -20,7 +20,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
     <Link href={propertyUrl} className="block">
       <div className="overflow-hidden cursor-pointer group border-0 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] bg-white">
         {/* Tall rectangular card like travel brochure */}
-        <div className="relative aspect-[3/4] overflow-hidden">
+        <div className="relative aspect-[4/5] overflow-hidden">
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
             style={{ backgroundImage: `url('${imageUrl}')` }}

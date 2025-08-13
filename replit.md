@@ -6,9 +6,10 @@ This project is a modern, full-stack travel agency web application designed to b
 ## Recent Changes (August 2025)
 - **Complete Rebranding**: Successfully transformed from real estate "AGENZIA 2 Servizi Immobiliari" to travel agency "PROPATO TRAVEL"
 - **Hero Section**: Custom tropical beach background with clean typography, removed all overlays for maximum visual impact
-- **Travel Cards**: Implemented tall rectangular "locandina" style cards (3:4 aspect ratio) with Smartbox-inspired design - sharp corners, overlaid information, prominent pricing
+- **Travel Cards**: Implemented tall rectangular "locandina" style cards (4:5 aspect ratio) with Smartbox-inspired design - sharp corners, overlaid information, prominent pricing
 - **Content Structure**: Replaced complex situations section with statistics banner while maintaining service cards
 - **Visual Identity**: Complete removal of old logos and branding, clean text-based navigation
+- **Layout Optimization**: Expanded containers to max-w-[1800px] for wider card display, 10 travel cards in 2 rows of 5 columns
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
