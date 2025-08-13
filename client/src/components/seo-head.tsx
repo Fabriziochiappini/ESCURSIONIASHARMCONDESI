@@ -12,8 +12,8 @@ interface SEOHeadProps {
 }
 
 export function SEOHead({
-  title = "AGENZIA 2 Servizi Immobiliari - Acireale",
-  description = "🏠 AGENZIA 2 Servizi Immobiliari ad Acireale. Vendita, affitto e case vacanza. Geometra Antonio Cannavò - 30 anni di esperienza nel settore immobiliare siciliano.",
+  title = "Propato Travel - Agenzia Viaggi",
+  description = "✈️ Propato Travel - La tua agenzia viaggi di fiducia. Pacchetti viaggio, vacanze mare, montagna, città. Esperienze uniche in tutto il mondo.",
   keywords = "agenzia immobiliare Acireale, vendita case Acireale, affitto appartamenti Acireale, case vacanza Sicilia",
   canonicalUrl = "https://agenzia2acireale.com/",
   ogImage = "https://agenzia2acireale.com/og-image.jpg",

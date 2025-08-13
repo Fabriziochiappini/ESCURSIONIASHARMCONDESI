@@ -53,8 +53,8 @@ export function ServicesSection() {
             I Nostri Servizi Specializzati
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            <strong>AGENZIA 2 Servizi Immobiliari</strong> offre una gamma completa di servizi professionali 
-            per soddisfare ogni esigenza nel settore immobiliare ad Acireale.
+            <strong>Propato Travel</strong> offre una gamma completa di servizi professionali 
+            per soddisfare ogni esigenza nel settore viaggi e turismo.
           </p>
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mt-8 rounded-full"></div>
         </div>
