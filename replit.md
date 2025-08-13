@@ -10,6 +10,7 @@ This project is a modern, full-stack travel agency web application designed to b
 - **Content Structure**: Replaced complex situations section with statistics banner while maintaining service cards
 - **Visual Identity**: Complete removal of old logos and branding, clean text-based navigation
 - **Layout Optimization**: Expanded containers to max-w-[1800px] for wider card display, 10 travel cards in 2 rows of 5 columns
+- **Section Background**: Changed travels section from dark to white background with adapted text colors for better readability
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
