@@ -15,13 +15,13 @@ export function HeroSection() {
       {/* No overlay - let the beautiful beach show through */}
       
       <div className="relative z-10 text-center w-full px-0">
-        {/* Full-width Hero Container with less opacity to show beach */}
-        <div className="bg-slate-800/60 backdrop-blur-sm border-y border-slate-700/50 py-20">
+        {/* Full-width Hero Container without overlay */}
+        <div className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Logo principale rimosso */}
             
             {/* Main Title - Bold and Impactful */}
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-none mb-8 tracking-tight">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-none mb-8 tracking-tight drop-shadow-2xl">
               VIAGGIA
               <span className="block text-blue-400 mt-2">
                 SENZA LIMITI
@@ -32,7 +32,7 @@ export function HeroSection() {
             <div className="w-40 h-2 bg-blue-500 mx-auto mb-8"></div>
             
             {/* Description */}
-            <p className="text-xl sm:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed font-light mb-12">
+            <p className="text-xl sm:text-2xl text-white max-w-4xl mx-auto leading-relaxed font-light mb-12 drop-shadow-xl">
               Dalla magia delle Maldive alle vette delle Dolomiti, dalle città d'arte europee ai safari africani. 
               Ogni viaggio è un'esperienza unica pensata per te.
             </p>
