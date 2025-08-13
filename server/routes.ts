@@ -256,7 +256,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         try {
           // Upload to Object Storage
           const objectStorageService = new ObjectStorageService();
-          const uploadResult = await objectStorageService.uploadFile(file);
+          const uploadResult = await objectStorageService.uploadFile(file, 'travels');
           
           // Store in database
           const imageData = insertTravelImageSchema.parse({
@@ -478,7 +478,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get travels by showcase category
-  app.get("/api/showcases/:category/travels", async (req, res) => {
+  app.get("/api/showcases/category/:category/travels", async (req, res) => {
     try {
       const category = req.params.category;
       const travels = await storage.getTravelsByShowcaseCategory(category);

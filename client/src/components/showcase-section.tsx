@@ -41,7 +41,7 @@ export function ShowcaseSection({ category, className = "" }: ShowcaseSectionPro
 
   // Fetch travels for this showcase category
   const { data: travels = [], isLoading: travelsLoading } = useQuery<Travel[]>({
-    queryKey: ['/api/showcases', category, 'travels'],
+    queryKey: ['/api/showcases/category', category, 'travels'],
     enabled: !!category,
   });
 
