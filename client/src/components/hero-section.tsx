@@ -11,12 +11,11 @@ export function HeroSection() {
         }}
       />
       
-      {/* Very light overlay to show the beach */}
-      <div className="absolute inset-0 bg-slate-900/30"></div>
+      {/* No overlay - let the beautiful beach show through */}
       
       <div className="relative z-10 text-center w-full px-0">
-        {/* Full-width Hero Container */}
-        <div className="bg-slate-800/90 backdrop-blur-md border-y border-slate-700 py-20">
+        {/* Full-width Hero Container with less opacity to show beach */}
+        <div className="bg-slate-800/60 backdrop-blur-sm border-y border-slate-700/50 py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Logo principale */}
             <div className="mb-8">
