@@ -1,45 +1,16 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-// Authentication removed per user request
-import { searchFiltersSchema, insertPropertySchema, insertPropertyImageSchema } from "@shared/schema";
+import { searchFiltersSchema, insertTravelSchema, insertTravelImageSchema } from "@shared/schema";
 import { z } from "zod";
 import { upload, uploadImageToStorage, deleteImageFile } from "./imageUpload";
 import { ObjectStorageService } from "./objectStorage";
-import { migrateExistingImages } from "./migrateImages";
-import { migratePropertySlugs } from "./migrateSlug";
 import express from "express";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Admin routes - no authentication required per user request
   
-  // Migration endpoint for existing images
-  app.post("/api/admin/migrate-images", async (req, res) => {
-    try {
-      const migratedCount = await migrateExistingImages();
-      res.json({ 
-        success: true, 
-        message: `Successfully migrated ${migratedCount} images to object storage` 
-      });
-    } catch (error) {
-      console.error("Migration error:", error);
-      res.status(500).json({ error: "Migration failed" });
-    }
-  });
-
-  // Migration endpoint for property slugs
-  app.post("/api/admin/migrate-slugs", async (req, res) => {
-    try {
-      const migratedCount = await migratePropertySlugs();
-      res.json({ 
-        success: true, 
-        message: `Successfully generated slugs for ${migratedCount} properties` 
-      });
-    } catch (error) {
-      console.error("Slug migration error:", error);
-      res.status(500).json({ error: "Slug migration failed" });
-    }
-  });
+  // Admin authentication endpoint (always returns admin for demo)
   app.get('/api/auth/admin', async (req: any, res) => {
     // Always return admin access for demo purposes
     res.json({ 
@@ -51,476 +22,414 @@ export async function registerRoutes(app: Express): Promise<Server> {
       isAdmin: true 
     });
   });
-  // Get all properties
+
+  // Get all travels
+  app.get("/api/travels", async (req, res) => {
+    try {
+      const travels = await storage.getAllTravels();
+      res.json(travels);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching travels" });
+    }
+  });
+
+  // Get unique countries from travels
+  app.get("/api/countries", async (req, res) => {
+    try {
+      const countries = await storage.getUniqueCountries();
+      res.json(countries);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching countries" });
+    }
+  });
+
+  // Get unique destinations from travels
+  app.get("/api/destinations", async (req, res) => {
+    try {
+      const destinations = await storage.getUniqueDestinations();
+      res.json(destinations);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching destinations" });
+    }
+  });
+
+  // Get featured travels
+  app.get("/api/travels/featured", async (req, res) => {
+    try {
+      const travels = await storage.getFeaturedTravels();
+      res.json(travels);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching featured travels" });
+    }
+  });
+
+  // Search travels
+  app.get("/api/travels/search", async (req, res) => {
+    try {
+      const filters = searchFiltersSchema.parse({
+        search: req.query.search,
+        type: req.query.type,
+        travelType: req.query.travelType,
+        country: req.query.country,
+        destination: req.query.destination,
+        minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
+        maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
+        minDuration: req.query.minDuration ? Number(req.query.minDuration) : undefined,
+        maxDuration: req.query.maxDuration ? Number(req.query.maxDuration) : undefined,
+        maxParticipants: req.query.maxParticipants ? Number(req.query.maxParticipants) : undefined,
+        minAge: req.query.minAge ? Number(req.query.minAge) : undefined,
+        departureMonth: req.query.departureMonth,
+      });
+
+      const travels = await storage.searchTravels(filters);
+      res.json(travels);
+    } catch (error) {
+      console.error('Search error:', error);
+      res.status(400).json({ message: "Invalid search parameters" });
+    }
+  });
+
+  // Get travel by ID
+  app.get("/api/travels/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const travel = await storage.getTravel(id);
+      
+      if (!travel) {
+        return res.status(404).json({ message: "Travel not found" });
+      }
+      
+      res.json(travel);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching travel" });
+    }
+  });
+
+  // Get travel by slug
+  app.get("/api/travels/slug/:slug", async (req, res) => {
+    try {
+      const travel = await storage.getTravelBySlug(req.params.slug);
+      
+      if (!travel) {
+        return res.status(404).json({ message: "Travel not found" });
+      }
+      
+      res.json(travel);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching travel" });
+    }
+  });
+
+  // Create travel (admin only)
+  app.post("/api/travels", async (req, res) => {
+    try {
+      const travelData = insertTravelSchema.parse(req.body);
+      const travel = await storage.createTravel(travelData);
+      res.status(201).json(travel);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid travel data", errors: error.errors });
+      }
+      console.error('Create travel error:', error);
+      res.status(500).json({ message: "Error creating travel" });
+    }
+  });
+
+  // Update travel (admin only)
+  app.put("/api/travels/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const travelData = insertTravelSchema.partial().parse(req.body);
+      const travel = await storage.updateTravel(id, travelData);
+      
+      if (!travel) {
+        return res.status(404).json({ message: "Travel not found" });
+      }
+      
+      res.json(travel);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid travel data", errors: error.errors });
+      }
+      console.error('Update travel error:', error);
+      res.status(500).json({ message: "Error updating travel" });
+    }
+  });
+
+  // Delete travel (admin only)
+  app.delete("/api/travels/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const success = await storage.deleteTravel(id);
+      
+      if (!success) {
+        return res.status(404).json({ message: "Travel not found" });
+      }
+      
+      res.json({ message: "Travel deleted successfully" });
+    } catch (error) {
+      console.error('Delete travel error:', error);
+      res.status(500).json({ message: "Error deleting travel" });
+    }
+  });
+
+  // Update travel order (admin only)
+  app.put("/api/travels/order", async (req, res) => {
+    try {
+      const { travels } = req.body;
+      if (!Array.isArray(travels)) {
+        return res.status(400).json({ message: "Invalid order data" });
+      }
+      
+      const success = await storage.updateTravelOrder(travels);
+      
+      if (!success) {
+        return res.status(500).json({ message: "Error updating travel order" });
+      }
+      
+      res.json({ message: "Travel order updated successfully" });
+    } catch (error) {
+      console.error('Update travel order error:', error);
+      res.status(500).json({ message: "Error updating travel order" });
+    }
+  });
+
+  // Move travel up/down (admin only)
+  app.put("/api/travels/:id/move/:direction", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const direction = req.params.direction as 'up' | 'down';
+      
+      if (direction !== 'up' && direction !== 'down') {
+        return res.status(400).json({ message: "Invalid direction" });
+      }
+      
+      const success = await storage.moveTravel(id, direction);
+      
+      if (!success) {
+        return res.status(404).json({ message: "Travel not found or cannot be moved" });
+      }
+      
+      res.json({ message: "Travel moved successfully" });
+    } catch (error) {
+      console.error('Move travel error:', error);
+      res.status(500).json({ message: "Error moving travel" });
+    }
+  });
+
+  // Travel Images Routes
+  
+  // Get travel images
+  app.get("/api/travels/:id/images", async (req, res) => {
+    try {
+      const travelId = parseInt(req.params.id);
+      const images = await storage.getTravelImages(travelId);
+      res.json(images);
+    } catch (error) {
+      console.error('Get travel images error:', error);
+      res.status(500).json({ message: "Error fetching travel images" });
+    }
+  });
+
+  // Upload travel images with Object Storage
+  app.post("/api/travels/:id/images", upload.array('images', 30), async (req, res) => {
+    try {
+      const travelId = parseInt(req.params.id);
+      const files = req.files as Express.Multer.File[];
+      
+      if (!files || files.length === 0) {
+        return res.status(400).json({ message: "No images provided" });
+      }
+
+      // Check if travel exists
+      const travel = await storage.getTravel(travelId);
+      if (!travel) {
+        return res.status(404).json({ message: "Travel not found" });
+      }
+
+      const uploadPromises = files.map(async (file, index) => {
+        try {
+          // Upload to Object Storage
+          const objectStorageService = new ObjectStorageService();
+          const uploadResult = await objectStorageService.uploadFile(file);
+          
+          // Store in database
+          const imageData = insertTravelImageSchema.parse({
+            travelId: travelId,
+            filename: uploadResult,
+            originalName: file.originalname,
+            url: `/uploads/travels/${uploadResult}`,
+            size: file.size,
+            mimeType: file.mimetype,
+            sortOrder: index,
+            isMain: index === 0 // First image is main by default
+          });
+
+          return await storage.addTravelImage(imageData);
+        } catch (uploadError) {
+          console.error(`Error uploading file ${file.originalname}:`, uploadError);
+          throw uploadError;
+        }
+      });
+
+      const uploadedImages = await Promise.all(uploadPromises);
+
+      // Update travel images array for backward compatibility
+      const imageUrls = uploadedImages.map(img => img.url);
+      const currentImages = travel.images || [];
+      const updatedImages = [...currentImages, ...imageUrls];
+      
+      await storage.updateTravel(travelId, { images: updatedImages });
+
+      res.json({
+        message: `Successfully uploaded ${uploadedImages.length} images`,
+        images: uploadedImages
+      });
+
+    } catch (error) {
+      console.error('Upload travel images error:', error);
+      res.status(500).json({ 
+        message: "Error uploading images",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  // Delete travel image
+  app.delete("/api/travel-images/:id", async (req, res) => {
+    try {
+      const imageId = parseInt(req.params.id);
+      const image = await storage.getTravelImageById(imageId);
+      
+      if (!image) {
+        return res.status(404).json({ message: "Image not found" });
+      }
+
+      // Delete from Object Storage
+      const objectStorageService = new ObjectStorageService();
+      await objectStorageService.deleteFile(image.filename);
+
+      // Remove from database
+      await storage.deleteTravelImage(imageId);
+
+      // Update travel images array for backward compatibility
+      const travel = await storage.getTravel(image.travelId);
+      if (travel) {
+        const updatedImages = travel.images.filter(url => url !== image.url);
+        await storage.updateTravel(image.travelId, { images: updatedImages });
+      }
+
+      res.json({ message: "Image deleted successfully" });
+    } catch (error) {
+      console.error('Delete travel image error:', error);
+      res.status(500).json({ message: "Error deleting image" });
+    }
+  });
+
+  // Update travel image order
+  app.put("/api/travels/:id/images/order", async (req, res) => {
+    try {
+      const { images } = req.body;
+      if (!Array.isArray(images)) {
+        return res.status(400).json({ message: "Invalid image order data" });
+      }
+
+      const success = await storage.updateTravelImageOrder(images);
+      
+      if (!success) {
+        return res.status(500).json({ message: "Error updating image order" });
+      }
+      
+      res.json({ message: "Image order updated successfully" });
+    } catch (error) {
+      console.error('Update image order error:', error);
+      res.status(500).json({ message: "Error updating image order" });
+    }
+  });
+
+  // Set main travel image
+  app.put("/api/travels/:travelId/images/:imageId/main", async (req, res) => {
+    try {
+      const travelId = parseInt(req.params.travelId);
+      const imageId = parseInt(req.params.imageId);
+      
+      const success = await storage.setMainTravelImage(travelId, imageId);
+      
+      if (!success) {
+        return res.status(404).json({ message: "Travel or image not found" });
+      }
+      
+      res.json({ message: "Main image updated successfully" });
+    } catch (error) {
+      console.error('Set main image error:', error);
+      res.status(500).json({ message: "Error setting main image" });
+    }
+  });
+
+  // Keep legacy routes for backward compatibility (redirecting to travels)
   app.get("/api/properties", async (req, res) => {
     try {
-      const properties = await storage.getAllProperties();
-      res.json(properties);
+      const travels = await storage.getAllTravels();
+      res.json(travels);
     } catch (error) {
       res.status(500).json({ message: "Error fetching properties" });
     }
   });
 
-  // Get unique municipalities from properties
   app.get("/api/municipalities", async (req, res) => {
     try {
-      const municipalities = await storage.getUniqueMunicipalities();
-      res.json(municipalities);
+      const countries = await storage.getUniqueCountries();
+      res.json(countries);
     } catch (error) {
       res.status(500).json({ message: "Error fetching municipalities" });
     }
   });
 
-  // Get featured properties
   app.get("/api/properties/featured", async (req, res) => {
     try {
-      const properties = await storage.getFeaturedProperties();
-      res.json(properties);
+      const travels = await storage.getFeaturedTravels();
+      res.json(travels);
     } catch (error) {
       res.status(500).json({ message: "Error fetching featured properties" });
     }
   });
 
-  // Search properties
   app.get("/api/properties/search", async (req, res) => {
     try {
-      const filters = searchFiltersSchema.parse(req.query);
-      const properties = await storage.searchProperties(filters);
-      res.json(properties);
+      const filters = searchFiltersSchema.parse({
+        search: req.query.search,
+        type: req.query.type,
+        travelType: req.query.propertyType, // Map propertyType to travelType
+        country: req.query.municipality, // Map municipality to country
+        destination: req.query.location, // Map location to destination
+        minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
+        maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
+        minDuration: req.query.bedrooms ? Number(req.query.bedrooms) : undefined, // Map bedrooms to duration
+        maxParticipants: req.query.bathrooms ? Number(req.query.bathrooms) : undefined, // Map bathrooms to participants
+        minAge: req.query.minArea ? Number(req.query.minArea) : undefined, // Map area to age
+        departureMonth: req.query.departureMonth,
+      });
+
+      const travels = await storage.searchTravels(filters);
+      res.json(travels);
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400).json({ message: "Invalid search parameters", errors: error.errors });
-      } else {
-        res.status(500).json({ message: "Error searching properties" });
-      }
+      console.error('Search error:', error);
+      res.status(400).json({ message: "Invalid search parameters" });
     }
   });
 
-  // Get single property by ID (backward compatibility)
-  app.get("/api/properties/id/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid property ID" });
-      }
-
-      const property = await storage.getProperty(id);
-      if (!property) {
-        return res.status(404).json({ message: "Property not found" });
-      }
-
-      res.json(property);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching property" });
-    }
-  });
-
-  // Get single property by slug (SEO-friendly)
-  app.get("/api/properties/slug/:slug(*)", async (req, res) => {
-    try {
-      const slug = req.params.slug;
-      if (!slug) {
-        return res.status(400).json({ message: "Invalid property slug" });
-      }
-
-      const property = await storage.getPropertyBySlug(slug);
-      if (!property) {
-        return res.status(404).json({ message: "Property not found" });
-      }
-
-      res.json(property);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching property" });
-    }
-  });
-
-  // Legacy route (backward compatibility) - redirect to new format
   app.get("/api/properties/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "Invalid property ID" });
-      }
-
-      const property = await storage.getProperty(id);
-      if (!property) {
+      const travel = await storage.getTravel(id);
+      
+      if (!travel) {
         return res.status(404).json({ message: "Property not found" });
       }
-
-      // Redirect to new slug-based URL if property has a slug
-      if (property.slug) {
-        return res.redirect(301, `/api/properties/slug/${property.slug}`);
-      }
-
-      res.json(property);
+      
+      res.json(travel);
     } catch (error) {
       res.status(500).json({ message: "Error fetching property" });
-    }
-  });
-
-  // Admin Property Management - no auth required
-  app.post("/api/admin/properties", async (req, res) => {
-    try {
-      const property = insertPropertySchema.parse(req.body);
-      const newProperty = await storage.createProperty(property);
-      res.json(newProperty);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400).json({ message: "Invalid property data", errors: error.errors });
-      } else {
-        res.status(500).json({ message: "Error creating property" });
-      }
-    }
-  });
-
-  app.put("/api/admin/properties/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const updates = insertPropertySchema.partial().parse(req.body);
-      const updatedProperty = await storage.updateProperty(id, updates);
-      if (!updatedProperty) {
-        return res.status(404).json({ message: "Property not found" });
-      }
-      res.json(updatedProperty);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400).json({ message: "Invalid property data", errors: error.errors });
-      } else {
-        res.status(500).json({ message: "Error updating property" });
-      }
-    }
-  });
-
-  app.delete("/api/admin/properties/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const success = await storage.deleteProperty(id);
-      if (!success) {
-        return res.status(404).json({ message: "Property not found" });
-      }
-      res.json({ message: "Property deleted successfully" });
-    } catch (error) {
-      res.status(500).json({ message: "Error deleting property" });
-    }
-  });
-
-
-
-
-
-  // Simple move property up/down endpoints
-  app.put("/api/admin/properties/:id/move/:direction", async (req, res) => {
-    try {
-      const propertyId = parseInt(req.params.id);
-      const direction = req.params.direction;
-      
-      if (isNaN(propertyId)) {
-        return res.status(400).json({ message: "Invalid property ID" });
-      }
-      
-      if (direction !== 'up' && direction !== 'down') {
-        return res.status(400).json({ message: "Direction must be 'up' or 'down'" });
-      }
-      
-      const success = await storage.moveProperty(propertyId, direction as 'up' | 'down');
-      
-      if (!success) {
-        return res.status(500).json({ message: "Failed to move property" });
-      }
-      
-      res.json({ message: "Property moved successfully" });
-    } catch (error: any) {
-      console.error('Error moving property:', error.message);
-      res.status(500).json({ message: `Error moving property: ${error.message}` });
-    }
-  });
-
-  // Property Image Management
-  app.get("/api/properties/:id/images", async (req, res) => {
-    try {
-      const propertyId = parseInt(req.params.id);
-      const images = await storage.getPropertyImages(propertyId);
-      res.json(images);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching property images" });
-    }
-  });
-
-  app.post("/api/admin/properties/:id/images", async (req, res) => {
-    try {
-      const propertyId = parseInt(req.params.id);
-      const imageData = { ...req.body, propertyId };
-      const newImage = await storage.addPropertyImage(imageData);
-      res.json(newImage);
-    } catch (error) {
-      res.status(500).json({ message: "Error adding property image" });
-    }
-  });
-
-  app.delete("/api/admin/properties/images/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const success = await storage.deletePropertyImage(id);
-      if (!success) {
-        return res.status(404).json({ message: "Image not found" });
-      }
-      res.json({ message: "Image deleted successfully" });
-    } catch (error) {
-      res.status(500).json({ message: "Error deleting image" });
-    }
-  });
-
-  // Contact form submission
-  app.post("/api/contact", async (req, res) => {
-    try {
-      const { name, email, phone, message, propertyId } = req.body;
-      
-      // In a real application, this would send an email or save to database
-      console.log("Contact form submission:", { name, email, phone, message, propertyId });
-      
-      res.json({ message: "Messaggio inviato con successo!" });
-    } catch (error) {
-      res.status(500).json({ message: "Errore nell'invio del messaggio" });
-    }
-  });
-
-  // Dynamic sitemap.xml
-  app.get("/sitemap.xml", async (req, res) => {
-    try {
-      const baseUrl = "https://agenzia2acireale.com";
-      const properties = await storage.getAllProperties();
-      
-      let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${baseUrl}/</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/servizi</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/contatti</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/properties</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>`;
-
-      // Add each property to sitemap with SEO-friendly URLs
-      properties.forEach(property => {
-        const propertyUrl = property.slug ? `/${property.slug}` : `/property/${property.id}`;
-        sitemap += `
-  <url>
-    <loc>${baseUrl}${propertyUrl}</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>`;
-      });
-
-      sitemap += `
-</urlset>`;
-
-      res.set('Content-Type', 'text/xml');
-      res.send(sitemap);
-    } catch (error) {
-      console.error("Error generating sitemap:", error);
-      res.status(500).send("Error generating sitemap");
-    }
-  });
-
-  // Serve legacy uploaded images (fallback to local uploads)
-  app.use('/uploads', express.static('uploads'));
-
-  // This endpoint is used to serve public assets from object storage.
-  app.get("/public-objects/:filePath(*)", async (req, res) => {
-    const filePath = req.params.filePath;
-    const objectStorageService = new ObjectStorageService();
-    try {
-      const file = await objectStorageService.searchPublicObject(filePath);
-      if (!file) {
-        return res.status(404).json({ error: "File not found" });
-      }
-      objectStorageService.downloadObject(file, res, req);
-    } catch (error) {
-      console.error("Error searching for public object:", error);
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  // Image upload endpoint for admin with increased capacity for real estate
-  app.post('/api/admin/upload-images', async (req, res) => {
-    upload.array('images', 30)(req, res, async (err) => {
-      if (err) {
-        console.error('Upload error:', err);
-        return res.status(400).json({ error: err.message });
-      }
-
-      try {
-        if (!req.files || !Array.isArray(req.files)) {
-          return res.status(400).json({ error: 'Nessuna immagine caricata' });
-        }
-
-        console.log(`Processing ${req.files.length} images for upload...`);
-        const imageUrls: string[] = [];
-        
-        // Process images in parallel batches for better performance
-        const batchSize = 5;
-        for (let i = 0; i < req.files.length; i += batchSize) {
-          const batch = req.files.slice(i, i + batchSize);
-          const batchPromises = batch.map(async (file, index) => {
-            try {
-              const actualIndex = i + index;
-              console.log(`Uploading image ${actualIndex + 1}/${req.files!.length}: ${file.originalname}`);
-              const { url } = await uploadImageToStorage(file as Express.Multer.File);
-              return { url, index: actualIndex };
-            } catch (error) {
-              console.error(`Error uploading image ${file.originalname}:`, error);
-              throw error;
-            }
-          });
-          
-          const batchResults = await Promise.all(batchPromises);
-          batchResults.forEach(result => {
-            imageUrls[result.index] = result.url;
-          });
-        }
-        
-        // Filter out any failed uploads and maintain order
-        const successfulUrls: string[] = imageUrls.filter((url): url is string => Boolean(url));
-        
-        res.json({ 
-          success: true, 
-          imageUrls: successfulUrls,
-          message: `${successfulUrls.length} immagini caricate con successo su ${req.files.length} totali` 
-        });
-      } catch (error) {
-        console.error('Error processing uploaded images:', error);
-        res.status(500).json({ error: 'Errore nel caricamento delle immagini' });
-      }
-    });
-  });
-
-  // Property images routes
-  app.get("/api/properties/:id/images", async (req, res) => {
-    try {
-      const propertyId = parseInt(req.params.id);
-      const images = await storage.getPropertyImages(propertyId);
-      res.json(images);
-    } catch (error) {
-      console.error("Error fetching property images:", error);
-      res.status(500).json({ message: "Error fetching property images" });
-    }
-  });
-
-  app.post("/api/properties/:id/images", upload.array('images', 30), async (req, res) => {
-    try {
-      const propertyId = parseInt(req.params.id);
-      const files = req.files as Express.Multer.File[];
-      
-      if (!files || files.length === 0) {
-        return res.status(400).json({ message: "No files uploaded" });
-      }
-
-      const uploadedImages = [];
-      
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const { url, filename } = await uploadImageToStorage(file);
-        
-        const imageData = {
-          propertyId,
-          filename,
-          originalName: file.originalname,
-          url,
-          size: file.size,
-          mimeType: file.mimetype,
-          sortOrder: i,
-          isMain: i === 0 // First image is main by default
-        };
-        
-        const savedImage = await storage.addPropertyImage(imageData);
-        uploadedImages.push(savedImage);
-      }
-
-      res.json(uploadedImages);
-    } catch (error) {
-      console.error("Error uploading images:", error);
-      res.status(500).json({ message: "Error uploading images" });
-    }
-  });
-
-  app.delete("/api/property-images/:id", async (req, res) => {
-    try {
-      const imageId = parseInt(req.params.id);
-      
-      // Get all images to find the one to delete (temporary workaround)
-      const allImages = await storage.getPropertyImages(0);
-      const imageToDelete = allImages.find(img => img.id === imageId);
-      
-      if (imageToDelete) {
-        // Delete from object storage
-        await deleteImageFile(imageToDelete.filename);
-        
-        // Delete from database
-        const deleted = await storage.deletePropertyImage(imageId);
-        
-        if (deleted) {
-          res.json({ message: "Image deleted successfully" });
-        } else {
-          res.status(404).json({ message: "Image not found" });
-        }
-      } else {
-        res.status(404).json({ message: "Image not found" });
-      }
-    } catch (error) {
-      console.error("Error deleting image:", error);
-      res.status(500).json({ message: "Error deleting image" });
-    }
-  });
-
-  app.put("/api/property-images/reorder", async (req, res) => {
-    try {
-      const { images } = req.body;
-      const success = await storage.updatePropertyImageOrder(images);
-      
-      if (success) {
-        res.json({ message: "Images reordered successfully" });
-      } else {
-        res.status(500).json({ message: "Error reordering images" });
-      }
-    } catch (error) {
-      console.error("Error reordering images:", error);
-      res.status(500).json({ message: "Error reordering images" });
-    }
-  });
-
-  app.put("/api/properties/:propertyId/images/:imageId/main", async (req, res) => {
-    try {
-      const propertyId = parseInt(req.params.propertyId);
-      const imageId = parseInt(req.params.imageId);
-      
-      const success = await storage.setMainPropertyImage(propertyId, imageId);
-      
-      if (success) {
-        res.json({ message: "Main image set successfully" });
-      } else {
-        res.status(500).json({ message: "Error setting main image" });
-      }
-    } catch (error) {
-      console.error("Error setting main image:", error);
-      res.status(500).json({ message: "Error setting main image" });
     }
   });
 

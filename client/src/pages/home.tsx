@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { HeroSection } from "@/components/hero-section";
 import { ComplexSituations } from "@/components/complex-situations";
-import { PropertyGrid } from "@/components/property-grid";
+import { TravelGrid } from "@/components/travel-grid";
 import { ServicesSection } from "@/components/services-section";
 import { SpecializedServices } from "@/components/specialized-services";
 
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { PropertySearchFilter } from "@/components/property-search-filter";
+import { TravelSearchFilter } from "@/components/travel-search-filter";
 import type { SearchFilters } from "@shared/schema";
 import { SEOHead } from "@/components/seo-head";
 
@@ -26,9 +26,14 @@ export default function Home() {
       newFilters.type = type as any;
     }
 
-    const municipality = searchParams.get('municipality');
-    if (municipality) {
-      newFilters.municipality = municipality;
+    const country = searchParams.get('country');
+    if (country) {
+      newFilters.country = country;
+    }
+
+    const travelType = searchParams.get('travelType');
+    if (travelType) {
+      newFilters.travelType = travelType as any;
     }
 
     const maxPrice = searchParams.get('maxPrice');
@@ -69,11 +74,11 @@ export default function Home() {
               </p>
 
               {/* Search Filter in Travel Section */}
-              <PropertySearchFilter />
+              <TravelSearchFilter />
             </div>
 
             <div className="animate-slide-up">
-              <PropertyGrid filters={hasFilters ? filters : undefined} maxColumns={3} />
+              <TravelGrid filters={hasFilters ? filters : undefined} maxColumns={3} featured={!hasFilters} />
             </div>
           </div>
         </section>

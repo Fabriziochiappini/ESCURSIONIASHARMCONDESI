@@ -1,56 +1,43 @@
 import { 
-  properties, 
-  blogPosts, 
-  propertyImages,
+  travels, 
+  travelImages,
   users,
-  type Property, 
-  type InsertProperty, 
+  type Travel, 
+  type InsertTravel, 
   type SearchFilters,
-  type BlogPost,
-  type InsertBlogPost,
-  type PropertyImage,
-  type InsertPropertyImage,
+  type TravelImage,
+  type InsertTravelImage,
   type User,
   type UpsertUser,
-  generatePropertySlug,
-  generatePropertyMetaTitle,
-  generatePropertyMetaDescription
+  generateTravelSlug,
+  generateTravelMetaTitle,
+  generateTravelMetaDescription
 } from "@shared/schema";
 import { eq, and, gte, lte, sql, desc, like, or, ilike } from "drizzle-orm";
 import { db } from "./db";
 
 export interface IStorage {
-  // Property operations
-  getAllProperties(): Promise<Property[]>;
-  getProperty(id: number): Promise<Property | undefined>;
-  getPropertyBySlug(slug: string): Promise<Property | undefined>;
-  getFeaturedProperties(): Promise<Property[]>;
-  searchProperties(filters: SearchFilters): Promise<Property[]>;
-  getUniqueMunicipalities(): Promise<string[]>;
-  createProperty(property: InsertProperty): Promise<Property>;
-  updateProperty(id: number, property: Partial<InsertProperty>): Promise<Property | undefined>;
-  deleteProperty(id: number): Promise<boolean>;
-  updatePropertyOrder(properties: {id: number, sortOrder: number}[]): Promise<boolean>;
-  moveProperty(propertyId: number, direction: 'up' | 'down'): Promise<boolean>;
+  // Travel operations
+  getAllTravels(): Promise<Travel[]>;
+  getTravel(id: number): Promise<Travel | undefined>;
+  getTravelBySlug(slug: string): Promise<Travel | undefined>;
+  getFeaturedTravels(): Promise<Travel[]>;
+  searchTravels(filters: SearchFilters): Promise<Travel[]>;
+  getUniqueCountries(): Promise<string[]>;
+  getUniqueDestinations(): Promise<string[]>;
+  createTravel(travel: InsertTravel): Promise<Travel>;
+  updateTravel(id: number, travel: Partial<InsertTravel>): Promise<Travel | undefined>;
+  deleteTravel(id: number): Promise<boolean>;
+  updateTravelOrder(travels: {id: number, sortOrder: number}[]): Promise<boolean>;
+  moveTravel(travelId: number, direction: 'up' | 'down'): Promise<boolean>;
   
-  // Property images operations
-  getPropertyImages(propertyId: number): Promise<PropertyImage[]>;
-  getPropertyImageById(id: number): Promise<PropertyImage | undefined>;
-  addPropertyImage(image: InsertPropertyImage): Promise<PropertyImage>;
-  deletePropertyImage(id: number): Promise<boolean>;
-  updatePropertyImageOrder(images: {id: number, sortOrder: number}[]): Promise<boolean>;
-  setMainPropertyImage(propertyId: number, imageId: number): Promise<boolean>;
-  
-  // Blog operations
-  getAllBlogPosts(published?: boolean): Promise<BlogPost[]>;
-  getBlogPostById(id: number): Promise<BlogPost | undefined>;
-  getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
-  getFeaturedBlogPosts(): Promise<BlogPost[]>;
-  searchBlogPosts(query: string, category?: string): Promise<BlogPost[]>;
-  createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
-  updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost | undefined>;
-  deleteBlogPost(id: number): Promise<boolean>;
-  incrementBlogPostViews(id: number): Promise<void>;
+  // Travel images operations
+  getTravelImages(travelId: number): Promise<TravelImage[]>;
+  getTravelImageById(id: number): Promise<TravelImage | undefined>;
+  addTravelImage(image: InsertTravelImage): Promise<TravelImage>;
+  deleteTravelImage(id: number): Promise<boolean>;
+  updateTravelImageOrder(images: {id: number, sortOrder: number}[]): Promise<boolean>;
+  setMainTravelImage(travelId: number, imageId: number): Promise<boolean>;
   
   // User operations (required for Replit Auth)
   getUser(id: string): Promise<User | undefined>;
@@ -59,394 +46,317 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
-  // Property operations
-  async getAllProperties(): Promise<Property[]> {
-    const allProperties = await db.select().from(properties).orderBy(properties.sortOrder, properties.id);
-    return allProperties;
+  // Travel operations
+  async getAllTravels(): Promise<Travel[]> {
+    const allTravels = await db.select().from(travels).orderBy(travels.sortOrder, travels.id);
+    return allTravels;
   }
 
-  async getProperty(id: number): Promise<Property | undefined> {
-    const [property] = await db.select().from(properties).where(eq(properties.id, id));
-    return property || undefined;
+  async getTravel(id: number): Promise<Travel | undefined> {
+    const [travel] = await db.select().from(travels).where(eq(travels.id, id));
+    return travel || undefined;
   }
 
-  async getPropertyBySlug(slug: string): Promise<Property | undefined> {
-    const [property] = await db.select().from(properties).where(eq(properties.slug, slug));
-    return property || undefined;
+  async getTravelBySlug(slug: string): Promise<Travel | undefined> {
+    const [travel] = await db.select().from(travels).where(eq(travels.slug, slug));
+    return travel || undefined;
   }
 
-  async getFeaturedProperties(): Promise<Property[]> {
-    const featuredProperties = await db.select()
-      .from(properties)
-      .where(eq(properties.featured, true))
-      .orderBy(properties.sortOrder, properties.id);
-    return featuredProperties;
+  async getFeaturedTravels(): Promise<Travel[]> {
+    const featuredTravels = await db
+      .select()
+      .from(travels)
+      .where(eq(travels.featured, true))
+      .orderBy(travels.sortOrder, travels.id);
+    return featuredTravels;
   }
 
-  async searchProperties(filters: SearchFilters): Promise<Property[]> {
-    let query = db.select().from(properties);
+  async searchTravels(filters: SearchFilters): Promise<Travel[]> {
     const conditions = [];
 
     if (filters.search) {
       conditions.push(
         or(
-          ilike(properties.title, `%${filters.search}%`),
-          ilike(properties.description, `%${filters.search}%`),
-          ilike(properties.location, `%${filters.search}%`)
+          ilike(travels.title, `%${filters.search}%`),
+          ilike(travels.description, `%${filters.search}%`),
+          ilike(travels.destination, `%${filters.search}%`),
+          ilike(travels.country, `%${filters.search}%`)
         )
       );
     }
+
     if (filters.type) {
-      conditions.push(eq(properties.type, filters.type));
+      conditions.push(eq(travels.type, filters.type));
     }
-    if (filters.propertyType) {
-      conditions.push(eq(properties.propertyType, filters.propertyType));
+
+    if (filters.travelType) {
+      conditions.push(eq(travels.travelType, filters.travelType));
     }
-    if (filters.municipality) {
-      conditions.push(eq(properties.municipality, filters.municipality));
+
+    if (filters.country) {
+      conditions.push(eq(travels.country, filters.country));
     }
-    if (filters.maxPrice) {
-      const priceStr = filters.maxPrice.toString();
-      conditions.push(lte(properties.price, priceStr));
+
+    if (filters.destination) {
+      conditions.push(eq(travels.destination, filters.destination));
     }
+
     if (filters.minPrice) {
-      const priceStr = filters.minPrice.toString();
-      conditions.push(gte(properties.price, priceStr));
+      conditions.push(gte(travels.price, filters.minPrice.toString()));
     }
-    if (filters.bedrooms) {
-      conditions.push(gte(properties.bedrooms, filters.bedrooms));
+
+    if (filters.maxPrice) {
+      conditions.push(lte(travels.price, filters.maxPrice.toString()));
     }
-    if (filters.bathrooms) {
-      conditions.push(gte(properties.bathrooms, filters.bathrooms));
+
+    if (filters.minDuration) {
+      conditions.push(gte(travels.duration, filters.minDuration));
     }
-    if (filters.minArea) {
-      conditions.push(gte(properties.area, filters.minArea));
+
+    if (filters.maxDuration) {
+      conditions.push(lte(travels.duration, filters.maxDuration));
     }
-    if (filters.maxArea) {
-      conditions.push(lte(properties.area, filters.maxArea));
+
+    if (filters.maxParticipants) {
+      conditions.push(lte(travels.maxParticipants, filters.maxParticipants));
     }
+
+    if (filters.minAge) {
+      conditions.push(lte(travels.minAge, filters.minAge));
+    }
+
+    if (filters.departureMonth) {
+      const year = new Date().getFullYear();
+      const month = parseInt(filters.departureMonth);
+      const startOfMonth = new Date(year, month - 1, 1);
+      const endOfMonth = new Date(year, month, 0);
+      
+      conditions.push(
+        and(
+          gte(travels.departureDate, startOfMonth),
+          lte(travels.departureDate, endOfMonth)
+        )
+      );
+    }
+
+    const query = db.select().from(travels).orderBy(travels.sortOrder, travels.id);
 
     if (conditions.length > 0) {
-      query = query.where(and(...conditions)) as typeof query;
+      query.where(and(...conditions));
     }
 
-    const results = await query.orderBy(properties.sortOrder, properties.id);
-    return results;
+    return await query;
   }
 
-  async getUniqueMunicipalities(): Promise<string[]> {
+  async getUniqueCountries(): Promise<string[]> {
     const result = await db
-      .selectDistinct({ municipality: properties.municipality })
-      .from(properties)
-      .orderBy(properties.municipality);
+      .selectDistinct({ country: travels.country })
+      .from(travels)
+      .orderBy(travels.country);
     
-    return result.map(row => row.municipality).filter(municipality => municipality && municipality.trim() !== "");
+    return result.map(row => row.country);
   }
 
-  async createProperty(property: InsertProperty): Promise<Property> {
-    // Generate slug and meta data automatically
-    const slug = generatePropertySlug({
-      type: property.type,
-      municipality: property.municipality,
-      propertyType: property.propertyType,
-      title: property.title
-    });
+  async getUniqueDestinations(): Promise<string[]> {
+    const result = await db
+      .selectDistinct({ destination: travels.destination })
+      .from(travels)
+      .orderBy(travels.destination);
     
-    const metaTitle = generatePropertyMetaTitle({
-      type: property.type,
-      municipality: property.municipality,
-      propertyType: property.propertyType,
-      price: property.price
-    });
-    
-    const metaDescription = generatePropertyMetaDescription({
-      type: property.type,
-      municipality: property.municipality,
-      propertyType: property.propertyType,
-      bedrooms: property.bedrooms,
-      bathrooms: property.bathrooms,
-      area: property.area,
-      price: property.price
-    });
+    return result.map(row => row.destination);
+  }
 
-    // Ensure slug is unique
-    let uniqueSlug = slug;
-    let counter = 1;
-    while (true) {
-      const existing = await this.getPropertyBySlug(uniqueSlug);
-      if (!existing) break;
-      uniqueSlug = `${slug}-${counter}`;
-      counter++;
+  async createTravel(travel: InsertTravel): Promise<Travel> {
+    // Generate slug if not provided
+    const travelData = travel as any; // Temporary fix during migration
+    if (!travelData.slug) {
+      const baseSlug = generateTravelSlug({
+        type: travel.type,
+        country: travel.country,
+        travelType: travel.travelType,
+        destination: travel.destination
+      });
+      
+      // Check for uniqueness and add suffix if needed
+      let slug = baseSlug;
+      let counter = 1;
+      while (await this.getTravelBySlug(slug)) {
+        slug = `${baseSlug}-${counter}`;
+        counter++;
+      }
+      travelData.slug = slug;
     }
 
-    const propertyWithMeta = {
-      ...property,
-      slug: uniqueSlug,
-      metaTitle,
-      metaDescription
-    };
+    // Generate meta title if not provided
+    if (!travel.metaTitle) {
+      travel.metaTitle = generateTravelMetaTitle({
+        type: travel.type,
+        country: travel.country,
+        travelType: travel.travelType,
+        price: travel.price.toString(),
+        destination: travel.destination
+      });
+    }
 
-    const [newProperty] = await db.insert(properties).values(propertyWithMeta as any).returning();
-    return newProperty;
+    // Generate meta description if not provided
+    if (!travel.metaDescription) {
+      travel.metaDescription = generateTravelMetaDescription({
+        type: travel.type,
+        country: travel.country,
+        travelType: travel.travelType,
+        duration: travel.duration,
+        maxParticipants: travel.maxParticipants,
+        minAge: travel.minAge,
+        price: travel.price.toString(),
+        destination: travel.destination
+      });
+    }
+
+    const [newTravel] = await db.insert(travels).values(travelData).returning();
+    return newTravel;
   }
 
-  async updateProperty(id: number, property: Partial<InsertProperty>): Promise<Property | undefined> {
-    // If key fields change, regenerate slug and meta data
-    let updateData: any = { ...property };
-    
-    if (property.type || property.municipality || property.propertyType || property.title || property.price) {
-      const currentProperty = await this.getProperty(id);
-      if (currentProperty) {
-        const mergedProperty = { ...currentProperty, ...property };
-        
-        const newSlug = generatePropertySlug({
-          type: mergedProperty.type,
-          municipality: mergedProperty.municipality,
-          propertyType: mergedProperty.propertyType,
-          title: mergedProperty.title
-        });
-        
-        // Only update slug if it actually changed
-        if (newSlug !== currentProperty.slug) {
-          let uniqueSlug = newSlug;
-          let counter = 1;
-          while (true) {
-            const existing = await this.getPropertyBySlug(uniqueSlug);
-            if (!existing || existing.id === id) break;
-            uniqueSlug = `${newSlug}-${counter}`;
-            counter++;
-          }
-          updateData.slug = uniqueSlug;
+  async updateTravel(id: number, travel: Partial<InsertTravel>): Promise<Travel | undefined> {
+    // Regenerate meta fields if core fields changed
+    if (travel.type || travel.country || travel.travelType || travel.price || travel.destination) {
+      const existing = await this.getTravel(id);
+      if (existing) {
+        if (!travel.metaTitle) {
+          travel.metaTitle = generateTravelMetaTitle({
+            type: travel.type || existing.type,
+            country: travel.country || existing.country,
+            travelType: travel.travelType || existing.travelType,
+            price: travel.price?.toString() || existing.price,
+            destination: travel.destination || existing.destination
+          });
         }
         
-        updateData.metaTitle = generatePropertyMetaTitle({
-          type: mergedProperty.type,
-          municipality: mergedProperty.municipality,
-          propertyType: mergedProperty.propertyType,
-          price: mergedProperty.price
-        });
-        
-        updateData.metaDescription = generatePropertyMetaDescription({
-          type: mergedProperty.type,
-          municipality: mergedProperty.municipality,
-          propertyType: mergedProperty.propertyType,
-          bedrooms: mergedProperty.bedrooms,
-          bathrooms: mergedProperty.bathrooms,
-          area: mergedProperty.area,
-          price: mergedProperty.price
-        });
+        if (!travel.metaDescription) {
+          travel.metaDescription = generateTravelMetaDescription({
+            type: travel.type || existing.type,
+            country: travel.country || existing.country,
+            travelType: travel.travelType || existing.travelType,
+            duration: travel.duration || existing.duration,
+            maxParticipants: travel.maxParticipants || existing.maxParticipants,
+            minAge: travel.minAge || existing.minAge,
+            price: travel.price?.toString() || existing.price,
+            destination: travel.destination || existing.destination
+          });
+        }
       }
     }
 
-    const [updatedProperty] = await db
-      .update(properties)
-      .set(updateData)
-      .where(eq(properties.id, id))
-      .returning();
-    return updatedProperty || undefined;
+    const [updatedTravel] = await db.update(travels).set(travel as any).where(eq(travels.id, id)).returning();
+    return updatedTravel || undefined;
   }
 
-  async deleteProperty(id: number): Promise<boolean> {
-    const result = await db.delete(properties).where(eq(properties.id, id));
-    return (result.rowCount ?? 0) > 0;
+  async deleteTravel(id: number): Promise<boolean> {
+    const result = await db.delete(travels).where(eq(travels.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
-  async updatePropertyOrder(propertiesToUpdate: {id: number, sortOrder: number}[]): Promise<boolean> {
+  async updateTravelOrder(travelList: {id: number, sortOrder: number}[]): Promise<boolean> {
     try {
-      for (const propertyUpdate of propertiesToUpdate) {
-        await db
-          .update(properties)
-          .set({ sortOrder: propertyUpdate.sortOrder })
-          .where(eq(properties.id, propertyUpdate.id));
-      }
+      await Promise.all(
+        travelList.map(travel =>
+          db.update(travels).set({ sortOrder: travel.sortOrder }).where(eq(travels.id, travel.id))
+        )
+      );
       return true;
-    } catch (error: any) {
-      console.error('Error updating property order:', error.message);
-      throw error;
-    }
-  }
-  
-  async moveProperty(propertyId: number, direction: 'up' | 'down'): Promise<boolean> {
-    try {
-      // Get all properties ordered by sortOrder
-      const allProperties = await db.select().from(properties).orderBy(properties.sortOrder, properties.id);
-      
-      // Find current property index
-      const currentIndex = allProperties.findIndex(p => p.id === propertyId);
-      if (currentIndex === -1) return false;
-      
-      // Calculate new index based on direction
-      let newIndex;
-      if (direction === 'up') {
-        if (currentIndex === 0) return true; // Already at top
-        newIndex = currentIndex - 1;
-      } else {
-        if (currentIndex === allProperties.length - 1) return true; // Already at bottom
-        newIndex = currentIndex + 1;
-      }
-      
-      // Swap sort orders
-      const currentProperty = allProperties[currentIndex];
-      const swapProperty = allProperties[newIndex];
-      
-      await db
-        .update(properties)
-        .set({ sortOrder: swapProperty.sortOrder })
-        .where(eq(properties.id, currentProperty.id));
-        
-      await db
-        .update(properties)
-        .set({ sortOrder: currentProperty.sortOrder })
-        .where(eq(properties.id, swapProperty.id));
-      
-      return true;
-    } catch (error: any) {
-      console.error('Error moving property:', error.message);
+    } catch (error) {
+      console.error('Error updating travel order:', error);
       return false;
     }
   }
 
-  // Property images operations
-  async getPropertyImages(propertyId: number): Promise<PropertyImage[]> {
-    const results = await db
-      .select()
-      .from(propertyImages)
-      .where(eq(propertyImages.propertyId, propertyId))
-      .orderBy(propertyImages.sortOrder);
-    return results;
+  async moveTravel(travelId: number, direction: 'up' | 'down'): Promise<boolean> {
+    try {
+      const travel = await this.getTravel(travelId);
+      if (!travel) return false;
+
+      const currentOrder = travel.sortOrder || 0;
+      const targetOrder = direction === 'up' ? currentOrder - 1 : currentOrder + 1;
+
+      // Find the travel with the target order
+      const [targetTravel] = await db
+        .select()
+        .from(travels)
+        .where(eq(travels.sortOrder, targetOrder))
+        .limit(1);
+
+      if (!targetTravel) return false;
+
+      // Swap the orders
+      await Promise.all([
+        db.update(travels).set({ sortOrder: targetOrder }).where(eq(travels.id, travelId)),
+        db.update(travels).set({ sortOrder: currentOrder }).where(eq(travels.id, targetTravel.id))
+      ]);
+
+      return true;
+    } catch (error) {
+      console.error('Error moving travel:', error);
+      return false;
+    }
   }
 
-  async getPropertyImageById(id: number): Promise<PropertyImage | undefined> {
-    const [image] = await db.select().from(propertyImages).where(eq(propertyImages.id, id));
+  // Travel images operations
+  async getTravelImages(travelId: number): Promise<TravelImage[]> {
+    const images = await db
+      .select()
+      .from(travelImages)
+      .where(eq(travelImages.travelId, travelId))
+      .orderBy(travelImages.sortOrder, travelImages.id);
+    return images;
+  }
+
+  async getTravelImageById(id: number): Promise<TravelImage | undefined> {
+    const [image] = await db.select().from(travelImages).where(eq(travelImages.id, id));
     return image || undefined;
   }
 
-  async addPropertyImage(image: InsertPropertyImage): Promise<PropertyImage> {
-    const [newImage] = await db.insert(propertyImages).values(image).returning();
+  async addTravelImage(image: InsertTravelImage): Promise<TravelImage> {
+    const [newImage] = await db.insert(travelImages).values(image).returning();
     return newImage;
   }
 
-  async deletePropertyImage(id: number): Promise<boolean> {
-    const result = await db.delete(propertyImages).where(eq(propertyImages.id, id));
-    return (result.rowCount ?? 0) > 0;
+  async deleteTravelImage(id: number): Promise<boolean> {
+    const result = await db.delete(travelImages).where(eq(travelImages.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
-  async updatePropertyImageOrder(images: {id: number, sortOrder: number}[]): Promise<boolean> {
+  async updateTravelImageOrder(images: {id: number, sortOrder: number}[]): Promise<boolean> {
     try {
-      for (const image of images) {
-        await db
-          .update(propertyImages)
-          .set({ sortOrder: image.sortOrder })
-          .where(eq(propertyImages.id, image.id));
-      }
+      await Promise.all(
+        images.map(image =>
+          db.update(travelImages).set({ sortOrder: image.sortOrder }).where(eq(travelImages.id, image.id))
+        )
+      );
       return true;
     } catch (error) {
-      console.error('Error updating image order:', error);
+      console.error('Error updating travel image order:', error);
       return false;
     }
   }
 
-  async setMainPropertyImage(propertyId: number, imageId: number): Promise<boolean> {
+  async setMainTravelImage(travelId: number, imageId: number): Promise<boolean> {
     try {
-      // First, set all images for this property to not main
+      // First, set all images for this travel to not main
       await db
-        .update(propertyImages)
+        .update(travelImages)
         .set({ isMain: false })
-        .where(eq(propertyImages.propertyId, propertyId));
-      
+        .where(eq(travelImages.travelId, travelId));
+
       // Then set the specified image as main
       await db
-        .update(propertyImages)
+        .update(travelImages)
         .set({ isMain: true })
-        .where(eq(propertyImages.id, imageId));
-      
+        .where(eq(travelImages.id, imageId));
+
       return true;
     } catch (error) {
-      console.error('Error setting main image:', error);
+      console.error('Error setting main travel image:', error);
       return false;
     }
-  }
-
-  // Blog operations
-  async getAllBlogPosts(published?: boolean): Promise<BlogPost[]> {
-    let query = db.select().from(blogPosts);
-    
-    if (published !== undefined) {
-      query = query.where(eq(blogPosts.published, published)) as typeof query;
-    }
-    
-    const posts = await query.orderBy(desc(blogPosts.createdAt));
-    return posts;
-  }
-
-  async getBlogPostById(id: number): Promise<BlogPost | undefined> {
-    const [post] = await db.select().from(blogPosts).where(eq(blogPosts.id, id));
-    return post || undefined;
-  }
-
-  async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
-    const [post] = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug));
-    return post || undefined;
-  }
-
-  async getFeaturedBlogPosts(): Promise<BlogPost[]> {
-    const posts = await db
-      .select()
-      .from(blogPosts)
-      .where(and(eq(blogPosts.featured, true), eq(blogPosts.published, true)))
-      .orderBy(desc(blogPosts.createdAt));
-    return posts;
-  }
-
-  async searchBlogPosts(query: string, category?: string): Promise<BlogPost[]> {
-    let dbQuery = db.select().from(blogPosts);
-    const conditions = [eq(blogPosts.published, true)];
-
-    if (query) {
-      const searchCondition = or(
-        like(blogPosts.title, `%${query}%`),
-        like(blogPosts.excerpt, `%${query}%`),
-        like(blogPosts.content, `%${query}%`)
-      );
-      if (searchCondition) {
-        conditions.push(searchCondition);
-      }
-    }
-
-    if (category) {
-      conditions.push(eq(blogPosts.category, category));
-    }
-
-    const posts = await dbQuery
-      .where(and(...conditions))
-      .orderBy(desc(blogPosts.createdAt));
-    return posts;
-  }
-
-  async createBlogPost(post: InsertBlogPost): Promise<BlogPost> {
-    const [newPost] = await db.insert(blogPosts).values(post as any).returning();
-    return newPost;
-  }
-
-  async updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost | undefined> {
-    const [updatedPost] = await db
-      .update(blogPosts)
-      .set({ ...post as any, updatedAt: new Date() })
-      .where(eq(blogPosts.id, id))
-      .returning();
-    return updatedPost || undefined;
-  }
-
-  async deleteBlogPost(id: number): Promise<boolean> {
-    const result = await db.delete(blogPosts).where(eq(blogPosts.id, id));
-    return (result.rowCount ?? 0) > 0;
-  }
-
-  async incrementBlogPostViews(id: number): Promise<void> {
-    await db
-      .update(blogPosts)
-      .set({ views: sql`${blogPosts.views} + 1` })
-      .where(eq(blogPosts.id, id));
   }
 
   // User operations (required for Replit Auth)
@@ -455,25 +365,29 @@ export class DatabaseStorage implements IStorage {
     return user || undefined;
   }
 
-  async upsertUser(userData: UpsertUser): Promise<User> {
-    const [user] = await db
+  async upsertUser(user: UpsertUser): Promise<User> {
+    const [upsertedUser] = await db
       .insert(users)
-      .values(userData)
+      .values(user)
       .onConflictDoUpdate({
         target: users.id,
         set: {
-          ...userData,
-          updatedAt: new Date(),
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          profileImageUrl: user.profileImageUrl,
+          updatedAt: sql`NOW()`,
         },
       })
       .returning();
-    return user;
+    
+    return upsertedUser;
   }
 
   async isUserAdmin(id: string): Promise<boolean> {
-    const [user] = await db.select({ role: users.role }).from(users).where(eq(users.id, id));
-    return user?.role === "admin";
+    const user = await this.getUser(id);
+    return user?.role === 'admin';
   }
 }
 
-export const storage = new DatabaseStorage();
+export const storage: IStorage = new DatabaseStorage();

@@ -13,20 +13,20 @@ import {
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const properties = pgTable("properties", {
+export const travels = pgTable("travels", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   type: text("type").notNull(), // "mare", "montagna", "citta", "avventura", "relax", "cultura"
-  propertyType: text("property_type"), // "singolo", "coppia", "famiglia", "gruppo" (package type)
+  travelType: text("travel_type"), // "singolo", "coppia", "famiglia", "gruppo"
   priceType: text("price_type"), // "per_persona", "forfait", "giornaliero"
-  location: text("location").notNull(), // destination
-  municipality: text("municipality").notNull(), // country
-  address: text("address").notNull(), // region
-  bedrooms: integer("bedrooms").notNull(), // duration (days)
-  bathrooms: integer("bathrooms").notNull(), // max participants
-  area: integer("area").notNull(), // min age
+  destination: text("destination").notNull(), // destinazione principale
+  country: text("country").notNull(), // paese
+  region: text("region").notNull(), // regione
+  duration: integer("duration").notNull(), // durata in giorni
+  maxParticipants: integer("max_participants").notNull(), // max partecipanti
+  minAge: integer("min_age").notNull(), // età minima
   images: json("images").$type<string[]>().notNull(),
   features: json("features").$type<string[]>().notNull(),
   youtubeVideoId: text("youtube_video_id"),
@@ -36,61 +36,65 @@ export const properties = pgTable("properties", {
   slug: text("slug").unique(), // SEO-friendly URL slug
   metaTitle: text("meta_title"), // SEO meta title
   metaDescription: text("meta_description"), // SEO meta description
-  // New travel-specific fields
   departureDate: timestamp("departure_date"),
   returnDate: timestamp("return_date"),
   includedServices: json("included_services").$type<string[]>().default([]),
+  excludedServices: json("excluded_services").$type<string[]>().default([]),
+  itinerary: json("itinerary").$type<Array<{day: number, title: string, description: string, activities: string[]}>>().default([]),
+  // Agent information
+  agentName: text("agent_name"),
+  agentPhone: text("agent_phone"),
+  agentEmail: text("agent_email"),
+  agentImage: text("agent_image"),
 });
 
-export const insertPropertySchema = createInsertSchema(properties).omit({
+export const insertTravelSchema = createInsertSchema(travels).omit({
   id: true,
   slug: true, // Auto-generated
 });
 
-export type InsertProperty = z.infer<typeof insertPropertySchema>;
-export type Property = typeof properties.$inferSelect;
-
-
+export type InsertTravel = z.infer<typeof insertTravelSchema>;
+export type Travel = typeof travels.$inferSelect;
 
 // Search filters schema for travel packages
 export const searchFiltersSchema = z.object({
   search: z.string().optional(),
   type: z.enum(["mare", "montagna", "citta", "avventura", "relax", "cultura"]).optional(),
-  propertyType: z.enum(["singolo", "coppia", "famiglia", "gruppo"]).optional(), // package type
-  municipality: z.string().optional(), // country
-  location: z.string().optional(), // destination
+  travelType: z.enum(["singolo", "coppia", "famiglia", "gruppo"]).optional(),
+  country: z.string().optional(),
+  destination: z.string().optional(),
   minPrice: z.number().optional(),
   maxPrice: z.number().optional(),
-  bedrooms: z.number().optional(), // min duration
-  bathrooms: z.number().optional(), // max participants
-  minArea: z.number().optional(), // min age
-  maxArea: z.number().optional(), // max duration
+  minDuration: z.number().optional(),
+  maxDuration: z.number().optional(),
+  maxParticipants: z.number().optional(),
+  minAge: z.number().optional(),
   departureMonth: z.string().optional(),
 });
 
 export type SearchFilters = z.infer<typeof searchFiltersSchema>;
 
 // Utility functions for slug generation
-export function generatePropertySlug(property: {
+export function generateTravelSlug(travel: {
   type: string;
-  municipality: string;
-  propertyType?: string | null;
-  title: string;
+  country: string;
+  travelType?: string | null;
+  destination: string;
 }): string {
   const typeMap: Record<string, string> = {
-    vendita: "casa",
-    affitto: "affitto",
-    casa_vacanza: "vacanza"
+    mare: "mare",
+    montagna: "montagna",
+    citta: "citta",
+    avventura: "avventura",
+    relax: "relax",
+    cultura: "cultura"
   };
 
-  const propertyTypeMap: Record<string, string> = {
-    villa: "villa",
-    appartamento: "appartamento", 
-    villa_a_schiera: "villa-schiera",
-    casa_singola_con_terreno: "casa-terreno",
-    rustici_e_terreni: "rustico",
-    terreno_agricolo: "terreno-agricolo",
-    terreno_edificabile: "terreno-edificabile"
+  const travelTypeMap: Record<string, string> = {
+    singolo: "singolo",
+    coppia: "coppia", 
+    famiglia: "famiglia",
+    gruppo: "gruppo"
   };
 
   const slugifyText = (text: string): string => {
@@ -102,74 +106,76 @@ export function generatePropertySlug(property: {
       .replace(/^-+|-+$/g, "");
   };
 
-  const typeSlug = typeMap[property.type] || slugifyText(property.type);
-  const municipalitySlug = slugifyText(property.municipality);
-  const propertyTypeSlug = property.propertyType ? 
-    propertyTypeMap[property.propertyType] || slugifyText(property.propertyType) : 
-    "proprieta";
+  const typeSlug = typeMap[travel.type] || slugifyText(travel.type);
+  const countrySlug = slugifyText(travel.country);
+  const travelTypeSlug = travel.travelType ? 
+    travelTypeMap[travel.travelType] || slugifyText(travel.travelType) : 
+    "viaggio";
 
-  return `${typeSlug}/${municipalitySlug}/${propertyTypeSlug}`;
+  return `${typeSlug}/${countrySlug}/${travelTypeSlug}`;
 }
 
-export function generatePropertyMetaTitle(property: {
+export function generateTravelMetaTitle(travel: {
   type: string;
-  municipality: string;
-  propertyType?: string | null;
+  country: string;
+  travelType?: string | null;
   price: string;
+  destination: string;
 }): string {
   const typeMap: Record<string, string> = {
-    vendita: "Casa in Vendita",
-    affitto: "Casa in Affitto",
-    casa_vacanza: "Casa Vacanza"
+    mare: "Viaggi al Mare",
+    montagna: "Viaggi in Montagna",
+    citta: "Viaggi Città",
+    avventura: "Viaggi Avventura",
+    relax: "Viaggi Relax",
+    cultura: "Viaggi Culturali"
   };
 
-  const propertyTypeMap: Record<string, string> = {
-    villa: "Villa",
-    appartamento: "Appartamento", 
-    villa_a_schiera: "Villa a Schiera",
-    casa_singola_con_terreno: "Casa con Terreno",
-    rustici_e_terreni: "Rustico",
-    terreno_agricolo: "Terreno Agricolo",
-    terreno_edificabile: "Terreno Edificabile"
+  const travelTypeMap: Record<string, string> = {
+    singolo: "Viaggi Singoli",
+    coppia: "Viaggi di Coppia", 
+    famiglia: "Viaggi per Famiglie",
+    gruppo: "Viaggi di Gruppo"
   };
 
-  const typeText = typeMap[property.type] || property.type;
-  const propertyTypeText = property.propertyType ? 
-    propertyTypeMap[property.propertyType] : "Propriet\u00e0";
+  const typeText = typeMap[travel.type] || travel.type;
+  const travelTypeText = travel.travelType ? 
+    travelTypeMap[travel.travelType] : "Viaggio";
   
-  return `${propertyTypeText} ${property.municipality} - ${typeText} \u20ac${property.price} | Agenzia Immobiliare`;
+  return `${travel.destination} ${travel.country} - ${typeText} da €${travel.price} | Agenzia Viaggi`;
 }
 
-export function generatePropertyMetaDescription(property: {
+export function generateTravelMetaDescription(travel: {
   type: string;
-  municipality: string;
-  propertyType?: string | null;
-  bedrooms: number;
-  bathrooms: number;
-  area: number;
+  country: string;
+  travelType?: string | null;
+  duration: number;
+  maxParticipants: number;
+  minAge: number;
   price: string;
+  destination: string;
 }): string {
   const typeMap: Record<string, string> = {
-    vendita: "vendita",
-    affitto: "affitto",
-    casa_vacanza: "casa vacanza"
+    mare: "al mare",
+    montagna: "in montagna",
+    citta: "culturale",
+    avventura: "avventura",
+    relax: "relax",
+    cultura: "culturale"
   };
 
-  const propertyTypeMap: Record<string, string> = {
-    villa: "villa",
-    appartamento: "appartamento", 
-    villa_a_schiera: "villa a schiera",
-    casa_singola_con_terreno: "casa con terreno",
-    rustici_e_terreni: "rustico",
-    terreno_agricolo: "terreno agricolo",
-    terreno_edificabile: "terreno edificabile"
+  const travelTypeMap: Record<string, string> = {
+    singolo: "viaggio singolo",
+    coppia: "viaggio di coppia", 
+    famiglia: "viaggio per famiglie",
+    gruppo: "viaggio di gruppo"
   };
 
-  const typeText = typeMap[property.type] || property.type;
-  const propertyTypeText = property.propertyType ? 
-    propertyTypeMap[property.propertyType] : "propriet\u00e0";
+  const typeText = typeMap[travel.type] || travel.type;
+  const travelTypeText = travel.travelType ? 
+    travelTypeMap[travel.travelType] : "viaggio";
   
-  return `${propertyTypeText.charAt(0).toUpperCase() + propertyTypeText.slice(1)} in ${typeText} a ${property.municipality}. ${property.bedrooms} camere, ${property.bathrooms} bagni, ${property.area}mq. Prezzo \u20ac${property.price}. Contattaci per maggiori informazioni.`;
+  return `${travelTypeText.charAt(0).toUpperCase() + travelTypeText.slice(1)} ${typeText} a ${travel.destination}, ${travel.country}. ${travel.duration} giorni, max ${travel.maxParticipants} persone, età min ${travel.minAge} anni. Da €${travel.price}. Scopri itinerari e prenota ora.`;
 }
 
 // Session storage table.
@@ -200,41 +206,10 @@ export const users = pgTable("users", {
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
 
-// Blog posts table
-export const blogPosts = pgTable("blog_posts", {
+// Travel images table for better management
+export const travelImages = pgTable("travel_images", {
   id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  slug: text("slug").notNull().unique(),
-  excerpt: text("excerpt").notNull(),
-  content: text("content").notNull(),
-  featuredImage: text("featured_image"),
-  category: text("category").notNull(),
-  tags: json("tags").$type<string[]>().default([]),
-  published: boolean("published").default(false),
-  featured: boolean("featured").default(false),
-  authorId: varchar("author_id").references(() => users.id),
-  views: integer("views").default(0),
-  readTime: integer("read_time").notNull(), // in minutes
-  metaDescription: text("meta_description"),
-  metaKeywords: text("meta_keywords"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-  views: true,
-});
-
-export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
-export type BlogPost = typeof blogPosts.$inferSelect;
-
-// Property images table for better management
-export const propertyImages = pgTable("property_images", {
-  id: serial("id").primaryKey(),
-  propertyId: integer("property_id").references(() => properties.id, { onDelete: "cascade" }).notNull(),
+  travelId: integer("travel_id").references(() => travels.id, { onDelete: "cascade" }).notNull(),
   filename: text("filename").notNull(),
   originalName: text("original_name").notNull(),
   url: text("url").notNull(),
@@ -245,10 +220,10 @@ export const propertyImages = pgTable("property_images", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const insertPropertyImageSchema = createInsertSchema(propertyImages).omit({
+export const insertTravelImageSchema = createInsertSchema(travelImages).omit({
   id: true,
   createdAt: true,
 });
 
-export type InsertPropertyImage = z.infer<typeof insertPropertyImageSchema>;
-export type PropertyImage = typeof propertyImages.$inferSelect;
+export type InsertTravelImage = z.infer<typeof insertTravelImageSchema>;
+export type TravelImage = typeof travelImages.$inferSelect;

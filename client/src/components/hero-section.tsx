@@ -33,8 +33,14 @@ export function HeroSection() {
           
           {/* Sottotitolo al logo - più vicino al logo */}
           <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light text-slate-700 leading-tight px-2">
-            🌍 Scopri il mondo con noi! Viaggi indimenticabili per ogni destinazione ✈️
+            🌍 Scopri il mondo con noi! Viaggi su misura per mare, montagna, città e avventura ✈️
           </h1>
+          
+          {/* Descrizione aggiuntiva */}
+          <p className="text-sm sm:text-base text-slate-600 mt-4 max-w-2xl mx-auto leading-relaxed">
+            Dalla magia delle Maldive alle vette delle Dolomiti, dalle città d'arte europee ai safari africani. 
+            Ogni viaggio è un'esperienza unica pensata per te.
+          </p>
         </div>
       </div>
     </section>

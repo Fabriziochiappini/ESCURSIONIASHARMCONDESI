@@ -1,35 +1,42 @@
-import { Property } from "@shared/schema";
+import { Travel } from "@shared/schema";
 
 const WHATSAPP_NUMBER = "3479123456"; // Numero WhatsApp Propato Travel
 
-export function generateWhatsAppLink(property: Property, customMessage?: string): string {
-  const baseMessage = customMessage || generatePropertyMessage(property);
+export function generateWhatsAppLink(travel: Travel, customMessage?: string): string {
+  const baseMessage = customMessage || generateTravelMessage(travel);
   const encodedMessage = encodeURIComponent(baseMessage);
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
 }
 
-export function generatePropertyMessage(property: Property): string {
-  const priceFormatted = formatPrice(property.price, property.type);
-  const propertyTypeLabel = getPropertyTypeLabel(property.propertyType);
-  const contractTypeLabel = getContractTypeLabel(property.type);
+export function sendWhatsAppMessage(phone: string, message: string): void {
+  const cleanPhone = phone.replace(/\D/g, '');
+  const encodedMessage = encodeURIComponent(message);
+  const url = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
+  window.open(url, '_blank');
+}
+
+export function generateTravelMessage(travel: Travel): string {
+  const priceFormatted = formatPrice(travel.price, travel.type);
+  const travelTypeLabel = getTravelTypeLabel(travel.travelType);
+  const contractTypeLabel = getContractTypeLabel(travel.type);
   
   return `✈️ Salve! Sono interessato/a a questo viaggio:
 
-📍 *${property.title}*
-🌍 Destinazione: ${property.municipality}, ${property.location}
-🎒 Tipologia: ${propertyTypeLabel || 'Non specificata'}
+📍 *${travel.title}*
+🌍 Destinazione: ${travel.destination}, ${travel.country}
+🎒 Tipologia: ${travelTypeLabel || 'Non specificata'}
 💰 Prezzo: ${priceFormatted}
-📅 Durata: ${property.bedrooms} giorni
-👥 Max partecipanti: ${property.bathrooms}
-🎂 Età minima: ${property.area} anni
+📅 Durata: ${travel.duration} giorni
+👥 Max partecipanti: ${travel.maxParticipants}
+🎂 Età minima: ${travel.minAge} anni
 
 Vorrei ricevere maggiori informazioni e possibilmente prenotare.
 
 Grazie!`;
 }
 
-export function generateQuickInquiryMessage(property: Property): string {
-  return `✈️ Ciao! Sono interessato/a al viaggio "${property.title}" destinazione ${property.municipality}. Potreste inviarmi maggiori dettagli? Grazie!`;
+export function generateQuickInquiryMessage(travel: Travel): string {
+  return `✈️ Ciao! Sono interessato/a al viaggio "${travel.title}" destinazione ${travel.destination}. Potreste inviarmi maggiori dettagli? Grazie!`;
 }
 
 function formatPrice(price: string, type: string): string {
@@ -43,15 +50,15 @@ function formatPrice(price: string, type: string): string {
   }
 }
 
-function getPropertyTypeLabel(propertyType?: string | null): string {
-  if (!propertyType) return '';
+function getTravelTypeLabel(travelType?: string | null): string {
+  if (!travelType) return '';
   
-  switch(propertyType) {
+  switch(travelType) {
     case "singolo": return "Viaggio Singolo";
     case "coppia": return "Viaggio di Coppia";
     case "famiglia": return "Viaggio Famiglia";
     case "gruppo": return "Viaggio di Gruppo";
-    default: return propertyType;
+    default: return travelType;
   }
 }
 
