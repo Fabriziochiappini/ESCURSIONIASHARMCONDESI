@@ -13,6 +13,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import type { Travel as Property } from "@shared/schema";
 import { SEOHead } from "@/components/seo-head";
+import { PropertyCard } from "@/components/property-card";
 
 // Municipalities now loaded dynamically from API
 
@@ -297,67 +298,9 @@ export default function Properties() {
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
                 {properties.map((property) => (
-                  <Link href={`/property/${property.id}`} key={property.id}>
-                    <Card className="group glass-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
-                    <div className="relative aspect-video overflow-hidden rounded-t-lg">
-                      <img 
-                        src={property.images[0]} 
-                        alt={property.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                      <div className="absolute top-4 left-4">
-                        <Badge className={getTypeBadgeColor(property.type)}>
-                          {getTypeLabel(property.type)}
-                        </Badge>
-                      </div>
-                      {property.featured && (
-                        <div className="absolute top-4 right-4">
-                          <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">
-                            In Evidenza
-                          </Badge>
-                        </div>
-                      )}
-                    </div>
-
-                    <CardContent className="p-6">
-                      <div className="flex items-center text-sm text-gray-600 mb-2">
-                        <MapPin className="h-4 w-4 mr-1" />
-                        {property.location}
-                      </div>
-
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
-                        {property.title}
-                      </h3>
-
-                      <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                        {property.description}
-                      </p>
-
-                      <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="flex items-center">
-                            <Bed className="h-4 w-4 mr-1" />
-                            {property.bedrooms}
-                          </div>
-                          <div className="flex items-center">
-                            <Bath className="h-4 w-4 mr-1" />
-                            {property.bathrooms}
-                          </div>
-                          <div className="flex items-center">
-                            <Square className="h-4 w-4 mr-1" />
-                            {property.area}m²
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="text-2xl font-bold text-purple-600">
-                        {formatPrice(property.price, property.type, property.priceType)}
-                      </div>
-                    </CardContent>
-                  </Card>
-                  </Link>
+                  <PropertyCard key={property.id} property={property} />
                 ))}
               </div>
             </>
