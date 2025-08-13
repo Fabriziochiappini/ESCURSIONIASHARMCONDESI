@@ -35,13 +35,13 @@ interface ShowcaseSectionProps {
 export function ShowcaseSection({ category, className = "" }: ShowcaseSectionProps) {
   // Fetch showcase info
   const { data: showcase, isLoading: showcaseLoading } = useQuery<Showcase>({
-    queryKey: ['/api/showcases/category', category],
+    queryKey: [`/api/showcases/category/${category}`],
     enabled: !!category,
   });
 
   // Fetch travels for this showcase category
   const { data: travels = [], isLoading: travelsLoading } = useQuery<Travel[]>({
-    queryKey: ['/api/showcases/category', category, 'travels'],
+    queryKey: [`/api/showcases/category/${category}/travels`],
     enabled: !!category,
   });
 
