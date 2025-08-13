@@ -1,15 +1,20 @@
 import { Card } from "@/components/ui/card";
 import { MapPin, Calendar, Users } from "lucide-react";
-import type { Property } from "@shared/schema";
+import type { Travel } from "@shared/schema";
 import { formatPrice } from "@/lib/types";
 import { Link } from "wouter";
 
 interface PropertyCardProps {
-  property: Property;
+  property: Travel;
 }
 
 export function PropertyCard({ property }: PropertyCardProps) {
-  const propertyUrl = property.slug ? `/${property.slug}` : `/property/${property.id}`;
+  const propertyUrl = property.slug ? `/${property.slug}` : `/travel/${property.id}`;
+  
+  // Use real image from database, fallback to beautiful travel image
+  const imageUrl = property.images && property.images.length > 0 
+    ? property.images[0] 
+    : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800';
   
   return (
     <Link href={propertyUrl} className="block">
@@ -18,7 +23,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
         <div className="relative h-64 overflow-hidden flex-shrink-0">
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
-            style={{ backgroundImage: `url('${property.images[0] || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800'}')` }}
+            style={{ backgroundImage: `url('${imageUrl}')` }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
           
@@ -30,11 +35,11 @@ export function PropertyCard({ property }: PropertyCardProps) {
             </div>
             <div className="flex items-center text-white text-sm">
               <Calendar className="h-4 w-4 mr-1" />
-              <span>7 GIORNI DI TRASPORTO</span>
+              <span>{property.duration} GIORNI DI TRASPORTO</span>
             </div>
             <div className="flex items-center text-white text-sm">
               <Users className="h-4 w-4 mr-1" />
-              <span>6 NOTTI</span>
+              <span>{property.duration - 1} NOTTI</span>
             </div>
           </div>
 
@@ -59,7 +64,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
             <div className="bg-white/95 backdrop-blur-sm px-3 py-2 text-right">
               <div className="text-gray-600 text-xs font-medium uppercase">Da</div>
               <div className="text-2xl font-black text-slate-900">
-                {formatPrice(property.price)}
+                {property.price}€
               </div>
               <div className="text-gray-600 text-xs">a persona</div>
             </div>

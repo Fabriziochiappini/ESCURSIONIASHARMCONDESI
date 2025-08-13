@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { PropertyCard } from "./property-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Property, SearchFilters } from "@shared/schema";
+import type { Travel, SearchFilters } from "@shared/schema";
 import { useLocation } from "wouter";
 
 interface PropertyGridProps {
@@ -15,10 +15,10 @@ interface PropertyGridProps {
 export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: PropertyGridProps) {
   const [location] = useLocation();
 
-  const { data: allProperties, isLoading, error } = useQuery<Property[]>({
-    queryKey: filters ? ['/api/properties/search', filters] : ['/api/properties/featured'],
+  const { data: allProperties, isLoading, error } = useQuery<Travel[]>({
+    queryKey: filters ? ['/api/travels/search', filters] : ['/api/travels/featured'],
     queryFn: async () => {
-      let url = filters ? '/api/properties/search' : '/api/properties/featured';
+      let url = filters ? '/api/travels/search' : '/api/travels/featured';
 
       if (filters) {
         const searchParams = new URLSearchParams();

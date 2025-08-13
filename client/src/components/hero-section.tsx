@@ -7,12 +7,12 @@ export function HeroSection() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&h=1600')",
+          backgroundImage: "url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&h=1600')",
         }}
       />
       
-      {/* Lighter overlay to show the beach */}
-      <div className="absolute inset-0 bg-slate-900/50"></div>
+      {/* Very light overlay to show the beach */}
+      <div className="absolute inset-0 bg-slate-900/30"></div>
       
       <div className="relative z-10 text-center w-full px-0">
         {/* Full-width Hero Container */}
