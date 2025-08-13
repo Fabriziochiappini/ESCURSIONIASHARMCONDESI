@@ -51,89 +51,62 @@ export function TravelCard({ travel }: TravelCardProps) {
   
   return (
     <Link href={travelUrl} className="block">
-      <Card className="bg-white rounded-xl overflow-hidden cursor-pointer group border shadow-lg hover:shadow-xl transition-all duration-300 h-auto flex flex-col min-h-[420px]">
-        <div className="relative h-52 sm:h-64 overflow-hidden flex-shrink-0">
+      <Card className="overflow-hidden cursor-pointer group border-0 shadow-lg hover:shadow-2xl transition-all duration-500 h-full flex flex-col bg-white hover:scale-105 transform">
+        {/* Smartbox-style card */}
+        <div className="relative h-64 overflow-hidden flex-shrink-0">
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
             style={{ backgroundImage: `url('${travel.images[0] || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800'}')`}}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
           
-          <div className="absolute top-4 left-4 flex flex-col gap-2">
-            <Badge className={`${getTypeBadgeColor(travel.type)} text-white px-3 py-1 text-xs font-semibold rounded-full`}>
-              {getTravelTypeIcon(travel.type)} {getTypeLabel(travel.type)}
-            </Badge>
-            {travel.travelType && (
-              <Badge className="bg-slate-700 text-white px-3 py-1 text-xs font-medium rounded-full">
-                {getCategoryIcon(travel.travelType)} {getTravelTypeLabel(travel.travelType)}
-              </Badge>
+          {/* Top Left - Location and Duration like Smartbox */}
+          <div className="absolute top-4 left-4 flex flex-col gap-1">
+            <div className="flex items-center text-white text-sm font-medium">
+              <MapPin className="h-4 w-4 mr-1" />
+              <span>{travel.destination || travel.country}</span>
+            </div>
+            <div className="flex items-center text-white text-sm">
+              <Calendar className="h-4 w-4 mr-1" />
+              <span>{formatDuration(travel.duration)}</span>
+            </div>
+            {travel.maxParticipants && (
+              <div className="flex items-center text-white text-sm">
+                <Users className="h-4 w-4 mr-1" />
+                <span>{travel.maxParticipants} persone</span>
+              </div>
             )}
           </div>
-          
-          <div className="absolute top-4 right-4">
-            <Button variant="ghost" size="sm" className="bg-white/90 text-gray-800 hover:bg-white p-2 rounded-full transition-all duration-300">
-              <Heart className="h-4 w-4" />
-            </Button>
-          </div>
-          
-          {travel.images.length > 1 && (
-            <div className="absolute bottom-4 right-4">
-              <div className="bg-black/70 text-white px-2 py-1 rounded-full text-xs flex items-center gap-1">
-                <Plane className="h-3 w-3" />
-                {travel.images.length}
+
+          {/* Top Right - Badge like Smartbox */}
+          {(travel.type === "mare" || travel.featured) && (
+            <div className="absolute top-4 right-4">
+              <div className="bg-blue-500 text-white px-3 py-1 text-xs font-bold uppercase tracking-wide">
+                BEST OFFER
               </div>
             </div>
           )}
-          
-          <div className="absolute bottom-4 left-4">
-            <div className="text-white text-2xl font-bold drop-shadow-lg">
-              {formatPrice(travel.price, travel.type, travel.priceType)}
+
+          {/* Bottom Left - Title like Smartbox */}
+          <div className="absolute bottom-4 left-4 right-4">
+            <h3 className="text-white text-2xl font-black mb-2 leading-tight">
+              {travel.title}
+            </h3>
+          </div>
+
+          {/* Bottom Right - Price like Smartbox */}
+          <div className="absolute bottom-4 right-4 text-right">
+            <div className="bg-white/95 backdrop-blur-sm px-3 py-2 text-right">
+              <div className="text-gray-600 text-xs font-medium uppercase">Da</div>
+              <div className="text-2xl font-black text-slate-900">
+                {formatPrice(travel.price, travel.type, travel.priceType || undefined)}
+              </div>
+              <div className="text-gray-600 text-xs">a persona</div>
             </div>
           </div>
         </div>
         
-        <CardContent className="p-6 flex-grow flex flex-col justify-between">
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                {travel.title}
-              </h3>
-              <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed">
-                {travel.description}
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div className="flex items-center text-gray-700">
-                <MapPin className="h-4 w-4 mr-2 text-blue-500 flex-shrink-0" />
-                <span className="truncate">{travel.destination}, {travel.country}</span>
-              </div>
-              
-              <div className="flex items-center text-gray-700">
-                <Clock className="h-4 w-4 mr-2 text-green-500 flex-shrink-0" />
-                <span>{formatDuration(travel.duration)}</span>
-              </div>
-              
-              <div className="flex items-center text-gray-700">
-                <Users className="h-4 w-4 mr-2 text-purple-500 flex-shrink-0" />
-                <span>Max {travel.maxParticipants} persone</span>
-              </div>
-              
-              <div className="flex items-center text-gray-700">
-                <Calendar className="h-4 w-4 mr-2 text-orange-500 flex-shrink-0" />
-                <span>Età min {travel.minAge}+</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className="pt-4 mt-auto">
-            <Button 
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold py-2.5 transition-all duration-300"
-            >
-              Scopri il Viaggio
-            </Button>
-          </div>
-        </CardContent>
+        {/* No content area - pure Smartbox style with all info on image */}
       </Card>
     </Link>
   );
