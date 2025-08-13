@@ -44,7 +44,7 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
   const properties = showAll || filters ? allProperties : allProperties?.slice(0, 12);
 
   if (isLoading) {
-    const gridCols = maxColumns === 2 ? "grid-cols-2 md:grid-cols-2" : "grid-cols-2 md:grid-cols-2 xl:grid-cols-3";
+    const gridCols = maxColumns === 2 ? "grid-cols-2 md:grid-cols-2" : "grid-cols-2 md:grid-cols-3 xl:grid-cols-4";
     return (
       <div className={`grid ${gridCols} gap-4 md:gap-8`}>
         {Array.from({ length: 6 }).map((_, i) => (
@@ -93,7 +93,7 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
 
   return (
     <div className="space-y-8">
-      <div className={`grid ${maxColumns === 2 ? "grid-cols-2 md:grid-cols-2" : "grid-cols-2 md:grid-cols-2 lg:grid-cols-3"} gap-4 md:gap-8`}>
+      <div className={`grid ${maxColumns === 2 ? "grid-cols-2 md:grid-cols-2" : "grid-cols-2 md:grid-cols-3 xl:grid-cols-4"} gap-4 md:gap-6`}>
         {properties.map((property) => (
           <PropertyCard key={property.id} property={property} />
         ))}
