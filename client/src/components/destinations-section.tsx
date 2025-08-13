@@ -94,60 +94,74 @@ const destinations: Destination[] = [
 
 export function DestinationsSection() {
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-slate-800 text-white relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800"></div>
+      
+      <div className="relative z-10 py-20">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
+          <h2 className="text-5xl font-bold mb-6">
             Destinazioni
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
             Esotici safari, esclusivi itinerari e pacchetti per tour completi: non c'è limite alle nostre offerte di viaggio per farti scoprire le meraviglie del mondo.
           </p>
         </div>
 
-        {/* Destinations Grid - 4x4 */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          {destinations.map((destination, index) => (
-            <Link
-              key={index}
-              href={`/viaggi?country=${encodeURIComponent(destination.country)}`}
-              className="group relative overflow-hidden rounded-2xl aspect-[4/3] bg-gray-200 hover:transform hover:scale-105 transition-all duration-300"
-            >
-              {/* Background Image */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
-                style={{
-                  backgroundImage: `url(${destination.image})`,
-                }}
-              />
-              
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all duration-300" />
-              
-              {/* Content */}
-              <div className="absolute inset-0 flex items-center justify-center p-4">
-                <div className="text-center text-white">
-                  <h3 className="text-lg md:text-xl font-bold mb-2 group-hover:text-yellow-300 transition-colors duration-300">
-                    {destination.label}
-                  </h3>
-                  
-                  {/* Subtle arrow indicator on hover */}
-                  <ChevronRight className="h-5 w-5 mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-yellow-300" />
+        {/* Full Width Destinations Grid - 4x4 */}
+        <div className="max-w-none px-0">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
+            {destinations.map((destination, index) => (
+              <Link
+                key={index}
+                href={`/viaggi?country=${encodeURIComponent(destination.country)}`}
+                className="group relative overflow-hidden aspect-[4/3] bg-gray-900 hover:z-10 transition-all duration-500"
+              >
+                {/* Background Image */}
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                  style={{
+                    backgroundImage: `url(${destination.image})`,
+                  }}
+                />
+                
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 group-hover:from-blue-900/80 group-hover:via-blue-800/40 group-hover:to-blue-700/20 transition-all duration-500" />
+                
+                {/* Border Effect */}
+                <div className="absolute inset-0 border border-slate-700/30 group-hover:border-blue-400/60 transition-colors duration-300"></div>
+                
+                {/* Content */}
+                <div className="absolute inset-0 flex items-end p-6">
+                  <div className="w-full">
+                    <h3 className="text-xl font-bold mb-2 text-white group-hover:text-blue-100 transition-all duration-300 transform group-hover:translate-y-[-4px]">
+                      {destination.label}
+                    </h3>
+                    
+                    {/* Icon indicator */}
+                    <div className="flex items-center justify-between">
+                      <div className="h-1 bg-blue-500 rounded-full transition-all duration-500 group-hover:w-16 w-8"></div>
+                      <ChevronRight className="h-5 w-5 text-slate-400 group-hover:text-blue-300 transition-all duration-300 transform group-hover:translate-x-1" />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+
+                {/* Hover Effect Overlay */}
+                <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/10 transition-all duration-500"></div>
+              </Link>
+            ))}
+          </div>
         </div>
 
-        {/* View All Link */}
-        <div className="text-center mt-12">
+        {/* Bottom CTA */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-16">
           <Link
             href="/viaggi"
-            className="inline-flex items-center px-8 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-colors duration-300"
+            className="inline-flex items-center px-10 py-4 bg-blue-600 text-white font-bold text-lg rounded-none hover:bg-blue-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border-2 border-blue-600 hover:border-blue-400"
           >
-            Scopri Tutti i Viaggi
-            <ChevronRight className="h-5 w-5 ml-2" />
+            ESPLORA TUTTE LE DESTINAZIONI
+            <ChevronRight className="h-6 w-6 ml-3" />
           </Link>
         </div>
       </div>

@@ -5,6 +5,7 @@ This project is a modern, full-stack travel agency web application designed to b
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
+Design preferences: Full-width sections, solid/hard style, impactful visual elements.
 
 ## System Architecture
 
