@@ -5,6 +5,7 @@ import { ComplexSituations } from "@/components/complex-situations";
 import { PropertyGrid } from "@/components/property-grid";
 import { ServicesSection } from "@/components/services-section";
 import { SpecializedServices } from "@/components/specialized-services";
+import { DestinationsSection } from "@/components/destinations-section";
 
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -179,6 +180,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Destinations Section */}
+        <DestinationsSection />
 
       </main>
       <Footer />
