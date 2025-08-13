@@ -1,4 +1,5 @@
 import logoAgenziaUrl from "@assets/Immagine_2025-08-06_182718-removebg-preview_1754497683531.png";
+import beachBackgroundUrl from "@assets/b51hm1au1uy21_1755098522270.webp";
 
 export function HeroSection() {
   return (
@@ -7,7 +8,7 @@ export function HeroSection() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&h=1600')",
+          backgroundImage: `url('${beachBackgroundUrl}')`,
         }}
       />
       
