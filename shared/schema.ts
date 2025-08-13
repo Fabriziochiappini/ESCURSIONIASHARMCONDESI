@@ -74,6 +74,11 @@ export const searchFiltersSchema = z.object({
 
 export type SearchFilters = z.infer<typeof searchFiltersSchema>;
 
+// LEGACY COMPATIBILITY: Property alias for Travel
+export type Property = Travel;
+export const insertPropertySchema = insertTravelSchema;
+export type InsertProperty = InsertTravel;
+
 // Utility functions for slug generation
 export function generateTravelSlug(travel: {
   type: string;

@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import type { Property } from "@shared/schema";
+import type { Travel as Property } from "@shared/schema";
 import { SEOHead } from "@/components/seo-head";
 
 // Municipalities now loaded dynamically from API

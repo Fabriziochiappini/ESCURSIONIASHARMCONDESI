@@ -5,7 +5,7 @@ import { X, ChevronLeft, ChevronRight, Images, Maximize2 } from "lucide-react";
 
 interface PhotoGalleryProps {
   images: string[];
-  title: string;
+  title?: string;
 }
 
 export function PhotoGallery({ images, title }: PhotoGalleryProps) {

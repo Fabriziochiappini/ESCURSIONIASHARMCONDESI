@@ -8,8 +8,8 @@ import { ScrollToTop } from "@/components/scroll-to-top";
 import { CookieBanner } from "@/components/cookie-banner";
 import Home from "@/pages/home";
 import About from "@/pages/about";
-import Travels from "@/pages/travels";
-import TravelDetail from "@/pages/travel-detail";
+import Properties from "@/pages/properties";
+import PropertyDetail from "@/pages/property-detail";
 import Services from "@/pages/services";
 import Privacy from "@/pages/privacy";
 import Admin from "@/pages/admin";
@@ -20,12 +20,12 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/chi-siamo" component={About} />
-      <Route path="/viaggi" component={Travels} />
-      <Route path="/properties" component={Travels} />
-      <Route path="/travel/:id" component={TravelDetail} />
-      <Route path="/property/:id" component={TravelDetail} />
-      <Route path="/:type/:country/:travelType" component={TravelDetail} />
-      <Route path="/:type/:municipality/:propertyType" component={TravelDetail} />
+      <Route path="/viaggi" component={Properties} />
+      <Route path="/properties" component={Properties} />
+      <Route path="/travel/:id" component={PropertyDetail} />
+      <Route path="/property/:id" component={PropertyDetail} />
+      <Route path="/:type/:country/:travelType" component={PropertyDetail} />
+      <Route path="/:type/:municipality/:propertyType" component={PropertyDetail} />
       <Route path="/servizi" component={Services} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/admin" component={Admin} />

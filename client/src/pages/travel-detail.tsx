@@ -123,7 +123,7 @@ export default function TravelDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Image Gallery */}
             <div className="space-y-4">
-              <PhotoGallery images={travel.images} />
+              <PhotoGallery images={travel.images} title={travel.title} />
             </div>
 
             {/* Travel Info */}

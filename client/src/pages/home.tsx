@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { HeroSection } from "@/components/hero-section";
 import { ComplexSituations } from "@/components/complex-situations";
-import { TravelGrid } from "@/components/travel-grid";
+import { PropertyGrid } from "@/components/property-grid";
 import { ServicesSection } from "@/components/services-section";
 import { SpecializedServices } from "@/components/specialized-services";
 
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { TravelSearchFilter } from "@/components/travel-search-filter";
+import { PropertySearchFilter } from "@/components/property-search-filter";
 import type { SearchFilters } from "@shared/schema";
 import { SEOHead } from "@/components/seo-head";
 
@@ -74,11 +74,11 @@ export default function Home() {
               </p>
 
               {/* Search Filter in Travel Section */}
-              <TravelSearchFilter />
+              <PropertySearchFilter />
             </div>
 
             <div className="animate-slide-up">
-              <TravelGrid filters={hasFilters ? filters : undefined} maxColumns={3} featured={!hasFilters} />
+              <PropertyGrid filters={hasFilters ? filters : undefined} maxColumns={3} />
             </div>
           </div>
         </section>
