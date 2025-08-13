@@ -58,7 +58,30 @@ export default function Home() {
       <Navigation />
       <main className="relative">
         <HeroSection />
-        <ComplexSituations />
+        {/* Stats Section instead of Complex Situations */}
+        <section className="py-20 bg-slate-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 max-w-4xl mx-auto">
+              <div className="bg-slate-700/50 border border-slate-600 p-8 text-center">
+                <div className="text-4xl font-black text-blue-400 mb-2">50+</div>
+                <div className="text-slate-300 font-bold uppercase tracking-wide text-sm">Destinazioni</div>
+              </div>
+              <div className="bg-slate-700/50 border border-slate-600 p-8 text-center">
+                <div className="text-4xl font-black text-blue-400 mb-2">1K+</div>
+                <div className="text-slate-300 font-bold uppercase tracking-wide text-sm">Viaggiatori</div>
+              </div>
+              <div className="bg-slate-700/50 border border-slate-600 p-8 text-center">
+                <div className="text-4xl font-black text-blue-400 mb-2">15</div>
+                <div className="text-slate-300 font-bold uppercase tracking-wide text-sm">Anni</div>
+              </div>
+              <div className="bg-slate-700/50 border border-slate-600 p-8 text-center">
+                <div className="text-4xl font-black text-blue-400 mb-2">24/7</div>
+                <div className="text-slate-300 font-bold uppercase tracking-wide text-sm">Supporto</div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section id="travels" className="py-20 dark-section relative overflow-hidden">
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
