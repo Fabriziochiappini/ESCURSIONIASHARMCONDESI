@@ -184,7 +184,7 @@ export default function Home() {
         </section>
 
         <section id="travels" className="py-20 dark-section relative overflow-hidden">
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Viaggi a tutta larghezza */}
             <div className="text-center mb-16 animate-fade-in">
               <h2 className="text-4xl lg:text-5xl font-light mb-4 text-white">

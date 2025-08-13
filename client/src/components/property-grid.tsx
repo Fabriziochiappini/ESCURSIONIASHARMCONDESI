@@ -40,8 +40,8 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
     }
   });
 
-  // Show 10 properties for homepage (2 rows of 5), show all if showAll is true or filters are applied
-  const properties = showAll || filters ? allProperties : allProperties?.slice(0, 10);
+  // Show 5 properties for homepage (1 row of 5), show all if showAll is true or filters are applied
+  const properties = showAll || filters ? allProperties : allProperties?.slice(0, 5);
 
   if (isLoading) {
     const gridCols = maxColumns === 2 ? "grid-cols-2 md:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
@@ -93,7 +93,7 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
 
   return (
     <div className="space-y-8">
-      <div className={`grid ${maxColumns === 2 ? "grid-cols-2 md:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"} gap-6 md:gap-8`}>
+      <div className={`grid ${maxColumns === 2 ? "grid-cols-2 md:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"} gap-4 md:gap-6`}>
         {properties.map((property) => (
           <PropertyCard key={property.id} property={property} />
         ))}
