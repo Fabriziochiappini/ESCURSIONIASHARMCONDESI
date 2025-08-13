@@ -1,4 +1,4 @@
-import logoAgenziaUrl from "@assets/Immagine_2025-08-06_182718-removebg-preview_1754497683531.png";
+import logoAgenziaUrl from "@assets/logo_rosso-removebg-preview_1754493166038.png";
 import beachBackgroundUrl from "@assets/b51hm1au1uy21_1755098522270.webp";
 
 export function HeroSection() {
@@ -20,20 +20,19 @@ export function HeroSection() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Logo principale */}
             <div className="mb-8">
-              <img 
-                src={logoAgenziaUrl} 
-                alt="Propato Travel - La tua Agenzia Viaggi" 
-                className="h-32 sm:h-40 md:h-48 lg:h-56 w-auto mx-auto object-contain filter brightness-0 invert"
-              />
+              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white tracking-tight">
+                PROPATO
+                <span className="block text-blue-400 mt-2">TRAVEL</span>
+              </h1>
             </div>
             
             {/* Main Title - Bold and Impactful */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-none mb-8 tracking-tight">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-none mb-8 tracking-tight">
               VIAGGIA
               <span className="block text-blue-400 mt-2">
                 SENZA LIMITI
               </span>
-            </h1>
+            </h2>
             
             {/* Accent Line */}
             <div className="w-40 h-2 bg-blue-500 mx-auto mb-8"></div>

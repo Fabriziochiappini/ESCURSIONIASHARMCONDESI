@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import logoAgenziaUrl from "@assets/Immagine_2025-08-06_182718-removebg-preview_1754497683531.png";
+import logoAgenziaUrl from "@assets/logo_rosso-removebg-preview_1754493166038.png";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,15 +12,9 @@ export function Navigation() {
         <div className="flex justify-between items-center h-28">
           <Link href="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <img 
-                src={logoAgenziaUrl} 
-                alt="Propato Travel - Agenzia Viaggi" 
-                className="h-24 w-auto group-hover:scale-110 transition-all duration-300"
-                style={{ 
-                  clipPath: 'inset(0 2px 0 0)',
-                  filter: 'drop-shadow(0 0 0 transparent)'
-                }}
-              />
+              <div className="text-2xl font-black text-primary group-hover:scale-110 transition-all duration-300">
+                PROPATO<span className="text-blue-500">TRAVEL</span>
+              </div>
             </div>
           </Link>
 

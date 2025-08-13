@@ -137,8 +137,8 @@ export default function Properties() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title="Proprietà in Vendita e Affitto ad Acireale | AGENZIA 2 Immobiliare"
-        description="🏡 Scopri tutte le proprietà disponibili ad Acireale: case in vendita, appartamenti in affitto, case vacanza. AGENZIA 2 - la tua scelta migliore per l'immobiliare."
+        title="Viaggi e Destinazioni | Propato Travel"
+        description="✈️ Scopri tutti i viaggi disponibili: vacanze mare, montagna, città, avventura. Propato Travel - la tua scelta migliore per viaggiare."
         keywords="case vendita Acireale, appartamenti affitto Acireale, immobili Acireale, proprietà Sicilia orientale, case Catania"
         canonicalUrl="https://agenzia2acireale.com/properties"
       />
