@@ -85,97 +85,113 @@ export default function Home() {
         </section>
 
         {/* Sezione Servizi */}
-        <section className="py-20 bg-gray-50">
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16 animate-fade-in">
-              <h2 className="text-4xl lg:text-5xl font-light mb-6 text-gray-900">
-                I Nostri Servizi di Viaggio
+        <section className="py-0 bg-slate-900">
+          <div className="relative z-10 w-full">
+            <div className="text-center py-20 bg-slate-900 text-white">
+              <h2 className="text-5xl lg:text-6xl font-black mb-6 tracking-tight">
+                I NOSTRI SERVIZI
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              <div className="w-32 h-2 bg-blue-500 mx-auto mb-8"></div>
+              <p className="text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed font-light">
                 Esperienze di viaggio indimenticabili su misura per te
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 animate-slide-up items-stretch">
-              <div className="bg-white rounded-xl p-6 group hover:shadow-xl transition-all duration-300 flex flex-col h-full border">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
-                  <span className="text-xl">🏖️</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-0 max-w-none">
+              <div className="bg-slate-800 border border-slate-700 p-10 group hover:bg-slate-700 transition-all duration-500 flex flex-col h-full relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-blue-500 flex items-center justify-center mb-6 group-hover:bg-blue-400 transition-colors duration-300">
+                    <span className="text-2xl">🏖️</span>
+                  </div>
+                  <h4 className="font-black text-white mb-4 text-2xl tracking-wide">VACANZE AL MARE</h4>
+                  <p className="text-slate-400 mb-6 text-lg font-light">Spiagge paradisiache, resort esclusivi e relax totale</p>
+                  <ul className="text-slate-300 space-y-3 flex-grow">
+                    <li className="flex items-center font-medium">
+                      <span className="w-3 h-3 bg-blue-500 mr-3 flex-shrink-0"></span>
+                      Resort 4-5 stelle
+                    </li>
+                    <li className="flex items-center font-medium">
+                      <span className="w-3 h-3 bg-blue-500 mr-3 flex-shrink-0"></span>
+                      All inclusive
+                    </li>
+                  </ul>
                 </div>
-                <h4 className="font-bold text-primary mb-3 text-lg">Vacanze al Mare</h4>
-                <p className="text-gray-600 mb-4 text-sm">Spiagge paradisiache, resort esclusivi e relax totale</p>
-                <ul className="text-gray-600 space-y-2 flex-grow text-sm">
-                  <li className="flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary mr-2 flex-shrink-0"></span>
-                    Resort 4-5 stelle
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary mr-2 flex-shrink-0"></span>
-                    All inclusive
-                  </li>
-                </ul>
               </div>
 
-              <div className="bg-white rounded-xl p-6 group hover:shadow-xl transition-all duration-300 flex flex-col h-full border">
-                <div className="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary/20 transition-colors duration-300">
-                  <span className="text-xl">🏔️</span>
+              <div className="bg-slate-800 border border-slate-700 p-10 group hover:bg-slate-700 transition-all duration-500 flex flex-col h-full relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-green-500 flex items-center justify-center mb-6 group-hover:bg-green-400 transition-colors duration-300">
+                    <span className="text-2xl">🏔️</span>
+                  </div>
+                  <h4 className="font-black text-white mb-4 text-2xl tracking-wide">MONTAGNA & NATURA</h4>
+                  <p className="text-slate-400 mb-6 text-lg font-light">Trekking, rifugi e natura incontaminata</p>
+                  <ul className="text-slate-300 space-y-3 flex-grow">
+                    <li className="flex items-center font-medium">
+                      <span className="w-3 h-3 bg-green-500 mr-3 flex-shrink-0"></span>
+                      Trekking guidati
+                    </li>
+                    <li className="flex items-center font-medium">
+                      <span className="w-3 h-3 bg-green-500 mr-3 flex-shrink-0"></span>
+                      Rifugi e baite
+                    </li>
+                    <li className="flex items-center font-medium">
+                      <span className="w-3 h-3 bg-green-500 mr-3 flex-shrink-0"></span>
+                      Escursioni personalizzate
+                    </li>
+                  </ul>
                 </div>
-                <h4 className="font-bold text-secondary mb-3 text-lg">Montagna & Natura</h4>
-                <ul className="text-gray-600 space-y-2 flex-grow text-sm">
-                  <li className="flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-secondary mr-2 flex-shrink-0"></span>
-                    Trekking guidati
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-secondary mr-2 flex-shrink-0"></span>
-                    Rifugi e baite
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-secondary mr-2 flex-shrink-0"></span>
-                    Escursioni personalizzate
-                  </li>
-                </ul>
               </div>
 
-              <div className="bg-white rounded-xl p-6 group hover:shadow-xl transition-all duration-300 flex flex-col h-full border">
-                <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors duration-300">
-                  <span className="text-xl">🏛️</span>
+              <div className="bg-slate-800 border border-slate-700 p-10 group hover:bg-slate-700 transition-all duration-500 flex flex-col h-full relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-purple-500 flex items-center justify-center mb-6 group-hover:bg-purple-400 transition-colors duration-300">
+                    <span className="text-2xl">🏛️</span>
+                  </div>
+                  <h4 className="font-black text-white mb-4 text-2xl tracking-wide">CITY BREAK & CULTURA</h4>
+                  <p className="text-slate-400 mb-6 text-lg font-light">Arte, storia e cultura delle grandi città</p>
+                  <ul className="text-slate-300 space-y-3 flex-grow">
+                    <li className="flex items-center font-medium">
+                      <span className="w-3 h-3 bg-purple-500 mr-3 flex-shrink-0"></span>
+                      Tour guidati
+                    </li>
+                    <li className="flex items-center font-medium">
+                      <span className="w-3 h-3 bg-purple-500 mr-3 flex-shrink-0"></span>
+                      Musei e monumenti
+                    </li>
+                    <li className="flex items-center font-medium">
+                      <span className="w-3 h-3 bg-purple-500 mr-3 flex-shrink-0"></span>
+                      Weekend culturali
+                    </li>
+                  </ul>
                 </div>
-                <h4 className="font-bold text-accent mb-3 text-lg">City Break & Cultura</h4>
-                <ul className="text-gray-600 space-y-2 flex-grow text-sm">
-                  <li className="flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent mr-2 flex-shrink-0"></span>
-                    Tour guidati
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent mr-2 flex-shrink-0"></span>
-                    Musei e monumenti
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent mr-2 flex-shrink-0"></span>
-                    Weekend culturali
-                  </li>
-                </ul>
               </div>
 
-              <div className="bg-white rounded-xl p-6 group hover:shadow-xl transition-all duration-300 flex flex-col h-full border">
-                <div className="w-12 h-12 rounded-lg bg-growth/10 flex items-center justify-center mb-4 group-hover:bg-growth/20 transition-colors duration-300">
-                  <span className="text-xl">🎒</span>
+              <div className="bg-slate-800 border border-slate-700 p-10 group hover:bg-slate-700 transition-all duration-500 flex flex-col h-full relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-orange-500 flex items-center justify-center mb-6 group-hover:bg-orange-400 transition-colors duration-300">
+                    <span className="text-2xl">🎒</span>
+                  </div>
+                  <h4 className="font-black text-white mb-4 text-2xl tracking-wide">VIAGGI AVVENTURA</h4>
+                  <p className="text-slate-400 mb-6 text-lg font-light">Safari, sport estremi e destinazioni esotiche</p>
+                  <ul className="text-slate-300 space-y-3 flex-grow">
+                    <li className="flex items-center font-medium">
+                      <span className="w-3 h-3 bg-orange-500 mr-3 flex-shrink-0"></span>
+                      Safari e natura
+                    </li>
+                    <li className="flex items-center font-medium">
+                      <span className="w-3 h-3 bg-orange-500 mr-3 flex-shrink-0"></span>
+                      Sport estremi
+                    </li>
+                    <li className="flex items-center font-medium">
+                      <span className="w-3 h-3 bg-orange-500 mr-3 flex-shrink-0"></span>
+                      Destinazioni esotiche
+                    </li>
+                  </ul>
                 </div>
-                <h4 className="font-bold text-growth mb-3 text-lg">Viaggi Avventura</h4>
-                <ul className="text-gray-600 space-y-2 flex-grow text-sm">
-                  <li className="flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-growth mr-2 flex-shrink-0"></span>
-                    Safari e natura
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-growth mr-2 flex-shrink-0"></span>
-                    Sport estremi
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-growth mr-2 flex-shrink-0"></span>
-                    Destinazioni esotiche
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
