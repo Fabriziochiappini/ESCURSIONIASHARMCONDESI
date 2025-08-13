@@ -18,13 +18,7 @@ export function HeroSection() {
         {/* Full-width Hero Container with less opacity to show beach */}
         <div className="bg-slate-800/60 backdrop-blur-sm border-y border-slate-700/50 py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Logo principale */}
-            <div className="mb-8">
-              <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white tracking-tight">
-                PROPATO
-                <span className="block text-blue-400 mt-2">TRAVEL</span>
-              </h1>
-            </div>
+            {/* Logo principale rimosso */}
             
             {/* Main Title - Bold and Impactful */}
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-none mb-8 tracking-tight">
