@@ -11,8 +11,8 @@ export function HeroSection() {
         }}
       />
       
-      {/* Strong Dark Overlay */}
-      <div className="absolute inset-0 bg-slate-900/80"></div>
+      {/* Lighter overlay to show the beach */}
+      <div className="absolute inset-0 bg-slate-900/50"></div>
       
       <div className="relative z-10 text-center w-full px-0">
         {/* Full-width Hero Container */}
