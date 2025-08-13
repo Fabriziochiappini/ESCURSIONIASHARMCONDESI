@@ -202,7 +202,7 @@ export default function Home() {
             </div>
 
             <div className="animate-slide-up">
-              <PropertyGrid filters={hasFilters ? filters : undefined} maxColumns={4} />
+              <PropertyGrid filters={hasFilters ? filters : undefined} maxColumns={5} showAll={false} />
             </div>
           </div>
         </section>

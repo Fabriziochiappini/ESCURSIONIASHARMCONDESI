@@ -40,8 +40,16 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
     }
   });
 
-  // Show 5 properties for homepage (1 row of 5), show all if showAll is true or filters are applied
+  // Show 5 properties for homepage (1 row of 5), show all if showAll is true or filters are applied  
   const properties = showAll || filters ? allProperties : allProperties?.slice(0, 5);
+
+  // Debug log per capire il comportamento
+  console.log('PropertyGrid debug:', {
+    showAll,
+    hasFilters: !!filters,
+    allPropertiesCount: allProperties?.length,
+    propertiesCount: properties?.length
+  });
 
   if (isLoading) {
     const gridCols = maxColumns === 2 ? "grid-cols-2 md:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
