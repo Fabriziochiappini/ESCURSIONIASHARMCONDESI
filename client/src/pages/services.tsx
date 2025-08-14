@@ -64,10 +64,10 @@ const services = [
 const contactInfo = {
   name: "Propato Travel",
   role: "Agenzia Viaggi",
-  address: "Via San Girolamo, 20 - 95024 ACIREALE (CT)",
-  phone: "346 800 3234",
-  email: "info@propatotravel.com",
-  email2: "booking@propatotravel.com"
+  address: "Via Roma, 123 - 20121 Milano (MI)",
+  phone: "02 1234567",
+  email: "info@propatotravel.it",
+  email2: "viaggi@propatotravel.it"
 };
 
 export default function Services() {

@@ -52,15 +52,15 @@ export default function Privacy() {
                     <p className="text-gray-700">Agenzia Viaggi</p>
                     <div className="flex items-center space-x-3 mt-3">
                       <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">Via San Girolamo, 20 - 95024 ACIREALE (CT)</span>
+                      <span className="text-gray-700">Via Roma, 123 - 20121 Milano (MI)</span>
                     </div>
                     <div className="flex items-center space-x-3 mt-2">
                       <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">346 800 3234</span>
+                      <span className="text-gray-700">02 1234567</span>
                     </div>
                     <div className="flex items-center space-x-3 mt-2">
                       <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">info@propatotravel.com</span>
+                      <span className="text-gray-700">info@propatotravel.it</span>
                     </div>
                   </div>
                 </div>
@@ -202,8 +202,8 @@ export default function Privacy() {
                       </ul>
                       <div className="mt-4 p-4 bg-accent/10 rounded-lg">
                         <p className="font-semibold text-accent mb-2">Per esercitare i tuoi diritti:</p>
-                        <p>Contattaci a: <strong>info@propatotravel.com</strong></p>
-                        <p>Telefono: <strong>346 800 3234</strong></p>
+                        <p>Contattaci a: <strong>info@propatotravel.it</strong></p>
+                        <p>Telefono: <strong>02 1234567</strong></p>
                       </div>
                     </AccordionContent>
                   </AccordionItem>
@@ -252,8 +252,8 @@ export default function Privacy() {
               </p>
               <p className="text-sm mt-2">
                 Per domande su questa Privacy Policy, contattaci a: 
-                <a href="mailto:info@propatotravel.com" className="text-primary hover:underline ml-1">
-                  info@propatotravel.com
+                <a href="mailto:info@propatotravel.it" className="text-primary hover:underline ml-1">
+                  info@propatotravel.it
                 </a>
               </p>
             </div>

@@ -46,19 +46,19 @@ export function Footer() {
             <ul className="space-y-2 text-gray-300">
               <li className="flex items-center">
                 <MapPin className="mr-2 h-4 w-4 text-primary" />
-                Via San Girolamo, 20 - 95024 ACIREALE (CT)
+                Via Roma, 123 - 20121 Milano (MI)
               </li>
               <li className="flex items-center">
                 <Phone className="mr-2 h-4 w-4 text-primary" />
-                346 800 3234
+                +39 02 1234567
               </li>
               <li className="flex items-center">
                 <Mail className="mr-2 h-4 w-4 text-primary" />
-                info@propatotravel.com
+                info@propatotravel.it
               </li>
               <li className="flex items-center">
                 <Mail className="mr-2 h-4 w-4 text-primary" />
-                booking@propatotravel.com
+                viaggi@propatotravel.it
               </li>
 
               <li className="flex items-center">
@@ -75,8 +75,8 @@ export function Footer() {
               <div className="text-sm">
                 <p className="font-medium text-gray-300 mb-1">PROPATO TRAVEL</p>
                 <p className="mb-1">Agenzia Viaggi</p>
-                <p>ACIREALE – Via San Girolamo, 20</p>
-                <p>info@propatotravel.com</p>
+                <p>MILANO – Via Roma, 123</p>
+                <p>info@propatotravel.it</p>
               </div>
               <div className="flex space-x-4 text-sm">
                 <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>

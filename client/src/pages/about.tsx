@@ -11,7 +11,7 @@ export default function About() {
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead 
         title="Contatti Propato Travel | La Tua Agenzia Viaggi di Fiducia"
-        description="✈️ Contatta Propato Travel per organizzare il tuo viaggio perfetto. Agenzia viaggi professionale con esperienza nel settore turistico. Tel: 346 800 3234"
+        description="✈️ Contatta Propato Travel per organizzare il tuo viaggio perfetto. Agenzia viaggi professionale con esperienza nel settore turistico. Tel: 02 1234567"
         keywords="contatti agenzia viaggi, propato travel, telefono agenzia viaggi, dove siamo acireale, organizzazione viaggi"
         canonicalUrl="https://propatotravel.com/chi-siamo"
       />
@@ -54,19 +54,19 @@ export default function About() {
                   <div className="space-y-3 text-left mb-6">
                     <div className="flex items-center space-x-3">
                       <MapPin className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">Via San Girolamo, 20 - 95024 ACIREALE (CT)</span>
+                      <span className="text-gray-700">Via Roma, 123 - 20121 Milano (MI)</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Phone className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">346 800 3234</span>
+                      <span className="text-gray-700">02 1234567</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">info@propatotravel.com</span>
+                      <span className="text-gray-700">info@propatotravel.it</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">booking@propatotravel.com</span>
+                      <span className="text-gray-700">viaggi@propatotravel.it</span>
                     </div>
                   </div>
 
@@ -76,7 +76,7 @@ export default function About() {
                       className="bg-sky-500 text-white flex-1 hover:bg-sky-600"
                       asChild
                     >
-                      <a href="tel:+393468003234">
+                      <a href="tel:+390212345567">
                         <Phone className="h-4 w-4 mr-2" />
                         Chiama Ora
                       </a>
@@ -86,7 +86,7 @@ export default function About() {
                       asChild
                     >
                       <a 
-                        href="https://wa.me/393468003234?text=Ciao! Sono interessato ai vostri servizi di viaggio. Potreste darmi maggiori informazioni?"
+                        href="https://wa.me/390212345567?text=Ciao! Sono interessato ai vostri servizi di viaggio. Potreste darmi maggiori informazioni?"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -199,7 +199,7 @@ export default function About() {
                   </p>
                   <div className="flex justify-center space-x-2">
                     <Phone className="h-5 w-5 text-gray-400" />
-                    <span className="text-gray-600">346 800 3234</span>
+                    <span className="text-gray-600">02 1234567</span>
                   </div>
                 </CardContent>
               </Card>
@@ -230,7 +230,7 @@ export default function About() {
               <Button 
                 size="lg" 
                 className="bg-purple-600 text-white font-semibold border-2 border-purple-500"
-                onClick={() => window.open('tel:+393468003234', '_self')}
+                onClick={() => window.open('tel:+390212345567', '_self')}
               >
                 <Phone className="h-5 w-5 mr-2" />
                 Chiamaci Ora

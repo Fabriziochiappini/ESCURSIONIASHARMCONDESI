@@ -13,7 +13,7 @@ This project is a modern, full-stack travel agency web application designed to b
 - **Section Background**: Changed travels section from dark to white background with adapted text colors for better readability
 - **Dynamic Countries System**: Created countries table with customizable backgrounds, titles, and descriptions. Countries section now dynamically populated from database based on travel countries field. Added admin panel for countries management at /admin/countries.
 - **Manual Showcase Management**: Implemented manual control system for 4 static showcases (emirati_arabi, europa, asia, esotico) with admin panel at /admin/showcases. Complete CRUD functionality for title, description, background image, and country selection.
-- **Complete Content Cleanup**: Removed ALL references to old website (Agenzia2 Acireale, Antonio Cannavò, agenzia2acireale.com emails) from Footer, Services, About, Privacy, and Admin pages. Updated all URLs to propatotravel.com and emails to info@propatotravel.com.
+- **Complete Content Cleanup**: Removed ALL references to old website (Agenzia2 Acireale, Antonio Cannavò, agenzia2acireale.com emails) from Footer, Services, About, Privacy, and Admin pages. Updated all contact information with placeholder Propato Travel data: Phone +39 02 1234567, emails info@propatotravel.it and viaggi@propatotravel.it, address Via Roma, 123 - 20121 Milano (MI).
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.

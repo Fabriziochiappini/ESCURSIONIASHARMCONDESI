@@ -40,10 +40,10 @@ export function Navigation() {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
             <a 
-              href="tel:+393468003234" 
+              href="tel:+390212345567" 
               className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              ✈️ 346 800 3234
+              ✈️ 02 1234567
             </a>
           </div>
 
@@ -75,10 +75,10 @@ export function Navigation() {
                 Admin
               </Link>
               <a 
-                href="tel:+393468003234" 
+                href="tel:+390212345567" 
                 className="block gradient-primary text-white px-6 py-4 rounded-2xl font-bold text-center text-lg mt-6"
               >
-                ✈️ 346 800 3234
+                ✈️ 02 1234567
               </a>
             </div>
           </div>
