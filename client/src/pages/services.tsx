@@ -65,7 +65,7 @@ const contactInfo = {
   name: "Propato Travel",
   role: "Agenzia Viaggi",
   address: "Via San Girolamo, 20 - 95024 ACIREALE (CT)",
-  phone: "347 912 3456",
+  phone: "346 800 3234",
   email: "info@propatotravel.com",
   email2: "booking@propatotravel.com"
 };
