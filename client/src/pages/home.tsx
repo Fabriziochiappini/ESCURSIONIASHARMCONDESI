@@ -1,10 +1,9 @@
 import React from "react";
 import { HeroSection } from "@/components/hero-section";
 import { PropertyGrid } from "@/components/property-grid";
-
+import { DestinationsSection } from "@/components/destinations-section";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-
 import { SEOHead } from "@/components/seo-head";
 import { ShowcaseSection } from "@/components/showcase-section";
 
@@ -46,6 +45,8 @@ export default function Home() {
         <ShowcaseSection category="asia" />
         <ShowcaseSection category="esotico" />
 
+        {/* Sezione Destinazioni */}
+        <DestinationsSection />
 
       </main>
       <Footer />
