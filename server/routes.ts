@@ -516,13 +516,59 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get countries for dynamic showcases (first 4 with travels)
-  app.get("/api/countries-showcases", async (req, res) => {
+  // Get countries list for dropdowns
+  app.get("/api/countries-list", async (req, res) => {
     try {
-      const countries = await storage.getCountriesForShowcases();
-      res.json(countries);
+      const countries = await storage.getAllCountries();
+      const countryNames = countries.map(c => ({ name: c.name }));
+      res.json(countryNames);
     } catch (error) {
-      res.status(500).json({ message: "Error fetching showcase countries" });
+      res.status(500).json({ message: "Error fetching countries list" });
+    }
+  });
+
+  // Admin Showcases CRUD
+  app.get("/api/admin/showcases", async (req, res) => {
+    try {
+      const showcases = await storage.getAllShowcases();
+      res.json(showcases);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching showcases" });
+    }
+  });
+
+  app.post("/api/admin/showcases", async (req, res) => {
+    try {
+      const showcase = await storage.createShowcase(req.body);
+      res.json(showcase);
+    } catch (error) {
+      res.status(500).json({ message: "Error creating showcase" });
+    }
+  });
+
+  app.put("/api/admin/showcases/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const showcase = await storage.updateShowcase(id, req.body);
+      if (!showcase) {
+        return res.status(404).json({ message: "Showcase not found" });
+      }
+      res.json(showcase);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating showcase" });
+    }
+  });
+
+  app.delete("/api/admin/showcases/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const deleted = await storage.deleteShowcase(id);
+      if (!deleted) {
+        return res.status(404).json({ message: "Showcase not found" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting showcase" });
     }
   });
 
