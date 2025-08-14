@@ -50,125 +50,109 @@ export default function Home() {
         <DestinationsSection />
 
         {/* Sezione Blog */}
-        <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 to-purple-400/5"></div>
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16 animate-fade-in">
-              <h2 className="text-4xl lg:text-5xl font-light mb-4 text-gray-900">
-                Ispirazioni di Viaggio
+        <section className="py-24 bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 relative overflow-hidden">
+          <div className="absolute inset-0 bg-black/20"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30"></div>
+          
+          <div className="relative z-10 max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-20 animate-fade-in">
+              <h2 className="text-5xl lg:text-7xl font-black mb-6 text-white tracking-tight">
+                GUIDE DEFINITIVE
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Scopri consigli, storie e guide per rendere ogni viaggio indimenticabile
+              <p className="text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed font-medium">
+                Informazioni concrete per decisioni sicure. Zero perdite di tempo.
               </p>
             </div>
 
-            <div className="max-w-4xl mx-auto space-y-12 animate-slide-up">
+            <div className="space-y-8 animate-slide-up">
               {/* Blog Card 1 */}
-              <div className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
-                <div className="flex flex-col lg:flex-row">
-                  <div className="relative lg:w-1/2 h-64 lg:h-auto">
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-pink-500"></div>
-                    <div className="absolute inset-0 bg-black/20"></div>
-                    <div className="absolute top-6 left-6">
-                      <span className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-orange-600">
-                        Guide di Viaggio
+              <div className="group cursor-pointer bg-gradient-to-r from-red-600 to-orange-500 relative overflow-hidden transform hover:scale-[1.01] transition-all duration-300">
+                <div className="absolute inset-0 bg-black/40"></div>
+                <div className="relative z-10 flex flex-col lg:flex-row min-h-[320px]">
+                  <div className="lg:w-2/3 p-12 flex flex-col justify-center">
+                    <div className="mb-6">
+                      <span className="px-6 py-3 bg-white text-red-600 font-black text-sm uppercase tracking-wider">
+                        DESTINAZIONI 2025
                       </span>
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
+                    <h3 className="text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+                      LE 10 METE CHE CONTANO
+                    </h3>
+                    <p className="text-xl text-white/90 leading-relaxed mb-8 font-medium">
+                      Analisi completa delle destinazioni top. Costi reali, periodi ottimali, cosa aspettarsi. Dati concreti per decidere subito.
+                    </p>
+                    <div className="flex items-center">
+                      <div className="bg-white text-red-600 px-8 py-4 font-black uppercase tracking-wide group-hover:bg-yellow-400 group-hover:text-black transition-all duration-300">
+                        ACCEDI ALLA GUIDA →
                       </div>
                     </div>
                   </div>
-                  <div className="lg:w-1/2 p-8 flex flex-col justify-center">
-                    <p className="text-gray-500 text-sm mb-3">15 Gennaio 2025</p>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
-                      Le 10 Destinazioni più Belle del 2025
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed mb-6">
-                      Da Bali alle capitali europee, una selezione curata delle mete imperdibili per vivere esperienze uniche. Scopri paradisi tropicali incontaminati, città d'arte ricche di storia e destinazioni esotiche che trasformeranno il tuo modo di viaggiare.
-                    </p>
-                    <div className="flex items-center text-primary font-semibold group-hover:translate-x-2 transition-transform duration-300">
-                      <span className="mr-2">Leggi l'articolo</span>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
+                  <div className="lg:w-1/3 relative min-h-[200px] lg:min-h-auto">
+                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-red-500 opacity-80"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-8xl font-black text-white/20">01</div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Blog Card 2 */}
-              <div className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
-                <div className="flex flex-col lg:flex-row-reverse">
-                  <div className="relative lg:w-1/2 h-64 lg:h-auto">
-                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-blue-500"></div>
-                    <div className="absolute inset-0 bg-black/20"></div>
-                    <div className="absolute top-6 right-6">
-                      <span className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-emerald-600">
-                        Consigli di Viaggio
+              <div className="group cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 relative overflow-hidden transform hover:scale-[1.01] transition-all duration-300">
+                <div className="absolute inset-0 bg-black/40"></div>
+                <div className="relative z-10 flex flex-col lg:flex-row-reverse min-h-[320px]">
+                  <div className="lg:w-2/3 p-12 flex flex-col justify-center">
+                    <div className="mb-6">
+                      <span className="px-6 py-3 bg-white text-blue-600 font-black text-sm uppercase tracking-wider">
+                        STRATEGIA BAGAGLIO
                       </span>
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
+                    <h3 className="text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+                      VALIGIA DA PRO
+                    </h3>
+                    <p className="text-xl text-white/90 leading-relaxed mb-8 font-medium">
+                      Sistema definitivo per preparare il bagaglio. Checklist verificata, peso ottimizzato, zero stress. Metodo testato su 1000+ viaggi.
+                    </p>
+                    <div className="flex items-center">
+                      <div className="bg-white text-blue-600 px-8 py-4 font-black uppercase tracking-wide group-hover:bg-yellow-400 group-hover:text-black transition-all duration-300">
+                        SCARICA CHECKLIST →
                       </div>
                     </div>
                   </div>
-                  <div className="lg:w-1/2 p-8 flex flex-col justify-center">
-                    <p className="text-gray-500 text-sm mb-3">12 Gennaio 2025</p>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
-                      Come Preparare la Valigia Perfetta
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed mb-6">
-                      Trucchi e consigli per viaggiare leggeri senza rinunce. Dalla scelta del bagaglio giusto agli indispensabili da portare sempre con te, scopri come ottimizzare lo spazio e partire preparato per qualsiasi avventura.
-                    </p>
-                    <div className="flex items-center text-primary font-semibold group-hover:translate-x-2 transition-transform duration-300">
-                      <span className="mr-2">Leggi l'articolo</span>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
+                  <div className="lg:w-1/3 relative min-h-[200px] lg:min-h-auto">
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-purple-500 opacity-80"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-8xl font-black text-white/20">02</div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Blog Card 3 */}
-              <div className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
-                <div className="flex flex-col lg:flex-row">
-                  <div className="relative lg:w-1/2 h-64 lg:h-auto">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-indigo-500"></div>
-                    <div className="absolute inset-0 bg-black/20"></div>
-                    <div className="absolute top-6 left-6">
-                      <span className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-purple-600">
-                        Esperienze
+              <div className="group cursor-pointer bg-gradient-to-r from-green-600 to-emerald-500 relative overflow-hidden transform hover:scale-[1.01] transition-all duration-300">
+                <div className="absolute inset-0 bg-black/40"></div>
+                <div className="relative z-10 flex flex-col lg:flex-row min-h-[320px]">
+                  <div className="lg:w-2/3 p-12 flex flex-col justify-center">
+                    <div className="mb-6">
+                      <span className="px-6 py-3 bg-white text-green-600 font-black text-sm uppercase tracking-wider">
+                        FOOD TOUR ITALIA
                       </span>
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
+                    <h3 className="text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+                      SAPORI AUTENTICI
+                    </h3>
+                    <p className="text-xl text-white/90 leading-relaxed mb-8 font-medium">
+                      Mappatura completa dei migliori ristoranti italiani. Indirizzi verificati, piatti imperdibili, prezzi reali. La guida definitiva per mangiare da re.
+                    </p>
+                    <div className="flex items-center">
+                      <div className="bg-white text-green-600 px-8 py-4 font-black uppercase tracking-wide group-hover:bg-yellow-400 group-hover:text-black transition-all duration-300">
+                        ESPLORA MAPPA →
                       </div>
                     </div>
                   </div>
-                  <div className="lg:w-1/2 p-8 flex flex-col justify-center">
-                    <p className="text-gray-500 text-sm mb-3">10 Gennaio 2025</p>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
-                      Viaggi Gastronomici in Italia
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed mb-6">
-                      Un tour dei sapori autentici delle nostre regioni. Dalle trattorie storiche ai mercati locali, scopri i segreti della cucina italiana attraverso esperienze uniche che uniscono tradizione, cultura e gusto.
-                    </p>
-                    <div className="flex items-center text-primary font-semibold group-hover:translate-x-2 transition-transform duration-300">
-                      <span className="mr-2">Leggi l'articolo</span>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
+                  <div className="lg:w-1/3 relative min-h-[200px] lg:min-h-auto">
+                    <div className="absolute inset-0 bg-gradient-to-br from-lime-400 to-green-500 opacity-80"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-8xl font-black text-white/20">03</div>
                     </div>
                   </div>
                 </div>
@@ -176,13 +160,13 @@ export default function Home() {
             </div>
 
             {/* CTA del Blog */}
-            <div className="text-center mt-16">
-              <div className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary to-blue-600 text-white rounded-2xl font-semibold hover:shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer">
-                <span className="mr-2">Scopri Altri Articoli</span>
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
+            <div className="text-center mt-20">
+              <div className="inline-block bg-yellow-400 text-black px-16 py-6 font-black text-2xl uppercase tracking-wider hover:bg-white transition-all duration-300 cursor-pointer transform hover:scale-105">
+                ACCEDI A TUTTE LE GUIDE →
               </div>
+              <p className="text-gray-400 mt-6 text-lg font-medium">
+                Informazioni concrete. Decisioni rapide. Viaggi perfetti.
+              </p>
             </div>
           </div>
         </section>
