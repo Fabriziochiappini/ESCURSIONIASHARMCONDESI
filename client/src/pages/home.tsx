@@ -51,8 +51,7 @@ export default function Home() {
 
         {/* Sezione Blog */}
         <section className="py-24 bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 relative overflow-hidden">
-          <div className="absolute inset-0 bg-black/20"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30"></div>
+
           
           <div className="relative z-10 max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-20 animate-fade-in">
@@ -67,7 +66,6 @@ export default function Home() {
             <div className="space-y-8 animate-slide-up">
               {/* Blog Card 1 */}
               <div className="group cursor-pointer bg-gradient-to-r from-red-600 to-orange-500 relative overflow-hidden transform hover:scale-[1.01] transition-all duration-300">
-                <div className="absolute inset-0 bg-black/40"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row min-h-[320px]">
                   <div className="lg:w-2/3 p-12 flex flex-col justify-center">
                     <div className="mb-6">
@@ -93,7 +91,7 @@ export default function Home() {
                       alt="Destinazioni di viaggio 2025"
                       className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-br from-red-500/70 to-orange-500/70"></div>
+
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="text-8xl font-black text-white/30">01</div>
                     </div>
@@ -103,7 +101,6 @@ export default function Home() {
 
               {/* Blog Card 2 */}
               <div className="group cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 relative overflow-hidden transform hover:scale-[1.01] transition-all duration-300">
-                <div className="absolute inset-0 bg-black/40"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row-reverse min-h-[320px]">
                   <div className="lg:w-2/3 p-12 flex flex-col justify-center">
                     <div className="mb-6">
@@ -129,7 +126,7 @@ export default function Home() {
                       alt="Preparazione valigia per viaggi"
                       className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/70 to-purple-600/70"></div>
+
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="text-8xl font-black text-white/30">02</div>
                     </div>
@@ -139,7 +136,6 @@ export default function Home() {
 
               {/* Blog Card 3 */}
               <div className="group cursor-pointer bg-gradient-to-r from-green-600 to-emerald-500 relative overflow-hidden transform hover:scale-[1.01] transition-all duration-300">
-                <div className="absolute inset-0 bg-black/40"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row min-h-[320px]">
                   <div className="lg:w-2/3 p-12 flex flex-col justify-center">
                     <div className="mb-6">
@@ -165,7 +161,7 @@ export default function Home() {
                       alt="Cucina italiana autentica"
                       className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-600/70 to-emerald-500/70"></div>
+
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="text-8xl font-black text-white/30">03</div>
                     </div>
