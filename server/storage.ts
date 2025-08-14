@@ -3,6 +3,7 @@ import {
   travelImages,
   users,
   showcases,
+  countries,
   type Travel, 
   type InsertTravel, 
   type SearchFilters,
@@ -12,6 +13,8 @@ import {
   type UpsertUser,
   type Showcase,
   type InsertShowcase,
+  type Country,
+  type InsertCountry,
   generateTravelSlug,
   generateTravelMetaTitle,
   generateTravelMetaDescription
@@ -56,6 +59,16 @@ export interface IStorage {
   updateShowcase(id: number, showcase: Partial<InsertShowcase>): Promise<Showcase | undefined>;
   deleteShowcase(id: number): Promise<boolean>;
   getTravelsByShowcaseCategory(category: string): Promise<Travel[]>;
+
+  // Countries operations  
+  getAllCountries(): Promise<Country[]>;
+  getActiveCountries(): Promise<Country[]>;
+  getCountry(id: number): Promise<Country | undefined>;
+  getCountryByName(name: string): Promise<Country | undefined>;
+  createCountry(country: InsertCountry): Promise<Country>;
+  updateCountry(id: number, country: Partial<InsertCountry>): Promise<Country | undefined>;
+  deleteCountry(id: number): Promise<boolean>;
+  updateCountryTravelCounts(): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -453,6 +466,76 @@ export class DatabaseStorage implements IStorage {
       .where(eq(travels.showcaseCategory, category))
       .orderBy(travels.sortOrder, travels.id);
     return categoryTravels;
+  }
+
+  // Countries operations
+  async getAllCountries(): Promise<Country[]> {
+    const allCountries = await db.select().from(countries).orderBy(countries.sortOrder, countries.id);
+    return allCountries;
+  }
+
+  async getActiveCountries(): Promise<Country[]> {
+    const activeCountries = await db
+      .select()
+      .from(countries)
+      .where(eq(countries.isActive, true))
+      .orderBy(countries.sortOrder, countries.id);
+    return activeCountries;
+  }
+
+  async getCountry(id: number): Promise<Country | undefined> {
+    const [country] = await db.select().from(countries).where(eq(countries.id, id));
+    return country || undefined;
+  }
+
+  async getCountryByName(name: string): Promise<Country | undefined> {
+    const [country] = await db.select().from(countries).where(eq(countries.name, name));
+    return country || undefined;
+  }
+
+  async createCountry(country: InsertCountry): Promise<Country> {
+    const [newCountry] = await db.insert(countries).values(country).returning();
+    await this.updateCountryTravelCounts();
+    return newCountry;
+  }
+
+  async updateCountry(id: number, country: Partial<InsertCountry>): Promise<Country | undefined> {
+    const [updatedCountry] = await db
+      .update(countries)
+      .set(country)
+      .where(eq(countries.id, id))
+      .returning();
+    await this.updateCountryTravelCounts();
+    return updatedCountry || undefined;
+  }
+
+  async deleteCountry(id: number): Promise<boolean> {
+    const result = await db.delete(countries).where(eq(countries.id, id));
+    await this.updateCountryTravelCounts();
+    return result.rowCount > 0;
+  }
+
+  async updateCountryTravelCounts(): Promise<void> {
+    // Update travel counts for all countries
+    const travelCounts = await db
+      .select({
+        country: travels.country,
+        count: sql<number>`count(*)`.as('count')
+      })
+      .from(travels)
+      .where(eq(travels.available, true))
+      .groupBy(travels.country);
+
+    // Reset all counts to 0 first
+    await db.update(countries).set({ travelCount: 0 });
+
+    // Update counts for countries that have travels
+    for (const countData of travelCounts) {
+      await db
+        .update(countries)
+        .set({ travelCount: countData.count })
+        .where(eq(countries.name, countData.country));
+    }
   }
 }
 

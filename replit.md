@@ -11,6 +11,7 @@ This project is a modern, full-stack travel agency web application designed to b
 - **Visual Identity**: Complete removal of old logos and branding, clean text-based navigation
 - **Layout Optimization**: Expanded containers to max-w-[1800px] for wider card display, 10 travel cards in 2 rows of 5 columns
 - **Section Background**: Changed travels section from dark to white background with adapted text colors for better readability
+- **Dynamic Countries System**: Created countries table with customizable backgrounds, titles, and descriptions. Countries section now dynamically populated from database based on travel countries field. Added admin panel for countries management at /admin/countries.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.

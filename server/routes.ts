@@ -5,7 +5,8 @@ import {
   searchFiltersSchema, 
   insertTravelSchema, 
   insertTravelImageSchema,
-  insertShowcaseSchema
+  insertShowcaseSchema,
+  insertCountrySchema
 } from "@shared/schema";
 import { z } from "zod";
 import { upload, uploadImageToStorage, deleteImageFile } from "./imageUpload";
@@ -552,6 +553,98 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(travel);
     } catch (error) {
       res.status(500).json({ message: "Error fetching property" });
+    }
+  });
+
+  // Countries API endpoints
+  app.get("/api/countries-destinations", async (req, res) => {
+    try {
+      const countries = await storage.getActiveCountries();
+      res.json(countries);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching countries" });
+    }
+  });
+
+  app.get("/api/admin/countries", async (req, res) => {
+    try {
+      const countries = await storage.getAllCountries();
+      res.json(countries);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching countries" });
+    }
+  });
+
+  app.get("/api/admin/countries/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const country = await storage.getCountry(id);
+      
+      if (!country) {
+        return res.status(404).json({ message: "Country not found" });
+      }
+      
+      res.json(country);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching country" });
+    }
+  });
+
+  app.post("/api/admin/countries", async (req, res) => {
+    try {
+      const validatedData = insertCountrySchema.parse(req.body);
+      const country = await storage.createCountry(validatedData);
+      res.status(201).json(country);
+    } catch (error) {
+      console.error('Create country error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid country data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Error creating country" });
+    }
+  });
+
+  app.put("/api/admin/countries/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const validatedData = insertCountrySchema.partial().parse(req.body);
+      const country = await storage.updateCountry(id, validatedData);
+      
+      if (!country) {
+        return res.status(404).json({ message: "Country not found" });
+      }
+      
+      res.json(country);
+    } catch (error) {
+      console.error('Update country error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid country data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Error updating country" });
+    }
+  });
+
+  app.delete("/api/admin/countries/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const success = await storage.deleteCountry(id);
+      
+      if (!success) {
+        return res.status(404).json({ message: "Country not found" });
+      }
+      
+      res.json({ message: "Country deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting country" });
+    }
+  });
+
+  app.post("/api/admin/countries/update-counts", async (req, res) => {
+    try {
+      await storage.updateCountryTravelCounts();
+      res.json({ message: "Country travel counts updated successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error updating country travel counts" });
     }
   });
 

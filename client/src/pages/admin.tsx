@@ -13,7 +13,8 @@ import {
   Users, 
   BarChart3,
   Plus,
-  Settings
+  Settings,
+  MapPin
 } from "lucide-react";
 
 export default function AdminPanel() {
@@ -104,6 +105,45 @@ export default function AdminPanel() {
               <CardContent>
                 <div className="text-2xl font-bold">48</div>
                 <p className="text-xs text-muted-foreground">+8 questa settimana</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => window.location.href = "/admin/countries"}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MapPin className="h-5 w-5" />
+                  Gestione Paesi
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Gestisci le destinazioni nella sezione homepage</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="cursor-pointer hover:shadow-lg transition-shadow opacity-50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Gestione Vetrine
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Gestisci le sezioni promozionali</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="cursor-pointer hover:shadow-lg transition-shadow opacity-50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="h-5 w-5" />
+                  Analytics
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Visualizza statistiche e report</p>
               </CardContent>
             </Card>
           </div>

@@ -13,6 +13,7 @@ import PropertyDetail from "@/pages/property-detail";
 import Services from "@/pages/services";
 import Privacy from "@/pages/privacy";
 import Admin from "@/pages/admin";
+import AdminCountries from "@/pages/admin/countries";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -29,6 +30,7 @@ function Router() {
       <Route path="/servizi" component={Services} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/admin" component={Admin} />
+      <Route path="/admin/countries" component={AdminCountries} />
       <Route component={NotFound} />
     </Switch>
   );
