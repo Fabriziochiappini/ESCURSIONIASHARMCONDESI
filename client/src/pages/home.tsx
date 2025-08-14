@@ -62,115 +62,115 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-slide-up">
+            <div className="max-w-4xl mx-auto space-y-12 animate-slide-up">
               {/* Blog Card 1 */}
-              <div className="group cursor-pointer">
-                <div className="relative h-64 rounded-2xl overflow-hidden mb-6 transform group-hover:scale-105 transition-all duration-300">
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-pink-500"></div>
-                  <div className="absolute inset-0 bg-black/20"></div>
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-orange-600">
-                      Guide di Viaggio
-                    </span>
+              <div className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
+                <div className="flex flex-col lg:flex-row">
+                  <div className="relative lg:w-1/2 h-64 lg:h-auto">
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-pink-500"></div>
+                    <div className="absolute inset-0 bg-black/20"></div>
+                    <div className="absolute top-6 left-6">
+                      <span className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-orange-600">
+                        Guide di Viaggio
+                      </span>
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-white text-xl font-bold mb-2">
+                  <div className="lg:w-1/2 p-8 flex flex-col justify-center">
+                    <p className="text-gray-500 text-sm mb-3">15 Gennaio 2025</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
                       Le 10 Destinazioni più Belle del 2025
                     </h3>
-                    <p className="text-white/90 text-sm">
-                      Scopri i luoghi magici che non puoi perdere quest'anno
+                    <p className="text-gray-600 leading-relaxed mb-6">
+                      Da Bali alle capitali europee, una selezione curata delle mete imperdibili per vivere esperienze uniche. Scopri paradisi tropicali incontaminati, città d'arte ricche di storia e destinazioni esotiche che trasformeranno il tuo modo di viaggiare.
                     </p>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center text-primary font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                      <span className="mr-2">Leggi l'articolo</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
                   </div>
-                </div>
-                <div className="px-2">
-                  <p className="text-gray-500 text-sm mb-2">15 Gennaio 2025</p>
-                  <h4 className="text-gray-900 font-semibold mb-2 group-hover:text-primary transition-colors">
-                    Paradisi Tropicali e Città d'Arte
-                  </h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    Da Bali alle capitali europee, una selezione curata delle mete imperdibili per vivere esperienze uniche...
-                  </p>
                 </div>
               </div>
 
               {/* Blog Card 2 */}
-              <div className="group cursor-pointer">
-                <div className="relative h-64 rounded-2xl overflow-hidden mb-6 transform group-hover:scale-105 transition-all duration-300">
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-blue-500"></div>
-                  <div className="absolute inset-0 bg-black/20"></div>
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-emerald-600">
-                      Consigli di Viaggio
-                    </span>
+              <div className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
+                <div className="flex flex-col lg:flex-row-reverse">
+                  <div className="relative lg:w-1/2 h-64 lg:h-auto">
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-blue-500"></div>
+                    <div className="absolute inset-0 bg-black/20"></div>
+                    <div className="absolute top-6 right-6">
+                      <span className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-emerald-600">
+                        Consigli di Viaggio
+                      </span>
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-white text-xl font-bold mb-2">
+                  <div className="lg:w-1/2 p-8 flex flex-col justify-center">
+                    <p className="text-gray-500 text-sm mb-3">12 Gennaio 2025</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
                       Come Preparare la Valigia Perfetta
                     </h3>
-                    <p className="text-white/90 text-sm">
-                      Trucchi e consigli per viaggiare leggeri senza rinunce
+                    <p className="text-gray-600 leading-relaxed mb-6">
+                      Trucchi e consigli per viaggiare leggeri senza rinunce. Dalla scelta del bagaglio giusto agli indispensabili da portare sempre con te, scopri come ottimizzare lo spazio e partire preparato per qualsiasi avventura.
                     </p>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center text-primary font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                      <span className="mr-2">Leggi l'articolo</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
                   </div>
-                </div>
-                <div className="px-2">
-                  <p className="text-gray-500 text-sm mb-2">12 Gennaio 2025</p>
-                  <h4 className="text-gray-900 font-semibold mb-2 group-hover:text-primary transition-colors">
-                    Organizzazione e Praticità
-                  </h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    Dalla scelta del bagaglio agli indispensabili da portare, tutto quello che serve per un viaggio perfetto...
-                  </p>
                 </div>
               </div>
 
               {/* Blog Card 3 */}
-              <div className="group cursor-pointer">
-                <div className="relative h-64 rounded-2xl overflow-hidden mb-6 transform group-hover:scale-105 transition-all duration-300">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-indigo-500"></div>
-                  <div className="absolute inset-0 bg-black/20"></div>
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-purple-600">
-                      Esperienze
-                    </span>
+              <div className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
+                <div className="flex flex-col lg:flex-row">
+                  <div className="relative lg:w-1/2 h-64 lg:h-auto">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-indigo-500"></div>
+                    <div className="absolute inset-0 bg-black/20"></div>
+                    <div className="absolute top-6 left-6">
+                      <span className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-purple-600">
+                        Esperienze
+                      </span>
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-white text-xl font-bold mb-2">
+                  <div className="lg:w-1/2 p-8 flex flex-col justify-center">
+                    <p className="text-gray-500 text-sm mb-3">10 Gennaio 2025</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
                       Viaggi Gastronomici in Italia
                     </h3>
-                    <p className="text-white/90 text-sm">
-                      Un tour dei sapori autentici delle nostre regioni
+                    <p className="text-gray-600 leading-relaxed mb-6">
+                      Un tour dei sapori autentici delle nostre regioni. Dalle trattorie storiche ai mercati locali, scopri i segreti della cucina italiana attraverso esperienze uniche che uniscono tradizione, cultura e gusto.
                     </p>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center text-primary font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                      <span className="mr-2">Leggi l'articolo</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
                   </div>
-                </div>
-                <div className="px-2">
-                  <p className="text-gray-500 text-sm mb-2">10 Gennaio 2025</p>
-                  <h4 className="text-gray-900 font-semibold mb-2 group-hover:text-primary transition-colors">
-                    Cultura e Tradizioni
-                  </h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    Dalle trattorie storiche ai mercati locali, un viaggio nel gusto della tradizione italiana...
-                  </p>
                 </div>
               </div>
             </div>
