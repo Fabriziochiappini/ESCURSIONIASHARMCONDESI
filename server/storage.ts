@@ -55,14 +55,18 @@ export interface IStorage {
   getActiveShowcases(): Promise<Showcase[]>;
   getShowcase(id: number): Promise<Showcase | undefined>;
   getShowcaseByCategory(category: string): Promise<Showcase | undefined>;
+  getShowcaseByCountry(country: string): Promise<Showcase | undefined>;
   createShowcase(showcase: InsertShowcase): Promise<Showcase>;
   updateShowcase(id: number, showcase: Partial<InsertShowcase>): Promise<Showcase | undefined>;
   deleteShowcase(id: number): Promise<boolean>;
   getTravelsByShowcaseCategory(category: string): Promise<Travel[]>;
+  getTravelsByShowcaseCountry(country: string): Promise<Travel[]>;
 
   // Countries operations  
   getAllCountries(): Promise<Country[]>;
   getActiveCountries(): Promise<Country[]>;
+  getCountriesWithTravels(): Promise<Country[]>;
+  getCountriesForShowcases(): Promise<Country[]>;
   getCountry(id: number): Promise<Country | undefined>;
   getCountryByName(name: string): Promise<Country | undefined>;
   createCountry(country: InsertCountry): Promise<Country>;
@@ -468,6 +472,20 @@ export class DatabaseStorage implements IStorage {
     return categoryTravels;
   }
 
+  async getShowcaseByCountry(country: string): Promise<Showcase | undefined> {
+    const [showcase] = await db.select().from(showcases).where(eq(showcases.country, country));
+    return showcase || undefined;
+  }
+
+  async getTravelsByShowcaseCountry(country: string): Promise<Travel[]> {
+    const countryTravels = await db
+      .select()
+      .from(travels)
+      .where(eq(travels.showcaseCountry, country))
+      .orderBy(travels.sortOrder, travels.id);
+    return countryTravels;
+  }
+
   // Countries operations
   async getAllCountries(): Promise<Country[]> {
     const allCountries = await db.select().from(countries).orderBy(countries.sortOrder, countries.id);
@@ -536,6 +554,17 @@ export class DatabaseStorage implements IStorage {
         .set({ travelCount: countData.count })
         .where(eq(countries.name, countData.country));
     }
+  }
+
+  async getCountriesForShowcases(): Promise<Country[]> {
+    // Get first 4 countries with travels for showcases
+    const showcaseCountries = await db
+      .select()
+      .from(countries)
+      .where(and(eq(countries.isActive, true), gt(countries.travelCount, 0)))
+      .orderBy(countries.sortOrder, countries.id)
+      .limit(4);
+    return showcaseCountries;
   }
 }
 

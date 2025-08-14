@@ -109,8 +109,8 @@ export default function AdminCountries() {
       title: country.title,
       description: country.description,
       backgroundImage: country.backgroundImage,
-      isActive: country.isActive,
-      sortOrder: country.sortOrder,
+      isActive: country.isActive ?? true,
+      sortOrder: country.sortOrder ?? 0,
     });
   };
 

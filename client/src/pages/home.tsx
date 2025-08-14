@@ -6,6 +6,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { ShowcaseSection } from "@/components/showcase-section";
+import { DynamicShowcases } from "../components/dynamic-showcases";
 
 export default function Home() {
 
@@ -39,11 +40,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Sezioni Vetrina */}
-        <ShowcaseSection category="emirati_arabi" />
-        <ShowcaseSection category="europa" />
-        <ShowcaseSection category="asia" />
-        <ShowcaseSection category="esotico" />
+        {/* Dynamic Showcase Sections based on Countries */}
+        <DynamicShowcases />
 
         {/* Sezione Destinazioni */}
         <DestinationsSection />

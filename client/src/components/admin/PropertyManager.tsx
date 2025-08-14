@@ -192,6 +192,7 @@ import { isUnauthorizedError } from "@/lib/authUtils";
 
 interface PropertyFormData extends Omit<InsertProperty, 'images' | 'features'> {
   features: string;
+  showcaseCountry?: string;
 }
 
 const initialFormData: PropertyFormData = {
@@ -211,6 +212,7 @@ const initialFormData: PropertyFormData = {
   youtubeVideoId: "",
   featured: false,
   available: true,
+  showcaseCountry: "",
 };
 
 export default function PropertyManager() {
@@ -454,6 +456,7 @@ export default function PropertyManager() {
       ...property,
       features: Array.isArray(property.features) ? property.features.join('\n') : '',
       propertyType: property.propertyType || undefined,
+      showcaseCountry: property.showcaseCountry || "",
     });
     setTempImages(property.images || []);
     setSelectedFiles(null);
@@ -615,6 +618,39 @@ export default function PropertyManager() {
                       <SelectItem value="gruppo">Viaggio di Gruppo</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="showcaseCountry">Paese per Vetrina</Label>
+                  <Select
+                    value={formData.showcaseCountry || ""}
+                    onValueChange={(value) => setFormData(prev => ({ ...prev, showcaseCountry: value || undefined }))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleziona paese..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Francia">Francia</SelectItem>
+                      <SelectItem value="Spagna">Spagna</SelectItem>
+                      <SelectItem value="Grecia">Grecia</SelectItem>
+                      <SelectItem value="Italia">Italia</SelectItem>
+                      <SelectItem value="Croazia">Croazia</SelectItem>
+                      <SelectItem value="Turchia">Turchia</SelectItem>
+                      <SelectItem value="Emirati Arabi Uniti">Emirati Arabi Uniti</SelectItem>
+                      <SelectItem value="Giappone">Giappone</SelectItem>
+                      <SelectItem value="Thailandia">Thailandia</SelectItem>
+                      <SelectItem value="Egitto">Egitto</SelectItem>
+                      <SelectItem value="Stati Uniti">Stati Uniti</SelectItem>
+                      <SelectItem value="Messico">Messico</SelectItem>
+                      <SelectItem value="Brasile">Brasile</SelectItem>
+                      <SelectItem value="Argentina">Argentina</SelectItem>
+                      <SelectItem value="Marocco">Marocco</SelectItem>
+                      <SelectItem value="Tunisia">Tunisia</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-gray-500">
+                    Paese per apparire nella vetrina dinamica homepage
+                  </p>
                 </div>
               </div>
 

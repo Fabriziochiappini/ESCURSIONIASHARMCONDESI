@@ -489,6 +489,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get showcase by country
+  app.get("/api/showcases/country/:country", async (req, res) => {
+    try {
+      const country = req.params.country;
+      const showcase = await storage.getShowcaseByCountry(country);
+      
+      if (!showcase) {
+        return res.status(404).json({ message: "Showcase not found" });
+      }
+      
+      res.json(showcase);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching showcase by country" });
+    }
+  });
+
+  // Get travels by showcase country
+  app.get("/api/showcases/country/:country/travels", async (req, res) => {
+    try {
+      const country = req.params.country;
+      const travels = await storage.getTravelsByShowcaseCountry(country);
+      res.json(travels);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching travels for showcase country" });
+    }
+  });
+
+  // Get countries for dynamic showcases (first 4 with travels)
+  app.get("/api/countries-showcases", async (req, res) => {
+    try {
+      const countries = await storage.getCountriesForShowcases();
+      res.json(countries);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching showcase countries" });
+    }
+  });
+
   // Create new showcase
   app.post("/api/showcases", async (req, res) => {
     try {

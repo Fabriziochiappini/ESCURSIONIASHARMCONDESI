@@ -47,6 +47,7 @@ export const travels = pgTable("travels", {
   agentEmail: text("agent_email"),
   agentImage: text("agent_image"),
   showcaseCategory: text("showcase_category"), // Categoria vetrina per sezioni personalizzate
+  showcaseCountry: text("showcase_country"), // Paese per vetrina dinamica
 });
 
 // Showcase sections (vetrine personalizzabili)
@@ -56,6 +57,7 @@ export const showcases = pgTable("showcases", {
   description: text("description").notNull(),
   backgroundImage: text("background_image").notNull(),
   category: text("category").notNull().unique(), // emirati_arabi, europa, asia, etc
+  country: text("country"), // Paese associato per vetrine dinamiche
   isActive: boolean("is_active").default(true),
   sortOrder: integer("sort_order").default(0),
 });
