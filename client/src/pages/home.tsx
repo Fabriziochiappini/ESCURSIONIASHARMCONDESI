@@ -88,9 +88,14 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="lg:w-1/3 relative min-h-[200px] lg:min-h-auto">
-                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-red-500 opacity-80"></div>
+                    <img 
+                      src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop&crop=center"
+                      alt="Destinazioni di viaggio 2025"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-500/70 to-orange-500/70"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-8xl font-black text-white/20">01</div>
+                      <div className="text-8xl font-black text-white/30">01</div>
                     </div>
                   </div>
                 </div>
@@ -119,9 +124,14 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="lg:w-1/3 relative min-h-[200px] lg:min-h-auto">
-                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-purple-500 opacity-80"></div>
+                    <img 
+                      src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&h=600&fit=crop&crop=center"
+                      alt="Preparazione valigia per viaggi"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/70 to-purple-600/70"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-8xl font-black text-white/20">02</div>
+                      <div className="text-8xl font-black text-white/30">02</div>
                     </div>
                   </div>
                 </div>
@@ -150,9 +160,14 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="lg:w-1/3 relative min-h-[200px] lg:min-h-auto">
-                    <div className="absolute inset-0 bg-gradient-to-br from-lime-400 to-green-500 opacity-80"></div>
+                    <img 
+                      src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=600&fit=crop&crop=center"
+                      alt="Cucina italiana autentica"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-600/70 to-emerald-500/70"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-8xl font-black text-white/20">03</div>
+                      <div className="text-8xl font-black text-white/30">03</div>
                     </div>
                   </div>
                 </div>
