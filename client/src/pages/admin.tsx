@@ -39,7 +39,7 @@ export default function AdminPanel() {
                   Pannello Amministrazione
                 </h1>
                 <p className="text-gray-600 mt-2">
-                  Benvenuto, Antonio Cannavò
+                  Benvenuto nell'area riservata
                 </p>
               </div>
               <div className="flex gap-2">

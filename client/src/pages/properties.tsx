@@ -140,8 +140,8 @@ export default function Properties() {
       <SEOHead 
         title="Viaggi e Destinazioni | Propato Travel"
         description="✈️ Scopri tutti i viaggi disponibili: vacanze mare, montagna, città, avventura. Propato Travel - la tua scelta migliore per viaggiare."
-        keywords="case vendita Acireale, appartamenti affitto Acireale, immobili Acireale, proprietà Sicilia orientale, case Catania"
-        canonicalUrl="https://agenzia2acireale.com/properties"
+        keywords="viaggi pacchetti, vacanze mare montagna, destinazioni mondo, agenzia viaggi propato travel"
+        canonicalUrl="https://propatotravel.com/properties"
       />
       <Navigation />
 

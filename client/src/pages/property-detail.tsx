@@ -126,8 +126,8 @@ export default function PropertyDetail() {
     "@type": "RealEstateListing",
     "name": property.title,
     "description": property.description,
-    "url": property.slug ? `https://agenzia2acireale.com/${property.slug}` : `https://agenzia2acireale.com/property/${property.id}`,
-    "image": property.images?.[0] ? `https://agenzia2acireale.com${property.images[0]}` : undefined,
+    "url": property.slug ? `https://propatotravel.com/${property.slug}` : `https://propatotravel.com/property/${property.id}`,
+    "image": property.images?.[0] ? `https://propatotravel.com${property.images[0]}` : undefined,
     "price": property.price,
     "priceCurrency": "EUR",
     "address": {
@@ -161,8 +161,8 @@ export default function PropertyDetail() {
         title={property.metaTitle || `${property.title} - ${property.municipality} | Propato Travel`}
         description={property.metaDescription || `✈️ ${property.type === 'mare' ? 'Vacanza al mare' : property.type === 'montagna' ? 'Avventura in montagna' : property.type === 'citta' ? 'City break' : 'Viaggio'} a ${property.municipality}. ${property.bedrooms} giorni, max ${property.bathrooms} persone. Prezzo: €${Number(property.price).toLocaleString()}/persona. ${property.description?.slice(0, 100)}...`}
         keywords={`${property.title}, viaggio ${property.type} ${property.municipality}, pacchetto ${property.municipality}, ${property.bedrooms} giorni ${property.municipality}, Propato Travel`}
-        canonicalUrl={property.slug ? `https://agenzia2acireale.com/${property.slug}` : `https://agenzia2acireale.com/property/${property.id}`}
-        ogImage={property.images?.[0] ? `https://agenzia2acireale.com${property.images[0]}` : undefined}
+        canonicalUrl={property.slug ? `https://propatotravel.com/${property.slug}` : `https://propatotravel.com/property/${property.id}`}
+        ogImage={property.images?.[0] ? `https://propatotravel.com${property.images[0]}` : undefined}
         type="article"
         structuredData={structuredData}
       />

@@ -13,7 +13,7 @@ export default function About() {
         title="Contatti Propato Travel | La Tua Agenzia Viaggi di Fiducia"
         description="✈️ Contatta Propato Travel per organizzare il tuo viaggio perfetto. Agenzia viaggi professionale con esperienza nel settore turistico. Tel: 347 912 3456"
         keywords="contatti agenzia viaggi, propato travel, telefono agenzia viaggi, dove siamo acireale, organizzazione viaggi"
-        canonicalUrl="https://agenzia2acireale.com/contatti"
+        canonicalUrl="https://propatotravel.com/chi-siamo"
       />
       <Navigation />
 

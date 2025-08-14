@@ -14,9 +14,9 @@ interface SEOHeadProps {
 export function SEOHead({
   title = "Propato Travel - Agenzia Viaggi",
   description = "✈️ Propato Travel - La tua agenzia viaggi di fiducia. Pacchetti viaggio, vacanze mare, montagna, città. Esperienze uniche in tutto il mondo.",
-  keywords = "agenzia immobiliare Acireale, vendita case Acireale, affitto appartamenti Acireale, case vacanza Sicilia",
-  canonicalUrl = "https://agenzia2acireale.com/",
-  ogImage = "https://agenzia2acireale.com/og-image.jpg",
+  keywords = "agenzia viaggi, propato travel, pacchetti viaggio, vacanze mare montagna, viaggi personalizzati",
+  canonicalUrl = "https://propatotravel.com/",
+  ogImage = "https://propatotravel.com/og-image.jpg",
   type = "website",
   structuredData
 }: SEOHeadProps) {

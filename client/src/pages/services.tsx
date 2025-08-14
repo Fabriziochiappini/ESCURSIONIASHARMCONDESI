@@ -77,7 +77,7 @@ export default function Services() {
         title="Propato Travel - Servizi di Viaggio Professionali"
         description="Scopri i nostri servizi di viaggio completi: consulenza personalizzata, pacchetti su misura, assistenza documentale e prenotazioni. Contattaci per organizzare il tuo viaggio perfetto."
         keywords="servizi viaggio, agenzia viaggi, pacchetti viaggio, consulenza viaggi, prenotazioni, propato travel"
-        canonicalUrl="https://agenzia2acireale.com/servizi"
+        canonicalUrl="https://propatotravel.com/servizi"
       />
       <Navigation />
 
