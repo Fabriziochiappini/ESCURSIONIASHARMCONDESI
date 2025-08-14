@@ -16,6 +16,7 @@ import {
   Settings,
   MapPin
 } from "lucide-react";
+import { Link } from "wouter";
 
 export default function AdminPanel() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -123,17 +124,19 @@ export default function AdminPanel() {
               </CardContent>
             </Card>
             
-            <Card className="cursor-pointer hover:shadow-lg transition-shadow opacity-50">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
-                  Gestione Vetrine
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Gestisci le sezioni promozionali</p>
-              </CardContent>
-            </Card>
+            <Link href="/admin/showcases">
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5" />
+                    Gestione Vetrine
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Gestisci le sezioni promozionali</p>
+                </CardContent>
+              </Card>
+            </Link>
             
             <Card className="cursor-pointer hover:shadow-lg transition-shadow opacity-50">
               <CardHeader>
