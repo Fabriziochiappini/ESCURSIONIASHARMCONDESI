@@ -17,29 +17,29 @@ import { PropertyCard } from "@/components/property-card";
 
 // Municipalities now loaded dynamically from API
 
-const PROPERTY_TYPES = [
+const TRAVEL_TYPES = [
   { value: "all", label: "Tutti i tipi" },
-  { value: "vendita", label: "Vendita" },
-  { value: "affitto", label: "Affitto" }, 
-  { value: "casa_vacanza", label: "Casa Vacanza" }
+  { value: "mare", label: "Mare" },
+  { value: "montagna", label: "Montagna" },
+  { value: "citta", label: "Città" },
+  { value: "avventura", label: "Avventura" },
+  { value: "relax", label: "Relax" },
+  { value: "cultura", label: "Cultura" }
 ];
 
-const PROPERTY_CATEGORIES = [
+const TRAVEL_CATEGORIES = [
   { value: "all", label: "Tutte le categorie" },
-  { value: "villa", label: "Villa Singola" },
-  { value: "appartamento", label: "Appartamento" },
-  { value: "villa_a_schiera", label: "Villa a Schiera" },
-  { value: "casa_singola_con_terreno", label: "Casa Singola con Terreno" },
-  { value: "rustici_e_terreni", label: "Rustici e Terreni" },
-  { value: "terreno_agricolo", label: "Terreno Agricolo" },
-  { value: "terreno_edificabile", label: "Terreno Edificabile" }
+  { value: "singolo", label: "Singolo" },
+  { value: "coppia", label: "Coppia" },
+  { value: "famiglia", label: "Famiglia" },
+  { value: "gruppo", label: "Gruppo" }
 ];
 
 export default function Properties() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedMunicipality, setSelectedMunicipality] = useState("Tutti i comuni");
+  const [selectedMunicipality, setSelectedMunicipality] = useState("Tutte le destinazioni");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [bedrooms, setBedrooms] = useState("all");
@@ -49,8 +49,8 @@ export default function Properties() {
     queryKey: ['/api/municipalities']
   });
 
-  // Combine with "Tutti i comuni" option
-  const municipalities = ["Tutti i comuni", ...dynamicMunicipalities];
+  // Combine with "Tutte le destinazioni" option
+  const municipalities = ["Tutte le destinazioni", ...dynamicMunicipalities];
 
   // Initialize filters from URL parameters
   const [location] = useLocation();
@@ -108,29 +108,35 @@ export default function Properties() {
 
   const formatPrice = (price: string, type: string, priceType: string | null) => {
     const numPrice = parseInt(price);
-    if (type === "vendita") {
-      return `€ ${numPrice.toLocaleString('it-IT')}`;
-    } else if (type === "affitto") {
-      return `€ ${numPrice}/mese`;
+    if (priceType === "per_persona") {
+      return `€ ${numPrice.toLocaleString('it-IT')} p.p.`;
+    } else if (priceType === "totale") {
+      return `€ ${numPrice.toLocaleString('it-IT')} totale`;
     } else {
-      return `€ ${numPrice}/notte`;
+      return `€ ${numPrice.toLocaleString('it-IT')}`;
     }
   };
 
   const getTypeLabel = (type: string) => {
     switch(type) {
-      case "vendita": return "Vendita";
-      case "affitto": return "Affitto";
-      case "casa_vacanza": return "Casa Vacanza";
+      case "mare": return "Mare";
+      case "montagna": return "Montagna";
+      case "citta": return "Città";
+      case "avventura": return "Avventura";
+      case "relax": return "Relax";
+      case "cultura": return "Cultura";
       default: return type;
     }
   };
 
   const getTypeBadgeColor = (type: string) => {
     switch(type) {
-      case "vendita": return "bg-green-100 text-green-800";
-      case "affitto": return "bg-blue-100 text-blue-800";
-      case "casa_vacanza": return "bg-purple-100 text-purple-800";
+      case "mare": return "bg-blue-100 text-blue-800";
+      case "montagna": return "bg-green-100 text-green-800";
+      case "citta": return "bg-purple-100 text-purple-800";
+      case "avventura": return "bg-orange-100 text-orange-800";
+      case "relax": return "bg-pink-100 text-pink-800";
+      case "cultura": return "bg-yellow-100 text-yellow-800";
       default: return "bg-gray-100 text-gray-800";
     }
   };
@@ -150,11 +156,11 @@ export default function Properties() {
         <section className="py-20 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Tutte le Proprietà
+              Tutti i Nostri Viaggi
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-              Trova la tua casa ideale tra vendite, affitti e case vacanza ad Acireale e dintorni. 
-              Scopri la proprietà perfetta per te.
+              Esplora le destinazioni più belle del mondo con i nostri pacchetti personalizzati. 
+              Trova il viaggio perfetto per te.
             </p>
           </div>
         </section>
@@ -166,7 +172,7 @@ export default function Properties() {
             <CardHeader>
               <div className="flex items-center space-x-2">
                 <Filter className="h-5 w-5 text-purple-600" />
-                <h3 className="text-lg font-semibold text-gray-900">Filtra Proprietà</h3>
+                <h3 className="text-lg font-semibold text-gray-900">Filtra Viaggi</h3>
               </div>
             </CardHeader>
             <CardContent>
@@ -174,7 +180,7 @@ export default function Properties() {
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input
-                    placeholder="Cerca per titolo..."
+                    placeholder="Cerca destinazioni..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10"
@@ -186,7 +192,7 @@ export default function Properties() {
                     <SelectValue placeholder="Tipo" />
                   </SelectTrigger>
                   <SelectContent>
-                    {PROPERTY_TYPES.map((type) => (
+                    {TRAVEL_TYPES.map((type) => (
                       <SelectItem key={type.value} value={type.value}>
                         {type.label}
                       </SelectItem>
@@ -199,7 +205,7 @@ export default function Properties() {
                     <SelectValue placeholder="Categoria" />
                   </SelectTrigger>
                   <SelectContent>
-                    {PROPERTY_CATEGORIES.map((category) => (
+                    {TRAVEL_CATEGORIES.map((category) => (
                       <SelectItem key={category.value} value={category.value}>
                         {category.label}
                       </SelectItem>
@@ -209,7 +215,7 @@ export default function Properties() {
 
                 <Select value={selectedMunicipality} onValueChange={setSelectedMunicipality}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Comune" />
+                    <SelectValue placeholder="Destinazione" />
                   </SelectTrigger>
                   <SelectContent>
                     {municipalities.filter(municipality => municipality && municipality.trim() !== "").map((municipality) => (
@@ -236,14 +242,14 @@ export default function Properties() {
 
                 <Select value={bedrooms} onValueChange={setBedrooms}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Camere" />
+                    <SelectValue placeholder="Durata" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Tutte</SelectItem>
-                    <SelectItem value="1">1+</SelectItem>
-                    <SelectItem value="2">2+</SelectItem>
-                    <SelectItem value="3">3+</SelectItem>
-                    <SelectItem value="4">4+</SelectItem>
+                    <SelectItem value="1">Weekend (2-3 giorni)</SelectItem>
+                    <SelectItem value="2">Settimana (4-7 giorni)</SelectItem>
+                    <SelectItem value="3">Due settimane (8-14 giorni)</SelectItem>
+                    <SelectItem value="4">Oltre 15 giorni</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -252,7 +258,7 @@ export default function Properties() {
         </div>
       </section>
 
-        {/* Properties Grid */}
+        {/* Travel Packages Grid */}
         <section className="py-20 bg-white">
         <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
           {isLoading ? (
@@ -274,7 +280,7 @@ export default function Properties() {
                 <Building2 className="h-12 w-12 text-gray-400" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Nessuna proprietà trovata
+                Nessun viaggio trovato
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
                 Prova a modificare i filtri di ricerca per trovare più risultati.
@@ -282,7 +288,7 @@ export default function Properties() {
               <Button onClick={() => {
                 setSearchTerm("");
                 setSelectedType("all");
-                setSelectedMunicipality("Tutti i comuni");
+                setSelectedMunicipality("Tutte le destinazioni");
                 setMinPrice("");
                 setMaxPrice("");
                 setBedrooms("all");
@@ -294,7 +300,7 @@ export default function Properties() {
             <>
               <div className="flex justify-between items-center mb-8">
                 <h2 className="text-3xl font-bold text-gray-900">
-                  {properties.length} Proprietà Trovate
+                  {properties.length} Pacchetti Viaggio Trovati
                 </h2>
               </div>
 
