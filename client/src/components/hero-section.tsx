@@ -22,9 +22,9 @@ export function HeroSection() {
             
             {/* Main Title - Bold and Impactful */}
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-none mb-8 tracking-tight drop-shadow-2xl">
-              VIAGGIA
+              ESPLORA IL MONDO
               <span className="block text-blue-400 mt-2">
-                SENZA LIMITI
+                CON NOI
               </span>
             </h2>
             
