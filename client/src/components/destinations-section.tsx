@@ -1,102 +1,85 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { MapPin } from "lucide-react";
 
-const destinations = [
+const countries = [
   {
-    name: "Parigi",
-    country: "Francia",
+    name: "Francia",
     image: "https://images.unsplash.com/photo-1502602898536-47ad22581b52?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "La città dell'amore"
+    description: "Eleganza e cultura"
   },
   {
-    name: "Tokyo",
-    country: "Giappone", 
+    name: "Giappone", 
     image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
     description: "Tradizione e modernità"
   },
   {
-    name: "New York",
-    country: "Stati Uniti",
+    name: "Stati Uniti",
     image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "La città che non dorme mai"
+    description: "Terre infinite"
   },
   {
-    name: "Dubai",
-    country: "Emirati Arabi Uniti",
+    name: "Emirati Arabi Uniti",
     image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
     description: "Lusso e innovazione"
   },
   {
-    name: "Londra",
-    country: "Regno Unito",
+    name: "Regno Unito",
     image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "Storia e cultura"
+    description: "Storia e tradizioni"
   },
   {
-    name: "Bangkok",
-    country: "Tailandia",
+    name: "Tailandia",
     image: "https://images.unsplash.com/photo-1563492065-4a71d2d37b82?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "Templi e street food"
+    description: "Templi e nature"
   },
   {
-    name: "Sydney",
-    country: "Australia",
+    name: "Australia",
     image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "Opera House e spiagge"
+    description: "Natura selvaggia"
   },
   {
-    name: "Roma",
-    country: "Italia",
+    name: "Italia",
     image: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "La città eterna"
+    description: "Arte e storia"
   },
   {
-    name: "Barcellona", 
-    country: "Spagna",
+    name: "Spagna", 
     image: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "Gaudí e Mediteraneo"
+    description: "Passione mediterranea"
   },
   {
-    name: "Istanbul",
-    country: "Turchia",
+    name: "Turchia",
     image: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "Ponte tra Europa e Asia"
+    description: "Crocevia di culture"
   },
   {
-    name: "Marrakech",
-    country: "Marocco",
+    name: "Marocco",
     image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73a0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "Souk e tradizioni"
+    description: "Magia del deserto"
   },
   {
-    name: "Singapore",
-    country: "Singapore", 
+    name: "Singapore", 
     image: "https://images.unsplash.com/photo-1565967511849-76a60a516170?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "Giardino urbano"
+    description: "Giardino moderno"
   },
   {
-    name: "Rio de Janeiro",
-    country: "Brasile",
+    name: "Brasile",
     image: "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "Cristo e Copacabana"
+    description: "Ritmi e colori"
   },
   {
-    name: "Amsterdam",
-    country: "Paesi Bassi",
+    name: "Paesi Bassi",
     image: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
     description: "Canali e tulipani"
   },
   {
-    name: "Praga",
-    country: "Repubblica Ceca",
+    name: "Repubblica Ceca",
     image: "https://images.unsplash.com/photo-1541849546-216549ae216f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "Città dorata"
+    description: "Architettura dorata"
   },
   {
-    name: "Santorini",
-    country: "Grecia",
+    name: "Grecia",
     image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800",
-    description: "Tramonti mozzafiato"
+    description: "Isole da sogno"
   }
 ];
 
@@ -119,27 +102,24 @@ export function DestinationsSection() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {destinations.map((destination, index) => (
-            <Card 
+          {countries.map((country, index) => (
+            <div
               key={index} 
-              className="group cursor-pointer overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+              className="group cursor-pointer overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 bg-white"
             >
-              <CardContent className="p-0">
-                <div className="relative aspect-square overflow-hidden">
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
-                    style={{ backgroundImage: `url('${destination.image}')` }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                  
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <h3 className="font-bold text-lg mb-1">{destination.name}</h3>
-                    <p className="text-sm opacity-90 mb-1">{destination.country}</p>
-                    <p className="text-xs opacity-75">{destination.description}</p>
-                  </div>
+              <div className="relative aspect-square overflow-hidden">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
+                  style={{ backgroundImage: `url('${country.image}')` }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                  <h3 className="font-bold text-lg mb-1">{country.name}</h3>
+                  <p className="text-sm opacity-90">{country.description}</p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
 
