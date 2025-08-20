@@ -481,6 +481,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Debug endpoint per verificare deploy
+  app.get("/api/debug-data", async (req, res) => {
+    try {
+      const travels = await storage.getAllTravels();
+      res.json({
+        timestamp: new Date().toISOString(),
+        deploy_status: "NUOVA_VERSIONE_VIAGGI_FUNZIONANTE",
+        travels_count: travels.length,
+        latest_travels: travels.slice(0, 3).map(t => ({ id: t.id, title: t.title, type: t.type })),
+        database_connection: "OK",
+        version: "2025_08_20_VIAGGI_UPDATE"
+      });
+    } catch (error: any) {
+      res.json({
+        error: error.message,
+        timestamp: new Date().toISOString(),
+        status: "ERROR"
+      });
+    }
+  });
+
   // ===== SHOWCASE ROUTES =====
 
   // Get all showcases
