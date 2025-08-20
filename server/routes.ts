@@ -234,11 +234,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No images provided" });
       }
 
-      // Generate URLs for uploaded images
-      const imageUrls = files.map(file => {
+      const fs = require('fs').promises;
+      const path = require('path');
+      
+      // Ensure uploads directory exists
+      const uploadsDir = path.join(process.cwd(), 'uploads');
+      try {
+        await fs.access(uploadsDir);
+      } catch {
+        await fs.mkdir(uploadsDir, { recursive: true });
+      }
+
+      // Save files and generate URLs
+      const imageUrls = await Promise.all(files.map(async (file) => {
         const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        const filepath = path.join(uploadsDir, filename);
+        
+        // Save file to disk
+        await fs.writeFile(filepath, file.buffer);
+        
         return `/uploads/${filename}`;
-      });
+      }));
 
       res.json({
         message: `Successfully processed ${imageUrls.length} images`,
