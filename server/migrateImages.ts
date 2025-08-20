@@ -10,8 +10,8 @@ export async function migrateExistingImages() {
   console.log("Starting image migration to object storage...");
   
   try {
-    // Get all properties with images
-    const properties = await storage.getAllProperties();
+    // Get all travels with images
+    const properties = await storage.getAllTravels();
     let migratedCount = 0;
     
     for (const property of properties) {
@@ -47,7 +47,7 @@ export async function migrateExistingImages() {
               
               // Upload to object storage
               const publicPaths = objectStorageService.getPublicObjectSearchPaths();
-              const uploadPath = `${publicPaths[0]}/properties/${filename}`;
+              const uploadPath = `${publicPaths[0]}/travels/${filename}`;
               const newUrl = await objectStorageService.uploadFile(mockFile, uploadPath);
               
               // Add to property_images table

@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { properties, blogPosts, users } from "@shared/schema";
+import { travels, showcases, countries, blogPosts, users } from "@shared/schema";
 
 async function seed() {
   console.log("🌱 Seeding database...");

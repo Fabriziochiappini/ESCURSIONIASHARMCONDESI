@@ -4,6 +4,7 @@
 This project is a modern, full-stack travel agency web application designed to be a comprehensive platform for browsing, searching, and booking various travel packages. It aims to offer a wide range of travel types (sea, mountain, city, adventure, relax, cultural) and cater to different categories of travelers (individuals, couples, families, groups). The application emphasizes a clean, responsive design with Italian localization, utilizing modern web technologies to provide an intuitive user experience. The business vision is to provide a user-friendly and efficient online presence for a travel agency, attracting a broad customer base and streamlining the travel booking process.
 
 ## Recent Changes (August 2025)
+- **PROBLEMA DEPLOY CRITICO RISOLTO** (20 Agosto): Identificato e risolto il problema di perdita dati durante deployment. Il problema era causato da script di migrazione (`migrateSlug.ts`, `migrateImages.ts`) e seeding (`seed.ts`) che importavano ancora `properties` invece di `travels`. Durante il deploy questi script si eseguivano e causavano conflitti/ripristini. Tutti gli script ora usano le tabelle `travels` corrette.
 - **SISTEMA VIAGGI COMPLETAMENTE FUNZIONANTE** (20 Agosto): Risolti tutti gli errori di creazione pacchetti viaggio. Schema reso flessibile con campi opzionali, sistema upload foto professionale integrato, form admin completamente operativo. Creazione, modifica, eliminazione e upload immagini funzionano al 100%.
 
 ## Previous Changes

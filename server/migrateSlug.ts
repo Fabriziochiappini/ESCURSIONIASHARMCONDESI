@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { properties } from "@shared/schema";
+import { travels } from "@shared/schema";
 import { 
   generatePropertySlug, 
   generatePropertyMetaTitle, 
@@ -14,8 +14,8 @@ export async function migratePropertySlugs() {
     // Get all properties that don't have slugs
     const allProperties = await db
       .select()
-      .from(properties)
-      .where(isNull(properties.slug));
+      .from(travels)
+      .where(isNull(travels.slug));
     
     console.log(`Found ${allProperties.length} properties without slugs`);
     
@@ -60,13 +60,13 @@ export async function migratePropertySlugs() {
         
         // Update the property
         await db
-          .update(properties)
+          .update(travels)
           .set({
             slug: uniqueSlug,
             metaTitle,
             metaDescription
           })
-          .where(eq(properties.id, property.id));
+          .where(eq(travels.id, property.id));
         
         migratedCount++;
         console.log(`✓ Migrated property ${property.id}: ${uniqueSlug}`);
