@@ -201,7 +201,7 @@ const initialFormData: PropertyFormData = {
   price: "0",
   type: "mare",
   propertyType: undefined,
-  priceType: "total",
+  priceType: "per_person",
   location: "",
   municipality: "",
   address: "",
@@ -519,7 +519,7 @@ export default function PropertyManager() {
         price: formData.price.toString(),
         type: formData.type,
         travelType: formData.propertyType || undefined,
-        priceType: "per_persona", // Default
+        priceType: formData.priceType || "per_person", // Use form data or default
         destination: formData.location || formData.municipality || formData.title, // Use location or fallback
         country: formData.showcaseCountry || "Italia", // Default country
         region: formData.municipality || "Regione", // Use municipality as region
