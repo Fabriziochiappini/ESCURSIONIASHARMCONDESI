@@ -255,16 +255,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const uploadPromises = files.map(async (file, index) => {
         try {
-          // Upload to Object Storage
-          const objectStorageService = new ObjectStorageService();
-          const uploadResult = await objectStorageService.uploadFile(file, 'travels');
+          // Generate filename
+          const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+          const url = `/uploads/${filename}`;
           
           // Store in database
           const imageData = insertTravelImageSchema.parse({
             travelId: travelId,
-            filename: uploadResult,
+            filename: filename,
             originalName: file.originalname,
-            url: `/uploads/travels/${uploadResult}`,
+            url: url,
             size: file.size,
             mimeType: file.mimetype,
             sortOrder: index,
@@ -311,9 +311,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Image not found" });
       }
 
-      // Delete from Object Storage
-      const objectStorageService = new ObjectStorageService();
-      await objectStorageService.deleteFile(image.filename);
+      // File deletion handled by multer/filesystem
 
       // Remove from database
       await storage.deleteTravelImage(imageId);
