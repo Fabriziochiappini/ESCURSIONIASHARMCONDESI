@@ -304,26 +304,41 @@ export class DatabaseStorage implements IStorage {
       // Inizializza sortOrder se necessario
       await this.initializeSortOrder();
       
-      // Get all travels ordered by sortOrder
+      // Get all travels ordered by sortOrder - FRESH from DB
       const allTravels = await db
         .select()
         .from(travels)
         .orderBy(travels.sortOrder, travels.id);
 
+      console.log(`🔄 moveTravel: ID=${travelId}, direction=${direction}, trovati ${allTravels.length} viaggi`);
+
       const currentIndex = allTravels.findIndex(t => t.id === travelId);
-      if (currentIndex === -1) return false;
+      if (currentIndex === -1) {
+        console.log(`❌ Viaggio ${travelId} non trovato`);
+        return false;
+      }
 
       const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
-      if (targetIndex < 0 || targetIndex >= allTravels.length) return false;
+      if (targetIndex < 0 || targetIndex >= allTravels.length) {
+        console.log(`❌ Target index ${targetIndex} non valido (range: 0-${allTravels.length-1})`);
+        return false;
+      }
 
-      // Swap sortOrder values
+      // Swap sortOrder values - usa temp value per evitare conflitti
       const currentTravel = allTravels[currentIndex];
       const targetTravel = allTravels[targetIndex];
+      const tempOrder = 9999;
 
-      await Promise.all([
-        db.update(travels).set({ sortOrder: targetTravel.sortOrder }).where(eq(travels.id, currentTravel.id)),
-        db.update(travels).set({ sortOrder: currentTravel.sortOrder }).where(eq(travels.id, targetTravel.id))
-      ]);
+      console.log(`🔄 Scambio: ${currentTravel.title} (${currentTravel.sortOrder}) ↔ ${targetTravel.title} (${targetTravel.sortOrder})`);
+
+      // Step 1: Set current to temp
+      await db.update(travels).set({ sortOrder: tempOrder }).where(eq(travels.id, currentTravel.id));
+      
+      // Step 2: Set target to current's original order
+      await db.update(travels).set({ sortOrder: currentTravel.sortOrder }).where(eq(travels.id, targetTravel.id));
+      
+      // Step 3: Set current to target's original order
+      await db.update(travels).set({ sortOrder: targetTravel.sortOrder }).where(eq(travels.id, currentTravel.id));
 
       return true;
     } catch (error) {
@@ -343,13 +358,13 @@ export class DatabaseStorage implements IStorage {
     if (travelsWithoutOrder.length > 0) {
       console.log(`🔧 Inizializzo sortOrder per ${travelsWithoutOrder.length} viaggi`);
       
-      const updates = travelsWithoutOrder.map((travel, index) => 
-        db.update(travels)
-          .set({ sortOrder: index + 1 })
-          .where(eq(travels.id, travel.id))
-      );
-      
-      await Promise.all(updates);
+      // Use sequential updates to avoid conflicts
+      for (let i = 0; i < travelsWithoutOrder.length; i++) {
+        await db
+          .update(travels)
+          .set({ sortOrder: i + 1 })
+          .where(eq(travels.id, travelsWithoutOrder[i].id));
+      }
     }
   }
 
