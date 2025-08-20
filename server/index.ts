@@ -10,6 +10,7 @@ app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 
 // Serve uploaded images statically
 app.use('/uploads', express.static('uploads'));
+app.use('/uploads/properties', express.static('uploads/properties'));
 
 // Set timeout for image upload requests (5 minutes)
 app.use('/api/admin/upload-images', (req, res, next) => {

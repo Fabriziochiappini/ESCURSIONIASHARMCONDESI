@@ -230,6 +230,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const files = req.files as Express.Multer.File[];
       
+      console.log(`Received ${files?.length || 0} files for upload`);
+      
       if (!files || files.length === 0) {
         return res.status(400).json({ message: "No images provided" });
       }
@@ -239,22 +241,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Ensure uploads directory exists
       const uploadsDir = path.join(process.cwd(), 'uploads');
+      console.log(`Upload directory: ${uploadsDir}`);
+      
       try {
         await fs.access(uploadsDir);
+        console.log('Uploads directory exists');
       } catch {
+        console.log('Creating uploads directory...');
         await fs.mkdir(uploadsDir, { recursive: true });
       }
 
       // Save files and generate URLs
-      const imageUrls = await Promise.all(files.map(async (file) => {
-        const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+      const imageUrls = await Promise.all(files.map(async (file, index) => {
+        const filename = `${Date.now()}_${index}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
         const filepath = path.join(uploadsDir, filename);
+        
+        console.log(`Saving file ${index + 1}: ${filepath}`);
+        console.log(`File buffer size: ${file.buffer.length} bytes`);
         
         // Save file to disk
         await fs.writeFile(filepath, file.buffer);
         
+        // Verify file was saved
+        const stats = await fs.stat(filepath);
+        console.log(`File saved successfully: ${stats.size} bytes`);
+        
         return `/uploads/${filename}`;
       }));
+
+      console.log(`All ${imageUrls.length} files processed successfully`);
 
       res.json({
         message: `Successfully processed ${imageUrls.length} images`,
