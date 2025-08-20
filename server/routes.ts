@@ -681,7 +681,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/properties/:id", async (req, res) => {
+  app.get("/api/properties/id/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const travel = await storage.getTravel(id);

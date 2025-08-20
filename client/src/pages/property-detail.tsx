@@ -40,9 +40,9 @@ export default function PropertyDetail() {
   });
 
   const { data: property, isLoading, error } = useQuery<Property>({
-    queryKey: propertyId ? ['/api/properties/id', propertyId] : ['/api/properties/slug', slug],
+    queryKey: propertyId ? ['/api/travels', propertyId] : ['/api/travels/slug', slug],
     queryFn: async () => {
-      const apiUrl = propertyId ? `/api/properties/id/${propertyId}` : `/api/properties/slug/${slug}`;
+      const apiUrl = propertyId ? `/api/travels/${propertyId}` : `/api/travels/slug/${slug}`;
       const response = await fetch(apiUrl);
       if (!response.ok) {
         throw new Error('Property not found');
@@ -54,10 +54,10 @@ export default function PropertyDetail() {
 
   // Fetch property images from the new table
   const { data: propertyImages = [] } = useQuery({
-    queryKey: ['/api/properties', property?.id, 'images'],
+    queryKey: ['/api/travels', property?.id, 'images'],
     queryFn: async () => {
       if (!property) return [];
-      const response = await fetch(`/api/properties/${property.id}/images`);
+      const response = await fetch(`/api/travels/${property.id}/images`);
       if (!response.ok) {
         console.log('Failed to fetch property images:', response.status);
         return [];
