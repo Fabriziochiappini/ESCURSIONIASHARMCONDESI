@@ -548,15 +548,34 @@ export default function PropertyManager() {
 
   const openEditDialog = (property: Property) => {
     setEditingProperty(property);
-    setFormData({
-      ...property,
-      features: Array.isArray(property.features) ? property.features.join('\n') : '',
+    
+    // IMPORTANTE: Popola tutti i campi correttamente, inclusi quelli mancanti
+    const populatedFormData: PropertyFormData = {
+      title: property.title || "",
+      description: property.description || "", 
+      price: property.price?.toString() || "0",
+      type: property.type || "mare",
       propertyType: property.propertyType || undefined,
+      priceType: property.priceType || "per_person",
+      location: property.location || "",
+      municipality: property.municipality || "",
+      address: property.address || "",
+      bedrooms: property.bedrooms || 1,
+      bathrooms: property.bathrooms || 1, 
+      area: property.area || 50,
+      features: Array.isArray(property.features) ? property.features.join('\n') : (property.features || ''),
+      youtubeVideoId: property.youtubeVideoId || "",
+      featured: property.featured || false,
+      available: property.available !== undefined ? property.available : true,
       showcaseCountry: property.showcaseCountry || "",
-    });
+    };
+    
+    setFormData(populatedFormData);
     setTempImages(property.images || []);
     setSelectedFiles(null);
     setIsDialogOpen(true);
+    
+    console.log('🔄 Form popolato per modifica:', populatedFormData);
   };
 
   // Drag end handler for image reordering
@@ -569,6 +588,9 @@ export default function PropertyManager() {
 
       const newImages = arrayMove(tempImages, oldIndex, newIndex);
       setTempImages(newImages);
+      
+      // IMPORTANTE: Aggiorna anche formData.images per mantenere l'ordine
+      setFormData(prev => ({ ...prev, images: newImages }));
 
       toast({
         title: "Ordine aggiornato",
@@ -581,6 +603,9 @@ export default function PropertyManager() {
     const newImages = [...tempImages];
     newImages.splice(index, 1);
     setTempImages(newImages);
+    
+    // IMPORTANTE: Aggiorna anche formData.images per mantenere sincronizzazione
+    setFormData(prev => ({ ...prev, images: newImages }));
     
     if (editingProperty) {
       setEditingProperty({ ...editingProperty, images: newImages });
@@ -608,7 +633,7 @@ export default function PropertyManager() {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
 
-      // Prepare travel data - TUTTO LIBERO COME RICHIESTO
+      // Prepare travel data - TUTTO LIBERO COME RICHIESTO - USA TEMPIMAGES per ordine aggiornato
       const travelData: InsertTravel = {
         title: formData.title || "Nuovo Pacchetto Viaggio",
         price: formData.price?.toString() || "0",
