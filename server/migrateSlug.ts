@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { travels } from "@shared/schema";
+import { properties } from "@shared/schema";
 import { 
   generatePropertySlug, 
   generatePropertyMetaTitle, 
@@ -8,19 +8,14 @@ import {
 import { eq, isNull } from "drizzle-orm";
 
 export async function migratePropertySlugs() {
-  console.log("⚠️  MIGRATION DISABLED: Slug migration disabled to prevent data conflicts during deploy");
-  console.log("ℹ️  Travel slugs are auto-generated on creation - no migration needed");
-  return;
-  
-  /* DISABLED FOR DEPLOY SAFETY
   console.log("Starting slug migration for existing properties...");
   
   try {
     // Get all properties that don't have slugs
     const allProperties = await db
       .select()
-      .from(travels)
-      .where(isNull(travels.slug));
+      .from(properties)
+      .where(isNull(properties.slug));
     
     console.log(`Found ${allProperties.length} properties without slugs`);
     
@@ -65,13 +60,13 @@ export async function migratePropertySlugs() {
         
         // Update the property
         await db
-          .update(travels)
+          .update(properties)
           .set({
             slug: uniqueSlug,
             metaTitle,
             metaDescription
           })
-          .where(eq(travels.id, property.id));
+          .where(eq(properties.id, property.id));
         
         migratedCount++;
         console.log(`✓ Migrated property ${property.id}: ${uniqueSlug}`);
