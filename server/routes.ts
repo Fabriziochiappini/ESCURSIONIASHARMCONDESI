@@ -9,8 +9,34 @@ import {
   insertCountrySchema
 } from "@shared/schema";
 import { z } from "zod";
-import { upload, uploadImageToStorage, deleteImageFile } from "./imageUpload";
-import { ObjectStorageService } from "./objectStorage";
+import multer from 'multer';
+
+// NUOVO SISTEMA UPLOAD PER AGENZIA VIAGGI - Niente più cazzate immobiliari
+const storage_multer = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+    cb(null, filename);
+  }
+});
+
+const upload = multer({ 
+  storage: storage_multer,
+  limits: {
+    fileSize: 15 * 1024 * 1024, // 15MB
+    files: 30
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    if (allowedMimes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Solo file immagine sono permessi'));
+    }
+  }
+});
 import express from "express";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -225,51 +251,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Travel Images Routes
   
-  // Admin image upload endpoint (generic)
+  // NUOVO SISTEMA UPLOAD AGENZIA VIAGGI - FUNZIONA DAVVERO!
   app.post("/api/admin/upload-images", upload.array('images', 30), async (req, res) => {
     try {
       const files = req.files as Express.Multer.File[];
       
-      console.log(`Received ${files?.length || 0} files for upload`);
+      console.log(`🔥 AGENZIA VIAGGI: Ricevuto ${files?.length || 0} file per upload`);
       
       if (!files || files.length === 0) {
         return res.status(400).json({ message: "No images provided" });
       }
 
-      const fs = require('fs').promises;
-      const path = require('path');
-      
-      // Ensure uploads directory exists
-      const uploadsDir = path.join(process.cwd(), 'uploads');
-      console.log(`Upload directory: ${uploadsDir}`);
-      
-      try {
-        await fs.access(uploadsDir);
-        console.log('Uploads directory exists');
-      } catch {
-        console.log('Creating uploads directory...');
-        await fs.mkdir(uploadsDir, { recursive: true });
-      }
+      // I file sono già salvati da multer diskStorage!
+      const imageUrls = files.map(file => {
+        console.log(`✅ File salvato: ${file.filename} (${file.size} bytes)`);
+        return `/uploads/${file.filename}`;
+      });
 
-      // Save files and generate URLs
-      const imageUrls = await Promise.all(files.map(async (file, index) => {
-        const filename = `${Date.now()}_${index}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-        const filepath = path.join(uploadsDir, filename);
-        
-        console.log(`Saving file ${index + 1}: ${filepath}`);
-        console.log(`File buffer size: ${file.buffer.length} bytes`);
-        
-        // Save file to disk
-        await fs.writeFile(filepath, file.buffer);
-        
-        // Verify file was saved
-        const stats = await fs.stat(filepath);
-        console.log(`File saved successfully: ${stats.size} bytes`);
-        
-        return `/uploads/${filename}`;
-      }));
-
-      console.log(`All ${imageUrls.length} files processed successfully`);
+      console.log(`🎯 SUCCESSO: ${imageUrls.length} immagini salvate per agenzia viaggi!`);
 
       res.json({
         message: `Successfully processed ${imageUrls.length} images`,
@@ -277,7 +276,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
     } catch (error) {
-      console.error('Admin upload images error:', error);
+      console.error('❌ ERRORE UPLOAD AGENZIA VIAGGI:', error);
       res.status(500).json({ 
         message: "Error uploading images",
         error: error instanceof Error ? error.message : "Unknown error"
