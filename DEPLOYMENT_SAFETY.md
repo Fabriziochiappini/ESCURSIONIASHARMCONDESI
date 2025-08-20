@@ -18,6 +18,9 @@ Il sito attuale è **PROPATO TRAVEL** (agenzia viaggi) e NON deve essere riprist
 - **Tabelle conflitto**: ELIMINATE properties, property_images, blog_posts che confondevano Drizzle
 - **storage-old.ts**: RIMOSSO file con MemStorage che serviva dati placeholder
 - **Database PULITO**: Solo tabelle viaggi (travels, countries, showcases, users, sessions)
+- **Endpoint reset**: /api/admin/reset-demo-data per eliminare viaggi placeholder
+- **Pagina reset**: /reset-demo per controllo sicuro database production
+- **CONFERMA FUNZIONAMENTO**: Sistema production testato e funzionante
 
 ## 🛡️ PROTEZIONI ATTIVE
 1. Seed creaweb solo user admin Propato Travel

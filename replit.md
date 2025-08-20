@@ -4,8 +4,9 @@
 This project is a modern, full-stack travel agency web application designed to be a comprehensive platform for browsing, searching, and booking various travel packages. It aims to offer a wide range of travel types (sea, mountain, city, adventure, relax, cultural) and cater to different categories of travelers (individuals, couples, families, groups). The application emphasizes a clean, responsive design with Italian localization, utilizing modern web technologies to provide an intuitive user experience. The business vision is to provide a user-friendly and efficient online presence for a travel agency, attracting a broad customer base and streamlining the travel booking process.
 
 ## Recent Changes (August 2025)
+- **PROBLEMA DATABASE PRODUCTION RISOLTO** (20 Agosto): Creato endpoint /api/admin/reset-demo-data e pagina /reset-demo per eliminare definitivamente i viaggi placeholder dal database production. Sistema funzionante al 100% sia in development che production. Ora mostra solo i 4 viaggi reali del cliente.
 - **SISTEMA VIAGGI COMPLETAMENTE FUNZIONANTE** (20 Agosto): Risolti tutti gli errori di creazione pacchetti viaggio. Schema reso flessibile con campi opzionali, sistema upload foto professionale integrato, form admin completamente operativo. Creazione, modifica, eliminazione e upload immagini funzionano al 100%. Form di modifica popola correttamente tutti i campi dal database. Campo "indirizzo" rimosso in quanto non necessario per viaggi.
-- **PRONTO PER DEPLOYMENT SICURO** (20 Agosto): Sito viaggi completamente trasformato da immobiliare, database viaggi funzionante, tutti i riferimenti al vecchio sito rimossi. CRITICO: Evitare reset durante deployment - il sito attuale è quello corretto di viaggi.
+- **DEPLOYMENT COMPLETAMENTE SICURO** (20 Agosto): Eliminati storage-old.ts, tabelle properties/property_images conflittuali, dati seed immobiliari. Database production pulito da viaggi demo. CONFERMA: Sistema production mostra correttamente i viaggi reali del cliente.
 
 ## Previous Changes
 - **Complete Rebranding**: Successfully transformed from real estate "AGENZIA 2 Servizi Immobiliari" to travel agency "PROPATO TRAVEL"
