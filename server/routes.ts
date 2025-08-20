@@ -10,17 +10,10 @@ import {
 } from "@shared/schema";
 import { z } from "zod";
 import multer from 'multer';
+import { uploadImageToStorage } from './imageUpload';
 
-// NUOVO SISTEMA UPLOAD PER AGENZIA VIAGGI - Niente più cazzate immobiliari
-const storage_multer = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-    cb(null, filename);
-  }
-});
+// SISTEMA UPLOAD PER PRODUCTION - USA OBJECT STORAGE CLOUD!
+const storage_multer = multer.memoryStorage(); // No local disk in production!
 
 const upload = multer({ 
   storage: storage_multer,
@@ -251,7 +244,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Travel Images Routes
   
-  // NUOVO SISTEMA UPLOAD AGENZIA VIAGGI - FUNZIONA DAVVERO!
+  // UPLOAD ADMIN CON OBJECT STORAGE - FUNZIONA IN PRODUCTION!
   app.post("/api/admin/upload-images", upload.array('images', 30), async (req, res) => {
     try {
       const files = req.files as Express.Multer.File[];
@@ -262,13 +255,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No images provided" });
       }
 
-      // I file sono già salvati da multer diskStorage!
-      const imageUrls = files.map(file => {
-        console.log(`✅ File salvato: ${file.filename} (${file.size} bytes)`);
-        return `/uploads/${file.filename}`;
+      // Upload to OBJECT STORAGE CLOUD invece di disco locale!
+      const uploadPromises = files.map(async (file) => {
+        try {
+          const { url, filename } = await uploadImageToStorage(file);
+          console.log(`✅ File uploaded to CLOUD: ${filename} (${file.size} bytes) -> ${url}`);
+          return url;
+        } catch (error) {
+          console.error(`❌ Error uploading ${file.originalname}:`, error);
+          throw error;
+        }
       });
 
-      console.log(`🎯 SUCCESSO: ${imageUrls.length} immagini salvate per agenzia viaggi!`);
+      const imageUrls = await Promise.all(uploadPromises);
+
+      console.log(`🎯 SUCCESSO: ${imageUrls.length} immagini salvate su OBJECT STORAGE CLOUD!`);
 
       res.json({
         message: `Successfully processed ${imageUrls.length} images`,
