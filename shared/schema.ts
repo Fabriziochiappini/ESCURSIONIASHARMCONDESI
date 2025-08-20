@@ -271,10 +271,10 @@ export const users = pgTable("users", {
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
 
-// Property images table (maintaining existing structure from database)
-export const propertyImages = pgTable("property_images", {
+// Travel images table for better management
+export const travelImages = pgTable("travel_images", {
   id: serial("id").primaryKey(),
-  propertyId: integer("property_id").notNull(),
+  travelId: integer("travel_id").references(() => travels.id, { onDelete: "cascade" }).notNull(),
   filename: text("filename").notNull(),
   originalName: text("original_name").notNull(),
   url: text("url").notNull(),
@@ -284,3 +284,11 @@ export const propertyImages = pgTable("property_images", {
   isMain: boolean("is_main").default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+export const insertTravelImageSchema = createInsertSchema(travelImages).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertTravelImage = z.infer<typeof insertTravelImageSchema>;
+export type TravelImage = typeof travelImages.$inferSelect;
