@@ -236,7 +236,7 @@ export default function PropertyManager() {
   // Simple reorder mutation for properties
   const movePropertyMutation = useMutation({
     mutationFn: async ({ propertyId, direction }: { propertyId: number, direction: 'up' | 'down' }) => {
-      return apiRequest('PUT', `/api/admin/properties/${propertyId}/move/${direction}`, {});
+      return apiRequest('PUT', `/api/travels/${propertyId}/move/${direction}`, {});
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
@@ -256,7 +256,7 @@ export default function PropertyManager() {
 
   const createMutation = useMutation({
     mutationFn: async (data: InsertProperty) => {
-      const response = await fetch('/api/admin/properties', {
+      const response = await fetch('/api/travels', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -270,7 +270,7 @@ export default function PropertyManager() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
       setIsDialogOpen(false);
       resetForm();
       toast({
@@ -303,7 +303,7 @@ export default function PropertyManager() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
       setIsDialogOpen(false);
       resetForm();
       toast({
@@ -322,7 +322,7 @@ export default function PropertyManager() {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
-      const response = await fetch(`/api/admin/properties/${id}`, {
+      const response = await fetch(`/api/travels/${id}`, {
         method: 'DELETE',
       });
       
@@ -334,7 +334,7 @@ export default function PropertyManager() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
       toast({
         title: "Successo",
         description: "Pacchetto viaggio eliminato con successo",
