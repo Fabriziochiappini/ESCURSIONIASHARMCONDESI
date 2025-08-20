@@ -527,13 +527,13 @@ export default function PropertyManager() {
         destination: formData.location || formData.municipality || formData.title || "Destinazione", // Use location or fallback
         country: formData.showcaseCountry || "Italia", // Default country
         region: formData.municipality || "Regione", // Use municipality as region
-        duration: formData.bedrooms || 7, // Use bedrooms field as duration
-        maxParticipants: formData.bathrooms || 10, // Use bathrooms as max participants  
-        minAge: formData.area || 0, // Use area as min age
+        duration: Math.max(formData.bedrooms || 7, 7), // Min 7 giorni
+        maxParticipants: Math.max(formData.bathrooms || 4, 4), // Min 4 persone  
+        minAge: Math.max(formData.area || 18, 0), // Min età 0
         images: tempImages || [], // Always use tempImages which contains all managed photos
         features: formData.features ? formData.features.split('\n').filter(feature => feature.trim()) : [],
-        youtubeVideoId: undefined,
-        featured: false,
+        youtubeVideoId: formData.youtubeVideoId || undefined,
+        featured: formData.featured || false,
         available: true,
         sortOrder: 0,
         metaTitle: undefined,
