@@ -513,45 +513,29 @@ export default function PropertyManager() {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
 
-      // Prepare travel data using tempImages (which contains all managed photos)
-      console.log('Form data:', formData);
-      console.log('Temp images:', tempImages);
-      
+      // Prepare travel data - TUTTO LIBERO COME RICHIESTO
       const travelData: InsertTravel = {
         title: formData.title || "Nuovo Pacchetto Viaggio",
-        description: formData.description || "Descrizione del pacchetto viaggio",
-        price: formData.price.toString() || "0",
-        type: formData.type,
-        travelType: formData.propertyType || undefined,
-        priceType: formData.priceType || "per_person", // Use form data or default
-        destination: formData.location || formData.municipality || formData.title || "Destinazione", // Use location or fallback
-        country: formData.showcaseCountry || "Italia", // Default country
-        region: formData.municipality || "Regione", // Use municipality as region
-        duration: Math.max(formData.bedrooms || 7, 7), // Min 7 giorni
-        maxParticipants: Math.max(formData.bathrooms || 4, 4), // Min 4 persone  
-        minAge: Math.max(formData.area || 18, 0), // Min età 0
-        images: tempImages || [], // Always use tempImages which contains all managed photos
-        features: formData.features ? formData.features.split('\n').filter(feature => feature.trim()) : [],
-        youtubeVideoId: formData.youtubeVideoId || undefined,
-        featured: formData.featured || false,
-        available: true,
-        sortOrder: 0,
-        metaTitle: undefined,
-        metaDescription: undefined,
-        departureDate: undefined,
-        returnDate: undefined,
-        includedServices: [],
-        excludedServices: [],
-        itinerary: [],
-        agentName: undefined,
-        agentPhone: undefined,
-        agentEmail: undefined,
-        agentImage: undefined,
-        showcaseCategory: undefined,
-        showcaseCountry: formData.showcaseCountry || undefined,
+        price: formData.price?.toString() || "0",
+        type: formData.type || "mare",
+        description: formData.description,
+        travelType: formData.propertyType,
+        priceType: formData.priceType,
+        destination: formData.location,
+        country: formData.showcaseCountry,
+        region: formData.municipality,
+        duration: formData.bedrooms,
+        maxParticipants: formData.bathrooms,
+        minAge: formData.area,
+        images: tempImages,
+        features: formData.features ? formData.features.split('\n').filter(f => f.trim()) : [],
+        youtubeVideoId: formData.youtubeVideoId,
+        featured: formData.featured,
+        available: formData.available,
+        showcaseCountry: formData.showcaseCountry,
       };
       
-      console.log('Travel data to send:', travelData);
+      console.log('DATI LIBERI - Travel data to send:', travelData);
 
       if (editingProperty) {
         updateMutation.mutate({ id: editingProperty.id, data: travelData });

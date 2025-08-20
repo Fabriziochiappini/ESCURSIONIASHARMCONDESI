@@ -77,6 +77,27 @@ export const countries = pgTable("countries", {
 export const insertTravelSchema = createInsertSchema(travels).omit({
   id: true,
   slug: true, // Auto-generated
+}).partial({
+  description: true,
+  destination: true, 
+  country: true,
+  region: true,
+  duration: true,
+  maxParticipants: true,
+  minAge: true,
+  images: true,
+  features: true
+}).extend({
+  // Make these fields have defaults if not provided
+  description: z.string().optional(),
+  destination: z.string().optional(),
+  country: z.string().optional(), 
+  region: z.string().optional(),
+  duration: z.number().optional(),
+  maxParticipants: z.number().optional(),
+  minAge: z.number().optional(),
+  images: z.array(z.string()).optional(),
+  features: z.array(z.string()).optional()
 });
 
 export const insertShowcaseSchema = createInsertSchema(showcases).omit({
