@@ -259,7 +259,7 @@ function ImageItem({ image, index, onRemove }: {
 import { isUnauthorizedError } from "@/lib/authUtils";
 
 
-interface PropertyFormData extends Omit<InsertProperty, 'images' | 'features'> {
+interface PropertyFormData extends Omit<InsertProperty, 'images' | 'features' | 'address'> {
   features: string;
   showcaseCountry?: string;
 }
@@ -273,7 +273,6 @@ const initialFormData: PropertyFormData = {
   priceType: "per_person",
   location: "",
   municipality: "",
-  address: "",
   bedrooms: 1,
   bathrooms: 1,
   area: 50,
@@ -559,7 +558,7 @@ export default function PropertyManager() {
       priceType: property.priceType || "per_person",
       location: property.destination || "", // DATABASE: destination -> FORM: location
       municipality: property.region || "", // DATABASE: region -> FORM: municipality
-      address: "", // Campo non presente nel database viaggi
+
       bedrooms: property.duration || 1, // DATABASE: duration -> FORM: bedrooms
       bathrooms: property.maxParticipants || 1, // DATABASE: maxParticipants -> FORM: bathrooms
       area: property.minAge || 50, // DATABASE: minAge -> FORM: area
@@ -892,19 +891,7 @@ export default function PropertyManager() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="address">Indirizzo completo <span className="text-xs text-amber-600">(solo per note - non salvato)</span></Label>
-                <Input
-                  id="address"
-                  value={formData.address}
-                  onChange={(e) => setFormData(prev => ({ ...prev, address: e.target.value }))}
-                  placeholder="Note aggiuntive di indirizzo (opzionale)"
-                  className="border-amber-200"
-                />
-                <p className="text-xs text-amber-600">
-                  ⚠️ Questo campo è solo per note locali e non viene salvato nel database. Usa "Destinazione" e "Regione" per le informazioni principali.
-                </p>
-              </div>
+
 
               <div className="space-y-2">
                 <Label htmlFor="images">Immagini</Label>
