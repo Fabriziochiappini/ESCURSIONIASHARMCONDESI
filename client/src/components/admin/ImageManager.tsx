@@ -22,7 +22,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
 
   // Fetch images for the property
   const { data: images = [], isLoading } = useQuery<PropertyImage[]>({
-    queryKey: [`/api/properties/${propertyId}/images`],
+    queryKey: [`/api/travels/${propertyId}/images`],
     enabled: !!propertyId,
   });
 
@@ -34,7 +34,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
         formData.append('images', file);
       });
       
-      const response = await fetch(`/api/properties/${propertyId}/images`, {
+      const response = await fetch(`/api/travels/${propertyId}/images`, {
         method: 'POST',
         body: formData,
       });
@@ -46,7 +46,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/properties/${propertyId}/images`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/travels/${propertyId}/images`] });
       toast({
         title: "Successo",
         description: "Immagini caricate con successo",
@@ -75,7 +75,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/properties/${propertyId}/images`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/travels/${propertyId}/images`] });
       toast({
         title: "Successo",
         description: "Immagine eliminata con successo",
@@ -106,7 +106,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/properties/${propertyId}/images`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/travels/${propertyId}/images`] });
       toast({
         title: "Successo",
         description: "Ordine immagini aggiornato",
@@ -124,7 +124,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
   // Set main image mutation
   const setMainMutation = useMutation({
     mutationFn: async (imageId: number) => {
-      const response = await fetch(`/api/properties/${propertyId}/images/${imageId}/main`, {
+      const response = await fetch(`/api/travels/${propertyId}/images/${imageId}/main`, {
         method: 'PUT',
       });
       
@@ -135,7 +135,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/properties/${propertyId}/images`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/travels/${propertyId}/images`] });
       toast({
         title: "Successo",
         description: "Immagine principale impostata",
