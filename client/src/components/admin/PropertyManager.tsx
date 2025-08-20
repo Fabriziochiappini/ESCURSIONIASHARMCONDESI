@@ -256,17 +256,36 @@ export default function PropertyManager() {
 
   const createMutation = useMutation({
     mutationFn: async (data: InsertProperty) => {
+      // For new packages, create first WITHOUT images
+      const dataWithoutImages = { ...data };
+      delete dataWithoutImages.images;
+      
       const response = await fetch('/api/travels', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(dataWithoutImages),
       });
       
       if (!response.ok) {
         throw new Error('Create failed');
       }
       
-      return response.json();
+      const newTravel = await response.json();
+      
+      // If there are images to upload, upload them now and update the travel
+      if (data.images && data.images.length > 0) {
+        const updateResponse = await fetch(`/api/travels/${newTravel.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ images: data.images }),
+        });
+        
+        if (!updateResponse.ok) {
+          console.error('Failed to update images after creation');
+        }
+      }
+      
+      return newTravel;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
@@ -504,6 +523,7 @@ export default function PropertyManager() {
       if (editingProperty) {
         updateMutation.mutate({ id: editingProperty.id, data: propertyData });
       } else {
+        // For new travel packages, create with images included
         createMutation.mutate(propertyData);
       }
     } catch (error) {
