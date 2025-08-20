@@ -20,13 +20,7 @@ export function HeroSection() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Logo principale rimosso */}
             
-            {/* Main Title - Bold and Impactful */}
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-none mb-8 tracking-tight drop-shadow-2xl">
-              ESPLORA IL MONDO
-              <span className="block text-blue-400 mt-2">
-                CON NOI
-              </span>
-            </h2>
+
             
             {/* Accent Line */}
             <div className="w-40 h-2 bg-blue-500 mx-auto mb-8"></div>
