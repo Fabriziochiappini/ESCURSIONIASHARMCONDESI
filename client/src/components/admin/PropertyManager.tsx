@@ -514,10 +514,37 @@ export default function PropertyManager() {
 
       // Prepare property data using tempImages (which contains all managed photos)
       const propertyData: InsertProperty = {
-        ...formData,
-        images: tempImages, // Always use tempImages which contains all managed photos
-        features: formData.features.split('\n').filter(feature => feature.trim()),
+        title: formData.title,
+        description: formData.description,
         price: formData.price.toString(),
+        type: formData.type,
+        travelType: formData.propertyType || undefined,
+        priceType: "per_persona", // Default
+        destination: formData.location || formData.municipality || formData.title, // Use location or fallback
+        country: formData.showcaseCountry || "Italia", // Default country
+        region: formData.municipality || "Regione", // Use municipality as region
+        duration: formData.bedrooms || 7, // Use bedrooms field as duration
+        maxParticipants: formData.bathrooms || 10, // Use bathrooms as max participants  
+        minAge: formData.area || 0, // Use area as min age
+        images: tempImages || [], // Always use tempImages which contains all managed photos
+        features: formData.features ? formData.features.split('\n').filter(feature => feature.trim()) : [],
+        youtubeVideoId: undefined,
+        featured: false,
+        available: true,
+        sortOrder: 0,
+        metaTitle: undefined,
+        metaDescription: undefined,
+        departureDate: undefined,
+        returnDate: undefined,
+        includedServices: [],
+        excludedServices: [],
+        itinerary: [],
+        agentName: undefined,
+        agentPhone: undefined,
+        agentEmail: undefined,
+        agentImage: undefined,
+        showcaseCategory: undefined,
+        showcaseCountry: formData.showcaseCountry || undefined,
       };
 
       if (editingProperty) {
@@ -698,42 +725,49 @@ export default function PropertyManager() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="bedrooms">Durata (giorni)</Label>
+                  <Label htmlFor="bedrooms">Durata (giorni) *</Label>
                   <Input
                     id="bedrooms"
                     type="number"
                     value={formData.bedrooms}
-                    onChange={(e) => setFormData(prev => ({ ...prev, bedrooms: parseInt(e.target.value) }))}
+                    onChange={(e) => setFormData(prev => ({ ...prev, bedrooms: parseInt(e.target.value) || 1 }))}
+                    min="1"
+                    required
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="bathrooms">Max Partecipanti</Label>
+                  <Label htmlFor="bathrooms">Max Partecipanti *</Label>
                   <Input
                     id="bathrooms"
                     type="number"
                     value={formData.bathrooms}
-                    onChange={(e) => setFormData(prev => ({ ...prev, bathrooms: parseInt(e.target.value) }))}
+                    onChange={(e) => setFormData(prev => ({ ...prev, bathrooms: parseInt(e.target.value) || 1 }))}
+                    min="1"
+                    required
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="location">Località</Label>
+                  <Label htmlFor="location">Destinazione *</Label>
                   <Input
                     id="location"
                     value={formData.location}
                     onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
+                    placeholder="es. Santorini, Mykonos"
+                    required
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="municipality">Comune</Label>
+                  <Label htmlFor="municipality">Regione</Label>
                   <Input
                     id="municipality"
                     value={formData.municipality}
                     onChange={(e) => setFormData(prev => ({ ...prev, municipality: e.target.value }))}
+                    placeholder="es. Isole Cicladi"
                   />
                 </div>
                 
