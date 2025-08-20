@@ -515,13 +515,13 @@ export default function PropertyManager() {
 
       // Prepare property data using tempImages (which contains all managed photos)
       const propertyData: InsertProperty = {
-        title: formData.title,
-        description: formData.description,
-        price: formData.price.toString(),
+        title: formData.title || "Nuovo Pacchetto Viaggio",
+        description: formData.description || "Descrizione del pacchetto viaggio",
+        price: formData.price.toString() || "0",
         type: formData.type,
         travelType: formData.propertyType || undefined,
         priceType: formData.priceType || "per_person", // Use form data or default
-        destination: formData.location || formData.municipality || formData.title, // Use location or fallback
+        destination: formData.location || formData.municipality || formData.title || "Destinazione", // Use location or fallback
         country: formData.showcaseCountry || "Italia", // Default country
         region: formData.municipality || "Regione", // Use municipality as region
         duration: formData.bedrooms || 7, // Use bedrooms field as duration
