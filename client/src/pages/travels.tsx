@@ -186,7 +186,7 @@ export default function Travels() {
                     <SelectValue placeholder="Paese" />
                   </SelectTrigger>
                   <SelectContent>
-                    {countries.map(country => (
+                    {countries.filter(country => country).map(country => (
                       <SelectItem key={country} value={country}>
                         {country}
                       </SelectItem>
