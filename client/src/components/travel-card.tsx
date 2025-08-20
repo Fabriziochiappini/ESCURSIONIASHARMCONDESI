@@ -47,7 +47,8 @@ export function TravelCard({ travel }: TravelCardProps) {
     }
   };
 
-  const travelUrl = travel.slug ? `/${travel.slug}` : `/travel/${travel.id}`;
+  // Sempre usa /travel/id per evitare problemi con slug malformati
+  const travelUrl = `/travel/${travel.id}`;
   
   return (
     <Link href={travelUrl} className="block">

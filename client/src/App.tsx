@@ -28,7 +28,7 @@ function Router() {
       <Route path="/properties" component={Properties} />
       <Route path="/travel/:id" component={TravelDetail} />
       <Route path="/property/:id" component={PropertyDetail} />
-      <Route path="/:type/:country/:travelType" component={PropertyDetail} />
+      <Route path="/:type/:country/:travelType" component={TravelDetail} />
       <Route path="/:type/:municipality/:propertyType" component={PropertyDetail} />
       <Route path="/servizi" component={Services} />
       <Route path="/privacy" component={Privacy} />
