@@ -88,12 +88,12 @@ export default function Travels() {
     return params.toString();
   };
 
-  // Fetch travels with filters
+  // Fetch travels with filters - SEMPRE usa /api/travels/search
   const { data: travels = [], isLoading, error } = useQuery<Travel[]>({
     queryKey: ['/api/travels/search', buildQueryParams()],
     queryFn: async () => {
       const queryParams = buildQueryParams();
-      const url = queryParams ? `/api/travels/search?${queryParams}` : '/api/travels';
+      const url = `/api/travels/search${queryParams ? `?${queryParams}` : ''}`;
       const response = await fetch(url);
       if (!response.ok) throw new Error('Failed to fetch travels');
       return response.json();
