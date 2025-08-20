@@ -549,25 +549,25 @@ export default function PropertyManager() {
   const openEditDialog = (property: Property) => {
     setEditingProperty(property);
     
-    // IMPORTANTE: Popola tutti i campi correttamente, inclusi quelli mancanti
+    // IMPORTANTE: Mappatura corretta dai campi database ai campi form
     const populatedFormData: PropertyFormData = {
       title: property.title || "",
       description: property.description || "", 
       price: property.price?.toString() || "0",
       type: property.type || "mare",
-      propertyType: property.propertyType || undefined,
+      propertyType: property.travelType || undefined, // DATABASE: travelType -> FORM: propertyType
       priceType: property.priceType || "per_person",
-      location: property.location || "",
-      municipality: property.municipality || "",
+      location: property.destination || "", // DATABASE: destination -> FORM: location
+      municipality: property.region || "", // DATABASE: region -> FORM: municipality
       address: property.address || "",
-      bedrooms: property.bedrooms || 1,
-      bathrooms: property.bathrooms || 1, 
-      area: property.area || 50,
+      bedrooms: property.duration || 1, // DATABASE: duration -> FORM: bedrooms
+      bathrooms: property.maxParticipants || 1, // DATABASE: maxParticipants -> FORM: bathrooms
+      area: property.minAge || 50, // DATABASE: minAge -> FORM: area
       features: Array.isArray(property.features) ? property.features.join('\n') : (property.features || ''),
       youtubeVideoId: property.youtubeVideoId || "",
       featured: property.featured || false,
       available: property.available !== undefined ? property.available : true,
-      showcaseCountry: property.showcaseCountry || "",
+      showcaseCountry: property.country || "", // DATABASE: country -> FORM: showcaseCountry
     };
     
     setFormData(populatedFormData);
