@@ -6,10 +6,13 @@ import {
   insertTravelSchema, 
   insertTravelImageSchema,
   insertShowcaseSchema,
-  insertCountrySchema
+  insertCountrySchema,
+  travels
 } from "@shared/schema";
 import { z } from "zod";
 import multer from 'multer';
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 // NUOVO SISTEMA UPLOAD PER AGENZIA VIAGGI - Niente più cazzate immobiliari
 const storage_multer = multer.diskStorage({
@@ -53,6 +56,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }, 
       isAdmin: true 
     });
+  });
+
+  // EMERGENCY ENDPOINT: Reset database production demo data
+  app.post('/api/admin/reset-demo-data', async (req: any, res) => {
+    try {
+      // Delete only the specific demo travels by title - KEEP USER'S REAL TRAVELS
+      const demoTitles = [
+        'Grecia Classica - Santorini',
+        'Dubai Moderno', 
+        'Bali Spiritual',
+        'Norvegia Fiordi',
+        'Marocco Imperiale',
+        'Weekend Romantico a Parigi',
+        'Settimana Relax alle Maldive',
+        'Avventura Safari in Tanzania',
+        'Tour Culturale in Giappone',
+        'Trekking nelle Dolomiti'
+      ];
+      
+      let deletedCount = 0;
+      for (const title of demoTitles) {
+        const result = await db.delete(travels).where(eq(travels.title, title));
+        deletedCount++;
+      }
+      
+      // Also delete by specific demo IDs that might exist
+      const demoIds = [1,2,3,4,5,6,7,8,9,10,11,12];
+      for (const id of demoIds) {
+        try {
+          await db.delete(travels).where(eq(travels.id, id));
+        } catch (e) {
+          // ID might not exist, continue
+        }
+      }
+      
+      console.log(`🧹 PULIZIA COMPLETATA: Eliminati ${deletedCount} viaggi demo`);
+      res.json({ 
+        success: true, 
+        deletedCount,
+        message: `Eliminati ${deletedCount} viaggi demo dal database production. I tuoi viaggi reali sono preservati.`
+      });
+    } catch (error) {
+      console.error('❌ Errore reset demo data:', error);
+      res.status(500).json({ success: false, error: 'Errore durante reset' });
+    }
   });
 
   // Get all travels
