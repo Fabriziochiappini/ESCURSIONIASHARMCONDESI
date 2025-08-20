@@ -19,8 +19,10 @@ import {
   generateTravelMetaTitle,
   generateTravelMetaDescription
 } from "@shared/schema";
-import { eq, and, gte, lte, sql, desc, like, or, ilike } from "drizzle-orm";
+import { eq, and, gte, lte, sql, desc, like, or, ilike, gt } from "drizzle-orm";
 import { db } from "./db";
+import fs from 'fs';
+import path from 'path';
 
 export interface IStorage {
   // Travel operations
@@ -281,8 +283,42 @@ export class DatabaseStorage implements IStorage {
   }
 
   async deleteTravel(id: number): Promise<boolean> {
-    const result = await db.delete(travels).where(eq(travels.id, id));
-    return result.rowCount !== null && result.rowCount > 0;
+    try {
+      // Prima recupera il viaggio per ottenere le immagini
+      const travel = await this.getTravel(id);
+      if (!travel) return false;
+
+      console.log(`🗑️ Eliminazione viaggio ID ${id}: "${travel.title}"`);
+
+      // Elimina le immagini dal database e dai file fisici
+      const travelImages = await this.getTravelImages(id);
+      console.log(`📸 Trovate ${travelImages.length} immagini da eliminare`);
+
+      // Elimina i file fisici delle immagini
+      for (const image of travelImages) {
+        await this.deleteImageFile(image.url);
+      }
+
+      // Elimina anche le immagini nella proprietà images del viaggio
+      if (travel.images && travel.images.length > 0) {
+        console.log(`📸 Eliminazione ${travel.images.length} immagini dalla proprietà images`);
+        for (const imageUrl of travel.images) {
+          await this.deleteImageFile(imageUrl);
+        }
+      }
+
+      // Elimina le immagini dal database
+      await db.delete(travelImages).where(eq(travelImages.travelId, id));
+
+      // Elimina il viaggio dal database
+      const result = await db.delete(travels).where(eq(travels.id, id));
+      
+      console.log(`✅ Viaggio "${travel.title}" eliminato completamente`);
+      return result.rowCount !== null && result.rowCount > 0;
+    } catch (error) {
+      console.error('Errore eliminazione viaggio:', error);
+      return false;
+    }
   }
 
   async updateTravelOrder(travelList: {id: number, sortOrder: number}[]): Promise<boolean> {
@@ -389,8 +425,47 @@ export class DatabaseStorage implements IStorage {
   }
 
   async deleteTravelImage(id: number): Promise<boolean> {
-    const result = await db.delete(travelImages).where(eq(travelImages.id, id));
-    return result.rowCount !== null && result.rowCount > 0;
+    try {
+      // Prima recupera l'immagine per ottenere l'URL
+      const image = await this.getTravelImageById(id);
+      if (!image) return false;
+
+      console.log(`🗑️ Eliminazione immagine ID ${id}: ${image.url}`);
+
+      // Elimina il file fisico
+      await this.deleteImageFile(image.url);
+
+      // Elimina dal database
+      const result = await db.delete(travelImages).where(eq(travelImages.id, id));
+      
+      console.log(`✅ Immagine eliminata completamente`);
+      return result.rowCount !== null && result.rowCount > 0;
+    } catch (error) {
+      console.error('Errore eliminazione immagine:', error);
+      return false;
+    }
+  }
+
+  // Utility per eliminare file fisici
+  private async deleteImageFile(imageUrl: string): Promise<void> {
+    try {
+      if (!imageUrl || !imageUrl.startsWith('/uploads/')) {
+        return; // Skip non-local images
+      }
+
+      // Converte URL in percorso file system
+      const filePath = path.join(process.cwd(), imageUrl.substring(1)); // Rimuove il "/" iniziale
+      
+      // Controlla se il file esiste
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+        console.log(`🗑️ File eliminato: ${filePath}`);
+      } else {
+        console.log(`⚠️ File non trovato: ${filePath}`);
+      }
+    } catch (error) {
+      console.error('Errore eliminazione file:', error);
+    }
   }
 
   async updateTravelImageOrder(images: {id: number, sortOrder: number}[]): Promise<boolean> {
