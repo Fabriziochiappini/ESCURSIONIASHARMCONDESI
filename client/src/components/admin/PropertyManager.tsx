@@ -24,11 +24,80 @@ import {
   Euro,
   Image as ImageIcon,
   Upload,
-  Plane
+  Plane,
+  ArrowUp,
+  ArrowDown,
+  GripVertical
 } from "lucide-react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 // Schema compatibile - manteniamo Property per compatibilità
 import type { Property, InsertProperty, InsertTravel, Travel } from "@shared/schema";
+
+// Sortable Image Item per drag & drop
+function SortableImageItem({ image, index }: { image: string; index: number }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: `image-${index}` });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`relative group bg-white border rounded-lg p-3 ${isDragging ? 'shadow-lg' : 'hover:shadow-md'} transition-shadow`}
+      {...attributes}
+    >
+      <div className="flex items-center gap-3">
+        <div {...listeners} className="cursor-grab hover:cursor-grabbing touch-none">
+          <GripVertical className="h-5 w-5 text-gray-400" />
+        </div>
+        
+        <img 
+          src={image} 
+          alt={`Immagine ${index + 1}`}
+          className="w-16 h-16 object-cover rounded border"
+        />
+        
+        <div className="flex-1">
+          <p className="text-sm font-medium text-gray-900">
+            Immagine {index + 1}
+            {index === 0 && <span className="text-yellow-500 ml-1">★ Principale</span>}
+          </p>
+          <p className="text-xs text-gray-500">Trascina per riordinare</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // Property Item (viaggi) con pulsanti Up/Down  
 function PropertyItem({ property, onEdit, onDelete, onMoveUp, onMoveDown, isFirst, isLast }: {
@@ -227,6 +296,14 @@ export default function PropertyManager() {
   const [uploadProgress, setUploadProgress] = useState<string>('');
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  // Drag & Drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
@@ -480,6 +557,24 @@ export default function PropertyManager() {
     setTempImages(property.images || []);
     setSelectedFiles(null);
     setIsDialogOpen(true);
+  };
+
+  // Drag end handler for image reordering
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      const oldIndex = tempImages.findIndex((_, index) => `image-${index}` === active.id);
+      const newIndex = tempImages.findIndex((_, index) => `image-${index}` === over?.id);
+
+      const newImages = arrayMove(tempImages, oldIndex, newIndex);
+      setTempImages(newImages);
+
+      toast({
+        title: "Ordine aggiornato",
+        description: `Immagine spostata dalla posizione ${oldIndex + 1} alla ${newIndex + 1}${newIndex === 0 ? ' (ora è principale)' : ''}`,
+      });
+    }
   };
 
   const removeImage = (index: number) => {
@@ -961,30 +1056,50 @@ export default function PropertyManager() {
           </DialogContent>
         </Dialog>
 
-        {/* Image Order Manager Modal */}
+        {/* Image Order Manager Modal con Drag & Drop */}
         {showImageManager && tempImages.length > 0 && (
           <Dialog open={showImageManager} onOpenChange={setShowImageManager}>
             <DialogContent className="max-w-4xl">
               <DialogHeader>
                 <DialogTitle>Gestisci Ordine Immagini</DialogTitle>
                 <p className="text-sm text-gray-600">
-                  Gestisci le immagini del pacchetto viaggio. La prima immagine sarà quella principale.
+                  Trascina le immagini per riordinarle. La prima immagine sarà quella principale mostrata nelle card.
                 </p>
               </DialogHeader>
-              <div className="space-y-2 max-h-96 overflow-y-auto">
-                {tempImages.map((img, index) => (
-                  <ImageItem
-                    key={`image-${index}`}
-                    image={img}
-                    index={index}
-                    onRemove={removeImage}
-                  />
-                ))}
-              </div>
-              <div className="flex justify-end">
-                <Button onClick={() => setShowImageManager(false)}>
-                  Fatto
-                </Button>
+              
+              <DndContext 
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext 
+                  items={tempImages.map((_, index) => `image-${index}`)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="space-y-2 max-h-96 overflow-y-auto">
+                    {tempImages.map((img, index) => (
+                      <SortableImageItem
+                        key={`image-${index}`}
+                        image={img}
+                        index={index}
+                      />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
+
+              <div className="flex justify-between items-center pt-4 border-t">
+                <p className="text-sm text-gray-500">
+                  {tempImages.length} {tempImages.length === 1 ? 'immagine' : 'immagini'} caricate
+                </p>
+                <div className="space-x-2">
+                  <Button variant="outline" onClick={() => setTempImages([])}>
+                    Rimuovi Tutte
+                  </Button>
+                  <Button onClick={() => setShowImageManager(false)}>
+                    Fatto
+                  </Button>
+                </div>
               </div>
             </DialogContent>
           </Dialog>
