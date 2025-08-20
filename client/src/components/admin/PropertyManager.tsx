@@ -483,10 +483,11 @@ export default function PropertyManager() {
   };
 
   const removeImage = (index: number) => {
+    const newImages = [...tempImages];
+    newImages.splice(index, 1);
+    setTempImages(newImages);
+    
     if (editingProperty) {
-      const newImages = [...tempImages];
-      newImages.splice(index, 1);
-      setTempImages(newImages);
       setEditingProperty({ ...editingProperty, images: newImages });
     }
   };
@@ -841,7 +842,7 @@ export default function PropertyManager() {
                     Ottimizzato per immobili: supporta fino a 30 foto senza rallentamenti
                   </span>
                 </div>
-                {editingProperty && tempImages && tempImages.length > 0 && (
+                {tempImages && tempImages.length > 0 && (
                   <div className="mt-2">
                     <div className="flex items-center justify-between mb-2">
                       <p className="text-sm text-gray-600">
@@ -972,7 +973,7 @@ export default function PropertyManager() {
         </Dialog>
 
         {/* Image Order Manager Modal */}
-        {showImageManager && editingProperty && (
+        {showImageManager && tempImages.length > 0 && (
           <Dialog open={showImageManager} onOpenChange={setShowImageManager}>
             <DialogContent className="max-w-4xl">
               <DialogHeader>
