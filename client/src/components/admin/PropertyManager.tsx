@@ -893,12 +893,17 @@ export default function PropertyManager() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="address">Indirizzo completo</Label>
+                <Label htmlFor="address">Indirizzo completo <span className="text-xs text-amber-600">(solo per note - non salvato)</span></Label>
                 <Input
                   id="address"
                   value={formData.address}
                   onChange={(e) => setFormData(prev => ({ ...prev, address: e.target.value }))}
+                  placeholder="Note aggiuntive di indirizzo (opzionale)"
+                  className="border-amber-200"
                 />
+                <p className="text-xs text-amber-600">
+                  ⚠️ Questo campo è solo per note locali e non viene salvato nel database. Usa "Destinazione" e "Regione" per le informazioni principali.
+                </p>
               </div>
 
               <div className="space-y-2">
