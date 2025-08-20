@@ -22,10 +22,34 @@ export default function TravelDetail() {
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
+  // Determina se è un ID numerico o uno slug
+  const isNumericId = travelId && /^\d+$/.test(travelId);
+  
+  // Se abbiamo parametri di slug (type, country, travelType), costruisci lo slug
+  const { type, country, travelType } = params;
+  const slug = (type && country && travelType) ? `${type}/${country}/${travelType}` : travelId;
+  
+  // Costruisci l'URL corretto
+  let finalQueryUrl: string;
+  if (type && country && travelType) {
+    // Slug da parametri URL come /mare/grecia/singolo
+    const encodedSlug = encodeURIComponent(`${type}/${country}/${travelType}`);
+    finalQueryUrl = `/api/travels/slug/${encodedSlug}`;
+  } else if (isNumericId) {
+    // ID numerico
+    finalQueryUrl = `/api/travels/${travelId}`;
+  } else if (travelId) {
+    // Slug semplice
+    const encodedSlug = encodeURIComponent(travelId);
+    finalQueryUrl = `/api/travels/slug/${encodedSlug}`;
+  } else {
+    finalQueryUrl = '';
+  }
+
   // Fetch single travel
   const { data: travel, isLoading, error } = useQuery<Travel>({
-    queryKey: [`/api/travels/${travelId}`],
-    enabled: !!travelId,
+    queryKey: [finalQueryUrl],
+    enabled: !!finalQueryUrl,
   });
 
   if (isLoading) {
