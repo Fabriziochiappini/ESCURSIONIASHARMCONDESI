@@ -15,6 +15,9 @@ Il sito attuale è **PROPATO TRAVEL** (agenzia viaggi) e NON deve essere riprist
 - **Admin user**: Cambiato da `admin@immobiliareacireale.it` a `info@propatotravel.it`
 - **Blog posts**: Rimossi tutti i post immobiliari
 - **Migrations**: Rimosse migrazioni problematiche
+- **Tabelle conflitto**: ELIMINATE properties, property_images, blog_posts che confondevano Drizzle
+- **storage-old.ts**: RIMOSSO file con MemStorage che serviva dati placeholder
+- **Database PULITO**: Solo tabelle viaggi (travels, countries, showcases, users, sessions)
 
 ## 🛡️ PROTEZIONI ATTIVE
 1. Seed creaweb solo user admin Propato Travel
