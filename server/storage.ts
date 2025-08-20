@@ -95,24 +95,16 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getFeaturedTravels(): Promise<Travel[]> {
-    // Prima prova a ottenere i viaggi marcati come featured
-    let featuredTravels = await db
+    // SOLUZIONE SEMPLICE: Mostra semplicemente gli ultimi viaggi disponibili
+    // Questo garantisce che l'ultimo inserito sia sempre visibile in homepage
+    const featuredTravels = await db
       .select()
       .from(travels)
-      .where(and(eq(travels.featured, true), eq(travels.available, true)))
-      .orderBy(travels.sortOrder, travels.id);
+      .where(eq(travels.available, true))
+      .orderBy(desc(travels.id)) // Ordina per ID decrescente (ultimi inseriti primi)
+      .limit(10);
 
-    // Se non ci sono viaggi featured, mostra gli ultimi 10 viaggi disponibili
-    if (featuredTravels.length === 0) {
-      console.log('🎯 Nessun viaggio featured trovato, mostro gli ultimi inseriti');
-      featuredTravels = await db
-        .select()
-        .from(travels)
-        .where(eq(travels.available, true))
-        .orderBy(desc(travels.id)) // Ordina per ID decrescente per avere gli ultimi
-        .limit(10);
-    }
-
+    console.log(`🎯 Mostro ${featuredTravels.length} viaggi più recenti in homepage`);
     return featuredTravels;
   }
 
