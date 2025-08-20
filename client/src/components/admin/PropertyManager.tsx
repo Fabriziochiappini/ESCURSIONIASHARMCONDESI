@@ -535,7 +535,7 @@ export default function PropertyManager() {
         showcaseCountry: formData.showcaseCountry,
       };
       
-      console.log('DATI LIBERI - Travel data to send:', travelData);
+
 
       if (editingProperty) {
         updateMutation.mutate({ id: editingProperty.id, data: travelData });
