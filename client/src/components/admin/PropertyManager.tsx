@@ -514,6 +514,9 @@ export default function PropertyManager() {
       }
 
       // Prepare travel data using tempImages (which contains all managed photos)
+      console.log('Form data:', formData);
+      console.log('Temp images:', tempImages);
+      
       const travelData: InsertTravel = {
         title: formData.title || "Nuovo Pacchetto Viaggio",
         description: formData.description || "Descrizione del pacchetto viaggio",
@@ -547,6 +550,8 @@ export default function PropertyManager() {
         showcaseCategory: undefined,
         showcaseCountry: formData.showcaseCountry || undefined,
       };
+      
+      console.log('Travel data to send:', travelData);
 
       if (editingProperty) {
         updateMutation.mutate({ id: editingProperty.id, data: travelData });
