@@ -100,20 +100,20 @@ function PropertyItem({ property, onEdit, onDelete, onMoveUp, onMoveDown, isFirs
               <h3 className="font-semibold text-gray-900 truncate">{property.title}</h3>
               <p className="text-sm text-gray-500 flex items-center">
                 <MapPin className="h-3 w-3 mr-1" />
-                {property.location}
+                {property.destination}
               </p>
               <div className="flex items-center space-x-4 mt-1 text-sm text-gray-600">
                 <span className="flex items-center">
                   <Calendar className="h-3 w-3 mr-1" />
-                  {property.bedrooms}g
+                  {property.duration || 7}g
                 </span>
                 <span className="flex items-center">
                   <Users className="h-3 w-3 mr-1" />
-                  {property.bathrooms}pax
+                  {property.maxParticipants || 2}pax
                 </span>
                 <span className="flex items-center">
                   <Baby className="h-3 w-3 mr-1" />
-                  {property.area}+ anni
+                  {property.minAge || 0}+ anni
                 </span>
               </div>
             </div>

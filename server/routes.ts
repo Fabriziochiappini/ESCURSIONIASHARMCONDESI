@@ -225,6 +225,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Travel Images Routes
   
+  // Admin image upload endpoint (generic)
+  app.post("/api/admin/upload-images", upload.array('images', 30), async (req, res) => {
+    try {
+      const files = req.files as Express.Multer.File[];
+      
+      if (!files || files.length === 0) {
+        return res.status(400).json({ message: "No images provided" });
+      }
+
+      // Generate URLs for uploaded images
+      const imageUrls = files.map(file => {
+        const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        return `/uploads/${filename}`;
+      });
+
+      res.json({
+        message: `Successfully processed ${imageUrls.length} images`,
+        imageUrls: imageUrls
+      });
+
+    } catch (error) {
+      console.error('Admin upload images error:', error);
+      res.status(500).json({ 
+        message: "Error uploading images",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+  
   // Get travel images
   app.get("/api/travels/:id/images", async (req, res) => {
     try {
