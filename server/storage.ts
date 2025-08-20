@@ -301,31 +301,55 @@ export class DatabaseStorage implements IStorage {
 
   async moveTravel(travelId: number, direction: 'up' | 'down'): Promise<boolean> {
     try {
-      const travel = await this.getTravel(travelId);
-      if (!travel) return false;
-
-      const currentOrder = travel.sortOrder || 0;
-      const targetOrder = direction === 'up' ? currentOrder - 1 : currentOrder + 1;
-
-      // Find the travel with the target order
-      const [targetTravel] = await db
+      // Inizializza sortOrder se necessario
+      await this.initializeSortOrder();
+      
+      // Get all travels ordered by sortOrder
+      const allTravels = await db
         .select()
         .from(travels)
-        .where(eq(travels.sortOrder, targetOrder))
-        .limit(1);
+        .orderBy(travels.sortOrder, travels.id);
 
-      if (!targetTravel) return false;
+      const currentIndex = allTravels.findIndex(t => t.id === travelId);
+      if (currentIndex === -1) return false;
 
-      // Swap the orders
+      const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+      if (targetIndex < 0 || targetIndex >= allTravels.length) return false;
+
+      // Swap sortOrder values
+      const currentTravel = allTravels[currentIndex];
+      const targetTravel = allTravels[targetIndex];
+
       await Promise.all([
-        db.update(travels).set({ sortOrder: targetOrder }).where(eq(travels.id, travelId)),
-        db.update(travels).set({ sortOrder: currentOrder }).where(eq(travels.id, targetTravel.id))
+        db.update(travels).set({ sortOrder: targetTravel.sortOrder }).where(eq(travels.id, currentTravel.id)),
+        db.update(travels).set({ sortOrder: currentTravel.sortOrder }).where(eq(travels.id, targetTravel.id))
       ]);
 
       return true;
     } catch (error) {
       console.error('Error moving travel:', error);
       return false;
+    }
+  }
+
+  // Initialize sortOrder for travels that don't have it
+  async initializeSortOrder(): Promise<void> {
+    const travelsWithoutOrder = await db
+      .select()
+      .from(travels)
+      .where(eq(travels.sortOrder, 0))
+      .orderBy(travels.id);
+
+    if (travelsWithoutOrder.length > 0) {
+      console.log(`🔧 Inizializzo sortOrder per ${travelsWithoutOrder.length} viaggi`);
+      
+      const updates = travelsWithoutOrder.map((travel, index) => 
+        db.update(travels)
+          .set({ sortOrder: index + 1 })
+          .where(eq(travels.id, travel.id))
+      );
+      
+      await Promise.all(updates);
     }
   }
 
