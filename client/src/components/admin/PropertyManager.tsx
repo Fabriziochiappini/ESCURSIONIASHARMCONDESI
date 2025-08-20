@@ -27,13 +27,13 @@ import {
   Plane
 } from "lucide-react";
 
-// Drag and Drop imports
-import type { Property, InsertProperty } from "@shared/schema";
+// AGENZIA VIAGGI - Schema corretto
+import type { Travel, InsertTravel } from "@shared/schema";
 
-// Simple Property Item with Up/Down buttons
-function PropertyItem({ property, onEdit, onDelete, onMoveUp, onMoveDown, isFirst, isLast }: {
-  property: Property;
-  onEdit: (property: Property) => void;
+// AGENZIA VIAGGI - Travel Item con pulsanti Up/Down
+function TravelItem({ travel, onEdit, onDelete, onMoveUp, onMoveDown, isFirst, isLast }: {
+  travel: Travel;
+  onEdit: (travel: Travel) => void;
   onDelete: (id: number) => void;
   onMoveUp: (id: number) => void;
   onMoveDown: (id: number) => void;
@@ -289,7 +289,7 @@ export default function PropertyManager() {
 
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: Partial<InsertProperty> }) => {
-      const response = await fetch(`/api/admin/properties/${id}`, {
+      const response = await fetch(`/api/travels/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
