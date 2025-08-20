@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LoginForm } from "@/components/admin/LoginForm";
 
-import PropertyManager from "@/components/admin/PropertyManager";
+import WorkingTravelManager from "@/components/admin/WorkingTravelManager";
 
 import { 
   Building2, 
@@ -153,7 +153,7 @@ export default function AdminPanel() {
 
           {/* Main Content */}
           <div className="space-y-6">
-            <PropertyManager />
+            <WorkingTravelManager />
           </div>
         </div>
       </main>
