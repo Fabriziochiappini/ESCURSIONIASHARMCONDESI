@@ -342,17 +342,17 @@ export class DatabaseStorage implements IStorage {
 
   async moveTravel(travelId: number, direction: 'up' | 'down'): Promise<boolean> {
     try {
-      // Inizializza sortOrder se necessario
-      await this.initializeSortOrder();
+      // Prima riordina TUTTI i viaggi in sequenza corretta
+      await this.reorderAllTravels();
       
-      // Get all travels ordered by sortOrder - FRESH from DB
+      // Get all travels ordered by sortOrder - FRESH from DB dopo riordinamento
       const allTravels = await db
         .select()
         .from(travels)
         .orderBy(travels.sortOrder, travels.id);
 
       console.log(`🔄 moveTravel: ID=${travelId}, direction=${direction}, trovati ${allTravels.length} viaggi`);
-
+      
       const currentIndex = allTravels.findIndex(t => t.id === travelId);
       if (currentIndex === -1) {
         console.log(`❌ Viaggio ${travelId} non trovato`);
@@ -361,52 +361,60 @@ export class DatabaseStorage implements IStorage {
 
       const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
       if (targetIndex < 0 || targetIndex >= allTravels.length) {
-        console.log(`❌ Target index ${targetIndex} non valido (range: 0-${allTravels.length-1})`);
+        console.log(`❌ Non posso muovere ${direction}: già ${direction === 'up' ? 'primo' : 'ultimo'}`);
         return false;
       }
 
-      // Swap sortOrder values - usa temp value per evitare conflitti
+      // Scambia gli elementi nell'array
       const currentTravel = allTravels[currentIndex];
       const targetTravel = allTravels[targetIndex];
-      const tempOrder = 9999;
 
-      console.log(`🔄 Scambio: ${currentTravel.title} (${currentTravel.sortOrder}) ↔ ${targetTravel.title} (${targetTravel.sortOrder})`);
+      console.log(`🔄 Scambio: ${currentTravel.title} (pos ${currentIndex}) ↔ ${targetTravel.title} (pos ${targetIndex})`);
 
-      // Step 1: Set current to temp
-      await db.update(travels).set({ sortOrder: tempOrder }).where(eq(travels.id, currentTravel.id));
-      
-      // Step 2: Set target to current's original order
-      await db.update(travels).set({ sortOrder: currentTravel.sortOrder }).where(eq(travels.id, targetTravel.id));
-      
-      // Step 3: Set current to target's original order
-      await db.update(travels).set({ sortOrder: targetTravel.sortOrder }).where(eq(travels.id, currentTravel.id));
+      // Scambia i sortOrder con una transazione atomica
+      await db.transaction(async (tx) => {
+        // Usa valori temporanei per evitare conflitti
+        const tempOrder1 = -9999;
+        const tempOrder2 = -9998;
+        
+        // Step 1: Metti entrambi su valori temporanei
+        await tx.update(travels).set({ sortOrder: tempOrder1 }).where(eq(travels.id, currentTravel.id));
+        await tx.update(travels).set({ sortOrder: tempOrder2 }).where(eq(travels.id, targetTravel.id));
+        
+        // Step 2: Scambia con i valori finali
+        await tx.update(travels).set({ sortOrder: targetTravel.sortOrder }).where(eq(travels.id, currentTravel.id));
+        await tx.update(travels).set({ sortOrder: currentTravel.sortOrder }).where(eq(travels.id, targetTravel.id));
+      });
 
+      console.log(`✅ Scambio completato con successo`);
       return true;
     } catch (error) {
-      console.error('Error moving travel:', error);
+      console.error('❌ Error moving travel:', error);
       return false;
     }
   }
 
-  // Initialize sortOrder for travels that don't have it
-  async initializeSortOrder(): Promise<void> {
-    const travelsWithoutOrder = await db
+  // Riordina TUTTI i viaggi in sequenza corretta senza duplicati
+  async reorderAllTravels(): Promise<void> {
+    const allTravels = await db
       .select()
       .from(travels)
-      .where(eq(travels.sortOrder, 0))
-      .orderBy(travels.id);
+      .orderBy(travels.sortOrder, travels.id);
 
-    if (travelsWithoutOrder.length > 0) {
-      console.log(`🔧 Inizializzo sortOrder per ${travelsWithoutOrder.length} viaggi`);
-      
-      // Use sequential updates to avoid conflicts
-      for (let i = 0; i < travelsWithoutOrder.length; i++) {
+    console.log(`🔧 Riordino ${allTravels.length} viaggi in sequenza corretta...`);
+    
+    // Aggiorna tutti i viaggi con sortOrder sequenziale
+    for (let i = 0; i < allTravels.length; i++) {
+      const newSortOrder = i + 1;
+      if (allTravels[i].sortOrder !== newSortOrder) {
         await db
           .update(travels)
-          .set({ sortOrder: i + 1 })
-          .where(eq(travels.id, travelsWithoutOrder[i].id));
+          .set({ sortOrder: newSortOrder })
+          .where(eq(travels.id, allTravels[i].id));
       }
     }
+    
+    console.log(`✅ Riordinamento completato: sortOrder da 1 a ${allTravels.length}`);
   }
 
   // Travel images operations
