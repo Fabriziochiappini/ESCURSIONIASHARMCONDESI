@@ -7,6 +7,11 @@ const objectStorageService = new ObjectStorageService();
 
 // Migrate existing images from local storage to object storage
 export async function migrateExistingImages() {
+  console.log("⚠️  MIGRATION DISABLED: Image migration disabled to prevent data conflicts during deploy");
+  console.log("ℹ️  Images are uploaded directly via admin panel - no migration needed");
+  return;
+  
+  /* DISABLED FOR DEPLOY SAFETY
   console.log("Starting image migration to object storage...");
   
   try {

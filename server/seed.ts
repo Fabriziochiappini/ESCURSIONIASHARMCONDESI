@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { travels, showcases, countries, blogPosts, users } from "@shared/schema";
+import { travels, showcases, countries, users } from "@shared/schema";
 
 async function seed() {
   console.log("🌱 Seeding database...");
@@ -21,11 +21,12 @@ async function seed() {
       },
     });
 
-    // DISABLED: Sample properties creation disabled per client request
-    // Client is loading their own real properties and doesn't want demo data
-    console.log("ℹ️  Sample properties creation is disabled - client will add their own properties");
+    // DISABLED: Sample travels creation disabled per client request
+    // Client is loading their own real travels and doesn't want demo data
+    console.log("ℹ️  Sample travels creation is disabled - client will add their own travels");
 
-    // Seed blog posts
+    // NOTE: Blog posts functionality removed for travel agency
+    /* Blog posts removed for travel agency
     const sampleBlogPosts = [
       {
         title: "Guida all'Acquisto di Casa ad Acireale: Tutto quello che Devi Sapere",
@@ -168,14 +169,16 @@ Il nostro team offre servizi completi di gestione per massimizzare il tuo invest
       }
     ];
 
+    /* Blog posts removed for travel agency
     for (const post of sampleBlogPosts) {
       await db.insert(blogPosts).values(post).onConflictDoNothing();
     }
+    */
 
     console.log("✅ Database seeded successfully!");
     console.log("- Created admin user");
-    console.log("- Sample properties creation disabled");
-    console.log(`- Created ${sampleBlogPosts.length} sample blog posts`);
+    console.log("- Sample travels creation disabled (user has real data)");
+    console.log("- Blog posts functionality removed for travel agency");
     
   } catch (error) {
     console.error("❌ Error seeding database:", error);

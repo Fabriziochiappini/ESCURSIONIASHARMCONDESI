@@ -8,6 +8,11 @@ import {
 import { eq, isNull } from "drizzle-orm";
 
 export async function migratePropertySlugs() {
+  console.log("⚠️  MIGRATION DISABLED: Slug migration disabled to prevent data conflicts during deploy");
+  console.log("ℹ️  Travel slugs are auto-generated on creation - no migration needed");
+  return;
+  
+  /* DISABLED FOR DEPLOY SAFETY
   console.log("Starting slug migration for existing properties...");
   
   try {
