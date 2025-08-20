@@ -95,11 +95,24 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getFeaturedTravels(): Promise<Travel[]> {
-    const featuredTravels = await db
+    // Prima prova a ottenere i viaggi marcati come featured
+    let featuredTravels = await db
       .select()
       .from(travels)
-      .where(eq(travels.featured, true))
+      .where(and(eq(travels.featured, true), eq(travels.available, true)))
       .orderBy(travels.sortOrder, travels.id);
+
+    // Se non ci sono viaggi featured, mostra gli ultimi 10 viaggi disponibili
+    if (featuredTravels.length === 0) {
+      console.log('🎯 Nessun viaggio featured trovato, mostro gli ultimi inseriti');
+      featuredTravels = await db
+        .select()
+        .from(travels)
+        .where(eq(travels.available, true))
+        .orderBy(desc(travels.id)) // Ordina per ID decrescente per avere gli ultimi
+        .limit(10);
+    }
+
     return featuredTravels;
   }
 
