@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, X, GripVertical, Star, StarOff, ImageIcon } from "lucide-react";
-import type { PropertyImage } from "@shared/schema";
+import type { TravelImage } from "@shared/schema";
 
 interface ImageManagerProps {
   propertyId: number;
@@ -21,7 +21,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
   const queryClient = useQueryClient();
 
   // Fetch images for the property
-  const { data: images = [], isLoading } = useQuery<PropertyImage[]>({
+  const { data: images = [], isLoading } = useQuery<TravelImage[]>({
     queryKey: [`/api/travels/${propertyId}/images`],
     enabled: !!propertyId,
   });
@@ -247,7 +247,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {images.map((image: PropertyImage, index: number) => (
+          {images.map((image: TravelImage, index: number) => (
             <Card
               key={image.id}
               className={`relative overflow-hidden transition-all duration-200 ${
