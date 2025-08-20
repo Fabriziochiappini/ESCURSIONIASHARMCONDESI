@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 
 // Schema compatibile - manteniamo Property per compatibilità
-import type { Property, InsertProperty } from "@shared/schema";
+import type { Property, InsertProperty, InsertTravel, Travel } from "@shared/schema";
 
 // Property Item (viaggi) con pulsanti Up/Down  
 function PropertyItem({ property, onEdit, onDelete, onMoveUp, onMoveDown, isFirst, isLast }: {
@@ -513,8 +513,8 @@ export default function PropertyManager() {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
 
-      // Prepare property data using tempImages (which contains all managed photos)
-      const propertyData: InsertProperty = {
+      // Prepare travel data using tempImages (which contains all managed photos)
+      const travelData: InsertTravel = {
         title: formData.title || "Nuovo Pacchetto Viaggio",
         description: formData.description || "Descrizione del pacchetto viaggio",
         price: formData.price.toString() || "0",
@@ -549,10 +549,10 @@ export default function PropertyManager() {
       };
 
       if (editingProperty) {
-        updateMutation.mutate({ id: editingProperty.id, data: propertyData });
+        updateMutation.mutate({ id: editingProperty.id, data: travelData });
       } else {
         // For new travel packages, create with images included
-        createMutation.mutate(propertyData);
+        createMutation.mutate(travelData);
       }
     } catch (error) {
       toast({
