@@ -1,14 +1,14 @@
 import { 
   travels, 
-  travelImages,
+  // travelImages, // DISABLED - using property_images table instead
   users,
   showcases,
   countries,
   type Travel, 
   type InsertTravel, 
   type SearchFilters,
-  type TravelImage,
-  type InsertTravelImage,
+  // type TravelImage, // DISABLED 
+  // type InsertTravelImage, // DISABLED
   type User,
   type UpsertUser,
   type Showcase,
@@ -40,8 +40,9 @@ export interface IStorage {
   moveTravel(travelId: number, direction: 'up' | 'down'): Promise<boolean>;
   
   // Travel images operations
-  getTravelImages(travelId: number): Promise<TravelImage[]>;
-  getTravelImageById(id: number): Promise<TravelImage | undefined>;
+  // Image methods disabled - using direct property_images table
+  // getTravelImages(travelId: number): Promise<TravelImage[]>;
+  // getTravelImageById(id: number): Promise<TravelImage | undefined>;
   addTravelImage(image: InsertTravelImage): Promise<TravelImage>;
   deleteTravelImage(id: number): Promise<boolean>;
   updateTravelImageOrder(images: {id: number, sortOrder: number}[]): Promise<boolean>;

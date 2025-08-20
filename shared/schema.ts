@@ -272,6 +272,7 @@ export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
 
 // Travel images table for better management
+/* TEMPORARILY DISABLED TO AVOID DEPLOY CONFLICTS
 export const travelImages = pgTable("travel_images", {
   id: serial("id").primaryKey(),
   travelId: integer("travel_id").references(() => travels.id, { onDelete: "cascade" }).notNull(),
@@ -292,3 +293,4 @@ export const insertTravelImageSchema = createInsertSchema(travelImages).omit({
 
 export type InsertTravelImage = z.infer<typeof insertTravelImageSchema>;
 export type TravelImage = typeof travelImages.$inferSelect;
+*/

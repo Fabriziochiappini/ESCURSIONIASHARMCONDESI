@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import { 
   searchFiltersSchema, 
   insertTravelSchema, 
-  insertTravelImageSchema,
+  // insertTravelImageSchema, // DISABLED - using property_images instead
   insertShowcaseSchema,
   insertCountrySchema
 } from "@shared/schema";
