@@ -271,5 +271,16 @@ export const users = pgTable("users", {
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
 
-// NOTE: Using property_images table from database instead of travel_images
-// Image management handled through existing property_images structure
+// Property images table (maintaining existing structure from database)
+export const propertyImages = pgTable("property_images", {
+  id: serial("id").primaryKey(),
+  propertyId: integer("property_id").notNull(),
+  filename: text("filename").notNull(),
+  originalName: text("original_name").notNull(),
+  url: text("url").notNull(),
+  size: integer("size").notNull(),
+  mimeType: text("mime_type").notNull(),
+  sortOrder: integer("sort_order").default(0),
+  isMain: boolean("is_main").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
