@@ -25,7 +25,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/chi-siamo" component={About} />
       <Route path="/viaggi" component={Travels} />
-      <Route path="/properties" component={Travels} />
+      <Route path="/properties" component={Properties} />
       <Route path="/travel/:id" component={TravelDetail} />
       <Route path="/property/:id" component={PropertyDetail} />
       <Route path="/:type/:country/:travelType" component={TravelDetail} />

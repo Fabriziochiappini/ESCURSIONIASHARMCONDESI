@@ -10,10 +10,17 @@ import {
 } from "@shared/schema";
 import { z } from "zod";
 import multer from 'multer';
-import { uploadImageToStorage } from './imageUpload';
 
-// SISTEMA UPLOAD PER PRODUCTION - USA OBJECT STORAGE CLOUD!
-const storage_multer = multer.memoryStorage(); // No local disk in production!
+// NUOVO SISTEMA UPLOAD PER AGENZIA VIAGGI - Niente più cazzate immobiliari
+const storage_multer = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+    cb(null, filename);
+  }
+});
 
 const upload = multer({ 
   storage: storage_multer,
@@ -244,7 +251,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Travel Images Routes
   
-  // UPLOAD ADMIN CON OBJECT STORAGE - FUNZIONA IN PRODUCTION!
+  // NUOVO SISTEMA UPLOAD AGENZIA VIAGGI - FUNZIONA DAVVERO!
   app.post("/api/admin/upload-images", upload.array('images', 30), async (req, res) => {
     try {
       const files = req.files as Express.Multer.File[];
@@ -255,21 +262,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No images provided" });
       }
 
-      // Upload to OBJECT STORAGE CLOUD invece di disco locale!
-      const uploadPromises = files.map(async (file) => {
-        try {
-          const { url, filename } = await uploadImageToStorage(file);
-          console.log(`✅ File uploaded to CLOUD: ${filename} (${file.size} bytes) -> ${url}`);
-          return url;
-        } catch (error) {
-          console.error(`❌ Error uploading ${file.originalname}:`, error);
-          throw error;
-        }
+      // I file sono già salvati da multer diskStorage!
+      const imageUrls = files.map(file => {
+        console.log(`✅ File salvato: ${file.filename} (${file.size} bytes)`);
+        return `/uploads/${file.filename}`;
       });
 
-      const imageUrls = await Promise.all(uploadPromises);
-
-      console.log(`🎯 SUCCESSO: ${imageUrls.length} immagini salvate su OBJECT STORAGE CLOUD!`);
+      console.log(`🎯 SUCCESSO: ${imageUrls.length} immagini salvate per agenzia viaggi!`);
 
       res.json({
         message: `Successfully processed ${imageUrls.length} images`,
@@ -479,27 +478,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Search error:', error);
       res.status(400).json({ message: "Invalid search parameters" });
-    }
-  });
-
-  // Debug endpoint per verificare deploy
-  app.get("/api/debug-data", async (req, res) => {
-    try {
-      const travels = await storage.getAllTravels();
-      res.json({
-        timestamp: new Date().toISOString(),
-        deploy_status: "NUOVA_VERSIONE_VIAGGI_FUNZIONANTE",
-        travels_count: travels.length,
-        latest_travels: travels.slice(0, 3).map(t => ({ id: t.id, title: t.title, type: t.type })),
-        database_connection: "OK",
-        version: "2025_08_20_VIAGGI_UPDATE"
-      });
-    } catch (error: any) {
-      res.json({
-        error: error.message,
-        timestamp: new Date().toISOString(),
-        status: "ERROR"
-      });
     }
   });
 

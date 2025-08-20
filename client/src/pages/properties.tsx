@@ -75,7 +75,7 @@ export default function Properties() {
   }, []);
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
-    queryKey: ['/api/travels/search', { 
+    queryKey: ['/api/properties/search', { 
       search: searchTerm,
       type: selectedType !== "all" ? selectedType : undefined,
       propertyType: selectedCategory !== "all" ? selectedCategory : undefined,
@@ -95,11 +95,11 @@ export default function Properties() {
       if (maxPrice) params.set('maxPrice', maxPrice);
       if (bedrooms !== "all") params.set('bedrooms', bedrooms);
 
-      const url = params.toString() ? `/api/travels/search?${params.toString()}` : '/api/travels';
+      const url = params.toString() ? `/api/properties/search?${params.toString()}` : '/api/properties';
       const response = await fetch(url);
 
       if (!response.ok) {
-        throw new Error('Failed to fetch travels');
+        throw new Error('Failed to fetch properties');
       }
 
       return response.json();

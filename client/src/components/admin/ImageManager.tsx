@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, X, GripVertical, Star, StarOff, ImageIcon } from "lucide-react";
-import type { TravelImage } from "@shared/schema";
+import type { PropertyImage } from "@shared/schema";
 
 interface ImageManagerProps {
   propertyId: number;
@@ -21,8 +21,8 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
   const queryClient = useQueryClient();
 
   // Fetch images for the property
-  const { data: images = [], isLoading } = useQuery<TravelImage[]>({
-    queryKey: [`/api/travels/${propertyId}/images`],
+  const { data: images = [], isLoading } = useQuery<PropertyImage[]>({
+    queryKey: [`/api/properties/${propertyId}/images`],
     enabled: !!propertyId,
   });
 
@@ -34,7 +34,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
         formData.append('images', file);
       });
       
-      const response = await fetch(`/api/travels/${propertyId}/images`, {
+      const response = await fetch(`/api/properties/${propertyId}/images`, {
         method: 'POST',
         body: formData,
       });
@@ -46,7 +46,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/travels/${propertyId}/images`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/properties/${propertyId}/images`] });
       toast({
         title: "Successo",
         description: "Immagini caricate con successo",
@@ -75,7 +75,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/travels/${propertyId}/images`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/properties/${propertyId}/images`] });
       toast({
         title: "Successo",
         description: "Immagine eliminata con successo",
@@ -106,7 +106,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/travels/${propertyId}/images`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/properties/${propertyId}/images`] });
       toast({
         title: "Successo",
         description: "Ordine immagini aggiornato",
@@ -124,7 +124,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
   // Set main image mutation
   const setMainMutation = useMutation({
     mutationFn: async (imageId: number) => {
-      const response = await fetch(`/api/travels/${propertyId}/images/${imageId}/main`, {
+      const response = await fetch(`/api/properties/${propertyId}/images/${imageId}/main`, {
         method: 'PUT',
       });
       
@@ -135,7 +135,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/travels/${propertyId}/images`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/properties/${propertyId}/images`] });
       toast({
         title: "Successo",
         description: "Immagine principale impostata",
@@ -247,7 +247,7 @@ export function ImageManager({ propertyId }: ImageManagerProps) {
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {images.map((image: TravelImage, index: number) => (
+          {images.map((image: PropertyImage, index: number) => (
             <Card
               key={image.id}
               className={`relative overflow-hidden transition-all duration-200 ${
