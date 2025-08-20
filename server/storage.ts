@@ -95,16 +95,15 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getFeaturedTravels(): Promise<Travel[]> {
-    // SOLUZIONE SEMPLICE: Mostra semplicemente gli ultimi viaggi disponibili
-    // Questo garantisce che l'ultimo inserito sia sempre visibile in homepage
+    // RISPETTA L'ORDINAMENTO IMPOSTATO IN BACKEND: usa sortOrder
     const featuredTravels = await db
       .select()
       .from(travels)
       .where(eq(travels.available, true))
-      .orderBy(desc(travels.id)) // Ordina per ID decrescente (ultimi inseriti primi)
+      .orderBy(travels.sortOrder, travels.id) // Rispetta l'ordinamento del backend
       .limit(10);
 
-    console.log(`🎯 Mostro ${featuredTravels.length} viaggi più recenti in homepage`);
+    console.log(`🎯 Mostro ${featuredTravels.length} viaggi in homepage con ordine backend`);
     return featuredTravels;
   }
 
