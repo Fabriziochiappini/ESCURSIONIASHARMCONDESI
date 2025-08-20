@@ -559,7 +559,7 @@ export default function PropertyManager() {
       priceType: property.priceType || "per_person",
       location: property.destination || "", // DATABASE: destination -> FORM: location
       municipality: property.region || "", // DATABASE: region -> FORM: municipality
-      address: property.address || "",
+      address: "", // Campo non presente nel database viaggi
       bedrooms: property.duration || 1, // DATABASE: duration -> FORM: bedrooms
       bathrooms: property.maxParticipants || 1, // DATABASE: maxParticipants -> FORM: bathrooms
       area: property.minAge || 50, // DATABASE: minAge -> FORM: area
