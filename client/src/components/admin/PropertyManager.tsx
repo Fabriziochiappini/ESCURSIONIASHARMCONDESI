@@ -230,7 +230,7 @@ export default function PropertyManager() {
 
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
-    queryKey: ['/api/properties'],
+    queryKey: ['/api/travels'],
   });
 
   // Simple reorder mutation for properties
@@ -239,7 +239,7 @@ export default function PropertyManager() {
       return apiRequest('PUT', `/api/admin/properties/${propertyId}/move/${direction}`, {});
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
       toast({
         title: "Successo",
         description: "Ordine proprietà aggiornato con successo",
@@ -269,8 +269,8 @@ export default function PropertyManager() {
       return response.json();
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/municipalities'] });
       setIsDialogOpen(false);
       resetForm();
       toast({
@@ -302,8 +302,8 @@ export default function PropertyManager() {
       return response.json();
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/municipalities'] });
       setIsDialogOpen(false);
       resetForm();
       toast({
@@ -333,8 +333,8 @@ export default function PropertyManager() {
       return response.json();
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/municipalities'] });
       toast({
         title: "Successo",
         description: "Pacchetto viaggio eliminato con successo",
