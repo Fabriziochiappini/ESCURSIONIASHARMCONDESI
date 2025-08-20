@@ -27,13 +27,13 @@ import {
   Plane
 } from "lucide-react";
 
-// AGENZIA VIAGGI - Schema corretto
-import type { Travel, InsertTravel } from "@shared/schema";
+// Schema compatibile - manteniamo Property per compatibilità
+import type { Property, InsertProperty } from "@shared/schema";
 
-// AGENZIA VIAGGI - Travel Item con pulsanti Up/Down
-function TravelItem({ travel, onEdit, onDelete, onMoveUp, onMoveDown, isFirst, isLast }: {
-  travel: Travel;
-  onEdit: (travel: Travel) => void;
+// Property Item (viaggi) con pulsanti Up/Down  
+function PropertyItem({ property, onEdit, onDelete, onMoveUp, onMoveDown, isFirst, isLast }: {
+  property: Property;
+  onEdit: (property: Property) => void;
   onDelete: (id: number) => void;
   onMoveUp: (id: number) => void;
   onMoveDown: (id: number) => void;
