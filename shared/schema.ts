@@ -27,7 +27,7 @@ export const travels = pgTable("travels", {
   duration: integer("duration").notNull(), // durata in giorni
   maxParticipants: integer("max_participants").notNull(), // max partecipanti
   minAge: integer("min_age").notNull(), // età minima
-  images: json("images").$type<string[]>().notNull(),
+  images: json("images").$type<string[]>().default([]),
   features: json("features").$type<string[]>().notNull(),
   youtubeVideoId: text("youtube_video_id"),
   featured: boolean("featured").default(false),
