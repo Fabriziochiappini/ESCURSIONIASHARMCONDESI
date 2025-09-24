@@ -4,6 +4,8 @@ import {
   users,
   showcases,
   countries,
+  bookings,
+  payments,
   type Travel, 
   type InsertTravel, 
   type SearchFilters,
@@ -15,6 +17,10 @@ import {
   type InsertShowcase,
   type Country,
   type InsertCountry,
+  type Booking,
+  type InsertBooking,
+  type Payment,
+  type InsertPayment,
   generateTravelSlug,
   generateTravelMetaTitle,
   generateTravelMetaDescription
@@ -75,6 +81,24 @@ export interface IStorage {
   updateCountry(id: number, country: Partial<InsertCountry>): Promise<Country | undefined>;
   deleteCountry(id: number): Promise<boolean>;
   updateCountryTravelCounts(): Promise<void>;
+
+  // Booking operations
+  getAllBookings(): Promise<Booking[]>;
+  getBooking(id: number): Promise<Booking | undefined>;
+  createBooking(booking: InsertBooking): Promise<Booking>;
+  updateBooking(id: number, booking: Partial<InsertBooking>): Promise<Booking | undefined>;
+  deleteBooking(id: number): Promise<boolean>;
+  getBookingsByTravel(travelId: number): Promise<Booking[]>;
+
+  // Payment operations
+  getAllPayments(): Promise<Payment[]>;
+  getPayment(id: number): Promise<Payment | undefined>;
+  createPayment(payment: InsertPayment): Promise<Payment>;
+  updatePayment(id: number, payment: Partial<InsertPayment>): Promise<Payment | undefined>;
+  updatePaymentByStripeId(paymentIntentId: string, payment: Partial<InsertPayment>): Promise<Payment | undefined>;
+  updatePaymentByPayPalId(paypalOrderId: string, payment: Partial<InsertPayment>): Promise<Payment | undefined>;
+  deletePayment(id: number): Promise<boolean>;
+  getPaymentsByBooking(bookingId: number): Promise<Payment[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -700,6 +724,86 @@ export class DatabaseStorage implements IStorage {
       .where(gt(countries.travelCount, 0))
       .orderBy(countries.sortOrder, countries.id);
     return countriesWithTravels;
+  }
+
+  // Booking operations
+  async getAllBookings(): Promise<Booking[]> {
+    const allBookings = await db.select().from(bookings).orderBy(bookings.createdAt);
+    return allBookings;
+  }
+
+  async getBooking(id: number): Promise<Booking | undefined> {
+    const [booking] = await db.select().from(bookings).where(eq(bookings.id, id));
+    return booking || undefined;
+  }
+
+  async createBooking(booking: InsertBooking): Promise<Booking> {
+    const [newBooking] = await db.insert(bookings).values(booking).returning();
+    return newBooking;
+  }
+
+  async updateBooking(id: number, booking: Partial<InsertBooking>): Promise<Booking | undefined> {
+    const [updatedBooking] = await db.update(bookings).set(booking).where(eq(bookings.id, id)).returning();
+    return updatedBooking || undefined;
+  }
+
+  async deleteBooking(id: number): Promise<boolean> {
+    const result = await db.delete(bookings).where(eq(bookings.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  async getBookingsByTravel(travelId: number): Promise<Booking[]> {
+    const travelBookings = await db
+      .select()
+      .from(bookings)
+      .where(eq(bookings.travelId, travelId))
+      .orderBy(bookings.createdAt);
+    return travelBookings;
+  }
+
+  // Payment operations
+  async getAllPayments(): Promise<Payment[]> {
+    const allPayments = await db.select().from(payments).orderBy(payments.createdAt);
+    return allPayments;
+  }
+
+  async getPayment(id: number): Promise<Payment | undefined> {
+    const [payment] = await db.select().from(payments).where(eq(payments.id, id));
+    return payment || undefined;
+  }
+
+  async createPayment(payment: InsertPayment): Promise<Payment> {
+    const [newPayment] = await db.insert(payments).values(payment).returning();
+    return newPayment;
+  }
+
+  async updatePayment(id: number, payment: Partial<InsertPayment>): Promise<Payment | undefined> {
+    const [updatedPayment] = await db.update(payments).set(payment).where(eq(payments.id, id)).returning();
+    return updatedPayment || undefined;
+  }
+
+  async updatePaymentByStripeId(paymentIntentId: string, payment: Partial<InsertPayment>): Promise<Payment | undefined> {
+    const [updatedPayment] = await db.update(payments).set(payment).where(eq(payments.paymentIntentId, paymentIntentId)).returning();
+    return updatedPayment || undefined;
+  }
+
+  async updatePaymentByPayPalId(paypalOrderId: string, payment: Partial<InsertPayment>): Promise<Payment | undefined> {
+    const [updatedPayment] = await db.update(payments).set(payment).where(eq(payments.paypalOrderId, paypalOrderId)).returning();
+    return updatedPayment || undefined;
+  }
+
+  async deletePayment(id: number): Promise<boolean> {
+    const result = await db.delete(payments).where(eq(payments.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  async getPaymentsByBooking(bookingId: number): Promise<Payment[]> {
+    const bookingPayments = await db
+      .select()
+      .from(payments)
+      .where(eq(payments.bookingId, bookingId))
+      .orderBy(payments.createdAt);
+    return bookingPayments;
   }
 }
 

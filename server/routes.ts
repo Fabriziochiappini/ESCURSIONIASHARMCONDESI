@@ -7,12 +7,16 @@ import {
   insertTravelImageSchema,
   insertShowcaseSchema,
   insertCountrySchema,
+  insertBookingSchema,
+  insertPaymentSchema,
   travels
 } from "@shared/schema";
 import { z } from "zod";
 import multer from 'multer';
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+import Stripe from "stripe";
+import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault } from "./paypal";
 
 // NUOVO SISTEMA UPLOAD PER AGENZIA VIAGGI - Niente più cazzate immobiliari
 const storage_multer = multer.diskStorage({
@@ -41,6 +45,14 @@ const upload = multer({
   }
 });
 import express from "express";
+
+// Initialize Stripe
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2025-08-27.basil",
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Admin routes - no authentication required per user request
@@ -833,6 +845,153 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ message: "Country travel counts updated successfully" });
     } catch (error) {
       res.status(500).json({ message: "Error updating country travel counts" });
+    }
+  });
+
+  // ===== PAYMENT ROUTES =====
+  
+  // PayPal Routes - Required by javascript_paypal integration
+  app.get("/paypal/setup", async (req, res) => {
+    await loadPaypalDefault(req, res);
+  });
+
+  app.post("/paypal/order", async (req, res) => {
+    // Request body should contain: { intent, amount, currency }
+    await createPaypalOrder(req, res);
+  });
+
+  app.post("/paypal/order/:orderID/capture", async (req, res) => {
+    await capturePaypalOrder(req, res);
+  });
+
+  // Stripe Routes
+  app.post("/api/create-payment-intent", async (req, res) => {
+    try {
+      const { amount, travelId, bookingData } = req.body;
+      
+      // Create booking first
+      const booking = await storage.createBooking(bookingData);
+      
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100), // Convert to cents
+        currency: "eur",
+        metadata: {
+          bookingId: booking.id.toString(),
+          travelId: travelId?.toString() || '',
+        },
+      });
+
+      // Create payment record
+      await storage.createPayment({
+        bookingId: booking.id,
+        paymentProvider: 'stripe',
+        paymentIntentId: paymentIntent.id,
+        amount: amount.toString(),
+        currency: 'EUR',
+        status: 'pending',
+      });
+
+      res.json({ 
+        clientSecret: paymentIntent.client_secret,
+        bookingId: booking.id 
+      });
+    } catch (error: any) {
+      console.error('Create payment intent error:', error);
+      res.status(500).json({ message: "Error creating payment intent: " + error.message });
+    }
+  });
+
+  // Stripe webhook to handle payment confirmations
+  app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig!, process.env.STRIPE_WEBHOOK_SECRET || '');
+    } catch (err) {
+      console.log('Webhook signature verification failed.');
+      return res.status(400).send('Webhook Error');
+    }
+
+    // Handle the event
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        const paymentIntent = event.data.object;
+        console.log('PaymentIntent was successful!');
+        
+        // Update payment status
+        await storage.updatePaymentByStripeId(paymentIntent.id, {
+          status: 'succeeded',
+          paymentDate: new Date(),
+        });
+        
+        // Update booking status
+        if (paymentIntent.metadata.bookingId) {
+          await storage.updateBooking(parseInt(paymentIntent.metadata.bookingId), {
+            status: 'confirmed',
+          });
+        }
+        break;
+        
+      case 'payment_intent.payment_failed':
+        const failedPayment = event.data.object;
+        console.log('PaymentIntent failed!');
+        
+        // Update payment status
+        await storage.updatePaymentByStripeId(failedPayment.id, {
+          status: 'failed',
+        });
+        break;
+        
+      default:
+        console.log(`Unhandled event type ${event.type}`);
+    }
+
+    res.json({received: true});
+  });
+
+  // Booking management routes
+  app.get("/api/bookings", async (req, res) => {
+    try {
+      const bookings = await storage.getAllBookings();
+      res.json(bookings);
+    } catch (error) {
+      console.error('Get bookings error:', error);
+      res.status(500).json({ message: "Error fetching bookings" });
+    }
+  });
+
+  app.get("/api/bookings/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const booking = await storage.getBooking(id);
+      
+      if (!booking) {
+        return res.status(404).json({ message: "Booking not found" });
+      }
+      
+      res.json(booking);
+    } catch (error) {
+      console.error('Get booking error:', error);
+      res.status(500).json({ message: "Error fetching booking" });
+    }
+  });
+
+  app.put("/api/bookings/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const bookingData = req.body;
+      
+      const booking = await storage.updateBooking(id, bookingData);
+      
+      if (!booking) {
+        return res.status(404).json({ message: "Booking not found" });
+      }
+      
+      res.json(booking);
+    } catch (error) {
+      console.error('Update booking error:', error);
+      res.status(500).json({ message: "Error updating booking" });
     }
   });
 
