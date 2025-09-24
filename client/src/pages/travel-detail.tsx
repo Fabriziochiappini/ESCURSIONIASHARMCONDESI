@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, MapPin, Clock, Users, Calendar, Phone, Mail, Heart, Share2, Star, Plane, CheckCircle, XCircle } from "lucide-react";
+import { ArrowLeft, MapPin, Clock, Users, Calendar, Phone, Mail, Heart, Share2, Star, Plane, CheckCircle, XCircle, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { PhotoGallery } from "@/components/PhotoGallery";
+import { BookingModal } from "@/components/booking-modal";
 import type { Travel } from "@shared/schema";
 import { formatPrice, formatDuration, getTravelTypeIcon, getCategoryIcon } from "@/lib/types";
 import { Link } from "wouter";
@@ -212,9 +213,19 @@ export default function TravelDetail() {
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
+                <BookingModal travel={travel}>
+                  <Button 
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3"
+                    data-testid="button-book-now"
+                  >
+                    <CreditCard className="h-5 w-5 mr-2" />
+                    Prenota ora
+                  </Button>
+                </BookingModal>
                 <Button
                   onClick={handleWhatsAppContact}
                   className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3"
+                  data-testid="button-whatsapp-contact"
                 >
                   <Phone className="h-5 w-5 mr-2" />
                   Contatta via WhatsApp
@@ -223,6 +234,7 @@ export default function TravelDetail() {
                   onClick={handleEmailContact}
                   variant="outline"
                   className="flex-1 py-3"
+                  data-testid="button-email-contact"
                 >
                   <Mail className="h-5 w-5 mr-2" />
                   Invia Email
@@ -291,9 +303,19 @@ export default function TravelDetail() {
                   <Separator />
 
                   <div className="space-y-3">
+                    <BookingModal travel={travel}>
+                      <Button 
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                        data-testid="button-book-sidebar"
+                      >
+                        <CreditCard className="h-4 w-4 mr-2" />
+                        Prenota viaggio
+                      </Button>
+                    </BookingModal>
                     <Button
                       onClick={handleWhatsAppContact}
                       className="w-full bg-green-600 hover:bg-green-700 text-white"
+                      data-testid="button-whatsapp-sidebar"
                     >
                       <Phone className="h-4 w-4 mr-2" />
                       WhatsApp
@@ -302,6 +324,7 @@ export default function TravelDetail() {
                       onClick={handleEmailContact}
                       variant="outline"
                       className="w-full"
+                      data-testid="button-email-sidebar"
                     >
                       <Mail className="h-4 w-4 mr-2" />
                       Email
