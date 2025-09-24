@@ -207,10 +207,10 @@ export class DatabaseStorage implements IStorage {
     const travelData = travel as any; // Temporary fix during migration
     if (!travelData.slug) {
       const baseSlug = generateTravelSlug({
-        type: travel.type,
-        country: travel.country,
+        type: travel.type || '',
+        country: travel.country || '',
         travelType: travel.travelType,
-        destination: travel.destination
+        destination: travel.destination || ''
       });
       
       // Check for uniqueness and add suffix if needed
@@ -224,7 +224,7 @@ export class DatabaseStorage implements IStorage {
     }
 
     // Generate meta title if not provided
-    if (!travel.metaTitle) {
+    if (!travel.metaTitle && travel.type && travel.country && travel.price && travel.destination) {
       travel.metaTitle = generateTravelMetaTitle({
         type: travel.type,
         country: travel.country,
@@ -234,8 +234,8 @@ export class DatabaseStorage implements IStorage {
       });
     }
 
-    // Generate meta description if not provided
-    if (!travel.metaDescription) {
+    // Generate meta description if not provided  
+    if (!travel.metaDescription && travel.type && travel.country && travel.duration && travel.maxParticipants && travel.minAge && travel.price && travel.destination) {
       travel.metaDescription = generateTravelMetaDescription({
         type: travel.type,
         country: travel.country,
@@ -295,11 +295,11 @@ export class DatabaseStorage implements IStorage {
       console.log(`🗑️ Eliminazione viaggio ID ${id}: "${travel.title}"`);
 
       // Elimina le immagini dal database e dai file fisici
-      const travelImages = await this.getTravelImages(id);
-      console.log(`📸 Trovate ${travelImages.length} immagini da eliminare`);
+      const imagesList = await this.getTravelImages(id);
+      console.log(`📸 Trovate ${imagesList.length} immagini da eliminare`);
 
       // Elimina i file fisici delle immagini
-      for (const image of travelImages) {
+      for (const image of imagesList) {
         await this.deleteImageFile(image.url);
       }
 
@@ -586,7 +586,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteShowcase(id: number): Promise<boolean> {
     const result = await db.delete(showcases).where(eq(showcases.id, id));
-    return result.rowCount > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
   async getTravelsByShowcaseCategory(category: string): Promise<Travel[]> {
@@ -656,7 +656,7 @@ export class DatabaseStorage implements IStorage {
   async deleteCountry(id: number): Promise<boolean> {
     const result = await db.delete(countries).where(eq(countries.id, id));
     await this.updateCountryTravelCounts();
-    return result.rowCount > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
   async updateCountryTravelCounts(): Promise<void> {
@@ -691,6 +691,15 @@ export class DatabaseStorage implements IStorage {
       .orderBy(countries.sortOrder, countries.id)
       .limit(4);
     return showcaseCountries;
+  }
+
+  async getCountriesWithTravels(): Promise<Country[]> {
+    const countriesWithTravels = await db
+      .select()
+      .from(countries)
+      .where(gt(countries.travelCount, 0))
+      .orderBy(countries.sortOrder, countries.id);
+    return countriesWithTravels;
   }
 }
 
