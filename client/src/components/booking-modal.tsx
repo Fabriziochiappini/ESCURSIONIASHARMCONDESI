@@ -30,8 +30,9 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import type { Travel } from "@shared/schema";
 import { formatPrice } from "@/lib/types";
-import { StripeCheckout } from "./stripe-checkout";
-import { PayPalCheckout } from "./paypal-checkout";
+// Import payment components when ready
+// import { StripeCheckout } from "./stripe-checkout";
+// import { PayPalCheckout } from "./paypal-checkout";
 
 const bookingFormSchema = z.object({
   firstName: z.string().min(2, "Il nome deve avere almeno 2 caratteri"),
@@ -439,23 +440,23 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                 </div>
               </div>
 
-              {/* Payment Components */}
-              {bookingData?.paymentMethod === "stripe" && clientSecret && (
-                <StripeCheckout
-                  clientSecret={clientSecret}
-                  onSuccess={handlePaymentSuccess}
-                  onError={handlePaymentError}
-                />
-              )}
-
-              {bookingData?.paymentMethod === "paypal" && bookingId && (
-                <PayPalCheckout
-                  amount={totalPrice}
-                  onSuccess={handlePaymentSuccess}
-                  onError={handlePaymentError}
-                  bookingId={bookingId}
-                />
-              )}
+              {/* Payment Components - Demo Mode */}
+              <div className="bg-blue-50 p-6 rounded-lg border border-blue-200 text-center">
+                <CreditCard className="h-12 w-12 mx-auto text-blue-600 mb-4" />
+                <h3 className="font-semibold text-blue-800 mb-2">
+                  {bookingData?.paymentMethod === "stripe" ? "Pagamento Stripe" : "Pagamento PayPal"}
+                </h3>
+                <p className="text-blue-700 mb-4">
+                  Sistema di pagamento in modalità demo.
+                </p>
+                <Button
+                  onClick={handlePaymentSuccess}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  data-testid="button-demo-payment"
+                >
+                  Simula pagamento completato
+                </Button>
+              </div>
 
               <Button
                 variant="outline"
