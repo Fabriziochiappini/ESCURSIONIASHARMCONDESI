@@ -292,3 +292,52 @@ export const insertTravelImageSchema = createInsertSchema(travelImages).omit({
 
 export type InsertTravelImage = z.infer<typeof insertTravelImageSchema>;
 export type TravelImage = typeof travelImages.$inferSelect;
+
+// Bookings table for travel reservations
+export const bookings = pgTable("bookings", {
+  id: serial("id").primaryKey(),
+  travelId: integer("travel_id").references(() => travels.id, { onDelete: "cascade" }).notNull(),
+  customerEmail: text("customer_email").notNull(),
+  customerName: text("customer_name").notNull(),
+  customerPhone: text("customer_phone"),
+  numberOfParticipants: integer("number_of_participants").notNull(),
+  totalAmount: decimal("total_amount", { precision: 10, scale: 2 }).notNull(),
+  bookingDate: timestamp("booking_date").defaultNow().notNull(),
+  travelDate: timestamp("travel_date"),
+  status: text("status").default("pending").notNull(), // pending, confirmed, cancelled, completed
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Payment transactions table
+export const payments = pgTable("payments", {
+  id: serial("id").primaryKey(),
+  bookingId: integer("booking_id").references(() => bookings.id, { onDelete: "cascade" }).notNull(),
+  paymentProvider: text("payment_provider").notNull(), // stripe, paypal
+  paymentIntentId: text("payment_intent_id"), // Stripe payment intent ID
+  paypalOrderId: text("paypal_order_id"), // PayPal order ID
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  currency: text("currency").default("EUR").notNull(),
+  status: text("status").default("pending").notNull(), // pending, succeeded, failed, cancelled
+  paymentDate: timestamp("payment_date"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertBookingSchema = createInsertSchema(bookings).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertPaymentSchema = createInsertSchema(payments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertBooking = z.infer<typeof insertBookingSchema>;
+export type Booking = typeof bookings.$inferSelect;
+export type InsertPayment = z.infer<typeof insertPaymentSchema>;
+export type Payment = typeof payments.$inferSelect;
