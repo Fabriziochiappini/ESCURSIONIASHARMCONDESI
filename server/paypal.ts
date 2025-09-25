@@ -26,12 +26,6 @@ if (!PAYPAL_CLIENT_SECRET) {
   throw new Error("Missing PAYPAL_CLIENT_SECRET");
 }
 
-// Debug logging (will be removed after fixing)
-console.log("🔍 PayPal CLIENT_ID length:", PAYPAL_CLIENT_ID?.length);
-console.log("🔍 PayPal CLIENT_SECRET length:", PAYPAL_CLIENT_SECRET?.length);
-console.log("🔍 PayPal CLIENT_ID prefix:", PAYPAL_CLIENT_ID?.substring(0, 10) + "...");
-console.log("🔍 PayPal CLIENT_SECRET prefix:", PAYPAL_CLIENT_SECRET?.substring(0, 10) + "...");
-console.log("🔍 Environment:", process.env.NODE_ENV === "production" ? "Production" : "Sandbox");
 const client = new Client({
   clientCredentialsAuthCredentials: {
     oAuthClientId: PAYPAL_CLIENT_ID,
