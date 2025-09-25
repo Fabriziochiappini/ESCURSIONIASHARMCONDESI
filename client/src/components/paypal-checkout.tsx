@@ -23,11 +23,13 @@ export function PayPalCheckout({ amount, onSuccess, onError, bookingId }: PayPal
 
     try {
       // Step 1: Create PayPal order
-      const orderResponse = await apiRequest("/paypal/order", "POST", {
+      const orderResponseData = await apiRequest("POST", "/paypal/order", {
         intent: "CAPTURE",
         amount: amount.toString(),
         currency: "EUR",
       });
+      
+      const orderResponse = await orderResponseData.json();
 
       if (!orderResponse.id) {
         throw new Error("Failed to create PayPal order");
@@ -59,7 +61,8 @@ export function PayPalCheckout({ amount, onSuccess, onError, bookingId }: PayPal
             
             try {
               // Step 3: Capture the payment
-              const captureResponse = await apiRequest(`/paypal/order/${orderID}/capture`, "POST", {});
+              const captureResponseData = await apiRequest("POST", `/paypal/order/${orderID}/capture`, {});
+              const captureResponse = await captureResponseData.json();
               
               if (captureResponse.status === "COMPLETED") {
                 setMessage("Pagamento PayPal completato con successo!");

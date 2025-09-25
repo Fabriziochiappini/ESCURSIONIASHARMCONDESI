@@ -97,13 +97,14 @@ export function BookingModal({ travel, children }: BookingModalProps) {
         status: 'pending' as const,
       };
 
-      const response = await apiRequest("/api/create-payment-intent", "POST", {
+      const response = await apiRequest("POST", "/api/create-payment-intent", {
         amount: totalPrice,
         travelId: travel.id,
         bookingData: bookingPayload,
       });
 
-      return response as { clientSecret: string; bookingId: number };
+      const jsonResponse = await response.json();
+      return jsonResponse as { clientSecret: string; bookingId: number };
     },
     onSuccess: (data) => {
       setClientSecret(data.clientSecret);
@@ -380,7 +381,7 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
                     <span>Prezzo per persona:</span>
-                    <span>{formatPrice(travel.price, travel.type, travel.priceType)}</span>
+                    <span>{formatPrice(travel.price, travel.type, travel.priceType || undefined)}</span>
                   </div>
                   <div className="flex justify-between items-center mb-2">
                     <span>Numero viaggiatori:</span>
@@ -427,7 +428,7 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                   </div>
                   <div className="flex justify-between">
                     <span>Data partenza:</span>
-                    <span>{formatTravelDate(bookingData?.travelDate ?? "")}</span>
+                    <span>{formatTravelDate(bookingData?.travelDate || "")}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Viaggiatori:</span>
