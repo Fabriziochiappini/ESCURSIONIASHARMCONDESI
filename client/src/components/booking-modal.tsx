@@ -90,7 +90,7 @@ export function BookingModal({ travel, children }: BookingModalProps) {
         email: formData.email,
         phone: formData.phone,
         numberOfTravelers: formData.numberOfTravelers,
-        travelDate: formData.travelDate,
+        travelDate: new Date(formData.travelDate),
         notes: formData.notes,
         totalPrice: totalPrice.toString(),
         status: 'pending' as const,
