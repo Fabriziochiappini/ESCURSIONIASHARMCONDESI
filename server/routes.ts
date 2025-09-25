@@ -877,9 +877,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         customerPhone: bookingData.phone,
         numberOfParticipants: bookingData.numberOfTravelers,
         totalAmount: bookingData.totalPrice,
-        travelDate: new Date(bookingData.travelDate),
+        travelDate: bookingData.travelDate ? new Date(bookingData.travelDate) : null,
         status: bookingData.status,
         notes: bookingData.notes,
+        // Skip auto-generated timestamp fields - let database handle them
       };
       
       // Create booking first
