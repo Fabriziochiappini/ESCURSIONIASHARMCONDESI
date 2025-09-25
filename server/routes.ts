@@ -869,7 +869,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { amount, travelId, bookingData } = req.body;
       
-      // Map frontend fields to database fields
+      // Map frontend fields to database fields - NO TIMESTAMP FIELDS
       const mappedBookingData = {
         travelId: bookingData.travelId,
         customerEmail: bookingData.email,
@@ -877,10 +877,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         customerPhone: bookingData.phone,
         numberOfParticipants: bookingData.numberOfTravelers,
         totalAmount: bookingData.totalPrice,
-        travelDate: bookingData.travelDate ? new Date(bookingData.travelDate) : null,
+        travelDate: bookingData.travelDate, // Keep as string, let Drizzle handle it
         status: bookingData.status,
         notes: bookingData.notes,
-        // Skip auto-generated timestamp fields - let database handle them
       };
       
       // Create booking first

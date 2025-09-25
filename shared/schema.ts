@@ -327,6 +327,7 @@ export const payments = pgTable("payments", {
 
 export const insertBookingSchema = createInsertSchema(bookings).omit({
   id: true,
+  bookingDate: true, // Auto-generated
   createdAt: true,
   updatedAt: true,
 });
