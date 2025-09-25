@@ -303,7 +303,7 @@ export const bookings = pgTable("bookings", {
   numberOfParticipants: integer("number_of_participants").notNull(),
   totalAmount: decimal("total_amount", { precision: 10, scale: 2 }).notNull(),
   bookingDate: timestamp("booking_date").defaultNow().notNull(),
-  travelDate: timestamp("travel_date"),
+  travelDate: text("travel_date"), // Changed to text to avoid timestamp issues
   status: text("status").default("pending").notNull(), // pending, confirmed, cancelled, completed
   notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow(),
