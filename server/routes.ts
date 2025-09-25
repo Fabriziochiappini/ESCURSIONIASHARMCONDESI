@@ -877,7 +877,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         customerPhone: bookingData.phone,
         numberOfParticipants: bookingData.numberOfTravelers,
         totalAmount: bookingData.totalPrice,
-        travelDate: bookingData.travelDate,
+        travelDate: new Date(bookingData.travelDate),
         status: bookingData.status,
         notes: bookingData.notes,
       };
