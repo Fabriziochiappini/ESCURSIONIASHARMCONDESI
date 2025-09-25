@@ -869,8 +869,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { amount, travelId, bookingData } = req.body;
       
+      // Map frontend fields to database fields
+      const mappedBookingData = {
+        travelId: bookingData.travelId,
+        customerEmail: bookingData.email,
+        customerName: `${bookingData.firstName} ${bookingData.lastName}`,
+        customerPhone: bookingData.phone,
+        numberOfParticipants: bookingData.numberOfTravelers,
+        totalAmount: bookingData.totalPrice,
+        travelDate: bookingData.travelDate,
+        status: bookingData.status,
+        notes: bookingData.notes,
+      };
+      
       // Create booking first
-      const booking = await storage.createBooking(bookingData);
+      const booking = await storage.createBooking(mappedBookingData);
       
       const paymentIntent = await stripe.paymentIntents.create({
         amount: Math.round(amount * 100), // Convert to cents
