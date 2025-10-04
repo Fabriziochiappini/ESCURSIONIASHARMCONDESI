@@ -29,11 +29,15 @@ export function HeroSection() {
             {/* Accent Line */}
             <div className="w-40 h-2 bg-blue-500 mx-auto mb-8"></div>
             
-            {/* Description */}
-            <p className="text-xl sm:text-2xl text-white max-w-4xl mx-auto leading-relaxed font-light mb-12 drop-shadow-xl">
-              Dalla magia delle Maldive alle vette delle Dolomiti, dalle città d'arte europee ai safari africani. 
-              Ogni viaggio è un'esperienza unica pensata per te.
-            </p>
+            {/* Description con riquadro elegante */}
+            <div className="max-w-4xl mx-auto mb-12">
+              <div className="bg-gradient-to-r from-blue-600/80 via-blue-500/80 to-cyan-500/80 backdrop-blur-sm rounded-2xl p-8 border-2 border-white/30 shadow-2xl">
+                <p className="text-xl sm:text-2xl text-white leading-relaxed font-medium">
+                  Dalla magia delle Maldive alle vette delle Dolomiti, dalle città d'arte europee ai safari africani. 
+                  Ogni viaggio è un'esperienza unica pensata per te.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
