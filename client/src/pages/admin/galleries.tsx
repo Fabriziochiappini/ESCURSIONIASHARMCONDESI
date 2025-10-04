@@ -190,14 +190,16 @@ export default function AdminGalleries() {
                   {/* Immagini della galleria */}
                   {gallery.images && gallery.images.length > 0 ? (
                     <div className="grid grid-cols-4 gap-2 max-h-60 overflow-y-auto border rounded p-2">
-                      {gallery.images.map((img: any) => (
+                      {gallery.images.map((img: any) => {
+                        const imageUrl = img.imageUrl.replace('/public-objects/', '/api/images/');
+                        return (
                         <div key={img.id} className="relative group">
                           <img
-                            src={img.imageUrl}
+                            src={imageUrl}
                             alt={`Foto ${img.id}`}
                             className="w-full h-20 object-cover rounded border-2 border-gray-200"
                             onError={(e) => {
-                              console.error('Errore caricamento immagine:', img.imageUrl);
+                              console.error('Errore caricamento immagine:', imageUrl);
                               e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999"%3EErrore%3C/text%3E%3C/svg%3E';
                             }}
                           />
@@ -213,7 +215,8 @@ export default function AdminGalleries() {
                             <Trash2 className="h-3 w-3" />
                           </button>
                         </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   ) : (
                     <div className="text-center py-8 bg-gray-50 rounded border-2 border-dashed">

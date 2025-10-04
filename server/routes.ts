@@ -75,22 +75,21 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Serve Object Storage files
-  app.get('/public-objects/*', async (req, res) => {
+  // Serve Object Storage images via API endpoint
+  app.get('/api/images/*', async (req, res) => {
     try {
-      const filePath = req.path.replace('/public-objects/', '');
+      const filePath = req.path.replace('/api/images/', '');
       const file = await objectStorageService.searchPublicObject(filePath);
       
       if (!file) {
-        return res.status(404).send('File not found');
+        return res.status(404).json({ error: 'File not found' });
       }
       
-      // Use the downloadObject method that handles streaming correctly
       await objectStorageService.downloadObject(file, res, req);
     } catch (error) {
-      console.error('Error serving object storage file:', error);
+      console.error('Error serving image:', error);
       if (!res.headersSent) {
-        res.status(500).send('Error loading file');
+        res.status(500).json({ error: 'Error loading image' });
       }
     }
   });
