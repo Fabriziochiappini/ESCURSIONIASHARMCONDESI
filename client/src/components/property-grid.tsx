@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
-import { PropertyCard } from "./property-card";
+import { TravelCard } from "./travel-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Travel, SearchFilters } from "@shared/schema";
@@ -93,9 +93,9 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
 
   return (
     <div className="space-y-8">
-      <div className={`grid ${maxColumns === 2 ? "grid-cols-2 md:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"} gap-6 md:gap-8`}>
+      <div className={`grid ${maxColumns === 2 ? "grid-cols-2 md:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"} gap-6 md:gap-8`}>
         {properties.map((property) => (
-          <PropertyCard key={property.id} property={property} />
+          <TravelCard key={property.id} travel={property} />
         ))}
       </div>
 
