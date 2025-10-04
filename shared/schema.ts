@@ -48,6 +48,8 @@ export const travels = pgTable("travels", {
   agentImage: text("agent_image"),
   showcaseCategory: text("showcase_category"), // Categoria vetrina per sezioni personalizzate
   showcaseCountry: text("showcase_country"), // Paese per vetrina dinamica
+  rating: decimal("rating", { precision: 2, scale: 1 }).default("0"), // Rating da 0 a 5
+  reviewsCount: integer("reviews_count").default(0), // Numero di recensioni
 });
 
 // Showcase sections (vetrine personalizzabili)

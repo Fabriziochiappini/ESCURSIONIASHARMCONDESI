@@ -145,6 +145,8 @@ interface TravelFormData {
   isActive: boolean;
   youtubeId: string;
   showcaseCountry: string;
+  rating: string;
+  reviewsCount: string;
 }
 
 export default function TravelManager() {
@@ -181,7 +183,9 @@ export default function TravelManager() {
     isFeatured: false,
     isActive: true,
     youtubeId: "",
-    showcaseCountry: ""
+    showcaseCountry: "",
+    rating: "0",
+    reviewsCount: "0"
   });
 
   const { toast } = useToast();
@@ -279,7 +283,9 @@ export default function TravelManager() {
       isFeatured: false,
       isActive: true,
       youtubeId: "",
-      showcaseCountry: ""
+      showcaseCountry: "",
+      rating: "0",
+      reviewsCount: "0"
     });
     setEditingTravel(null);
     setSelectedFiles(null);
@@ -381,25 +387,27 @@ export default function TravelManager() {
       title: travel.title,
       description: travel.description,
       price: travel.price,
-      travelType: travel.travelType || "",
+      travelType: travel.type || "",
       priceType: travel.priceType || "per_person",
       destination: travel.destination,
       region: travel.region || "",
-      duration: travel.duration || "",
-      maxParticipants: travel.maxParticipants || "",
-      minAge: travel.minAge || "",
-      travelCategory: travel.travelCategory || "",
-      included: travel.included || "",
-      excluded: travel.excluded || "",
-      itinerary: travel.itinerary || "",
-      agent: travel.agent || "",
-      whatsappNumber: travel.whatsappNumber || "",
+      duration: String(travel.duration || ""),
+      maxParticipants: String(travel.maxParticipants || ""),
+      minAge: String(travel.minAge || ""),
+      travelCategory: travel.travelType || "",
+      included: "", // Calculated from includedServices
+      excluded: "", // Calculated from excludedServices
+      itinerary: "", // Calculated from itinerary JSON
+      agent: travel.agentName || "",
+      whatsappNumber: travel.agentPhone || "",
       agentEmail: travel.agentEmail || "",
-      notes: travel.notes || "",
-      isFeatured: travel.isFeatured || false,
-      isActive: travel.isActive ?? true,
-      youtubeId: travel.youtubeId || "",
-      showcaseCountry: travel.showcaseCountry || ""
+      notes: "",
+      isFeatured: travel.featured || false,
+      isActive: travel.available ?? true,
+      youtubeId: travel.youtubeVideoId || "",
+      showcaseCountry: travel.showcaseCountry || "",
+      rating: travel.rating || "0",
+      reviewsCount: String(travel.reviewsCount || 0)
     });
     setTempImages([]);
     setIsDialogOpen(true);
@@ -414,12 +422,38 @@ export default function TravelManager() {
   const handleSubmit = () => {
     // Combine original images with newly uploaded images
     const allImages = [...(formData.images || []), ...tempImages];
-    const finalFormData = { ...formData, images: allImages };
+    
+    // Map form data to Travel schema
+    const travelData = {
+      title: formData.title,
+      description: formData.description,
+      price: formData.price,
+      type: formData.travelType, // form travelType -> db type
+      travelType: formData.travelCategory, // form travelCategory -> db travelType
+      priceType: formData.priceType,
+      destination: formData.destination,
+      country: formData.country,
+      region: formData.region,
+      duration: parseInt(formData.duration) || 0,
+      maxParticipants: parseInt(formData.maxParticipants) || 0,
+      minAge: parseInt(formData.minAge) || 0,
+      images: allImages,
+      features: [],
+      youtubeVideoId: formData.youtubeId,
+      featured: formData.isFeatured,
+      available: formData.isActive,
+      agentName: formData.agent,
+      agentPhone: formData.whatsappNumber,
+      agentEmail: formData.agentEmail,
+      showcaseCountry: formData.showcaseCountry,
+      rating: formData.rating,
+      reviewsCount: parseInt(formData.reviewsCount) || 0
+    };
 
     if (editingTravel) {
-      updateTravelMutation.mutate({ id: editingTravel.id, ...finalFormData });
+      updateTravelMutation.mutate({ id: editingTravel.id, ...travelData });
     } else {
-      createTravelMutation.mutate(finalFormData);
+      createTravelMutation.mutate(travelData);
     }
   };
 
@@ -573,6 +607,33 @@ export default function TravelManager() {
                     value={formData.minAge}
                     onChange={(e) => setFormData(prev => ({ ...prev, minAge: e.target.value }))}
                     placeholder="Es: 18"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="rating">Rating (0-5)</Label>
+                  <Input 
+                    id="rating"
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    max="5"
+                    value={formData.rating}
+                    onChange={(e) => setFormData(prev => ({ ...prev, rating: e.target.value }))}
+                    placeholder="Es: 4.5"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="reviewsCount">Numero Recensioni</Label>
+                  <Input 
+                    id="reviewsCount"
+                    type="number"
+                    min="0"
+                    value={formData.reviewsCount}
+                    onChange={(e) => setFormData(prev => ({ ...prev, reviewsCount: e.target.value }))}
+                    placeholder="Es: 24"
                   />
                 </div>
               </div>
