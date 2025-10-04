@@ -46,6 +46,23 @@ const upload = multer({
     }
   }
 });
+
+// Multer with memory storage for Object Storage (galleries)
+const uploadToObjectStorage = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 15 * 1024 * 1024, // 15MB
+    files: 30
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    if (allowedMimes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Solo file immagine sono permessi'));
+    }
+  }
+});
 import express from "express";
 
 // Initialize Stripe
@@ -942,7 +959,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Admin: Add image to gallery (with Object Storage)
-  app.post("/api/admin/galleries/:id/images", upload.array('images', 30), async (req, res) => {
+  app.post("/api/admin/galleries/:id/images", uploadToObjectStorage.array('images', 30), async (req, res) => {
     try {
       const galleryId = parseInt(req.params.id);
       const files = req.files as Express.Multer.File[];
