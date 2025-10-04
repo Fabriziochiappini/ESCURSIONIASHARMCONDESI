@@ -6,6 +6,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { ShowcaseSection } from "@/components/showcase-section";
+import { GalleriesSection } from "@/components/galleries-section";
 
 
 export default function Home() {
@@ -93,6 +94,9 @@ export default function Home() {
         <ShowcaseSection category="europa" />
         <ShowcaseSection category="asia" />
         <ShowcaseSection category="esotico" />
+
+        {/* Sezione Gallerie */}
+        <GalleriesSection />
 
         {/* Sezione Blog */}
         <section className="py-24 bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 relative overflow-hidden">
