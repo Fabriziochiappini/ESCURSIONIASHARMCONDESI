@@ -209,15 +209,36 @@ export default function AdminGalleries() {
                         multiple
                         accept="image/*"
                         onChange={(e) => setSelectedFiles(e.target.files)}
+                        disabled={uploadMutation.isPending}
                       />
+                      {selectedFiles && (
+                        <p className="text-sm text-gray-600">
+                          {selectedFiles.length} {selectedFiles.length === 1 ? 'foto selezionata' : 'foto selezionate'}
+                        </p>
+                      )}
+                      {uploadMutation.isPending && (
+                        <div className="bg-blue-50 border border-blue-200 rounded p-3">
+                          <div className="flex items-center gap-2">
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                            <span className="text-sm text-blue-700">Caricamento in corso... Attendere prego.</span>
+                          </div>
+                        </div>
+                      )}
                       <div className="flex gap-2">
                         <Button
                           size="sm"
                           onClick={handleUpload}
                           disabled={!selectedFiles || uploadMutation.isPending}
-                          className="flex-1"
+                          className="flex-1 bg-blue-600 hover:bg-blue-700"
                         >
-                          {uploadMutation.isPending ? "Caricamento..." : "Carica"}
+                          {uploadMutation.isPending ? (
+                            <>
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                              Caricamento...
+                            </>
+                          ) : (
+                            "Carica"
+                          )}
                         </Button>
                         <Button
                           size="sm"
@@ -226,6 +247,7 @@ export default function AdminGalleries() {
                             setUploadingFor(null);
                             setSelectedFiles(null);
                           }}
+                          disabled={uploadMutation.isPending}
                         >
                           Annulla
                         </Button>
@@ -239,7 +261,7 @@ export default function AdminGalleries() {
                       onClick={() => setUploadingFor(gallery.id)}
                     >
                       <Upload className="h-4 w-4 mr-2" />
-                      Aggiungi Foto
+                      Aggiungi Foto ({gallery.images?.length || 0})
                     </Button>
                   )}
 

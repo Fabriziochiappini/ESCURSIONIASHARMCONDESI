@@ -108,7 +108,7 @@ export interface IStorage {
   getPaymentsByBooking(bookingId: number): Promise<Payment[]>;
 
   // Gallery operations
-  getAllGalleries(): Promise<Gallery[]>;
+  getAllGalleries(): Promise<(Gallery & { images: GalleryImage[] })[]>;
   getGallery(id: number): Promise<Gallery | undefined>;
   getGalleryWithImages(id: number): Promise<(Gallery & { images: GalleryImage[] }) | undefined>;
   getLatestGalleryImages(limit: number): Promise<(GalleryImage & { gallery: Gallery })[]>;
@@ -825,9 +825,23 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Gallery operations
-  async getAllGalleries(): Promise<Gallery[]> {
+  async getAllGalleries(): Promise<(Gallery & { images: GalleryImage[] })[]> {
     const allGalleries = await db.select().from(galleries).orderBy(desc(galleries.createdAt));
-    return allGalleries;
+    
+    // Per ogni galleria, recupera le sue immagini
+    const galleriesWithImages = await Promise.all(
+      allGalleries.map(async (gallery) => {
+        const images = await db
+          .select()
+          .from(galleryImages)
+          .where(eq(galleryImages.galleryId, gallery.id))
+          .orderBy(galleryImages.sortOrder, galleryImages.createdAt);
+        
+        return { ...gallery, images };
+      })
+    );
+    
+    return galleriesWithImages;
   }
 
   async getGallery(id: number): Promise<Gallery | undefined> {
