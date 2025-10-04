@@ -1,11 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, Star, CreditCard } from "lucide-react";
+import { Clock, Star } from "lucide-react";
 import type { Travel } from "@shared/schema";
 import { formatPrice } from "@/lib/types";
 import { Link } from "wouter";
-import { BookingModal } from "@/components/booking-modal";
 
 interface TravelCardProps {
   travel: Travel;
@@ -45,10 +44,6 @@ export function TravelCard({ travel }: TravelCardProps) {
   const firstImage = travel.images && travel.images.length > 0 
     ? travel.images[0] 
     : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800';
-  
-  // Check if deposit is available
-  const depositAmount = travel.depositAmount ? parseFloat(travel.depositAmount) : 0;
-  const hasDeposit = depositAmount > 0;
   
   return (
     <Card className="overflow-hidden group border border-gray-200 hover:shadow-2xl transition-all duration-300 h-full flex flex-col bg-white rounded-2xl">
@@ -107,7 +102,7 @@ export function TravelCard({ travel }: TravelCardProps) {
             </p>
           </Link>
 
-          {/* Footer: Durata, Prezzo e Pulsante Acconto */}
+          {/* Footer: Durata, Prezzo e Pulsante */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center text-gray-600 text-sm gap-1">
@@ -121,19 +116,15 @@ export function TravelCard({ travel }: TravelCardProps) {
               </div>
             </div>
 
-            {/* Pulsante VERSA ACCONTO - mostrato solo se depositAmount esiste */}
-            {hasDeposit && (
-              <BookingModal travel={travel}>
-                <Button 
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold"
-                  data-testid={`button-deposit-${travel.id}`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <CreditCard className="h-4 w-4 mr-2" />
-                  VERSA ACCONTO (€{depositAmount.toLocaleString("it-IT")})
-                </Button>
-              </BookingModal>
-            )}
+            {/* Pulsante SCOPRI TOUR */}
+            <Link href={travelUrl}>
+              <Button 
+                className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold"
+                data-testid={`button-discover-${travel.id}`}
+              >
+                SCOPRI TOUR
+              </Button>
+            </Link>
           </div>
         </CardContent>
       </Card>
