@@ -17,9 +17,14 @@ export function HeroSection() {
         {/* Full-width Hero Container without overlay */}
         <div className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Logo principale rimosso */}
-            
-
+            {/* Logo Grande Centro */}
+            <div className="mb-12 flex justify-center">
+              <img 
+                src="/logo.png" 
+                alt="UNCONVENTIONAL TOUR Logo" 
+                className="w-64 h-64 md:w-80 md:h-80 object-contain drop-shadow-2xl animate-fade-in"
+              />
+            </div>
             
             {/* Accent Line */}
             <div className="w-40 h-2 bg-blue-500 mx-auto mb-8"></div>
