@@ -11,7 +11,18 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="h-40">
           <div className="hidden lg:flex lg:justify-between items-center h-full">
-            {/* Menu Sinistra - Tutte le voci */}
+            {/* Logo a Sinistra */}
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center group">
+                <img 
+                  src={logoUrl} 
+                  alt="Unconventional Tour Logo" 
+                  className="h-36 w-auto group-hover:scale-105 transition-all duration-300"
+                />
+              </Link>
+            </div>
+
+            {/* Menu a Destra - Tutte le voci */}
             <div className="flex items-center space-x-6">
               <Link href="/" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
                 Home
@@ -44,17 +55,6 @@ export function Navigation() {
                 title="Admin Panel"
               >
                 <span className="text-xs font-bold text-gray-400 hover:text-gray-600">⚙️</span>
-              </Link>
-            </div>
-
-            {/* Logo a Destra */}
-            <div className="flex items-center">
-              <Link href="/" className="flex items-center group">
-                <img 
-                  src={logoUrl} 
-                  alt="Unconventional Tour Logo" 
-                  className="h-36 w-auto group-hover:scale-105 transition-all duration-300"
-                />
               </Link>
             </div>
           </div>
