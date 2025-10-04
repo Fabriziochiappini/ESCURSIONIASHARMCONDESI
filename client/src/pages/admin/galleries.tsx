@@ -43,7 +43,7 @@ export default function AdminGalleries() {
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: GalleryFormData) => apiRequest("/api/admin/galleries", "POST", data),
+    mutationFn: (data: GalleryFormData) => apiRequest("POST", "/api/admin/galleries", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/galleries"] });
       setIsCreateOpen(false);
@@ -57,7 +57,7 @@ export default function AdminGalleries() {
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: GalleryFormData }) =>
-      apiRequest(`/api/admin/galleries/${id}`, "PUT", data),
+      apiRequest("PUT", `/api/admin/galleries/${id}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/galleries"] });
       setEditingGallery(null);
@@ -69,7 +69,7 @@ export default function AdminGalleries() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: number) => apiRequest(`/api/admin/galleries/${id}`, "DELETE"),
+    mutationFn: (id: number) => apiRequest("DELETE", `/api/admin/galleries/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/galleries"] });
       toast({ title: "Galleria eliminata con successo!" });
@@ -106,7 +106,7 @@ export default function AdminGalleries() {
   });
 
   const deleteImageMutation = useMutation({
-    mutationFn: (imageId: number) => apiRequest(`/api/admin/galleries/images/${imageId}`, "DELETE"),
+    mutationFn: (imageId: number) => apiRequest("DELETE", `/api/admin/galleries/images/${imageId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/galleries"] });
       toast({ title: "Immagine eliminata con successo!" });
