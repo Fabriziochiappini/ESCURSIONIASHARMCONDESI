@@ -9,15 +9,15 @@ export function Navigation() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Desktop Navbar - Altezza normale */}
-        <div className="hidden lg:flex lg:justify-between items-center h-40">
+        {/* Desktop Navbar - Altezza ridotta */}
+        <div className="hidden lg:flex lg:justify-between items-center h-24">
           {/* Logo a Sinistra */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center group">
               <img 
                 src={logoUrl} 
                 alt="Unconventional Tour Logo" 
-                className="h-36 w-auto group-hover:scale-105 transition-all duration-300"
+                className="h-20 w-auto group-hover:scale-105 transition-all duration-300"
               />
             </Link>
           </div>
