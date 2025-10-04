@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import logoAgenziaUrl from "@assets/logo_rosso-removebg-preview_1754493166038.png";
+import logoUrl from "@assets/ChatGPT_Image_4_ott_2025__08_38_54-removebg-preview_1759559972753.png";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,11 +11,11 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-28">
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative">
-              <div className="text-2xl font-black text-primary group-hover:scale-110 transition-all duration-300">
-                UNCONVENTIONAL <span className="text-blue-500">TOUR</span>
-              </div>
-            </div>
+            <img 
+              src={logoUrl} 
+              alt="Unconventional Tour Logo" 
+              className="h-24 w-auto group-hover:scale-105 transition-all duration-300"
+            />
           </Link>
 
           <div className="hidden lg:flex items-center space-x-8">
