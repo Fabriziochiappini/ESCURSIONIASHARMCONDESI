@@ -52,9 +52,9 @@ export default function Home() {
               <div className="relative">
                 <div className="rounded-3xl overflow-hidden shadow-2xl">
                   <img 
-                    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
-                    alt="Paesaggio montano con ponte"
-                    className="w-full h-[400px] object-cover"
+                    src="/chi-siamo.png"
+                    alt="UNCONVENTIONAL TOUR - Il tuo viaggio inizia qui"
+                    className="w-full h-[500px] object-cover"
                   />
                 </div>
               </div>
