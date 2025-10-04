@@ -61,15 +61,7 @@ export function Navigation() {
 
         {/* Mobile Navbar - Altezza ridotta */}
         <div className="lg:hidden flex justify-between items-center h-20">
-          {/* Hamburger Menu a Sinistra */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded-xl text-gray-700 hover:text-primary focus:outline-none transition-all duration-300"
-          >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-
-          {/* Logo a Destra */}
+          {/* Logo a Sinistra */}
           <Link href="/" className="flex items-center">
             <img 
               src={logoUrl} 
@@ -77,6 +69,14 @@ export function Navigation() {
               className="h-16 w-auto"
             />
           </Link>
+
+          {/* Hamburger Menu a Destra */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-xl text-gray-700 hover:text-primary focus:outline-none transition-all duration-300"
+          >
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
 
         {/* Mobile menu */}
