@@ -9,6 +9,8 @@ import {
   insertCountrySchema,
   insertBookingSchema,
   insertPaymentSchema,
+  insertGallerySchema,
+  insertGalleryImageSchema,
   travels
 } from "@shared/schema";
 import { z } from "zod";
@@ -845,6 +847,139 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ message: "Country travel counts updated successfully" });
     } catch (error) {
       res.status(500).json({ message: "Error updating country travel counts" });
+    }
+  });
+
+  // ===== GALLERIES ROUTES =====
+  
+  // Get all galleries (public)
+  app.get("/api/galleries", async (req, res) => {
+    try {
+      const galleries = await storage.getAllGalleries();
+      res.json(galleries);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching galleries" });
+    }
+  });
+
+  // Get gallery by ID with images (public)
+  app.get("/api/galleries/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const gallery = await storage.getGalleryWithImages(id);
+      
+      if (!gallery) {
+        return res.status(404).json({ message: "Gallery not found" });
+      }
+      
+      res.json(gallery);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching gallery" });
+    }
+  });
+
+  // Get latest images (for homepage)
+  app.get("/api/galleries/latest-images", async (req, res) => {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 12;
+      const images = await storage.getLatestGalleryImages(limit);
+      res.json(images);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching latest images" });
+    }
+  });
+
+  // Admin: Create gallery
+  app.post("/api/admin/galleries", async (req, res) => {
+    try {
+      const validatedData = insertGallerySchema.parse(req.body);
+      const gallery = await storage.createGallery(validatedData);
+      res.status(201).json(gallery);
+    } catch (error) {
+      console.error('Create gallery error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid gallery data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Error creating gallery" });
+    }
+  });
+
+  // Admin: Update gallery
+  app.put("/api/admin/galleries/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const validatedData = insertGallerySchema.partial().parse(req.body);
+      const gallery = await storage.updateGallery(id, validatedData);
+      
+      if (!gallery) {
+        return res.status(404).json({ message: "Gallery not found" });
+      }
+      
+      res.json(gallery);
+    } catch (error) {
+      console.error('Update gallery error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid gallery data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Error updating gallery" });
+    }
+  });
+
+  // Admin: Delete gallery
+  app.delete("/api/admin/galleries/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const success = await storage.deleteGallery(id);
+      
+      if (!success) {
+        return res.status(404).json({ message: "Gallery not found" });
+      }
+      
+      res.json({ message: "Gallery deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting gallery" });
+    }
+  });
+
+  // Admin: Add image to gallery (with Object Storage)
+  app.post("/api/admin/galleries/:id/images", upload.array('images', 30), async (req, res) => {
+    try {
+      const galleryId = parseInt(req.params.id);
+      const files = req.files as Express.Multer.File[];
+      
+      if (!files || files.length === 0) {
+        return res.status(400).json({ message: "No images provided" });
+      }
+
+      // Upload to Object Storage and save to database
+      const imageRecords = await storage.addGalleryImages(galleryId, files);
+      
+      res.json({
+        message: `Successfully uploaded ${imageRecords.length} images`,
+        images: imageRecords
+      });
+    } catch (error) {
+      console.error('Add gallery images error:', error);
+      res.status(500).json({ 
+        message: "Error uploading images",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  // Admin: Delete image from gallery
+  app.delete("/api/admin/galleries/images/:imageId", async (req, res) => {
+    try {
+      const imageId = parseInt(req.params.imageId);
+      const success = await storage.deleteGalleryImage(imageId);
+      
+      if (!success) {
+        return res.status(404).json({ message: "Image not found" });
+      }
+      
+      res.json({ message: "Image deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting image" });
     }
   });
 
