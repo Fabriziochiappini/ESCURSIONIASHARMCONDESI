@@ -243,3 +243,143 @@ img[loading="lazy"] {
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, hsl(30, 95%, 60%), hsl(195, 100%, 70%));
 }
+
+/* Pattern Decorativi Animati */
+.pattern-dots {
+  background-image: radial-gradient(circle, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  animation: patternMove 20s linear infinite;
+}
+
+.pattern-waves {
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 35px,
+      rgba(59, 130, 246, 0.03) 35px,
+      rgba(59, 130, 246, 0.03) 70px
+    );
+  animation: waveMove 15s linear infinite;
+}
+
+@keyframes patternMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 30px 30px; }
+}
+
+@keyframes waveMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 70px 70px; }
+}
+
+/* Gradient Animato per Hero */
+.gradient-animated {
+  background: linear-gradient(
+    -45deg,
+    rgba(59, 130, 246, 0.1),
+    rgba(147, 51, 234, 0.1),
+    rgba(236, 72, 153, 0.1),
+    rgba(251, 146, 60, 0.1)
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Effetti Hover Migliorati */
+.card-hover {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(59, 130, 246, 0.15),
+    0 0 80px rgba(59, 130, 246, 0.1);
+}
+
+/* Pulse Animation per Call to Action */
+.pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+  }
+}
+
+/* Shimmer Effect per immagini in caricamento */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Stagger Animation per Grid */
+.stagger-animation > * {
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-animation > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-animation > *:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Glow Borders */
+.glow-border {
+  position: relative;
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(147, 51, 234, 0.5)) border-box;
+}
+
+.glow-border-animated {
+  position: relative;
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(var(--angle), rgba(59, 130, 246, 0.8), rgba(147, 51, 234, 0.8)) border-box;
+  animation: borderRotate 3s linear infinite;
+}
+
+@keyframes borderRotate {
+  0% { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+
+/* Parallax Layers */
+.parallax-slow { transform: translateZ(-1px) scale(2); }
+.parallax-medium { transform: translateZ(-0.5px) scale(1.5); }
+.parallax-fast { transform: translateZ(0px) scale(1); }

@@ -11,7 +11,9 @@ export function HeroSection() {
         }}
       />
       
-      {/* No overlay - let the beautiful beach show through */}
+      {/* Elementi decorativi animati */}
+      <div className="absolute top-10 left-10 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-80 h-80 bg-orange-500/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1.5s'}}></div>
       
       <div className="relative z-10 text-center w-full px-0">
         {/* Full-width Hero Container without overlay */}

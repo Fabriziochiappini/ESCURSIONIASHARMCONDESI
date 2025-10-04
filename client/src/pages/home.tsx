@@ -23,8 +23,9 @@ export default function Home() {
         <HeroSection />
 
         {/* Sezione Chi Siamo */}
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-20 bg-white pattern-dots relative overflow-hidden">
+          <div className="absolute inset-0 gradient-animated opacity-30"></div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Testo a sinistra */}
               <div>
@@ -67,7 +68,9 @@ export default function Home() {
         {/* Sezione Destinazioni - PRIMA dei Viaggi */}
         <DestinationsSection />
 
-        <section id="travels" className="py-20 bg-white relative overflow-hidden">
+        <section id="travels" className="py-20 bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden pattern-waves">
+          <div className="absolute top-20 right-20 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
           <div className="relative z-10 max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Viaggi a tutta larghezza */}
             <div className="text-center mb-16 animate-fade-in">

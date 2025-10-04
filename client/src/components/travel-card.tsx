@@ -46,7 +46,7 @@ export function TravelCard({ travel }: TravelCardProps) {
     : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800';
   
   return (
-    <Card className="overflow-hidden group border border-gray-200 hover:shadow-2xl transition-all duration-300 h-full flex flex-col bg-white rounded-2xl">
+    <Card className="overflow-hidden group border border-gray-200 hover:shadow-2xl card-hover h-full flex flex-col bg-white rounded-2xl relative">
         {/* Immagine con badge */}
         <Link href={travelUrl} className="block">
           <div className="relative h-56 overflow-hidden rounded-t-2xl flex-shrink-0 cursor-pointer bg-gray-200">
@@ -121,7 +121,7 @@ export function TravelCard({ travel }: TravelCardProps) {
             {/* Pulsante SCOPRI TOUR */}
             <Link href={travelUrl}>
               <Button 
-                className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold"
+                className="w-full bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 data-testid={`button-discover-${travel.id}`}
               >
                 SCOPRI TOUR
