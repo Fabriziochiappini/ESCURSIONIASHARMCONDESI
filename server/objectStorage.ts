@@ -210,3 +210,5 @@ function parseObjectPath(path: string): {
     objectName,
   };
 }
+
+export const objectStorageService = new ObjectStorageService();

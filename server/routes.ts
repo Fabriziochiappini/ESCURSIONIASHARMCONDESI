@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { objectStorageService } from "./objectStorage";
 import { 
   searchFiltersSchema, 
   insertTravelSchema, 
@@ -74,6 +75,38 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve Object Storage files
+  app.get('/public-objects/*', async (req, res) => {
+    try {
+      const filePath = req.path.replace('/public-objects/', '');
+      const file = await objectStorageService.searchPublicObject(filePath);
+      
+      if (!file) {
+        return res.status(404).send('File not found');
+      }
+      
+      // Set appropriate content type
+      const ext = filePath.split('.').pop()?.toLowerCase();
+      const contentTypes: Record<string, string> = {
+        'jpg': 'image/jpeg',
+        'jpeg': 'image/jpeg',
+        'png': 'image/png',
+        'gif': 'image/gif',
+        'webp': 'image/webp',
+      };
+      
+      if (ext && contentTypes[ext]) {
+        res.setHeader('Content-Type', contentTypes[ext]);
+      }
+      
+      res.setHeader('Cache-Control', 'public, max-age=31536000');
+      res.send(Buffer.from(await file.arrayBuffer()));
+    } catch (error) {
+      console.error('Error serving object storage file:', error);
+      res.status(500).send('Error loading file');
+    }
+  });
+
   // Admin routes - no authentication required per user request
   
   // Admin authentication endpoint (always returns admin for demo)
