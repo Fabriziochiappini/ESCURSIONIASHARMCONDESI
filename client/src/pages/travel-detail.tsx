@@ -222,6 +222,17 @@ export default function TravelDetail() {
                     Prenota ora
                   </Button>
                 </BookingModal>
+                {travel.depositAmount && parseFloat(travel.depositAmount) > 0 && (
+                  <BookingModal travel={travel}>
+                    <Button 
+                      className="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-3"
+                      data-testid="button-deposit"
+                    >
+                      <CreditCard className="h-5 w-5 mr-2" />
+                      Versa Acconto (€{parseFloat(travel.depositAmount).toLocaleString("it-IT")})
+                    </Button>
+                  </BookingModal>
+                )}
                 <Button
                   onClick={handleWhatsAppContact}
                   className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3"
@@ -312,6 +323,17 @@ export default function TravelDetail() {
                         Prenota viaggio
                       </Button>
                     </BookingModal>
+                    {travel.depositAmount && parseFloat(travel.depositAmount) > 0 && (
+                      <BookingModal travel={travel}>
+                        <Button 
+                          className="w-full bg-orange-600 hover:bg-orange-700 text-white"
+                          data-testid="button-deposit-sidebar"
+                        >
+                          <CreditCard className="h-4 w-4 mr-2" />
+                          Versa Acconto (€{parseFloat(travel.depositAmount).toLocaleString("it-IT")})
+                        </Button>
+                      </BookingModal>
+                    )}
                     <Button
                       onClick={handleWhatsAppContact}
                       className="w-full bg-green-600 hover:bg-green-700 text-white"
