@@ -4,12 +4,13 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { X, ZoomIn } from "lucide-react";
+import { X, ZoomIn, ArrowLeft } from "lucide-react";
 import type { Gallery, GalleryImage } from "@shared/schema";
 
 export default function GalleriaPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
+  const [selectedGallery, setSelectedGallery] = useState<(Gallery & { images: GalleryImage[] }) | null>(null);
   const [allImages, setAllImages] = useState<GalleryImage[]>([]);
 
   const { data: galleries, isLoading } = useQuery<(Gallery & { images: GalleryImage[] })[]>({
@@ -18,6 +19,10 @@ export default function GalleriaPage() {
 
   const convertImageUrl = (url: string) => {
     return url.replace('/public-objects/', '/api/images/');
+  };
+
+  const openGallery = (gallery: Gallery & { images: GalleryImage[] }) => {
+    setSelectedGallery(gallery);
   };
 
   const openLightbox = (image: GalleryImage, images: GalleryImage[], index: number) => {
@@ -65,87 +70,114 @@ export default function GalleriaPage() {
         </section>
 
         <section className="py-20">
-          <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {isLoading ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {[...Array(12)].map((_, i) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                {[...Array(6)].map((_, i) => (
                   <div key={i} className="animate-pulse">
                     <div className="bg-gray-200 aspect-square rounded-lg"></div>
                   </div>
                 ))}
               </div>
             ) : galleries && galleries.length > 0 ? (
-              <div className="space-y-16">
-                {galleries.map((gallery) => (
-                  <div key={gallery.id} className="space-y-6">
-                    <div className="text-center space-y-2">
-                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-                        {gallery.title}
-                      </h2>
-                      {gallery.description && (
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                          {gallery.description}
-                        </p>
-                      )}
-                      <p className="text-sm text-gray-400">
-                        {new Date(gallery.createdAt).toLocaleDateString('it-IT', { 
-                          year: 'numeric', 
-                          month: 'long', 
-                          day: 'numeric' 
-                        })}
-                      </p>
-                    </div>
-
-                    {gallery.images && gallery.images.length > 0 ? (
-                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                        {gallery.images.map((image, index) => (
-                          <div
-                            key={image.id}
-                            className="group relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer bg-gray-100"
-                            onClick={() => openLightbox(image, gallery.images, index)}
-                            data-testid={`gallery-image-${image.id}`}
-                          >
-                            <img
-                              src={convertImageUrl(image.imageUrl)}
-                              alt={`Foto ${index + 1} - ${gallery.title}`}
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                              loading="lazy"
-                              onError={(e) => {
-                                const target = e.currentTarget;
-                                target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23e5e7eb" width="400" height="400"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-size="20"%3EImmagine non disponibile%3C/text%3E%3C/svg%3E';
-                              }}
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
-                              <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-12 w-12" />
-                            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                {galleries.map((gallery) => {
+                  const displayImages = gallery.images?.slice(0, 4) || [];
+                  const totalPhotos = gallery.images?.length || 0;
+                  
+                  return (
+                    <div
+                      key={gallery.id}
+                      className="group cursor-pointer"
+                      onClick={() => openGallery(gallery)}
+                      data-testid={`gallery-card-${gallery.id}`}
+                    >
+                      <div className="relative h-80 mb-6">
+                        {displayImages.length > 0 ? (
+                          <div className="relative w-full h-full">
+                            {displayImages.map((image, index) => {
+                              const rotations = ['-rotate-6', 'rotate-3', '-rotate-3', 'rotate-6'];
+                              const zIndexes = ['z-10', 'z-20', 'z-30', 'z-40'];
+                              const offsets = [
+                                'top-0 left-0',
+                                'top-4 left-4',
+                                'top-8 left-8',
+                                'top-12 left-12'
+                              ];
+                              
+                              return (
+                                <div
+                                  key={image.id}
+                                  className={`absolute ${offsets[index]} ${zIndexes[index]} ${rotations[index]} 
+                                    transform transition-all duration-500 group-hover:rotate-0 
+                                    ${index === 0 ? 'group-hover:translate-x-0 group-hover:translate-y-0' : ''}
+                                    ${index === 1 ? 'group-hover:translate-x-2 group-hover:translate-y-2' : ''}
+                                    ${index === 2 ? 'group-hover:translate-x-4 group-hover:translate-y-4' : ''}
+                                    ${index === 3 ? 'group-hover:translate-x-6 group-hover:translate-y-6' : ''}
+                                  `}
+                                  style={{
+                                    width: 'calc(100% - 3rem)',
+                                    height: 'calc(100% - 3rem)'
+                                  }}
+                                >
+                                  <div className="bg-white p-3 shadow-2xl rounded-sm h-full border-8 border-white">
+                                    <img
+                                      src={convertImageUrl(image.imageUrl)}
+                                      alt={`${gallery.title} - Foto ${index + 1}`}
+                                      className="w-full h-full object-cover"
+                                      loading="lazy"
+                                      onError={(e) => {
+                                        const target = e.currentTarget;
+                                        target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23e5e7eb" width="400" height="400"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-size="20"%3EFoto%3C/text%3E%3C/svg%3E';
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              );
+                            })}
                           </div>
-                        ))}
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg flex items-center justify-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-20 w-20 text-gray-400"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                              />
+                            </svg>
+                          </div>
+                        )}
                       </div>
-                    ) : (
-                      <div className="text-center py-12 bg-gray-50 rounded-xl">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-16 w-16 text-gray-300 mx-auto mb-3"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                          />
-                        </svg>
-                        <p className="text-gray-500">Nessuna foto in questa galleria</p>
-                      </div>
-                    )}
 
-                    {galleries.indexOf(gallery) < galleries.length - 1 && (
-                      <div className="border-b border-gray-200 pt-8"></div>
-                    )}
-                  </div>
-                ))}
+                      <div className="text-center space-y-2">
+                        <h3 className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                          {gallery.title}
+                        </h3>
+                        {gallery.description && (
+                          <p className="text-gray-600 line-clamp-2">
+                            {gallery.description}
+                          </p>
+                        )}
+                        <div className="flex items-center justify-center gap-4 text-sm text-gray-500">
+                          <span className="font-medium">
+                            📸 {totalPhotos} {totalPhotos === 1 ? 'foto' : 'foto'}
+                          </span>
+                          <span>•</span>
+                          <span>
+                            {new Date(gallery.createdAt).toLocaleDateString('it-IT')}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <div className="text-center py-20">
@@ -169,6 +201,86 @@ export default function GalleriaPage() {
           </div>
         </section>
       </main>
+
+      <Dialog open={!!selectedGallery} onOpenChange={() => setSelectedGallery(null)}>
+        <DialogContent className="max-w-[95vw] max-h-[95vh] overflow-y-auto bg-white">
+          {selectedGallery && (
+            <div className="py-6">
+              <button
+                onClick={() => setSelectedGallery(null)}
+                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+                data-testid="back-to-galleries"
+              >
+                <ArrowLeft className="h-5 w-5" />
+                <span>Torna alle gallerie</span>
+              </button>
+
+              <div className="text-center mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+                  {selectedGallery.title}
+                </h2>
+                {selectedGallery.description && (
+                  <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-2">
+                    {selectedGallery.description}
+                  </p>
+                )}
+                <p className="text-sm text-gray-400">
+                  {selectedGallery.images?.length || 0} foto • {new Date(selectedGallery.createdAt).toLocaleDateString('it-IT', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </p>
+              </div>
+
+              {selectedGallery.images && selectedGallery.images.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {selectedGallery.images.map((image, index) => (
+                    <div
+                      key={image.id}
+                      className="group relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer bg-gray-100"
+                      onClick={() => openLightbox(image, selectedGallery.images, index)}
+                      data-testid={`gallery-image-${image.id}`}
+                    >
+                      <img
+                        src={convertImageUrl(image.imageUrl)}
+                        alt={`Foto ${index + 1} - ${selectedGallery.title}`}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23e5e7eb" width="400" height="400"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-size="20"%3EImmagine non disponibile%3C/text%3E%3C/svg%3E';
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                        <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-12 w-12" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12 bg-gray-50 rounded-xl">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-16 w-16 text-gray-300 mx-auto mb-3"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <p className="text-gray-500">Nessuna foto in questa galleria</p>
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
         <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black border-0">
