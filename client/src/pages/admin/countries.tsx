@@ -39,7 +39,7 @@ export default function AdminCountries() {
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: InsertCountry) => apiRequest('/api/admin/countries', 'POST', data),
+    mutationFn: (data: InsertCountry) => apiRequest('POST', '/api/admin/countries', data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/countries'] });
       queryClient.invalidateQueries({ queryKey: ['/api/countries-destinations'] });
@@ -54,7 +54,7 @@ export default function AdminCountries() {
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: Partial<InsertCountry> }) => 
-      apiRequest(`/api/admin/countries/${id}`, 'PUT', data),
+      apiRequest('PUT', `/api/admin/countries/${id}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/countries'] });
       queryClient.invalidateQueries({ queryKey: ['/api/countries-destinations'] });
@@ -68,7 +68,7 @@ export default function AdminCountries() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: number) => apiRequest(`/api/admin/countries/${id}`, 'DELETE'),
+    mutationFn: (id: number) => apiRequest('DELETE', `/api/admin/countries/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/countries'] });
       queryClient.invalidateQueries({ queryKey: ['/api/countries-destinations'] });
@@ -80,7 +80,7 @@ export default function AdminCountries() {
   });
 
   const updateCountsMutation = useMutation({
-    mutationFn: () => apiRequest('/api/admin/countries/update-counts', 'POST'),
+    mutationFn: () => apiRequest('POST', '/api/admin/countries/update-counts'),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/admin/countries'] });
       queryClient.invalidateQueries({ queryKey: ['/api/countries-destinations'] });
