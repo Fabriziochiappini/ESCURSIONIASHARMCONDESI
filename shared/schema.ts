@@ -18,6 +18,7 @@ export const travels = pgTable("travels", {
   title: text("title").notNull(),
   description: text("description").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
+  depositAmount: decimal("deposit_amount", { precision: 10, scale: 2 }), // Importo acconto
   type: text("type").notNull(), // "mare", "montagna", "citta", "avventura", "relax", "cultura"
   travelType: text("travel_type"), // "singolo", "coppia", "famiglia", "gruppo"
   priceType: text("price_type"), // "per_persona", "forfait", "giornaliero"

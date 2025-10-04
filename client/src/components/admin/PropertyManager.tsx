@@ -268,6 +268,7 @@ const initialFormData: PropertyFormData = {
   title: "",
   description: "",
   price: "0",
+  depositAmount: undefined,
   type: "mare",
   propertyType: undefined,
   priceType: "per_person",
@@ -553,6 +554,7 @@ export default function PropertyManager() {
       title: property.title || "",
       description: property.description || "", 
       price: property.price?.toString() || "0",
+      depositAmount: property.depositAmount?.toString() || undefined,
       type: property.type || "mare",
       propertyType: property.travelType || undefined, // DATABASE: travelType -> FORM: propertyType
       priceType: property.priceType || "per_person",
@@ -821,9 +823,9 @@ export default function PropertyManager() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="price">Prezzo *</Label>
+                  <Label htmlFor="price">Prezzo Totale *</Label>
                   <Input
                     id="price"
                     type="number"
@@ -833,6 +835,22 @@ export default function PropertyManager() {
                   />
                 </div>
                 
+                <div className="space-y-2">
+                  <Label htmlFor="depositAmount">Acconto (opzionale)</Label>
+                  <Input
+                    id="depositAmount"
+                    type="number"
+                    value={formData.depositAmount || ''}
+                    onChange={(e) => setFormData(prev => ({ ...prev, depositAmount: e.target.value }))}
+                    placeholder="es. 500"
+                  />
+                  <p className="text-xs text-gray-500">
+                    Importo acconto richiesto. Lascia vuoto se non previsto.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="bedrooms">Durata (giorni) *</Label>
                   <Input
@@ -853,6 +871,18 @@ export default function PropertyManager() {
                     value={formData.bathrooms}
                     onChange={(e) => setFormData(prev => ({ ...prev, bathrooms: parseInt(e.target.value) || 1 }))}
                     min="1"
+                    required
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="minAge">Età Minima *</Label>
+                  <Input
+                    id="minAge"
+                    type="number"
+                    value={formData.minAge}
+                    onChange={(e) => setFormData(prev => ({ ...prev, minAge: parseInt(e.target.value) || 0 }))}
+                    min="0"
                     required
                   />
                 </div>

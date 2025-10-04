@@ -41,6 +41,9 @@ const bookingFormSchema = z.object({
   numberOfTravelers: z.number().min(1, "Minimo 1 viaggiatore").max(20, "Massimo 20 viaggiatori"),
   travelDate: z.string().min(1, "Seleziona una data di partenza"),
   notes: z.string().optional(),
+  paymentType: z.enum(["full", "deposit"], {
+    required_error: "Seleziona il tipo di pagamento",
+  }).optional(),
   paymentMethod: z.enum(["stripe", "paypal"], {
     required_error: "Seleziona un metodo di pagamento",
   }),
@@ -71,14 +74,20 @@ export function BookingModal({ travel, children }: BookingModalProps) {
       numberOfTravelers: 1,
       travelDate: "",
       notes: "",
+      paymentType: travel.depositAmount ? "full" : undefined,
       paymentMethod: "stripe",
     },
   });
 
   // Calculate total price
   const numberOfTravelers = form.watch("numberOfTravelers");
+  const paymentType = form.watch("paymentType");
   const basePrice = parseFloat(travel.price);
-  const totalPrice = basePrice * numberOfTravelers;
+  const depositAmount = travel.depositAmount ? parseFloat(travel.depositAmount) : 0;
+  
+  // Se depositAmount esiste e paymentType è "deposit", usa l'acconto, altrimenti usa il prezzo completo
+  const pricePerPerson = (paymentType === "deposit" && depositAmount > 0) ? depositAmount : basePrice;
+  const totalPrice = pricePerPerson * numberOfTravelers;
 
   // Create booking and payment intent
   const createBookingMutation = useMutation({
@@ -340,6 +349,48 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                   )}
                 />
 
+                {/* Payment Type Selection - Only show if deposit is available */}
+                {travel.depositAmount && parseFloat(travel.depositAmount) > 0 && (
+                  <FormField
+                    control={form.control}
+                    name="paymentType"
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <FormLabel className="text-base font-semibold">
+                          Tipo di pagamento *
+                        </FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            value={field.value}
+                            className="grid grid-cols-2 gap-4"
+                          >
+                            <div className="flex items-center space-x-2 border rounded-lg p-3 hover:border-blue-500 cursor-pointer transition-colors">
+                              <RadioGroupItem value="full" id="payment-full" />
+                              <Label htmlFor="payment-full" className="cursor-pointer flex-1">
+                                <div className="font-medium">Pagamento Completo</div>
+                                <div className="text-sm text-gray-500">
+                                  € {(basePrice * numberOfTravelers).toLocaleString("it-IT")}
+                                </div>
+                              </Label>
+                            </div>
+                            <div className="flex items-center space-x-2 border rounded-lg p-3 hover:border-blue-500 cursor-pointer transition-colors">
+                              <RadioGroupItem value="deposit" id="payment-deposit" />
+                              <Label htmlFor="payment-deposit" className="cursor-pointer flex-1">
+                                <div className="font-medium">Acconto</div>
+                                <div className="text-sm text-gray-500">
+                                  € {(depositAmount * numberOfTravelers).toLocaleString("it-IT")}
+                                </div>
+                              </Label>
+                            </div>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+
                 {/* Payment Method Selection */}
                 <FormField
                   control={form.control}
@@ -379,16 +430,38 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                 {/* Price Summary */}
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <span>Prezzo per persona:</span>
-                    <span>{formatPrice(travel.price, travel.type, travel.priceType || undefined)}</span>
+                    <span>
+                      {paymentType === "deposit" && depositAmount > 0 
+                        ? "Acconto per persona:" 
+                        : "Prezzo per persona:"}
+                    </span>
+                    <span>
+                      € {pricePerPerson.toLocaleString("it-IT")}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center mb-2">
                     <span>Numero viaggiatori:</span>
                     <span>{numberOfTravelers}</span>
                   </div>
+                  {paymentType === "deposit" && depositAmount > 0 && (
+                    <>
+                      <div className="flex justify-between items-center mb-2 text-sm text-gray-600">
+                        <span>Prezzo totale viaggio:</span>
+                        <span>€ {(basePrice * numberOfTravelers).toLocaleString("it-IT")}</span>
+                      </div>
+                      <div className="flex justify-between items-center mb-2 text-sm text-gray-600">
+                        <span>Saldo da pagare dopo:</span>
+                        <span>€ {((basePrice - depositAmount) * numberOfTravelers).toLocaleString("it-IT")}</span>
+                      </div>
+                    </>
+                  )}
                   <Separator className="my-2" />
                   <div className="flex justify-between items-center font-semibold text-lg">
-                    <span>Totale:</span>
+                    <span>
+                      {paymentType === "deposit" && depositAmount > 0 
+                        ? "Totale acconto da pagare:" 
+                        : "Totale:"}
+                    </span>
                     <span className="text-blue-600">
                       € {totalPrice.toLocaleString("it-IT")}
                     </span>
