@@ -18,7 +18,7 @@ export function HeroSection() {
         <div className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Logo Grande Centro */}
-            <div className="mb-12 flex justify-center">
+            <div className="mb-4 flex justify-center">
               <img 
                 src="/logo.png" 
                 alt="UNCONVENTIONAL TOUR Logo" 
@@ -27,7 +27,7 @@ export function HeroSection() {
             </div>
             
             {/* Accent Line */}
-            <div className="w-40 h-2 bg-blue-500 mx-auto mb-8"></div>
+            <div className="w-40 h-2 bg-blue-500 mx-auto mb-6"></div>
             
             {/* Description con riquadro elegante */}
             <div className="max-w-4xl mx-auto mb-12">
