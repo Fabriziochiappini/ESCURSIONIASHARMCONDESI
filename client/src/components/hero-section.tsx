@@ -21,7 +21,9 @@ export function HeroSection() {
             <div className="mb-4 flex justify-center">
               <img 
                 src="/logo.png" 
-                alt="UNCONVENTIONAL TOUR Logo" 
+                alt="UNCONVENTIONAL TOUR Logo"
+                loading="eager"
+                decoding="async"
                 className="w-64 h-64 md:w-80 md:h-80 object-contain drop-shadow-2xl animate-fade-in"
               />
             </div>

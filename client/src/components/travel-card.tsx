@@ -49,10 +49,12 @@ export function TravelCard({ travel }: TravelCardProps) {
     <Card className="overflow-hidden group border border-gray-200 hover:shadow-2xl transition-all duration-300 h-full flex flex-col bg-white rounded-2xl">
         {/* Immagine con badge */}
         <Link href={travelUrl} className="block">
-          <div className="relative h-56 overflow-hidden rounded-t-2xl flex-shrink-0 cursor-pointer">
+          <div className="relative h-56 overflow-hidden rounded-t-2xl flex-shrink-0 cursor-pointer bg-gray-200">
             <img 
               src={firstImage}
               alt={travel.title}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
             

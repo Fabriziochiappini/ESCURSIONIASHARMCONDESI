@@ -111,10 +111,12 @@ export function DestinationsSection() {
               data-testid={`destination-${country.id}`}
             >
               <div className="relative mb-4">
-                <div className="aspect-square rounded-full overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                <div className="aspect-square rounded-full overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 bg-gray-200">
                   <img 
                     src={country.backgroundImage}
                     alt={country.name}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>

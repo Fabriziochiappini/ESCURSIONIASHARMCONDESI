@@ -50,10 +50,12 @@ export default function Home() {
 
               {/* Immagine a destra */}
               <div className="relative">
-                <div className="rounded-3xl overflow-hidden shadow-2xl">
+                <div className="rounded-3xl overflow-hidden shadow-2xl bg-gray-200">
                   <img 
                     src="/chi-siamo.png"
                     alt="UNCONVENTIONAL TOUR - Il tuo viaggio inizia qui"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-[500px] object-cover"
                   />
                 </div>
