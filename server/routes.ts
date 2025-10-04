@@ -85,25 +85,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).send('File not found');
       }
       
-      // Set appropriate content type
-      const ext = filePath.split('.').pop()?.toLowerCase();
-      const contentTypes: Record<string, string> = {
-        'jpg': 'image/jpeg',
-        'jpeg': 'image/jpeg',
-        'png': 'image/png',
-        'gif': 'image/gif',
-        'webp': 'image/webp',
-      };
-      
-      if (ext && contentTypes[ext]) {
-        res.setHeader('Content-Type', contentTypes[ext]);
-      }
-      
-      res.setHeader('Cache-Control', 'public, max-age=31536000');
-      res.send(Buffer.from(await file.arrayBuffer()));
+      // Use the downloadObject method that handles streaming correctly
+      await objectStorageService.downloadObject(file, res, req);
     } catch (error) {
       console.error('Error serving object storage file:', error);
-      res.status(500).send('Error loading file');
+      if (!res.headersSent) {
+        res.status(500).send('Error loading file');
+      }
     }
   });
 
