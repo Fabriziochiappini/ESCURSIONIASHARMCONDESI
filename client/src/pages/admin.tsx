@@ -14,7 +14,8 @@ import {
   BarChart3,
   Plus,
   Settings,
-  MapPin
+  MapPin,
+  Image
 } from "lucide-react";
 import { Link } from "wouter";
 
@@ -111,7 +112,7 @@ export default function AdminPanel() {
           </div>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => window.location.href = "/admin/countries"}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -134,6 +135,20 @@ export default function AdminPanel() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">Gestisci le sezioni promozionali</p>
+                </CardContent>
+              </Card>
+            </Link>
+            
+            <Link href="/admin/galleries">
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Image className="h-5 w-5" />
+                    Gestione Gallerie
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Crea e gestisci gallerie fotografiche</p>
                 </CardContent>
               </Card>
             </Link>
