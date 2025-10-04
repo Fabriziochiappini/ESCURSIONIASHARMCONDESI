@@ -27,6 +27,10 @@ export function Navigation() {
               Viaggi
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
+            <Link href="/galleria" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+              Galleria
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+            </Link>
             <Link href="/servizi" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
               Servizi
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
@@ -70,6 +74,9 @@ export function Navigation() {
               </Link>
               <Link href="/viaggi" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
                 Viaggi
+              </Link>
+              <Link href="/galleria" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
+                Galleria
               </Link>
               <Link href="/servizi" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
                 Servizi
