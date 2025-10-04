@@ -9,43 +9,43 @@ export function Navigation() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-40">
-          {/* Menu Sinistra */}
-          <div className="hidden lg:flex items-center space-x-6">
-            <Link href="/" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
-              Home
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <Link href="/viaggi" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
-              Viaggi
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <Link href="/galleria" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
-              Galleria
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
-          </div>
+        <div className="flex justify-center items-center h-40">
+          <div className="hidden lg:flex items-center gap-16">
+            {/* Menu Sinistra - Accostate al logo */}
+            <div className="flex items-center space-x-8">
+              <Link href="/" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+                Home
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              </Link>
+              <Link href="/viaggi" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+                Viaggi
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              </Link>
+              <Link href="/galleria" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+                Galleria
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              </Link>
+            </div>
 
-          {/* Logo Centrato */}
-          <Link href="/" className="flex items-center group absolute left-1/2 transform -translate-x-1/2">
-            <img 
-              src={logoUrl} 
-              alt="Unconventional Tour Logo" 
-              className="h-36 w-auto group-hover:scale-105 transition-all duration-300"
-            />
-          </Link>
+            {/* Logo Centrato */}
+            <Link href="/" className="flex items-center group">
+              <img 
+                src={logoUrl} 
+                alt="Unconventional Tour Logo" 
+                className="h-36 w-auto group-hover:scale-105 transition-all duration-300"
+              />
+            </Link>
 
-          {/* Menu Destra */}
-          <div className="hidden lg:flex items-center space-x-6">
-            <Link href="/servizi" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
-              Servizi
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <Link href="/chi-siamo" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
-              Chi Siamo
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <div className="flex items-center space-x-2">
+            {/* Menu Destra - Accostate al logo */}
+            <div className="flex items-center space-x-8">
+              <Link href="/servizi" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+                Servizi
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              </Link>
+              <Link href="/chi-siamo" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+                Chi Siamo
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              </Link>
               <a 
                 href="tel:+390212345567" 
                 className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
