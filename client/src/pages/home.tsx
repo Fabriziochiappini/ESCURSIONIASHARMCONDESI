@@ -105,7 +105,7 @@ export default function Home() {
 
             <div className="space-y-8 animate-slide-up">
               {/* Blog Card 1 */}
-              <div className="group cursor-pointer bg-gradient-to-r from-red-600 to-orange-500 relative overflow-hidden transform hover:scale-[1.01] transition-all duration-300">
+              <div className="group cursor-pointer bg-gradient-to-r from-red-600 to-orange-500 relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
                 <div className="relative z-10 flex flex-col lg:flex-row min-h-[320px]">
                   <div className="lg:w-2/3 p-12 flex flex-col justify-center">
                     <div className="mb-6">
@@ -140,7 +140,7 @@ export default function Home() {
               </div>
 
               {/* Blog Card 2 */}
-              <div className="group cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 relative overflow-hidden transform hover:scale-[1.01] transition-all duration-300">
+              <div className="group cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
                 <div className="relative z-10 flex flex-col lg:flex-row-reverse min-h-[320px]">
                   <div className="lg:w-2/3 p-12 flex flex-col justify-center">
                     <div className="mb-6">
