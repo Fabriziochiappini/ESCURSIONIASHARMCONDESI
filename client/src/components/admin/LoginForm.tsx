@@ -17,7 +17,7 @@ export function LoginForm({ onLogin }: LoginFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (username === "Antonioagenzia" && password === "agenziaimmobiliare2acireale!") {
+    if (username === "unconventionaltour" && password === "%%Unconventionaltour2025!") {
       setError("");
       onLogin();
     } else {
