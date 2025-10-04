@@ -150,13 +150,13 @@ export default function Travels() {
                     placeholder="Cerca destinazione o titolo..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="h-12 bg-white border-gray-200"
+                    className="h-12 bg-white border-gray-200 placeholder:text-gray-600 text-gray-900"
                     onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                   />
                 </div>
 
                 <Select value={selectedType} onValueChange={setSelectedType}>
-                  <SelectTrigger className="h-12 bg-white">
+                  <SelectTrigger className="h-12 bg-white text-gray-900">
                     <SelectValue placeholder="Tipo" />
                   </SelectTrigger>
                   <SelectContent>
@@ -169,7 +169,7 @@ export default function Travels() {
                 </Select>
 
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="h-12 bg-white">
+                  <SelectTrigger className="h-12 bg-white text-gray-900">
                     <SelectValue placeholder="Categoria" />
                   </SelectTrigger>
                   <SelectContent>
@@ -182,7 +182,7 @@ export default function Travels() {
                 </Select>
 
                 <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-                  <SelectTrigger className="h-12 bg-white">
+                  <SelectTrigger className="h-12 bg-white text-gray-900">
                     <SelectValue placeholder="Paese" />
                   </SelectTrigger>
                   <SelectContent>
@@ -199,7 +199,7 @@ export default function Travels() {
                   placeholder="Budget max €"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(e.target.value)}
-                  className="h-12 bg-white"
+                  className="h-12 bg-white placeholder:text-gray-600 text-gray-900"
                 />
 
                 <div className="flex gap-2">

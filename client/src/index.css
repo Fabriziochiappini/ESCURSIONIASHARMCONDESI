@@ -38,6 +38,18 @@ body {
   color: hsl(210, 25%, 12%);
 }
 
+/* Placeholder leggibili in tutti gli input */
+input::placeholder,
+textarea::placeholder {
+  color: hsl(210, 15%, 45%) !important;
+  opacity: 1 !important;
+}
+
+input:focus::placeholder,
+textarea:focus::placeholder {
+  color: hsl(210, 15%, 55%) !important;
+}
+
 /* Travel Theme - Mare & Sole */
 .glass {
   background: rgba(255, 255, 255, 0.95);
