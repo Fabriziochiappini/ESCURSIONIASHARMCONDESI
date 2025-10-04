@@ -6,6 +6,8 @@ import {
   countries,
   bookings,
   payments,
+  galleries,
+  galleryImages,
   type Travel, 
   type InsertTravel, 
   type SearchFilters,
@@ -21,6 +23,10 @@ import {
   type InsertBooking,
   type Payment,
   type InsertPayment,
+  type Gallery,
+  type InsertGallery,
+  type GalleryImage,
+  type InsertGalleryImage,
   generateTravelSlug,
   generateTravelMetaTitle,
   generateTravelMetaDescription
@@ -29,6 +35,7 @@ import { eq, and, gte, lte, sql, desc, like, or, ilike, gt } from "drizzle-orm";
 import { db } from "./db";
 import fs from 'fs';
 import path from 'path';
+import { ObjectStorageService } from "./objectStorage";
 
 export interface IStorage {
   // Travel operations
@@ -99,6 +106,17 @@ export interface IStorage {
   updatePaymentByPayPalId(paypalOrderId: string, payment: Partial<InsertPayment>): Promise<Payment | undefined>;
   deletePayment(id: number): Promise<boolean>;
   getPaymentsByBooking(bookingId: number): Promise<Payment[]>;
+
+  // Gallery operations
+  getAllGalleries(): Promise<Gallery[]>;
+  getGallery(id: number): Promise<Gallery | undefined>;
+  getGalleryWithImages(id: number): Promise<(Gallery & { images: GalleryImage[] }) | undefined>;
+  getLatestGalleryImages(limit: number): Promise<(GalleryImage & { gallery: Gallery })[]>;
+  createGallery(gallery: InsertGallery): Promise<Gallery>;
+  updateGallery(id: number, gallery: Partial<InsertGallery>): Promise<Gallery | undefined>;
+  deleteGallery(id: number): Promise<boolean>;
+  addGalleryImages(galleryId: number, files: Express.Multer.File[]): Promise<GalleryImage[]>;
+  deleteGalleryImage(imageId: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -804,6 +822,132 @@ export class DatabaseStorage implements IStorage {
       .where(eq(payments.bookingId, bookingId))
       .orderBy(payments.createdAt);
     return bookingPayments;
+  }
+
+  // Gallery operations
+  async getAllGalleries(): Promise<Gallery[]> {
+    const allGalleries = await db.select().from(galleries).orderBy(desc(galleries.createdAt));
+    return allGalleries;
+  }
+
+  async getGallery(id: number): Promise<Gallery | undefined> {
+    const [gallery] = await db.select().from(galleries).where(eq(galleries.id, id));
+    return gallery || undefined;
+  }
+
+  async getGalleryWithImages(id: number): Promise<(Gallery & { images: GalleryImage[] }) | undefined> {
+    const gallery = await this.getGallery(id);
+    if (!gallery) return undefined;
+
+    const images = await db
+      .select()
+      .from(galleryImages)
+      .where(eq(galleryImages.galleryId, id))
+      .orderBy(galleryImages.sortOrder, galleryImages.createdAt);
+
+    return { ...gallery, images };
+  }
+
+  async getLatestGalleryImages(limit: number): Promise<(GalleryImage & { gallery: Gallery })[]> {
+    const images = await db
+      .select({
+        id: galleryImages.id,
+        galleryId: galleryImages.galleryId,
+        imageUrl: galleryImages.imageUrl,
+        createdAt: galleryImages.createdAt,
+        sortOrder: galleryImages.sortOrder,
+        galleryTitle: galleries.title,
+        galleryDescription: galleries.description,
+        galleryCreatedAt: galleries.createdAt,
+        gallerySortOrder: galleries.sortOrder,
+      })
+      .from(galleryImages)
+      .innerJoin(galleries, eq(galleryImages.galleryId, galleries.id))
+      .orderBy(desc(galleryImages.createdAt))
+      .limit(limit);
+
+    return images.map(img => ({
+      id: img.id,
+      galleryId: img.galleryId,
+      imageUrl: img.imageUrl,
+      createdAt: img.createdAt,
+      sortOrder: img.sortOrder,
+      gallery: {
+        id: img.galleryId,
+        title: img.galleryTitle,
+        description: img.galleryDescription,
+        createdAt: img.galleryCreatedAt,
+        sortOrder: img.gallerySortOrder,
+      }
+    }));
+  }
+
+  async createGallery(gallery: InsertGallery): Promise<Gallery> {
+    const [newGallery] = await db.insert(galleries).values(gallery).returning();
+    return newGallery;
+  }
+
+  async updateGallery(id: number, gallery: Partial<InsertGallery>): Promise<Gallery | undefined> {
+    const [updatedGallery] = await db.update(galleries).set(gallery).where(eq(galleries.id, id)).returning();
+    return updatedGallery || undefined;
+  }
+
+  async deleteGallery(id: number): Promise<boolean> {
+    // Images will be cascade deleted by database constraint
+    const result = await db.delete(galleries).where(eq(galleries.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  async addGalleryImages(galleryId: number, files: Express.Multer.File[]): Promise<GalleryImage[]> {
+    const objectStorageService = new ObjectStorageService();
+    const imageRecords: GalleryImage[] = [];
+
+    // Get PUBLIC_OBJECT_SEARCH_PATHS to determine bucket
+    const publicPaths = objectStorageService.getPublicObjectSearchPaths();
+    const bucketPath = publicPaths[0]; // Use first public path
+
+    for (const file of files) {
+      // Generate unique filename
+      const uniqueFilename = objectStorageService.generateUniqueFilename(file.originalname);
+      
+      // Upload to object storage
+      const objectPath = `${bucketPath}/gallery-images/${uniqueFilename}`;
+      const publicUrl = await objectStorageService.uploadFile(file, objectPath);
+
+      // Save to database
+      const [imageRecord] = await db.insert(galleryImages).values({
+        galleryId,
+        imageUrl: publicUrl,
+      }).returning();
+
+      imageRecords.push(imageRecord);
+    }
+
+    return imageRecords;
+  }
+
+  async deleteGalleryImage(imageId: number): Promise<boolean> {
+    // Get image to delete from object storage
+    const [image] = await db.select().from(galleryImages).where(eq(galleryImages.id, imageId));
+    
+    if (!image) return false;
+
+    // Delete from object storage if URL starts with /public-objects/
+    if (image.imageUrl.startsWith('/public-objects/')) {
+      const objectStorageService = new ObjectStorageService();
+      const publicPaths = objectStorageService.getPublicObjectSearchPaths();
+      const bucketPath = publicPaths[0];
+      
+      // Extract filename from URL
+      const filename = image.imageUrl.replace('/public-objects/', '');
+      const objectPath = `${bucketPath}/public/${filename}`;
+      
+      await objectStorageService.deleteFile(objectPath);
+    }
+
+    // Delete from database
+    const result = await db.delete(galleryImages).where(eq(galleryImages.id, imageId));
+    return result.rowCount !== null && result.rowCount > 0;
   }
 }
 
