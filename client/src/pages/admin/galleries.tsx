@@ -182,24 +182,45 @@ export default function AdminGalleries() {
                   <p className="text-sm text-white/80">{gallery.description || "Nessuna descrizione"}</p>
                 </CardHeader>
                 <CardContent className="p-4 space-y-4">
-                  {/* Immagini della galleria */}
-                  <div className="grid grid-cols-3 gap-2">
-                    {gallery.images?.slice(0, 6).map((img: any) => (
-                      <div key={img.id} className="relative group">
-                        <img
-                          src={img.imageUrl}
-                          alt="Gallery"
-                          className="w-full h-20 object-cover rounded"
-                        />
-                        <button
-                          onClick={() => deleteImageMutation.mutate(img.id)}
-                          className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <Trash2 className="h-3 w-3" />
-                        </button>
-                      </div>
-                    ))}
+                  {/* Contatore foto */}
+                  <div className="text-sm text-gray-600 font-medium">
+                    📸 {gallery.images?.length || 0} foto nella galleria
                   </div>
+
+                  {/* Immagini della galleria */}
+                  {gallery.images && gallery.images.length > 0 ? (
+                    <div className="grid grid-cols-4 gap-2 max-h-60 overflow-y-auto border rounded p-2">
+                      {gallery.images.map((img: any) => (
+                        <div key={img.id} className="relative group">
+                          <img
+                            src={img.imageUrl}
+                            alt={`Foto ${img.id}`}
+                            className="w-full h-20 object-cover rounded border-2 border-gray-200"
+                            onError={(e) => {
+                              console.error('Errore caricamento immagine:', img.imageUrl);
+                              e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999"%3EErrore%3C/text%3E%3C/svg%3E';
+                            }}
+                          />
+                          <button
+                            onClick={() => {
+                              if (confirm('Eliminare questa foto?')) {
+                                deleteImageMutation.mutate(img.id);
+                              }
+                            }}
+                            className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-bl opacity-0 group-hover:opacity-100 transition-opacity"
+                            title="Elimina foto"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 bg-gray-50 rounded border-2 border-dashed">
+                      <ImageIcon className="h-12 w-12 mx-auto text-gray-400 mb-2" />
+                      <p className="text-gray-500">Nessuna foto caricata</p>
+                    </div>
+                  )}
 
                   {/* Upload nuove immagini */}
                   {uploadingFor === gallery.id ? (
