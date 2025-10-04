@@ -12,11 +12,11 @@ interface SEOHeadProps {
 }
 
 export function SEOHead({
-  title = "Propato Travel - Agenzia Viaggi",
-  description = "✈️ Propato Travel - La tua agenzia viaggi di fiducia. Pacchetti viaggio, vacanze mare, montagna, città. Esperienze uniche in tutto il mondo.",
-  keywords = "agenzia viaggi, propato travel, pacchetti viaggio, vacanze mare montagna, viaggi personalizzati",
-  canonicalUrl = "https://propatotravel.com/",
-  ogImage = "https://propatotravel.com/og-image.jpg",
+  title = "UNCONVENTIONAL TOUR - Agenzia Viaggi",
+  description = "✈️ UNCONVENTIONAL TOUR - La tua agenzia viaggi di fiducia. Pacchetti viaggio, vacanze mare, montagna, città. Esperienze uniche in tutto il mondo.",
+  keywords = "agenzia viaggi, unconventional tour, pacchetti viaggio, vacanze mare montagna, viaggi personalizzati",
+  canonicalUrl = "https://unconventionaltour.it/",
+  ogImage = "https://unconventionaltour.it/og-image.jpg",
   type = "website",
   structuredData
 }: SEOHeadProps) {

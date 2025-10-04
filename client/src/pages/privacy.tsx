@@ -9,10 +9,10 @@ export default function Privacy() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead 
-        title="Privacy Policy - Propato Travel Agenzia Viaggi"
-        description="Informativa sulla Privacy di Propato Travel. Scopri come proteggiamo i tuoi dati personali in conformità al GDPR."
-        keywords="privacy policy, gdpr, protezione dati, agenzia viaggi, propato travel, trattamento dati personali"
-        canonicalUrl="https://propatotravel.com/privacy"
+        title="Privacy Policy - UNCONVENTIONAL TOUR Agenzia Viaggi"
+        description="Informativa sulla Privacy di UNCONVENTIONAL TOUR. Scopri come proteggiamo i tuoi dati personali in conformità al GDPR."
+        keywords="privacy policy, gdpr, protezione dati, agenzia viaggi, unconventional tour, trattamento dati personali"
+        canonicalUrl="https://unconventionaltour.it/privacy"
       />
       <Navigation />
 
@@ -48,7 +48,7 @@ export default function Privacy() {
                 <div className="space-y-4">
                   <div>
                     <h3 className="font-bold text-gray-900 mb-2">Titolare del Trattamento</h3>
-                    <p className="text-gray-700 mb-2"><strong>Propato Travel</strong></p>
+                    <p className="text-gray-700 mb-2"><strong>UNCONVENTIONAL TOUR</strong></p>
                     <p className="text-gray-700">Agenzia Viaggi</p>
                     <div className="flex items-center space-x-3 mt-3">
                       <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
@@ -60,7 +60,7 @@ export default function Privacy() {
                     </div>
                     <div className="flex items-center space-x-3 mt-2">
                       <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">info@propatotravel.it</span>
+                      <span className="text-gray-700">info@unconventionaltour.it</span>
                     </div>
                   </div>
                 </div>

@@ -121,10 +121,10 @@ export default function Travels() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title="Viaggi e Vacanze - Scopri le Migliori Destinazioni | Propato Travel"
+        title="Viaggi e Vacanze - Scopri le Migliori Destinazioni | UNCONVENTIONAL TOUR"
         description="🌍 Scopri i nostri viaggi: mare, montagna, città, avventura, relax e cultura. Trova la vacanza perfetta con filtri per destinazione, durata e budget."
         keywords="viaggi, vacanze, destinazioni, mare, montagna, città, avventura, cultura, pacchetti viaggio"
-        canonicalUrl="https://propatotravel.com/viaggi"
+        canonicalUrl="https://unconventionaltour.it/viaggi"
       />
       <Navigation />
       

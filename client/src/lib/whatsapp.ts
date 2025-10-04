@@ -1,6 +1,6 @@
 import { Travel } from "@shared/schema";
 
-const WHATSAPP_NUMBER = "3479123456"; // Numero WhatsApp Propato Travel
+const WHATSAPP_NUMBER = "3479123456"; // Numero WhatsApp UNCONVENTIONAL TOUR
 
 export function generateWhatsAppLink(travel: Travel, customMessage?: string): string {
   const baseMessage = customMessage || generateTravelMessage(travel);

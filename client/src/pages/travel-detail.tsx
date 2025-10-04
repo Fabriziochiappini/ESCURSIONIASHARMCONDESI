@@ -123,10 +123,10 @@ export default function TravelDetail() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title={travel.metaTitle || `${travel.title} - ${travel.destination} | Propato Travel`}
+        title={travel.metaTitle || `${travel.title} - ${travel.destination} | UNCONVENTIONAL TOUR`}
         description={travel.metaDescription || `${travel.description.substring(0, 160)}...`}
         keywords={`viaggio ${travel.destination}, ${travel.country}, ${getTypeLabel(travel.type)}, vacanza`}
-        canonicalUrl={`https://propatotravel.com/travel/${travel.id}`}
+        canonicalUrl={`https://unconventionaltour.it/travel/${travel.id}`}
       />
       <Navigation />
       

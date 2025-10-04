@@ -8,7 +8,7 @@ export function Footer() {
           <div className="col-span-2">
             <div className="text-2xl font-bold mb-4 flex items-center text-white">
               <Home className="mr-2 h-6 w-6 text-primary" />
-              Propato Travel
+              UNCONVENTIONAL TOUR
             </div>
             <p className="text-gray-300 mb-2 max-w-md">
               <span className="text-white font-medium">La Tua Agenzia Viaggi</span>
@@ -54,11 +54,11 @@ export function Footer() {
               </li>
               <li className="flex items-center">
                 <Mail className="mr-2 h-4 w-4 text-primary" />
-                info@propatotravel.it
+                info@unconventionaltour.it
               </li>
               <li className="flex items-center">
                 <Mail className="mr-2 h-4 w-4 text-primary" />
-                viaggi@propatotravel.it
+                viaggi@unconventionaltour.it
               </li>
 
               <li className="flex items-center">
@@ -73,10 +73,10 @@ export function Footer() {
           <div className="flex flex-col space-y-4">
             <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
               <div className="text-sm">
-                <p className="font-medium text-gray-300 mb-1">PROPATO TRAVEL</p>
+                <p className="font-medium text-gray-300 mb-1">UNCONVENTIONAL TOUR</p>
                 <p className="mb-1">Agenzia Viaggi</p>
                 <p>MILANO – Via Roma, 123</p>
-                <p>info@propatotravel.it</p>
+                <p>info@unconventionaltour.it</p>
               </div>
               <div className="flex space-x-4 text-sm">
                 <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
@@ -85,7 +85,7 @@ export function Footer() {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0 text-xs border-t border-gray-800 pt-4">
-              <p>&copy; 2025 Propato Travel - Agenzia Viaggi. Tutti i diritti riservati.</p>
+              <p>&copy; 2025 UNCONVENTIONAL TOUR - Agenzia Viaggi. Tutti i diritti riservati.</p>
               <p>
                 Realizzato da{" "}
                 <a 

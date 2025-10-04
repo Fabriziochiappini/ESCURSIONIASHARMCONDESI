@@ -13,7 +13,7 @@ export function Navigation() {
           <Link href="/" className="flex items-center space-x-3 group">
             <div className="relative">
               <div className="text-2xl font-black text-primary group-hover:scale-110 transition-all duration-300">
-                PROPATO<span className="text-blue-500">TRAVEL</span>
+                UNCONVENTIONAL <span className="text-blue-500">TOUR</span>
               </div>
             </div>
           </Link>

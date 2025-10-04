@@ -10,10 +10,10 @@ export default function About() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead 
-        title="Contatti Propato Travel | La Tua Agenzia Viaggi di Fiducia"
-        description="✈️ Contatta Propato Travel per organizzare il tuo viaggio perfetto. Agenzia viaggi professionale con esperienza nel settore turistico. Tel: 02 1234567"
-        keywords="contatti agenzia viaggi, propato travel, telefono agenzia viaggi, dove siamo acireale, organizzazione viaggi"
-        canonicalUrl="https://propatotravel.com/chi-siamo"
+        title="Contatti UNCONVENTIONAL TOUR | La Tua Agenzia Viaggi di Fiducia"
+        description="✈️ Contatta UNCONVENTIONAL TOUR per organizzare il tuo viaggio perfetto. Agenzia viaggi professionale con esperienza nel settore turistico. Tel: 02 1234567"
+        keywords="contatti agenzia viaggi, unconventional tour, telefono agenzia viaggi, organizzazione viaggi"
+        canonicalUrl="https://unconventionaltour.it/chi-siamo"
       />
       <Navigation />
 
@@ -26,7 +26,7 @@ export default function About() {
               Contatti
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Propato Travel
+              UNCONVENTIONAL TOUR
             </h1>
             <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-90">
               <strong>La Tua Agenzia Viaggi</strong> - I migliori viaggi per esplorare il mondo. 
@@ -44,7 +44,7 @@ export default function About() {
                   La Nostra Missione
                 </h2>
                 <p className="text-lg text-gray-600 mb-6">
-                  <strong>Propato Travel</strong> è la tua agenzia viaggi di fiducia per ogni esigenza di viaggio. Offriamo un servizio completo e professionale nel settore turistico con pacchetti personalizzati.
+                  <strong>UNCONVENTIONAL TOUR</strong> è la tua agenzia viaggi di fiducia per ogni esigenza di viaggio. Offriamo un servizio completo e professionale nel settore turistico con pacchetti personalizzati.
                 </p>
                 <p className="text-lg text-gray-600 mb-6">
                   La nostra passione per i viaggi e la profonda conoscenza delle destinazioni più belle del mondo ci permettono di offrire esperienze uniche e servizi di alta qualità.
@@ -62,11 +62,11 @@ export default function About() {
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">info@propatotravel.it</span>
+                      <span className="text-gray-700">info@unconventionaltour.it</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">viaggi@propatotravel.it</span>
+                      <span className="text-gray-700">viaggi@unconventionaltour.it</span>
                     </div>
                   </div>
 

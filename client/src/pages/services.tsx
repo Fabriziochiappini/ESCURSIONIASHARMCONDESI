@@ -62,22 +62,22 @@ const services = [
 ];
 
 const contactInfo = {
-  name: "Propato Travel",
+  name: "UNCONVENTIONAL TOUR",
   role: "Agenzia Viaggi",
   address: "Via Roma, 123 - 20121 Milano (MI)",
   phone: "02 1234567",
-  email: "info@propatotravel.it",
-  email2: "viaggi@propatotravel.it"
+  email: "info@unconventionaltour.it",
+  email2: "viaggi@unconventionaltour.it"
 };
 
 export default function Services() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead
-        title="Propato Travel - Servizi di Viaggio Professionali"
+        title="UNCONVENTIONAL TOUR - Servizi di Viaggio Professionali"
         description="Scopri i nostri servizi di viaggio completi: consulenza personalizzata, pacchetti su misura, assistenza documentale e prenotazioni. Contattaci per organizzare il tuo viaggio perfetto."
-        keywords="servizi viaggio, agenzia viaggi, pacchetti viaggio, consulenza viaggi, prenotazioni, propato travel"
-        canonicalUrl="https://propatotravel.com/servizi"
+        keywords="servizi viaggio, agenzia viaggi, pacchetti viaggio, consulenza viaggi, prenotazioni, unconventional tour"
+        canonicalUrl="https://unconventionaltour.it/servizi"
       />
       <Navigation />
 

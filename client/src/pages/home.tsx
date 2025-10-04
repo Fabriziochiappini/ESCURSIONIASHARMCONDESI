@@ -13,14 +13,57 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title="Propato Travel - Agenzia Viaggi | Vacanze Mare, Montagna e City Break"
-        description="✈️ Scopri il mondo con Propato Travel! Vacanze al mare, avventure in montagna, city break e viaggi culturali. Pacchetti personalizzati per ogni esigenza di viaggio."
-        keywords="agenzia viaggi, vacanze mare, viaggi montagna, city break, pacchetti viaggio, Propato Travel, viaggi organizzati, turismo"
-        canonicalUrl="https://propatotravel.com/"
+        title="UNCONVENTIONAL TOUR - Agenzia Viaggi | Vacanze Mare, Montagna e City Break"
+        description="✈️ Scopri il mondo con UNCONVENTIONAL TOUR! Vacanze al mare, avventure in montagna, city break e viaggi culturali. Pacchetti personalizzati per ogni esigenza di viaggio."
+        keywords="agenzia viaggi, vacanze mare, viaggi montagna, city break, pacchetti viaggio, unconventional tour, viaggi organizzati, turismo"
+        canonicalUrl="https://unconventionaltour.it/"
       />
       <Navigation />
       <main className="relative">
         <HeroSection />
+
+        {/* Sezione Chi Siamo */}
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Testo a sinistra */}
+              <div>
+                <div className="mb-4">
+                  <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-2">
+                    Chi Siamo
+                  </h2>
+                  <div className="w-24 h-1 bg-blue-500"></div>
+                </div>
+                <div className="space-y-4 text-gray-700 text-lg leading-relaxed">
+                  <p>
+                    Siamo un'agenzia locale, ben consolidata, con oltre 40 anni di esperienza nel settore dei viaggi, 
+                    con sede in Via Roma, 123 - Milano, Italia.
+                  </p>
+                  <p>
+                    Concepiamo il turismo non come una semplice attività ricreativa, ma come un viaggio educativo 
+                    e piacevole verso paesi e culture sconosciute. Mettiamo un forte accento sul portare sviluppo 
+                    sostenibile a lungo termine nelle regioni che promuoviamo, lavorando a stretto contatto con i 
+                    fornitori locali e utilizzando prodotti locali.
+                  </p>
+                </div>
+              </div>
+
+              {/* Immagine a destra */}
+              <div className="relative">
+                <div className="rounded-3xl overflow-hidden shadow-2xl">
+                  <img 
+                    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+                    alt="Paesaggio montano con ponte"
+                    className="w-full h-[400px] object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Sezione Destinazioni - PRIMA dei Viaggi */}
+        <DestinationsSection />
 
         <section id="travels" className="py-20 bg-white relative overflow-hidden">
           <div className="relative z-10 max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -45,9 +88,6 @@ export default function Home() {
         <ShowcaseSection category="europa" />
         <ShowcaseSection category="asia" />
         <ShowcaseSection category="esotico" />
-
-        {/* Sezione Destinazioni */}
-        <DestinationsSection />
 
         {/* Sezione Blog */}
         <section className="py-24 bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 relative overflow-hidden">

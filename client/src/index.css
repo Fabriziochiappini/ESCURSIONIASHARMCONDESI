@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  /* Propato Travel - Colori Mare & Sole */
+  /* UNCONVENTIONAL TOUR - Colori Mare & Sole */
   --primary: hsl(25, 100%, 55%);      /* Arancione sole vibrante */
   --secondary: hsl(200, 85%, 65%);    /* Azzurro cielo luminoso */
   --accent: hsl(195, 100%, 70%);      /* Azzurro brillante */
