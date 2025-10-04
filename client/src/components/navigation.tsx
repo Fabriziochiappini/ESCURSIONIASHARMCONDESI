@@ -10,9 +10,9 @@ export function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="h-40">
-          <div className="hidden lg:grid lg:grid-cols-3 items-center h-full">
-            {/* Menu Sinistra - Allineato a destra */}
-            <div className="flex items-center justify-end space-x-6 pr-8">
+          <div className="hidden lg:flex lg:justify-between items-center h-full">
+            {/* Menu Sinistra - Tutte le voci */}
+            <div className="flex items-center space-x-6">
               <Link href="/" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
                 Home
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
@@ -25,21 +25,6 @@ export function Navigation() {
                 Galleria
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
               </Link>
-            </div>
-
-            {/* Logo Centrato */}
-            <div className="flex items-center justify-center">
-              <Link href="/" className="flex items-center group">
-                <img 
-                  src={logoUrl} 
-                  alt="Unconventional Tour Logo" 
-                  className="h-36 w-auto group-hover:scale-105 transition-all duration-300"
-                />
-              </Link>
-            </div>
-
-            {/* Menu Destra - Allineato a sinistra */}
-            <div className="flex items-center justify-start space-x-6 pl-8">
               <Link href="/servizi" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
                 Servizi
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
@@ -59,6 +44,17 @@ export function Navigation() {
                 title="Admin Panel"
               >
                 <span className="text-xs font-bold text-gray-400 hover:text-gray-600">⚙️</span>
+              </Link>
+            </div>
+
+            {/* Logo a Destra */}
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center group">
+                <img 
+                  src={logoUrl} 
+                  alt="Unconventional Tour Logo" 
+                  className="h-36 w-auto group-hover:scale-105 transition-all duration-300"
+                />
               </Link>
             </div>
           </div>
