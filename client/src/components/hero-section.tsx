@@ -30,26 +30,6 @@ export function HeroSection() {
               Dalla magia delle Maldive alle vette delle Dolomiti, dalle città d'arte europee ai safari africani. 
               Ogni viaggio è un'esperienza unica pensata per te.
             </p>
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 max-w-4xl mx-auto mb-12">
-              <div className="bg-slate-700/50 border border-slate-600 p-8">
-                <div className="text-4xl font-black text-blue-400 mb-2">50+</div>
-                <div className="text-slate-300 font-bold uppercase tracking-wide text-sm">Destinazioni</div>
-              </div>
-              <div className="bg-slate-700/50 border border-slate-600 p-8">
-                <div className="text-4xl font-black text-blue-400 mb-2">1K+</div>
-                <div className="text-slate-300 font-bold uppercase tracking-wide text-sm">Viaggiatori</div>
-              </div>
-              <div className="bg-slate-700/50 border border-slate-600 p-8">
-                <div className="text-4xl font-black text-blue-400 mb-2">15</div>
-                <div className="text-slate-300 font-bold uppercase tracking-wide text-sm">Anni</div>
-              </div>
-              <div className="bg-slate-700/50 border border-slate-600 p-8">
-                <div className="text-4xl font-black text-blue-400 mb-2">24/7</div>
-                <div className="text-slate-300 font-bold uppercase tracking-wide text-sm">Supporto</div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
