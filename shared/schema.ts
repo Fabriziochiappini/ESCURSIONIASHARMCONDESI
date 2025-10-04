@@ -76,6 +76,24 @@ export const countries = pgTable("countries", {
   travelCount: integer("travel_count").default(0), // Numero di viaggi disponibili
 });
 
+// Galleries (gallerie fotografiche)
+export const galleries = pgTable("galleries", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  sortOrder: integer("sort_order").default(0),
+});
+
+// Gallery Images (immagini delle gallerie)
+export const galleryImages = pgTable("gallery_images", {
+  id: serial("id").primaryKey(),
+  galleryId: integer("gallery_id").notNull().references(() => galleries.id, { onDelete: 'cascade' }),
+  imageUrl: text("image_url").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  sortOrder: integer("sort_order").default(0),
+});
+
 export const insertTravelSchema = createInsertSchema(travels).omit({
   id: true,
   slug: true, // Auto-generated
@@ -111,12 +129,26 @@ export const insertCountrySchema = createInsertSchema(countries).omit({
   travelCount: true, // Auto-calculated
 });
 
+export const insertGallerySchema = createInsertSchema(galleries).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertGalleryImageSchema = createInsertSchema(galleryImages).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertTravel = z.infer<typeof insertTravelSchema>;
 export type Travel = typeof travels.$inferSelect;
 export type InsertShowcase = z.infer<typeof insertShowcaseSchema>;
 export type Showcase = typeof showcases.$inferSelect;
 export type InsertCountry = z.infer<typeof insertCountrySchema>;
 export type Country = typeof countries.$inferSelect;
+export type InsertGallery = z.infer<typeof insertGallerySchema>;
+export type Gallery = typeof galleries.$inferSelect;
+export type InsertGalleryImage = z.infer<typeof insertGalleryImageSchema>;
+export type GalleryImage = typeof galleryImages.$inferSelect;
 
 // Search filters schema for travel packages
 export const searchFiltersSchema = z.object({
