@@ -8,9 +8,10 @@ import { Link } from "wouter";
 
 interface TravelCardProps {
   travel: Travel;
+  priority?: boolean;
 }
 
-export function TravelCard({ travel }: TravelCardProps) {
+export function TravelCard({ travel, priority = false }: TravelCardProps) {
   const getBadgeLabel = (type: string) => {
     switch (type) {
       case "mare": return "BEACH";
@@ -53,7 +54,7 @@ export function TravelCard({ travel }: TravelCardProps) {
             <img 
               src={firstImage}
               alt={travel.title}
-              loading="lazy"
+              loading={priority ? "eager" : "lazy"}
               decoding="async"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />

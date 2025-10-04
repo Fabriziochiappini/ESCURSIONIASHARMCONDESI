@@ -43,7 +43,7 @@ export function GalleriesSection() {
         {/* Grid Gallerie */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12 stagger-animation">
           {latestGalleries.map((gallery) => {
-            const displayImages = gallery.images?.slice(0, 4) || [];
+            const displayImages = gallery.images?.slice(0, 2) || [];
             const totalPhotos = gallery.images?.length || 0;
             
             return (
@@ -57,13 +57,11 @@ export function GalleriesSection() {
                     {displayImages.length > 0 ? (
                       <div className="relative w-full h-full">
                         {displayImages.map((image, index) => {
-                          const rotations = ['-rotate-6', 'rotate-3', '-rotate-3', 'rotate-6'];
-                          const zIndexes = ['z-10', 'z-20', 'z-30', 'z-40'];
+                          const rotations = ['-rotate-6', 'rotate-6'];
+                          const zIndexes = ['z-10', 'z-20'];
                           const offsets = [
                             'top-0 left-0',
-                            'top-4 left-4',
-                            'top-8 left-8',
-                            'top-12 left-12'
+                            'top-8 left-8'
                           ];
                           
                           return (
@@ -72,9 +70,7 @@ export function GalleriesSection() {
                               className={`absolute ${offsets[index]} ${zIndexes[index]} ${rotations[index]} 
                                 transform transition-all duration-500 group-hover:rotate-0 
                                 ${index === 0 ? 'group-hover:translate-x-0 group-hover:translate-y-0' : ''}
-                                ${index === 1 ? 'group-hover:translate-x-2 group-hover:translate-y-2' : ''}
-                                ${index === 2 ? 'group-hover:translate-x-4 group-hover:translate-y-4' : ''}
-                                ${index === 3 ? 'group-hover:translate-x-6 group-hover:translate-y-6' : ''}
+                                ${index === 1 ? 'group-hover:translate-x-4 group-hover:translate-y-4' : ''}
                               `}
                               style={{
                                 width: 'calc(100% - 3rem)',
@@ -82,17 +78,19 @@ export function GalleriesSection() {
                               }}
                             >
                               <div className="bg-white p-3 shadow-2xl rounded-sm h-full border-8 border-white">
-                                <img
-                                  src={convertImageUrl(image.imageUrl)}
-                                  alt={`${gallery.title} - Foto ${index + 1}`}
-                                  className="w-full h-full object-cover"
-                                  loading="lazy"
-                                  decoding="async"
-                                  onError={(e) => {
-                                    const target = e.currentTarget;
-                                    target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23e5e7eb" width="400" height="400"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-size="20"%3EFoto%3C/text%3E%3C/svg%3E';
-                                  }}
-                                />
+                                <div className="w-full h-full bg-gray-200">
+                                  <img
+                                    src={convertImageUrl(image.imageUrl)}
+                                    alt={`${gallery.title} - Foto ${index + 1}`}
+                                    className="w-full h-full object-cover"
+                                    loading="lazy"
+                                    decoding="async"
+                                    onError={(e) => {
+                                      const target = e.currentTarget;
+                                      target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23e5e7eb" width="400" height="400"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-size="20"%3EFoto%3C/text%3E%3C/svg%3E';
+                                    }}
+                                  />
+                                </div>
                               </div>
                             </div>
                           );

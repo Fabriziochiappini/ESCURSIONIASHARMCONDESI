@@ -33,13 +33,16 @@ export function ShowcaseSection({ category, className = "" }: ShowcaseSectionPro
   return (
     <section className={`relative h-[500px] overflow-hidden ${className}`}>
       {/* Background Image */}
-      <div className="absolute inset-0 bg-gray-900">
+      <div className="absolute inset-0 bg-gray-800">
         <img
           src={showcase.backgroundImage}
           alt={showcase.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover opacity-0 transition-opacity duration-500"
           loading="lazy"
           decoding="async"
+          onLoad={(e) => {
+            e.currentTarget.classList.remove('opacity-0');
+          }}
         />
         <div className="absolute inset-0 bg-black/40"></div>
       </div>
