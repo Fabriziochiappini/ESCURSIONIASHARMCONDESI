@@ -11,6 +11,7 @@ import About from "@/pages/about";
 import Properties from "@/pages/properties";
 import Travels from "@/pages/travels";
 import Galleria from "@/pages/galleria";
+import Contatti from "@/pages/contatti";
 import PropertyDetail from "@/pages/property-detail";
 import TravelDetail from "@/pages/travel-detail";
 import Services from "@/pages/services";
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/chi-siamo" component={About} />
       <Route path="/viaggi" component={Travels} />
       <Route path="/galleria" component={Galleria} />
+      <Route path="/contatti" component={Contatti} />
       <Route path="/properties" component={Properties} />
       <Route path="/travel/:id" component={TravelDetail} />
       <Route path="/property/:id" component={PropertyDetail} />
