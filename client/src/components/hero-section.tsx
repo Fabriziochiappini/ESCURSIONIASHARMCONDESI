@@ -1,5 +1,4 @@
-import logoAgenziaUrl from "@assets/logo_rosso-removebg-preview_1754493166038.png";
-import beachBackgroundUrl from "@assets/b51hm1au1uy21_1755098522270.webp";
+import heroBackgroundUrl from "@assets/6345959_1759560311915.jpg";
 
 export function HeroSection() {
   return (
@@ -8,7 +7,7 @@ export function HeroSection() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('${beachBackgroundUrl}')`,
+          backgroundImage: `url('${heroBackgroundUrl}')`,
         }}
       />
       
