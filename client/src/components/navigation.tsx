@@ -9,16 +9,9 @@ export function Navigation() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-36">
-          <Link href="/" className="flex items-center space-x-3 group">
-            <img 
-              src={logoUrl} 
-              alt="Unconventional Tour Logo" 
-              className="h-32 w-auto group-hover:scale-105 transition-all duration-300"
-            />
-          </Link>
-
-          <div className="hidden lg:flex items-center space-x-8">
+        <div className="flex justify-between items-center h-40">
+          {/* Menu Sinistra */}
+          <div className="hidden lg:flex items-center space-x-6">
             <Link href="/" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
               Home
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
@@ -31,6 +24,19 @@ export function Navigation() {
               Galleria
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
             </Link>
+          </div>
+
+          {/* Logo Centrato */}
+          <Link href="/" className="flex items-center group absolute left-1/2 transform -translate-x-1/2">
+            <img 
+              src={logoUrl} 
+              alt="Unconventional Tour Logo" 
+              className="h-36 w-auto group-hover:scale-105 transition-all duration-300"
+            />
+          </Link>
+
+          {/* Menu Destra */}
+          <div className="hidden lg:flex items-center space-x-6">
             <Link href="/servizi" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
               Servizi
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
