@@ -174,39 +174,6 @@ export default function About() {
           </div>
         </section>
 
-        {/* Team Section */}
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Il Nostro Team
-              </h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Professionisti esperti al vostro servizio
-              </p>
-            </div>
-
-            <div className="flex justify-center">
-              <Card className="text-center glass-card hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 max-w-sm">
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-                    Team Propato
-                  </h3>
-                  <p className="text-primary mb-3 text-lg">Travel Experts</p>
-                  <p className="text-gray-600 mb-4">
-                    Esperti in organizzazione viaggi e consulenze turistiche. 
-                    Con anni di esperienza nel settore, offriamo competenza e professionalità per ogni esigenza di viaggio.
-                  </p>
-                  <div className="flex justify-center space-x-2">
-                    <Phone className="h-5 w-5 text-gray-400" />
-                    <span className="text-gray-600">02 1234567</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
         {/* Contact CTA */}
         <section className="py-16 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
