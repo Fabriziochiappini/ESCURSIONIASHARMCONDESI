@@ -11,7 +11,7 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative flex items-center h-40">
           {/* Menu Sinistra */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-4">
             <Link href="/" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
               Home
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
@@ -36,7 +36,7 @@ export function Navigation() {
           </Link>
 
           {/* Menu Destra */}
-          <div className="hidden lg:flex items-center space-x-8 ml-auto">
+          <div className="hidden lg:flex items-center space-x-4 ml-auto">
             <Link href="/servizi" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
               Servizi
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
