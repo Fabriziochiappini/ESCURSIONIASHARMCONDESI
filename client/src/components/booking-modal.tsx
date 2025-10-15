@@ -74,7 +74,7 @@ export function BookingModal({ travel, children }: BookingModalProps) {
       numberOfTravelers: 1,
       travelDate: "",
       notes: "",
-      paymentType: travel.depositAmount ? "full" : undefined,
+      paymentType: undefined,
       paymentMethod: "stripe",
     },
   });
@@ -350,7 +350,7 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                 />
 
                 {/* Payment Type Selection - Only show if deposit is available */}
-                {travel.depositAmount && parseFloat(travel.depositAmount) > 0 && (
+                {travel.depositAmount && parseFloat(travel.depositAmount) > 0 ? (
                   <FormField
                     control={form.control}
                     name="paymentType"
@@ -389,7 +389,7 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                       </FormItem>
                     )}
                   />
-                )}
+                ) : null}
 
                 {/* Payment Method Selection */}
                 <FormField
