@@ -365,6 +365,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
         const objectPath = `/${bucketId}/public/tours/${filename}`;
         
+        // Debug log
+        console.log(`📤 Uploading ${filename}, buffer exists: ${!!file.buffer}, size: ${file.size}`);
+        
+        if (!file.buffer) {
+          throw new Error(`File buffer missing for ${filename}`);
+        }
+        
         const publicUrl = await objectStorageService.uploadFile(file, objectPath);
         console.log(`✅ FOTO SALVATA IN OBJECT STORAGE: ${publicUrl} (${file.size} bytes)`);
         
