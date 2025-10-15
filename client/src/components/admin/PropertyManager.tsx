@@ -825,12 +825,12 @@ export default function PropertyManager() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="minAge">Età Minima *</Label>
+                  <Label htmlFor="area">Età Minima *</Label>
                   <Input
-                    id="minAge"
+                    id="area"
                     type="number"
-                    value={formData.minAge}
-                    onChange={(e) => setFormData(prev => ({ ...prev, minAge: parseInt(e.target.value) || 0 }))}
+                    value={formData.area}
+                    onChange={(e) => setFormData(prev => ({ ...prev, area: parseInt(e.target.value) || 0 }))}
                     min="0"
                     required
                   />

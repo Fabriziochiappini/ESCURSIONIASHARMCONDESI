@@ -42,9 +42,22 @@ export function TravelCard({ travel, priority = false }: TravelCardProps) {
 
   // URL viaggio
   const travelUrl = `/travel/${travel.id}`;
-  const firstImage = travel.images && travel.images.length > 0 
-    ? travel.images[0] 
-    : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800';
+  
+  // Gestione sicura delle immagini con fallback
+  const getImageUrl = () => {
+    if (travel.images && travel.images.length > 0 && travel.images[0]) {
+      const img = travel.images[0];
+      // Se l'immagine inizia con http/https, usala direttamente (backward compatibility)
+      if (img.startsWith('http://') || img.startsWith('https://')) {
+        return img;
+      }
+      // Altrimenti usa l'endpoint API per servire le immagini
+      return `/api/images/${img}`;
+    }
+    return 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800';
+  };
+  
+  const firstImage = getImageUrl();
   
   return (
     <Card className="overflow-hidden group border border-gray-200 hover:shadow-2xl card-hover h-full flex flex-col bg-white rounded-2xl relative">
@@ -57,6 +70,10 @@ export function TravelCard({ travel, priority = false }: TravelCardProps) {
               loading={priority ? "eager" : "lazy"}
               decoding="async"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              onError={(e) => {
+                // Fallback se l'immagine non carica
+                e.currentTarget.src = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800';
+              }}
             />
             
             {/* Badge tipo in basso a sinistra sull'immagine */}
