@@ -212,10 +212,10 @@ export default function TravelDetail() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <BookingModal travel={travel}>
                   <Button 
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3"
                     data-testid="button-book-now"
                   >
                     <CreditCard className="h-5 w-5 mr-2" />
@@ -225,17 +225,17 @@ export default function TravelDetail() {
                 {travel.depositAmount && parseFloat(travel.depositAmount) > 0 && (
                   <BookingModal travel={travel}>
                     <Button 
-                      className="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-3"
+                      className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3"
                       data-testid="button-deposit"
                     >
                       <CreditCard className="h-5 w-5 mr-2" />
-                      Versa Acconto (€{parseFloat(travel.depositAmount).toLocaleString("it-IT")})
+                      Acconto (€{parseFloat(travel.depositAmount).toLocaleString("it-IT")})
                     </Button>
                   </BookingModal>
                 )}
                 <Button
                   onClick={handleWhatsAppContact}
-                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3"
                   data-testid="button-whatsapp-contact"
                 >
                   <Phone className="h-5 w-5 mr-2" />
@@ -244,7 +244,7 @@ export default function TravelDetail() {
                 <Button
                   onClick={handleEmailContact}
                   variant="outline"
-                  className="flex-1 py-3"
+                  className="w-full py-3"
                   data-testid="button-email-contact"
                 >
                   <Mail className="h-5 w-5 mr-2" />
