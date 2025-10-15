@@ -301,11 +301,11 @@ export default function GalleriaPage() {
 
             {/* Immagine principale */}
             {selectedImage && (
-              <div className="w-full h-full flex items-center justify-center p-4 md:p-16">
+              <div className="w-full h-full flex items-center justify-center p-16 md:p-20">
                 <img
                   src={selectedImage}
                   alt={`Foto ${selectedImageIndex + 1}`}
-                  className="max-w-full max-h-full object-contain"
+                  className="max-w-[85vw] max-h-[75vh] object-contain"
                   loading="eager"
                 />
               </div>

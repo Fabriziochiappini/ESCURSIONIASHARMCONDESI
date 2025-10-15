@@ -203,12 +203,12 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
                 {images.map((image, index) => (
                   <div
                     key={index}
-                    className="flex-[0_0_100%] min-w-0 flex items-center justify-center p-4 md:p-16"
+                    className="flex-[0_0_100%] min-w-0 flex items-center justify-center p-16 md:p-20"
                   >
                     <img
                       src={image}
                       alt={`${title} - Foto ${index + 1}`}
-                      className="max-w-full max-h-full object-contain"
+                      className="max-w-[85vw] max-h-[75vh] object-contain"
                       loading="eager"
                     />
                   </div>
