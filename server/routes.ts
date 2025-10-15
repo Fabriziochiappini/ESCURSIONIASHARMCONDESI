@@ -21,19 +21,9 @@ import { eq, like, or } from "drizzle-orm";
 import Stripe from "stripe";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault } from "./paypal";
 
-// NUOVO SISTEMA UPLOAD PER AGENZIA VIAGGI - Niente più cazzate immobiliari
-const storage_multer = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-    cb(null, filename);
-  }
-});
-
+// NUOVO SISTEMA UPLOAD PER AGENZIA VIAGGI - OBJECT STORAGE PERMANENTE
 const upload = multer({ 
-  storage: storage_multer,
+  storage: multer.memoryStorage(), // Memory storage for Object Storage upload
   limits: {
     fileSize: 15 * 1024 * 1024, // 15MB
     files: 30
@@ -421,16 +411,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const uploadPromises = files.map(async (file, index) => {
         try {
-          // Generate filename
+          // Generate unique filename
           const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-          const url = `/uploads/${filename}`;
+          const bucketId = process.env.DEFAULT_OBJECT_STORAGE_BUCKET_ID;
+          const objectPath = `/${bucketId}/public/tours/${filename}`;
           
-          // Store in database
+          // Upload to Object Storage (PERMANENTE!)
+          const publicUrl = await objectStorageService.uploadFile(file, objectPath);
+          
+          console.log(`✅ FOTO CARICATA IN OBJECT STORAGE: ${publicUrl}`);
+          
+          // Store in database with Object Storage URL
           const imageData = insertTravelImageSchema.parse({
             travelId: travelId,
             filename: filename,
             originalName: file.originalname,
-            url: url,
+            url: publicUrl, // Object Storage URL, NOT /uploads/
             size: file.size,
             mimeType: file.mimetype,
             sortOrder: index,
@@ -484,7 +480,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Update travel images array for backward compatibility
       const travel = await storage.getTravel(image.travelId);
-      if (travel) {
+      if (travel && travel.images) {
         const updatedImages = travel.images.filter(url => url !== image.url);
         await storage.updateTravel(image.travelId, { images: updatedImages });
       }
