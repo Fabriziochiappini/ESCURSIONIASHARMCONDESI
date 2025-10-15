@@ -14,6 +14,7 @@ import Galleria from "@/pages/galleria";
 import Contatti from "@/pages/contatti";
 import PropertyDetail from "@/pages/property-detail";
 import TravelDetail from "@/pages/travel-detail";
+import GuideDetail from "@/pages/guide-detail";
 import Services from "@/pages/services";
 import Privacy from "@/pages/privacy";
 import Admin from "@/pages/admin";
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/contatti" component={Contatti} />
       <Route path="/properties" component={Properties} />
       <Route path="/travel/:id" component={TravelDetail} />
+      <Route path="/guide/:id" component={GuideDetail} />
       <Route path="/property/:id" component={PropertyDetail} />
       <Route path="/:type/:country/:travelType" component={TravelDetail} />
       <Route path="/:type/:municipality/:propertyType" component={PropertyDetail} />
