@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { objectStorageService } from "./objectStorage";
 
 const app = express();
 
@@ -25,20 +26,38 @@ app.use('/api/properties/:id/images', (req, res, next) => {
   next();
 });
 
-// Performance headers for production image serving
-app.use('/public-objects', (req, res, next) => {
-  // Add performance headers for static assets
-  res.set({
-    'X-Content-Type-Options': 'nosniff',
-    'Cross-Origin-Resource-Policy': 'cross-origin',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
-    'Access-Control-Max-Age': '86400',
-    // Production optimization headers
-    'Vary': 'Accept-Encoding',
-    'Connection': 'keep-alive'
-  });
-  next();
+// Serve Object Storage files via /public-objects/*
+app.get('/public-objects/*', async (req, res) => {
+  try {
+    // Extract file path from URL
+    const filePath = req.path.replace('/public-objects/', '');
+    
+    // Search for the object in public search paths
+    const file = await objectStorageService.searchPublicObject(filePath);
+    
+    if (!file) {
+      return res.status(404).json({ error: 'File not found' });
+    }
+    
+    // Add performance headers
+    res.set({
+      'X-Content-Type-Options': 'nosniff',
+      'Cross-Origin-Resource-Policy': 'cross-origin',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
+      'Access-Control-Max-Age': '86400',
+      'Vary': 'Accept-Encoding',
+      'Connection': 'keep-alive'
+    });
+    
+    // Download and stream the file
+    await objectStorageService.downloadObject(file, res, req);
+  } catch (error) {
+    console.error('Error serving object:', error);
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Error serving file' });
+    }
+  }
 });
 
 app.use((req, res, next) => {

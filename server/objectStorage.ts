@@ -157,13 +157,11 @@ export class ObjectStorageService {
         reject(err);
       });
 
-      stream.on("finish", async () => {
-        // Make file publicly accessible
-        await objectFile.makePublic();
-        
-        // Return direct GCS public URL (accessible anywhere!)
-        const publicUrl = `https://storage.googleapis.com/${bucketName}/${objectName}`;
-        console.log(`🌐 PUBLIC URL GENERATO: ${publicUrl}`);
+      stream.on("finish", () => {
+        // Return URL served via backend (works in dev and production!)
+        const cleanObjectName = objectName.replace(/^public\//, '');
+        const publicUrl = `/public-objects/${cleanObjectName}`;
+        console.log(`✅ OBJECT STORAGE URL: ${publicUrl}`);
         resolve(publicUrl);
       });
 
