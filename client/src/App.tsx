@@ -20,6 +20,7 @@ import Admin from "@/pages/admin";
 import AdminCountries from "@/pages/admin/countries";
 import AdminShowcases from "@/pages/admin/showcases";
 import AdminGalleries from "@/pages/admin/galleries";
+import AdminGuides from "@/pages/admin/guides";
 import ResetDemo from "@/pages/reset-demo";
 import NotFound from "@/pages/not-found";
 
@@ -42,6 +43,7 @@ function Router() {
       <Route path="/admin/countries" component={AdminCountries} />
       <Route path="/admin/showcases" component={AdminShowcases} />
       <Route path="/admin/galleries" component={AdminGalleries} />
+      <Route path="/admin/guides" component={AdminGuides} />
       <Route path="/reset-demo" component={ResetDemo} />
       <Route component={NotFound} />
     </Switch>

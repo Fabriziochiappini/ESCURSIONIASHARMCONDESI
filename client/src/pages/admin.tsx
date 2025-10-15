@@ -78,17 +78,19 @@ export default function AdminPanel() {
               </Card>
             </Link>
             
-            <Card className="cursor-pointer hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
-                  Gestione Blog
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Crea e gestisci articoli del blog</p>
-              </CardContent>
-            </Card>
+            <Link href="/admin/guides">
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5" />
+                    Gestione Guide
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Crea e gestisci guide per viaggiatori</p>
+                </CardContent>
+              </Card>
+            </Link>
           </div>
 
           {/* Main Content */}
