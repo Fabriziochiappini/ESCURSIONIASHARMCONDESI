@@ -8,7 +8,7 @@ export default function ResetDemo() {
   const [result, setResult] = useState<{success: boolean, message: string, deletedCount?: number} | null>(null);
 
   const handleReset = async () => {
-    if (!confirm('ATTENZIONE: Questa operazione eliminerà tutti i viaggi demo (Grecia Classica, Dubai Moderno, ecc.) dal database production. I tuoi viaggi reali saranno preservati. Continuare?')) {
+    if (!confirm('ATTENZIONE: Questa operazione eliminerà TUTTI i viaggi demo/test dal database production (inclusi quelli con "prova", "moto", "test" nel titolo). I tuoi viaggi reali saranno preservati. Continuare?')) {
       return;
     }
 
@@ -53,7 +53,7 @@ export default function ResetDemo() {
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
               <h3 className="font-semibold text-yellow-800 mb-2">⚠️ Cosa fa questa operazione</h3>
               <ul className="text-sm text-yellow-700 space-y-1">
-                <li>• Elimina SOLO i viaggi demo (Grecia Classica, Dubai Moderno, Bali Spiritual, ecc.)</li>
+                <li>• Elimina TUTTI i viaggi demo/test (titoli specifici + pattern matching)</li>
                 <li>• I tuoi viaggi reali caricati dall'admin panel restano intatti</li>
                 <li>• Risolve il problema dei viaggi placeholder nel sito deployato</li>
                 <li>• Operazione irreversibile ma sicura per i tuoi dati</li>
@@ -62,17 +62,22 @@ export default function ResetDemo() {
 
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
               <h3 className="font-semibold text-red-800 mb-2">🚨 Viaggi che verranno eliminati</h3>
-              <div className="text-sm text-red-700 grid grid-cols-1 gap-1">
-                <span>• Grecia Classica - Santorini (€1450)</span>
-                <span>• Dubai Moderno (€1890)</span>
-                <span>• Bali Spiritual (€1280)</span>
-                <span>• Norvegia Fiordi (€2150)</span>
-                <span>• Marocco Imperiale (€980)</span>
-                <span>• Weekend Romantico a Parigi (€399)</span>
-                <span>• Settimana Relax alle Maldive (€1299)</span>
-                <span>• Avventura Safari in Tanzania (€1899)</span>
-                <span>• Tour Culturale in Giappone (€2199)</span>
-                <span>• Trekking nelle Dolomiti (€599)</span>
+              <div className="text-sm text-red-700 space-y-2">
+                <div>
+                  <p className="font-semibold mb-1">Viaggi demo specifici:</p>
+                  <div className="grid grid-cols-1 gap-1 ml-2">
+                    <span>• Grecia Classica - Santorini, Dubai Moderno, Bali Spiritual</span>
+                    <span>• Norvegia Fiordi, Marocco Imperiale, Weekend Romantico a Parigi</span>
+                    <span>• Settimana Relax alle Maldive, Avventura Safari in Tanzania</span>
+                    <span>• Tour Culturale in Giappone, Trekking nelle Dolomiti</span>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-semibold mb-1">Pattern demo (tutti i viaggi che iniziano con):</p>
+                  <div className="ml-2">
+                    <span>• "prova", "moto", "test", "demo", "placeholder"</span>
+                  </div>
+                </div>
               </div>
             </div>
 

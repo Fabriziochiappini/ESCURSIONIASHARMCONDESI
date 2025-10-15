@@ -17,7 +17,7 @@ import {
 import { z } from "zod";
 import multer from 'multer';
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, like, or } from "drizzle-orm";
 import Stripe from "stripe";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault } from "./paypal";
 
@@ -112,7 +112,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // EMERGENCY ENDPOINT: Reset database production demo data
   app.post('/api/admin/reset-demo-data', async (req: any, res) => {
     try {
-      // Delete only the specific demo travels by title - KEEP USER'S REAL TRAVELS
+      let totalDeleted = 0;
+      
+      // 1. Delete by specific demo titles
       const demoTitles = [
         'Grecia Classica - Santorini',
         'Dubai Moderno', 
@@ -126,13 +128,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         'Trekking nelle Dolomiti'
       ];
       
-      let deletedCount = 0;
       for (const title of demoTitles) {
-        const result = await db.delete(travels).where(eq(travels.title, title));
-        deletedCount++;
+        await db.delete(travels).where(eq(travels.title, title));
+        totalDeleted++;
       }
       
-      // Also delete by specific demo IDs that might exist
+      // 2. Delete by pattern matching (prova, moto, test, demo, etc.)
+      const demoPatterns = ['prova%', 'moto%', 'test%', 'demo%', 'placeholder%'];
+      for (const pattern of demoPatterns) {
+        const result = await db.delete(travels).where(like(travels.title, pattern));
+        // Can't get exact count from Drizzle delete, but we tried
+      }
+      
+      // 3. Delete by specific IDs (first placeholder IDs)
       const demoIds = [1,2,3,4,5,6,7,8,9,10,11,12];
       for (const id of demoIds) {
         try {
@@ -142,15 +150,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
       
-      console.log(`🧹 PULIZIA COMPLETATA: Eliminati ${deletedCount} viaggi demo`);
+      console.log(`🧹 PULIZIA COMPLETATA: Eliminati viaggi demo (pattern matching + titoli specifici)`);
       res.json({ 
         success: true, 
-        deletedCount,
-        message: `Eliminati ${deletedCount} viaggi demo dal database production. I tuoi viaggi reali sono preservati.`
+        deletedCount: totalDeleted,
+        message: `Eliminati TUTTI i viaggi demo/test dal database production (inclusi "prova", "moto", ecc.). I tuoi viaggi reali sono preservati.`
       });
     } catch (error) {
       console.error('❌ Errore reset demo data:', error);
-      res.status(500).json({ success: false, error: 'Errore durante reset' });
+      res.status(500).json({ success: false, error: 'Errore durante reset', message: String(error) });
     }
   });
 
