@@ -1,25 +1,22 @@
-# Agenzia Viaggi - Travel Agency Platform
+# Tour Operator Sharm El Sheikh
 
 ## Overview
-This project is a modern, full-stack travel agency web application designed to be a comprehensive platform for browsing, searching, and booking various travel packages. It aims to offer a wide range of travel types (sea, mountain, city, adventure, relax, cultural) and cater to different categories of travelers (individuals, couples, families, groups). The application emphasizes a clean, responsive design with Italian localization, utilizing modern web technologies to provide an intuitive user experience. The business vision is to provide a user-friendly and efficient online presence for a travel agency, attracting a broad customer base and streamlining the travel booking process.
+This project is a modern, full-stack tour operator website specialized in Sharm El Sheikh excursions and activities. Unlike a general travel agency, this platform focuses exclusively on local tours, experiences, and activities in the Sharm El Sheikh area. It offers a wide range of tour types (sea, desert, city, adventure, relax, cultural) with emphasis on Red Sea diving, snorkeling, desert safaris, and local Egyptian experiences. The application emphasizes a clean, responsive design with Italian localization, utilizing modern web technologies to provide an intuitive booking experience. The business vision is to provide a specialized, user-friendly platform for tourists in Sharm El Sheikh to discover and book local excursions.
 
-## Recent Changes (August 2025)
-- **PROBLEMA DATABASE PRODUCTION RISOLTO** (20 Agosto): Creato endpoint /api/admin/reset-demo-data e pagina /reset-demo per eliminare definitivamente i viaggi placeholder dal database production. Sistema funzionante al 100% sia in development che production. Ora mostra solo i 4 viaggi reali del cliente.
-- **SISTEMA VIAGGI COMPLETAMENTE FUNZIONANTE** (20 Agosto): Risolti tutti gli errori di creazione pacchetti viaggio. Schema reso flessibile con campi opzionali, sistema upload foto professionale integrato, form admin completamente operativo. Creazione, modifica, eliminazione e upload immagini funzionano al 100%. Form di modifica popola correttamente tutti i campi dal database. Campo "indirizzo" rimosso in quanto non necessario per viaggi.
-- **DEPLOYMENT COMPLETAMENTE SICURO** (20 Agosto): Eliminati storage-old.ts, tabelle properties/property_images conflittuali, dati seed immobiliari. Database production pulito da viaggi demo. CONFERMA: Sistema production mostra correttamente i viaggi reali del cliente.
+## Recent Changes (October 2025)
+- **RIPOSIZIONAMENTO COME TOUR OPERATOR** (15 Ottobre): Trasformato da agenzia viaggi generica a tour operator specializzato in Sharm El Sheikh. Rimossi gestione paesi, gestione vetrine, selezione paese nell'editor, e categorie viaggiatori dal sistema. Admin panel semplificato per gestire solo tour e gallerie fotografiche. Corretto bug campo età minima duplicato nell'editor.
+- **SISTEMA ACCONTO COMPLETAMENTE FUNZIONANTE** (15 Ottobre): Risolto bug nel sistema di pagamento acconto. Ora gli utenti devono scegliere esplicitamente tra "Pagamento Completo" o "Acconto" quando disponibile, senza pre-selezioni automatiche.
+- **PROBLEMA DATABASE PRODUCTION RISOLTO** (20 Agosto): Creato endpoint /api/admin/reset-demo-data e pagina /reset-demo per eliminare definitivamente i viaggi placeholder dal database production. Sistema funzionante al 100% sia in development che production.
+- **SISTEMA TOUR COMPLETAMENTE FUNZIONANTE** (20 Agosto): Risolti tutti gli errori di creazione pacchetti tour. Schema reso flessibile con campi opzionali, sistema upload foto professionale integrato, form admin completamente operativo. Creazione, modifica, eliminazione e upload immagini funzionano al 100%.
 
 ## Previous Changes
-- **Complete Rebranding**: Successfully transformed from real estate "AGENZIA 2 Servizi Immobiliari" to travel agency "PROPATO TRAVEL"
-- **Hero Section**: Custom tropical beach background with clean typography, removed all overlays for maximum visual impact
-- **Travel Cards**: Implemented tall rectangular "locandina" style cards (4:5 aspect ratio) with Smartbox-inspired design - sharp corners, overlaid information, prominent pricing
-- **Content Structure**: Replaced complex situations section with statistics banner while maintaining service cards
-- **Visual Identity**: Complete removal of old logos and branding, clean text-based navigation
-- **Layout Optimization**: Expanded containers to max-w-[1800px] for wider card display, 10 travel cards in 2 rows of 5 columns
-- **Section Background**: Changed travels section from dark to white background with adapted text colors for better readability
-- **Dynamic Countries System**: Created countries table with customizable backgrounds, titles, and descriptions. Countries section now dynamically populated from database based on travel countries field. Added admin panel for countries management at /admin/countries.
-- **Manual Showcase Management**: Implemented manual control system for 4 static showcases (emirati_arabi, europa, asia, esotico) with admin panel at /admin/showcases. Complete CRUD functionality for title, description, background image, and country selection.
-- **Complete Content Cleanup**: Removed ALL references to old website (Agenzia2 Acireale, Antonio Cannavò, agenzia2acireale.com emails) from Footer, Services, About, Privacy, and Admin pages. Updated all contact information with placeholder Propato Travel data: Phone +39 02 1234567, emails info@propatotravel.it and viaggi@propatotravel.it, address Via Roma, 123 - 20121 Milano (MI).
-- **Complete Terminology Update**: Successfully transformed ALL "proprietà" references to "pacchetti viaggio" throughout the entire site including the main /viaggi page, filters, search functionality, hero sections, admin dashboard, and result messages. Updated travel types from real estate categories to proper travel categories (Mare, Montagna, Città, Avventura, Relax, Cultura) and travel categories to traveler types (Singolo, Coppia, Famiglia, Gruppo).
+- **Complete Rebranding**: Successfully transformed from real estate "AGENZIA 2 Servizi Immobiliari" to tour operator specialized in Sharm El Sheikh
+- **Hero Section**: Custom Red Sea beach background with clean typography, removed all overlays for maximum visual impact
+- **Tour Cards**: Implemented tall rectangular "locandina" style cards (4:5 aspect ratio) with Smartbox-inspired design - sharp corners, overlaid information, prominent pricing
+- **Content Structure**: Streamlined sections focused on tour discovery and booking experience
+- **Visual Identity**: Clean text-based navigation optimized for tour operator business model
+- **Layout Optimization**: Expanded containers to max-w-[1800px] for wider card display, optimized tour card presentation
+- **Complete Terminology Update**: Transformed ALL "viaggi" references to "tour" throughout the entire site including navigation, pages, admin panel, and all user-facing text. Focus on local excursions and activities rather than multi-day travel packages.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
@@ -49,12 +46,13 @@ Design preferences: Full-width sections, solid/hard style, impactful visual elem
 - **API Design**: RESTful API with JSON responses
 - **Development**: tsx for TypeScript execution
 - **Project Structure**: Separated `client/` for frontend, `server/` for backend, and `shared/` for common types/schemas.
-- **Data Model**: Central `travels` table with fields for travel details (title, description, price, type, destination, country, region), attributes (duration, maxParticipants, minAge), media (images, YouTube ID), agent info, status flags, pricing types, included/excluded services, and itinerary.
+- **Data Model**: Central `travels` table with fields for tour details (title, description, price, type, destination, region), attributes (duration, maxParticipants, minAge), media (images, YouTube ID), status flags, pricing types (with deposit support), and itinerary.
 - **Features**:
-    - **Travel Types**: Mare, Montagna, Città, Avventura, Relax, Cultura.
-    - **Travel Categories**: Singolo, Coppia, Famiglia, Gruppo.
-    - **Search & Filtering**: Comprehensive search capabilities by country, travel type, category, price range, duration, participants, and age restrictions.
-    - **API Endpoints**: Full CRUD operations for `travels`, specialized endpoints for `featured` and `search`, and retrieval of `countries` and `destinations`.
+    - **Tour Types**: Mare, Montagna, Città, Avventura, Relax, Cultura (focused on Sharm El Sheikh area activities).
+    - **Simplified Admin**: Removed country management, showcase management, and traveler category selection. Admin panel focuses on tour creation and gallery management only.
+    - **Deposit Payment System**: Full support for deposit payments with dual payment options (full payment or deposit) in booking modal.
+    - **Search & Filtering**: Search capabilities by tour type, price range, duration, participants, and age restrictions.
+    - **API Endpoints**: Full CRUD operations for `travels`, specialized endpoints for `featured` and `search`.
 
 ## External Dependencies
 
