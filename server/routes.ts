@@ -348,7 +348,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Travel Images Routes
   
-  // NUOVO SISTEMA UPLOAD AGENZIA VIAGGI - FUNZIONA DAVVERO!
+  // NUOVO SISTEMA UPLOAD AGENZIA VIAGGI - OBJECT STORAGE PERMANENTE!
   app.post("/api/admin/upload-images", upload.array('images', 30), async (req, res) => {
     try {
       const files = req.files as Express.Multer.File[];
@@ -359,13 +359,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No images provided" });
       }
 
-      // I file sono già salvati da multer diskStorage!
-      const imageUrls = files.map(file => {
-        console.log(`✅ File salvato: ${file.filename} (${file.size} bytes)`);
-        return `/uploads/${file.filename}`;
+      // Upload to Object Storage (PERMANENTE!)
+      const bucketId = process.env.DEFAULT_OBJECT_STORAGE_BUCKET_ID;
+      const uploadPromises = files.map(async (file) => {
+        const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        const objectPath = `/${bucketId}/public/tours/${filename}`;
+        
+        const publicUrl = await objectStorageService.uploadFile(file, objectPath);
+        console.log(`✅ FOTO SALVATA IN OBJECT STORAGE: ${publicUrl} (${file.size} bytes)`);
+        
+        return publicUrl;
       });
 
-      console.log(`🎯 SUCCESSO: ${imageUrls.length} immagini salvate per agenzia viaggi!`);
+      const imageUrls = await Promise.all(uploadPromises);
+
+      console.log(`🎯 SUCCESSO: ${imageUrls.length} immagini salvate in Object Storage permanente!`);
 
       res.json({
         message: `Successfully processed ${imageUrls.length} images`,
