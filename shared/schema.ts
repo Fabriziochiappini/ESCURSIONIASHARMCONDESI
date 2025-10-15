@@ -107,7 +107,13 @@ export const insertTravelSchema = createInsertSchema(travels).omit({
   maxParticipants: true,
   minAge: true,
   images: true,
-  features: true
+  features: true,
+  depositAmount: true,
+  travelType: true,
+  priceType: true,
+  youtubeVideoId: true,
+  featured: true,
+  available: true
 }).extend({
   // Make these fields have defaults if not provided
   description: z.string().optional(),
@@ -118,7 +124,13 @@ export const insertTravelSchema = createInsertSchema(travels).omit({
   maxParticipants: z.number().optional(),
   minAge: z.number().optional(),
   images: z.array(z.string()).optional(),
-  features: z.array(z.string()).optional()
+  features: z.array(z.string()).optional(),
+  depositAmount: z.string().optional(),
+  travelType: z.string().optional(),
+  priceType: z.string().optional(),
+  youtubeVideoId: z.string().optional(),
+  featured: z.boolean().optional(),
+  available: z.boolean().optional()
 });
 
 export const insertShowcaseSchema = createInsertSchema(showcases).omit({
