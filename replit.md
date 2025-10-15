@@ -4,8 +4,10 @@
 This project is a modern, full-stack tour operator website specialized in Sharm El Sheikh excursions and activities. Unlike a general travel agency, this platform focuses exclusively on local tours, experiences, and activities in the Sharm El Sheikh area. It offers a wide range of tour types (sea, desert, city, adventure, relax, cultural) with emphasis on Red Sea diving, snorkeling, desert safaris, and local Egyptian experiences. The application emphasizes a clean, responsive design with Italian localization, utilizing modern web technologies to provide an intuitive booking experience. The business vision is to provide a specialized, user-friendly platform for tourists in Sharm El Sheikh to discover and book local excursions.
 
 ## Recent Changes (October 2025)
-- **RIPOSIZIONAMENTO COME TOUR OPERATOR** (15 Ottobre): Trasformato da agenzia viaggi generica a tour operator specializzato in Sharm El Sheikh. Rimossi gestione paesi, gestione vetrine, selezione paese nell'editor, e categorie viaggiatori dal sistema. Admin panel semplificato per gestire solo tour e gallerie fotografiche. Corretto bug campo età minima duplicato nell'editor.
-- **SISTEMA ACCONTO COMPLETAMENTE FUNZIONANTE** (15 Ottobre): Risolto bug nel sistema di pagamento acconto. Ora gli utenti devono scegliere esplicitamente tra "Pagamento Completo" o "Acconto" quando disponibile, senza pre-selezioni automatiche.
+- **OBJECT STORAGE PERMANENTE PER TOUR** (15 Ottobre): Le immagini dei tour ora vengono salvate nell'Object Storage (`public/tours/`) invece della cartella locale. Questo garantisce che le foto NON si perdano durante autoscale/deployment. Sistema completamente funzionante e testato.
+- **CAMPO ETÀ MINIMA RISOLTO** (15 Ottobre): Corretto bug di mapping tra form e database. Ora il campo età minima viene salvato e caricato correttamente nell'editor.
+- **RIPOSIZIONAMENTO COME TOUR OPERATOR** (15 Ottobre): Trasformato da agenzia viaggi generica a tour operator specializzato in Sharm El Sheikh. Rimossi gestione paesi, gestione vetrine, selezione paese nell'editor, e categorie viaggiatori dal sistema. Admin panel semplificato per gestire solo tour e gallerie fotografiche.
+- **SISTEMA ACCONTO COMPLETAMENTE FUNZIONANTE** (15 Ottobre): Risolto bug nel sistema di pagamento acconto. Campo depositAmount aggiunto allo schema di validazione e al form. Ora gli utenti devono scegliere esplicitamente tra "Pagamento Completo" o "Acconto" quando disponibile, senza pre-selezioni automatiche.
 - **PROBLEMA DATABASE PRODUCTION RISOLTO** (20 Agosto): Creato endpoint /api/admin/reset-demo-data e pagina /reset-demo per eliminare definitivamente i viaggi placeholder dal database production. Sistema funzionante al 100% sia in development che production.
 - **SISTEMA TOUR COMPLETAMENTE FUNZIONANTE** (20 Agosto): Risolti tutti gli errori di creazione pacchetti tour. Schema reso flessibile con campi opzionali, sistema upload foto professionale integrato, form admin completamente operativo. Creazione, modifica, eliminazione e upload immagini funzionano al 100%.
 
@@ -46,6 +48,7 @@ Design preferences: Full-width sections, solid/hard style, impactful visual elem
 - **API Design**: RESTful API with JSON responses
 - **Development**: tsx for TypeScript execution
 - **Project Structure**: Separated `client/` for frontend, `server/` for backend, and `shared/` for common types/schemas.
+- **Object Storage**: Tour images saved in Replit Object Storage (`public/tours/`) for permanent persistence across autoscale/deployment. Images served via `/api/images/` endpoint with automatic fallback.
 - **Data Model**: Central `travels` table with fields for tour details (title, description, price, type, destination, region), attributes (duration, maxParticipants, minAge), media (images, YouTube ID), status flags, pricing types (with deposit support), and itinerary.
 - **Features**:
     - **Tour Types**: Mare, Montagna, Città, Avventura, Relax, Cultura (focused on Sharm El Sheikh area activities).

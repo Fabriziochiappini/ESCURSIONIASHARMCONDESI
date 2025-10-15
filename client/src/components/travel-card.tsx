@@ -51,9 +51,10 @@ export function TravelCard({ travel, priority = false }: TravelCardProps) {
       if (img.startsWith('http://') || img.startsWith('https://')) {
         return img;
       }
-      // Rimuovi lo slash iniziale se presente per evitare doppi slash
+      // Gestione path per Object Storage: le nuove immagini sono già nel formato corretto "public/tours/file.jpg"
+      // Le vecchie immagini potrebbero avere "/uploads/file.jpg" (rimuovi lo slash iniziale)
       const cleanPath = img.startsWith('/') ? img.substring(1) : img;
-      // Usa l'endpoint API per servire le immagini
+      // Usa l'endpoint API per servire le immagini dall'Object Storage
       return `/api/images/${cleanPath}`;
     }
     return 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800';

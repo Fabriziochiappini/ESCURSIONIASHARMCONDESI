@@ -351,23 +351,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Travel Images Routes
   
   // NUOVO SISTEMA UPLOAD AGENZIA VIAGGI - FUNZIONA DAVVERO!
-  app.post("/api/admin/upload-images", upload.array('images', 30), async (req, res) => {
+  app.post("/api/admin/upload-images", uploadToObjectStorage.array('images', 30), async (req, res) => {
     try {
       const files = req.files as Express.Multer.File[];
       
-      console.log(`🔥 AGENZIA VIAGGI: Ricevuto ${files?.length || 0} file per upload`);
+      console.log(`🔥 TOUR: Ricevuto ${files?.length || 0} file per upload in Object Storage`);
       
       if (!files || files.length === 0) {
         return res.status(400).json({ message: "No images provided" });
       }
 
-      // I file sono già salvati da multer diskStorage!
-      const imageUrls = files.map(file => {
-        console.log(`✅ File salvato: ${file.filename} (${file.size} bytes)`);
-        return `/uploads/${file.filename}`;
+      // Upload files to Object Storage
+      const uploadPromises = files.map(async (file) => {
+        const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        const objectPath = `public/tours/${filename}`;
+        
+        await objectStorageService.uploadObject(objectPath, file.buffer);
+        console.log(`✅ File salvato in Object Storage: ${objectPath} (${file.size} bytes)`);
+        
+        return objectPath;
       });
 
-      console.log(`🎯 SUCCESSO: ${imageUrls.length} immagini salvate per agenzia viaggi!`);
+      const imageUrls = await Promise.all(uploadPromises);
+
+      console.log(`🎯 SUCCESSO: ${imageUrls.length} immagini salvate in Object Storage!`);
 
       res.json({
         message: `Successfully processed ${imageUrls.length} images`,
@@ -375,7 +382,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
     } catch (error) {
-      console.error('❌ ERRORE UPLOAD AGENZIA VIAGGI:', error);
+      console.error('❌ ERRORE UPLOAD TOUR:', error);
       res.status(500).json({ 
         message: "Error uploading images",
         error: error instanceof Error ? error.message : "Unknown error"
