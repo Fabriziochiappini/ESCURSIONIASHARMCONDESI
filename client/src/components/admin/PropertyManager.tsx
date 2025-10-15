@@ -731,7 +731,7 @@ export default function PropertyManager() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="title">Titolo *</Label>
+                  <Label htmlFor="title">Titolo Tour *</Label>
                   <Input
                     id="title"
                     value={formData.title}
@@ -741,7 +741,7 @@ export default function PropertyManager() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="type">Tipo *</Label>
+                  <Label htmlFor="type">Tipo Tour *</Label>
                   <Select
                     value={formData.type}
                     onValueChange={(value) => setFormData(prev => ({ ...prev, type: value as "vendita" | "affitto" | "casa_vacanza" }))}
@@ -758,57 +758,6 @@ export default function PropertyManager() {
                       <SelectItem value="relax">Relax</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="propertyType">Tipo Pacchetto</Label>
-                  <Select
-                    value={formData.propertyType || ""}
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, propertyType: value || undefined }))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleziona categoria" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="singolo">Viaggio Singolo</SelectItem>
-                      <SelectItem value="coppia">Viaggio di Coppia</SelectItem>
-                      <SelectItem value="famiglia">Viaggio Famiglia</SelectItem>
-                      <SelectItem value="gruppo">Viaggio di Gruppo</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="showcaseCountry">Paese per Vetrina</Label>
-                  <Select
-                    value={formData.showcaseCountry || ""}
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, showcaseCountry: value || undefined }))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleziona paese..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Francia">Francia</SelectItem>
-                      <SelectItem value="Spagna">Spagna</SelectItem>
-                      <SelectItem value="Grecia">Grecia</SelectItem>
-                      <SelectItem value="Italia">Italia</SelectItem>
-                      <SelectItem value="Croazia">Croazia</SelectItem>
-                      <SelectItem value="Turchia">Turchia</SelectItem>
-                      <SelectItem value="Emirati Arabi Uniti">Emirati Arabi Uniti</SelectItem>
-                      <SelectItem value="Giappone">Giappone</SelectItem>
-                      <SelectItem value="Thailandia">Thailandia</SelectItem>
-                      <SelectItem value="Egitto">Egitto</SelectItem>
-                      <SelectItem value="Stati Uniti">Stati Uniti</SelectItem>
-                      <SelectItem value="Messico">Messico</SelectItem>
-                      <SelectItem value="Brasile">Brasile</SelectItem>
-                      <SelectItem value="Argentina">Argentina</SelectItem>
-                      <SelectItem value="Marocco">Marocco</SelectItem>
-                      <SelectItem value="Tunisia">Tunisia</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <p className="text-xs text-gray-500">
-                    Paese per apparire nella vetrina dinamica homepage
-                  </p>
                 </div>
               </div>
 
@@ -888,35 +837,25 @@ export default function PropertyManager() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="location">Destinazione *</Label>
                   <Input
                     id="location"
                     value={formData.location}
                     onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
-                    placeholder="es. Santorini, Mykonos"
+                    placeholder="es. Ras Mohammed"
                     required
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="municipality">Regione</Label>
+                  <Label htmlFor="municipality">Area/Zona</Label>
                   <Input
                     id="municipality"
                     value={formData.municipality}
                     onChange={(e) => setFormData(prev => ({ ...prev, municipality: e.target.value }))}
-                    placeholder="es. Isole Cicladi"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="area">Età Minima</Label>
-                  <Input
-                    id="area"
-                    type="number"
-                    value={formData.area}
-                    onChange={(e) => setFormData(prev => ({ ...prev, area: parseInt(e.target.value) }))}
+                    placeholder="es. Sud Sinai"
                   />
                 </div>
               </div>
