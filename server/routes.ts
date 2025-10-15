@@ -1032,6 +1032,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get single guide by ID (public)
+  app.get("/api/guides/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const guide = await storage.getGuide(id);
+      
+      if (!guide) {
+        return res.status(404).json({ message: "Guide not found" });
+      }
+
+      // Only return if active
+      if (!guide.isActive) {
+        return res.status(404).json({ message: "Guide not found" });
+      }
+      
+      res.json(guide);
+    } catch (error) {
+      res.status(500).json({ message: "Error retrieving guide" });
+    }
+  });
+
   // Admin: Get all guides
   app.get("/api/admin/guides", async (req, res) => {
     try {

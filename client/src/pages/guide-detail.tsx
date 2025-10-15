@@ -13,15 +13,7 @@ export default function GuideDetail() {
   const guideId = parseInt(params.id || "0");
 
   const { data: guide, isLoading, error } = useQuery<Guide>({
-    queryKey: ["/api/admin/guides", guideId],
-    queryFn: async () => {
-      const response = await fetch(`/api/admin/guides`);
-      if (!response.ok) throw new Error("Failed to fetch guides");
-      const guides = await response.json();
-      const foundGuide = guides.find((g: Guide) => g.id === guideId);
-      if (!foundGuide) throw new Error("Guide not found");
-      return foundGuide;
-    },
+    queryKey: ["/api/guides", guideId],
   });
 
   if (isLoading) {
