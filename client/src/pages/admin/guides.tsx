@@ -26,7 +26,6 @@ const guideSchema = z.object({
   ctaText: z.string().min(1, "Testo pulsante obbligatorio"),
   imageUrl: z.string().min(1, "URL immagine obbligatorio"),
   gradient: z.string().min(1, "Gradiente obbligatorio"),
-  tagColor: z.string().min(1, "Colore tag obbligatorio"),
   isActive: z.boolean().default(true),
 });
 
@@ -68,7 +67,6 @@ export default function AdminGuides() {
       ctaText: "ACCEDI ALLA GUIDA →",
       imageUrl: "",
       gradient: "from-blue-600 to-purple-600",
-      tagColor: "blue-600",
       isActive: true,
     },
   });
@@ -78,7 +76,7 @@ export default function AdminGuides() {
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: GuideFormData) => apiRequest("POST", "/api/admin/guides", data),
+    mutationFn: (data: GuideFormData) => apiRequest("POST", "/api/admin/guides", { ...data, tagColor: "blue-600" }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/guides"] });
       queryClient.invalidateQueries({ queryKey: ["/api/guides"] });
@@ -93,7 +91,7 @@ export default function AdminGuides() {
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: GuideFormData }) =>
-      apiRequest("PUT", `/api/admin/guides/${id}`, data),
+      apiRequest("PUT", `/api/admin/guides/${id}`, { ...data, tagColor: "blue-600" }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/guides"] });
       queryClient.invalidateQueries({ queryKey: ["/api/guides"] });
@@ -219,13 +217,6 @@ export default function AdminGuides() {
                       )}
                     />
                   </div>
-                  <div>
-                    <Label htmlFor="tagColor">Colore Tag</Label>
-                    <Input {...createForm.register("tagColor")} placeholder="Es: blue-600" data-testid="input-guide-tag-color" />
-                    {createForm.formState.errors.tagColor && (
-                      <p className="text-red-600 text-sm mt-1">{createForm.formState.errors.tagColor.message}</p>
-                    )}
-                  </div>
                   <div className="flex items-center space-x-2">
                     <Controller
                       name="isActive"
@@ -298,7 +289,6 @@ export default function AdminGuides() {
                             ctaText: guide.ctaText,
                             imageUrl: guide.imageUrl,
                             gradient: guide.gradient,
-                            tagColor: guide.tagColor,
                             isActive: guide.isActive ?? true,
                           });
                         }
@@ -364,10 +354,6 @@ export default function AdminGuides() {
                                 </div>
                               )}
                             />
-                          </div>
-                          <div>
-                            <Label htmlFor="edit-tagColor">Colore Tag</Label>
-                            <Input {...editForm.register("tagColor")} />
                           </div>
                           <div className="flex items-center space-x-2">
                             <Controller

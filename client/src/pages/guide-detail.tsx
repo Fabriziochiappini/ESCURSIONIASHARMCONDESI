@@ -41,11 +41,9 @@ export default function GuideDetail() {
               <BookOpen className="h-16 w-16 mx-auto text-gray-400 mb-4" />
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Guida non trovata</h2>
               <p className="text-gray-600 mb-6">La guida che stai cercando non esiste o è stata rimossa.</p>
-              <Link href="/">
-                <a className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold">
-                  <ArrowLeft className="h-4 w-4" />
-                  Torna alla Home
-                </a>
+              <Link href="/" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold">
+                <ArrowLeft className="h-4 w-4" />
+                Torna alla Home
               </Link>
             </Card>
           </div>
@@ -72,15 +70,13 @@ export default function GuideDetail() {
           </div>
           
           <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Link href="/">
-              <a className="inline-flex items-center gap-2 text-white/90 hover:text-white mb-8 transition-colors" data-testid="link-back-home">
-                <ArrowLeft className="h-5 w-5" />
-                Torna alla Home
-              </a>
+            <Link href="/" className="inline-flex items-center gap-2 text-white/90 hover:text-white mb-8 transition-colors" data-testid="link-back-home">
+              <ArrowLeft className="h-5 w-5" />
+              Torna alla Home
             </Link>
 
             <div className="mb-8">
-              <span className={`inline-block px-6 py-3 bg-white text-${guide.tagColor} font-black text-sm uppercase tracking-wider`}>
+              <span className="inline-block px-6 py-3 bg-white text-gray-900 font-black text-sm uppercase tracking-wider">
                 {guide.category}
               </span>
             </div>

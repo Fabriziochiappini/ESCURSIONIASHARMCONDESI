@@ -117,7 +117,6 @@ export default function Home() {
               {guides.length > 0 ? (
                 guides.map((guide, index) => {
                   const isEven = index % 2 === 1;
-                  const tagColorClass = guide.tagColor ? `text-${guide.tagColor}` : 'text-blue-600';
                   
                   return (
                     <Link key={guide.id} href={`/guide/${guide.id}`}>
@@ -128,7 +127,7 @@ export default function Home() {
                         <div className={`relative z-10 flex flex-col ${isEven ? 'lg:flex-row-reverse' : 'lg:flex-row'} min-h-[320px]`}>
                           <div className="lg:w-2/3 p-12 flex flex-col justify-center">
                             <div className="mb-6">
-                              <span className={`px-6 py-3 bg-white ${tagColorClass} font-black text-sm uppercase tracking-wider`}>
+                              <span className="px-6 py-3 bg-white text-gray-900 font-black text-sm uppercase tracking-wider">
                                 {guide.category}
                               </span>
                             </div>
@@ -139,7 +138,7 @@ export default function Home() {
                               {guide.description}
                             </p>
                             <div className="flex items-center">
-                              <div className={`bg-white ${tagColorClass} px-8 py-4 font-black uppercase tracking-wide group-hover:bg-yellow-400 group-hover:text-black transition-all duration-300`}>
+                              <div className="bg-white text-gray-900 px-8 py-4 font-black uppercase tracking-wide group-hover:bg-yellow-400 group-hover:text-black transition-all duration-300">
                                 {guide.ctaText}
                               </div>
                             </div>
