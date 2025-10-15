@@ -113,7 +113,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="space-y-8 animate-slide-up">
+            <div className="space-y-12 animate-slide-up">
               {guides.length > 0 ? (
                 guides.map((guide, index) => {
                   const isEven = index % 2 === 1;
