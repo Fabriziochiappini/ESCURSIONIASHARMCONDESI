@@ -13,7 +13,7 @@ export default function GuideDetail() {
   const guideId = parseInt(params.id || "0");
 
   const { data: guide, isLoading, error } = useQuery<Guide>({
-    queryKey: ["/api/guides", guideId],
+    queryKey: [`/api/guides/${guideId}`],
   });
 
   if (isLoading) {
@@ -146,11 +146,9 @@ export default function GuideDetail() {
         {/* CTA Torna alle Guide */}
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
           <div className="text-center">
-            <Link href="/">
-              <a className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-lg" data-testid="link-back-guides">
-                <ArrowLeft className="h-5 w-5" />
-                Torna a tutte le guide
-              </a>
+            <Link href="/" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-lg" data-testid="link-back-guides">
+              <ArrowLeft className="h-5 w-5" />
+              Torna a tutte le guide
             </Link>
           </div>
         </section>
