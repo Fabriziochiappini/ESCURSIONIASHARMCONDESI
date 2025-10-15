@@ -1,17 +1,24 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { X, ZoomIn, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { X, ZoomIn, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Gallery, GalleryImage } from "@shared/schema";
+import useEmblaCarousel from 'embla-carousel-react';
 
 export default function GalleriaPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const [selectedGallery, setSelectedGallery] = useState<(Gallery & { images: GalleryImage[] }) | null>(null);
   const [allImages, setAllImages] = useState<GalleryImage[]>([]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true,
+    align: 'center',
+    containScroll: 'trimSnaps'
+  });
 
   const { data: galleries, isLoading } = useQuery<(Gallery & { images: GalleryImage[] })[]>({
     queryKey: ["/api/galleries"],
@@ -29,23 +36,34 @@ export default function GalleriaPage() {
     setAllImages(images);
     setSelectedImageIndex(index);
     setSelectedImage(convertImageUrl(image.imageUrl));
-  };
-
-  const nextImage = () => {
-    if (selectedImageIndex < allImages.length - 1) {
-      const nextIndex = selectedImageIndex + 1;
-      setSelectedImageIndex(nextIndex);
-      setSelectedImage(convertImageUrl(allImages[nextIndex].imageUrl));
+    if (emblaApi) {
+      emblaApi.scrollTo(index);
     }
   };
 
-  const prevImage = () => {
-    if (selectedImageIndex > 0) {
-      const prevIndex = selectedImageIndex - 1;
-      setSelectedImageIndex(prevIndex);
-      setSelectedImage(convertImageUrl(allImages[prevIndex].imageUrl));
-    }
-  };
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi || !allImages.length) return;
+    const newIndex = emblaApi.selectedScrollSnap();
+    setSelectedImageIndex(newIndex);
+    setSelectedImage(convertImageUrl(allImages[newIndex].imageUrl));
+  }, [emblaApi, allImages]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
+  }, [emblaApi, onSelect]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
@@ -282,57 +300,77 @@ export default function GalleriaPage() {
         </DialogContent>
       </Dialog>
 
+      {/* Lightbox con Embla Carousel - Touch Friendly */}
       <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
-        <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black border-0">
-          <div className="relative w-full h-full flex items-center justify-center">
-            <button
+        <DialogContent className="max-w-full w-full h-full max-h-screen p-0 bg-black/95 border-0">
+          <div className="relative w-full h-full">
+            {/* Close button */}
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setSelectedImage(null)}
-              className="absolute top-4 right-4 z-50 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition-all"
+              className="absolute top-4 right-4 z-50 bg-black/50 text-white hover:bg-black/70 rounded-full"
               data-testid="close-lightbox"
             >
               <X className="h-6 w-6" />
-            </button>
+            </Button>
 
-            {selectedImageIndex > 0 && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  prevImage();
-                }}
-                className="absolute left-4 z-50 bg-white/10 hover:bg-white/20 text-white rounded-full p-3 transition-all"
-                data-testid="prev-image"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
+            {/* Embla Carousel per swipe touch */}
+            <div className="w-full h-full" ref={emblaRef}>
+              <div className="flex h-full touch-pan-y">
+                {allImages.map((image, index) => (
+                  <div
+                    key={image.id}
+                    className="flex-[0_0_100%] min-w-0 flex items-center justify-center p-4 md:p-16"
+                  >
+                    <img
+                      src={convertImageUrl(image.imageUrl)}
+                      alt={`Foto ${index + 1}`}
+                      className="max-w-full max-h-full object-contain"
+                      loading="eager"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Navigation arrows (nascosti su mobile) */}
+            {allImages.length > 1 && (
+              <>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={scrollPrev}
+                  className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-black/50 text-white hover:bg-black/70 rounded-full"
+                  data-testid="prev-image"
+                >
+                  <ChevronLeft className="h-8 w-8" />
+                </Button>
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={scrollNext}
+                  className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-black/50 text-white hover:bg-black/70 rounded-full"
+                  data-testid="next-image"
+                >
+                  <ChevronRight className="h-8 w-8" />
+                </Button>
+              </>
             )}
 
-            {selectedImage && (
-              <img
-                src={selectedImage}
-                alt="Foto a schermo intero"
-                className="max-w-full max-h-[95vh] object-contain"
-              />
-            )}
+            {/* Image counter */}
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-50">
+              <div className="bg-black/70 text-white px-5 py-2 rounded-full text-sm font-medium backdrop-blur-sm">
+                {selectedImageIndex + 1} / {allImages.length}
+              </div>
+            </div>
 
-            {selectedImageIndex < allImages.length - 1 && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  nextImage();
-                }}
-                className="absolute right-4 z-50 bg-white/10 hover:bg-white/20 text-white rounded-full p-3 transition-all"
-                data-testid="next-image"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            )}
-
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full text-sm">
-              {selectedImageIndex + 1} / {allImages.length}
+            {/* Swipe hint for mobile */}
+            <div className="md:hidden absolute bottom-20 left-1/2 transform -translate-x-1/2 z-50">
+              <div className="text-white/60 text-xs animate-pulse">
+                ← Scorri per navigare →
+              </div>
             </div>
           </div>
         </DialogContent>
