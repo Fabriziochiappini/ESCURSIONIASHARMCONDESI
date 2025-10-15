@@ -257,108 +257,71 @@ export default function TravelDetail() {
 
         {/* Description and Details */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-8">
-              {/* Description */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Descrizione del Viaggio</CardTitle>
+          <div className="space-y-8">
+            {/* Description */}
+            <Card className="border-none shadow-lg">
+              <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100">
+                <CardTitle className="text-2xl">Descrizione del Tour</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
+                  {travel.description}
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Features Included */}
+            {travel.features && travel.features.length > 0 && (
+              <Card className="border-none shadow-lg">
+                <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-100">
+                  <CardTitle className="text-2xl flex items-center gap-2">
+                    <CheckCircle className="h-6 w-6 text-green-600" />
+                    Cosa Include il Tour
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                    {travel.description}
-                  </p>
+                <CardContent className="pt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {travel.features.map((feature, index) => (
+                      <div key={index} className="flex items-start gap-3 p-3 rounded-lg bg-gray-50 hover:bg-green-50 transition-colors">
+                        <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-700 font-medium">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
+            )}
 
-              {/* Features Included */}
-              {travel.features && travel.features.length > 0 && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-600" />
-                      Incluso nel Pacchetto
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2">
-                      {travel.features.map((feature, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 mt-1 flex-shrink-0" />
-                          <span className="text-gray-700">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
-
-            {/* Agent Contact Card */}
-            <div>
-              <Card className="sticky top-8">
-                <CardHeader>
-                  <CardTitle>Il tuo Consulente di Viaggio</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                      <span className="text-2xl">👨‍💼</span>
-                    </div>
-                    <h3 className="font-semibold text-lg">
-                      {travel.agentName || 'Consulente Viaggi'}
-                    </h3>
-                    <p className="text-gray-600 text-sm">Specialista {getTypeLabel(travel.type)}</p>
-                  </div>
-
-                  <Separator />
-
-                  <div className="space-y-3">
+            {/* Call to Action Banner */}
+            <Card className="border-none shadow-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+              <CardContent className="py-8">
+                <div className="text-center space-y-4">
+                  <h3 className="text-2xl font-bold">Pronto a Partire?</h3>
+                  <p className="text-blue-100 text-lg">Prenota ora o contattaci per maggiori informazioni</p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                     <BookingModal travel={travel}>
                       <Button 
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                        data-testid="button-book-sidebar"
+                        size="lg"
+                        className="bg-white text-blue-600 hover:bg-gray-100"
+                        data-testid="button-book-cta"
                       >
-                        <CreditCard className="h-4 w-4 mr-2" />
-                        Prenota viaggio
+                        <CreditCard className="h-5 w-5 mr-2" />
+                        Prenota Ora
                       </Button>
                     </BookingModal>
-                    {travel.depositAmount && parseFloat(travel.depositAmount) > 0 && (
-                      <BookingModal travel={travel}>
-                        <Button 
-                          className="w-full bg-orange-600 hover:bg-orange-700 text-white"
-                          data-testid="button-deposit-sidebar"
-                        >
-                          <CreditCard className="h-4 w-4 mr-2" />
-                          Versa Acconto (€{parseFloat(travel.depositAmount).toLocaleString("it-IT")})
-                        </Button>
-                      </BookingModal>
-                    )}
                     <Button
+                      size="lg"
                       onClick={handleWhatsAppContact}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white"
-                      data-testid="button-whatsapp-sidebar"
+                      className="bg-green-600 hover:bg-green-700"
+                      data-testid="button-whatsapp-cta"
                     >
-                      <Phone className="h-4 w-4 mr-2" />
-                      WhatsApp
-                    </Button>
-                    <Button
-                      onClick={handleEmailContact}
-                      variant="outline"
-                      className="w-full"
-                      data-testid="button-email-sidebar"
-                    >
-                      <Mail className="h-4 w-4 mr-2" />
-                      Email
+                      <Phone className="h-5 w-5 mr-2" />
+                      Contattaci su WhatsApp
                     </Button>
                   </div>
-
-                  <div className="text-xs text-gray-500 text-center">
-                    Consulenza gratuita e senza impegno
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </section>
       </main>
