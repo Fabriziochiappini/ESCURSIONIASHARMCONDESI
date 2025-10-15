@@ -1020,6 +1020,72 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ===== GUIDES ROUTES =====
+  
+  // Get all active guides (public)
+  app.get("/api/guides", async (req, res) => {
+    try {
+      const guides = await storage.getActiveGuides();
+      res.json(guides);
+    } catch (error) {
+      res.status(500).json({ message: "Error retrieving guides" });
+    }
+  });
+
+  // Admin: Get all guides
+  app.get("/api/admin/guides", async (req, res) => {
+    try {
+      const guides = await storage.getAllGuides();
+      res.json(guides);
+    } catch (error) {
+      res.status(500).json({ message: "Error retrieving guides" });
+    }
+  });
+
+  // Admin: Create new guide
+  app.post("/api/admin/guides", async (req, res) => {
+    try {
+      const guideData = req.body;
+      const newGuide = await storage.createGuide(guideData);
+      res.status(201).json(newGuide);
+    } catch (error) {
+      res.status(500).json({ message: "Error creating guide" });
+    }
+  });
+
+  // Admin: Update guide
+  app.put("/api/admin/guides/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const guideData = req.body;
+      const updatedGuide = await storage.updateGuide(id, guideData);
+      
+      if (!updatedGuide) {
+        return res.status(404).json({ message: "Guide not found" });
+      }
+      
+      res.json(updatedGuide);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating guide" });
+    }
+  });
+
+  // Admin: Delete guide
+  app.delete("/api/admin/guides/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const success = await storage.deleteGuide(id);
+      
+      if (!success) {
+        return res.status(404).json({ message: "Guide not found" });
+      }
+      
+      res.json({ message: "Guide deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting guide" });
+    }
+  });
+
   // ===== PAYMENT ROUTES =====
   
   // PayPal Routes - Required by javascript_paypal integration

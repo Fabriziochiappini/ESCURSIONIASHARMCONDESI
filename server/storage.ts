@@ -8,6 +8,7 @@ import {
   payments,
   galleries,
   galleryImages,
+  guides,
   type Travel, 
   type InsertTravel, 
   type SearchFilters,
@@ -27,6 +28,8 @@ import {
   type InsertGallery,
   type GalleryImage,
   type InsertGalleryImage,
+  type Guide,
+  type InsertGuide,
   generateTravelSlug,
   generateTravelMetaTitle,
   generateTravelMetaDescription
@@ -117,6 +120,14 @@ export interface IStorage {
   deleteGallery(id: number): Promise<boolean>;
   addGalleryImages(galleryId: number, files: Express.Multer.File[]): Promise<GalleryImage[]>;
   deleteGalleryImage(imageId: number): Promise<boolean>;
+
+  // Guide operations
+  getAllGuides(): Promise<Guide[]>;
+  getActiveGuides(): Promise<Guide[]>;
+  getGuide(id: number): Promise<Guide | undefined>;
+  createGuide(guide: InsertGuide): Promise<Guide>;
+  updateGuide(id: number, guide: Partial<InsertGuide>): Promise<Guide | undefined>;
+  deleteGuide(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -961,6 +972,37 @@ export class DatabaseStorage implements IStorage {
 
     // Delete from database
     const result = await db.delete(galleryImages).where(eq(galleryImages.id, imageId));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  // Guide operations
+  async getAllGuides(): Promise<Guide[]> {
+    const allGuides = await db.select().from(guides).orderBy(guides.sortOrder, guides.id);
+    return allGuides;
+  }
+
+  async getActiveGuides(): Promise<Guide[]> {
+    const activeGuides = await db.select().from(guides).where(eq(guides.isActive, true)).orderBy(guides.sortOrder, guides.id);
+    return activeGuides;
+  }
+
+  async getGuide(id: number): Promise<Guide | undefined> {
+    const [guide] = await db.select().from(guides).where(eq(guides.id, id));
+    return guide || undefined;
+  }
+
+  async createGuide(guide: InsertGuide): Promise<Guide> {
+    const [newGuide] = await db.insert(guides).values(guide).returning();
+    return newGuide;
+  }
+
+  async updateGuide(id: number, guide: Partial<InsertGuide>): Promise<Guide | undefined> {
+    const [updatedGuide] = await db.update(guides).set(guide).where(eq(guides.id, id)).returning();
+    return updatedGuide || undefined;
+  }
+
+  async deleteGuide(id: number): Promise<boolean> {
+    const result = await db.delete(guides).where(eq(guides.id, id));
     return result.rowCount !== null && result.rowCount > 0;
   }
 }
