@@ -63,20 +63,20 @@ const services = [
 
 const contactInfo = {
   name: "UNCONVENTIONAL TOUR",
-  role: "Agenzia Viaggi",
-  address: "Via Roma, 123 - 20121 Milano (MI)",
-  phone: "02 1234567",
+  role: "Tour Operator Sharm El Sheikh",
+  address: "Sharm El Sheikh - Egitto",
+  phone: "+20 69 360 0000",
   email: "info@unconventionaltour.it",
-  email2: "viaggi@unconventionaltour.it"
+  email2: "tour@unconventionaltour.it"
 };
 
 export default function Services() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead
-        title="UNCONVENTIONAL TOUR - Servizi di Viaggio Professionali"
-        description="Scopri i nostri servizi di viaggio completi: consulenza personalizzata, pacchetti su misura, assistenza documentale e prenotazioni. Contattaci per organizzare il tuo viaggio perfetto."
-        keywords="servizi viaggio, agenzia viaggi, pacchetti viaggio, consulenza viaggi, prenotazioni, unconventional tour"
+        title="UNCONVENTIONAL TOUR - Servizi Tour Operator Sharm El Sheikh"
+        description="Scopri i nostri servizi: escursioni Mar Rosso, diving, snorkeling, safari nel deserto. Tour operator specializzato in Sharm El Sheikh. Contattaci per i tuoi tour!"
+        keywords="servizi tour operator, tour sharm el sheikh, escursioni mar rosso, diving sharm, unconventional tour"
         canonicalUrl="https://unconventionaltour.it/servizi"
       />
       <Navigation />
@@ -163,7 +163,7 @@ export default function Services() {
             Hai Bisogno di Maggiori Informazioni?
           </h2>
           <p className="text-xl text-white/90 mb-8">
-            Scopri di più sulla nostra agenzia, i nostri contatti e come raggiungerci
+            Scopri di più sul nostro tour operator, i nostri contatti e come raggiungerci
           </p>
           <Button 
             size="lg" 

@@ -8,9 +8,9 @@ export default function Contatti() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <SEOHead 
-        title="Contatti UNCONVENTIONAL TOUR | Richiedi Informazioni"
-        description="Contatta UNCONVENTIONAL TOUR per organizzare il tuo viaggio perfetto. Tel: 02 1234567, Email: info@unconventionaltour.it"
-        keywords="contatti agenzia viaggi, unconventional tour contatti, telefono agenzia viaggi"
+        title="Contatti UNCONVENTIONAL TOUR | Tour Operator Sharm El Sheikh"
+        description="Contatta UNCONVENTIONAL TOUR per organizzare i tuoi tour a Sharm El Sheikh. Tel: +20 69 360 0000, Email: info@unconventionaltour.it"
+        keywords="contatti tour operator, unconventional tour contatti, tour operator sharm el sheikh"
         canonicalUrl="https://unconventionaltour.it/contatti"
       />
       <Navigation />
@@ -23,7 +23,7 @@ export default function Contatti() {
               Contattaci
             </h1>
             <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-90">
-              Siamo qui per aiutarti a organizzare il viaggio dei tuoi sogni
+              Siamo qui per aiutarti a scoprire le meraviglie di Sharm El Sheikh
             </p>
           </div>
         </section>

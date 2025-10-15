@@ -11,11 +11,11 @@ export function Footer() {
               UNCONVENTIONAL TOUR
             </div>
             <p className="text-gray-300 mb-2 max-w-md">
-              <span className="text-white font-medium">La Tua Agenzia Viaggi</span>
+              <span className="text-white font-medium">Il Tuo Tour Operator</span>
             </p>
             <p className="text-gray-300 mb-6 max-w-md">
-              La tua agenzia viaggi di fiducia per esplorare il mondo. Esperienza, professionalità e passione 
-              per farti vivere esperienze indimenticabili.
+              Il tuo tour operator di fiducia specializzato in Sharm El Sheikh. Esperienza, professionalità e passione 
+              per farti vivere esperienze indimenticabili nel Mar Rosso.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-300 hover:text-primary text-xl transition-colors bg-gray-800 p-3 rounded-lg">
@@ -74,8 +74,8 @@ export function Footer() {
             <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
               <div className="text-sm">
                 <p className="font-medium text-gray-300 mb-1">UNCONVENTIONAL TOUR</p>
-                <p className="mb-1">Agenzia Viaggi</p>
-                <p>MILANO – Via Roma, 123</p>
+                <p className="mb-1">Tour Operator Sharm El Sheikh</p>
+                <p>SHARM EL SHEIKH – Egitto</p>
                 <p>info@unconventionaltour.it</p>
               </div>
               <div className="flex space-x-4 text-sm">
@@ -85,7 +85,7 @@ export function Footer() {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0 text-xs border-t border-gray-800 pt-4">
-              <p>&copy; 2025 UNCONVENTIONAL TOUR - Agenzia Viaggi. Tutti i diritti riservati.</p>
+              <p>&copy; 2025 UNCONVENTIONAL TOUR - Tour Operator. Tutti i diritti riservati.</p>
               <p>
                 Realizzato da{" "}
                 <a 

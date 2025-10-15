@@ -10,9 +10,9 @@ export default function About() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead 
-        title="Contatti UNCONVENTIONAL TOUR | La Tua Agenzia Viaggi di Fiducia"
-        description="✈️ Contatta UNCONVENTIONAL TOUR per organizzare il tuo viaggio perfetto. Agenzia viaggi professionale con esperienza nel settore turistico. Tel: 02 1234567"
-        keywords="contatti agenzia viaggi, unconventional tour, telefono agenzia viaggi, organizzazione viaggi"
+        title="Contatti UNCONVENTIONAL TOUR | Il Tuo Tour Operator Sharm El Sheikh"
+        description="✈️ Contatta UNCONVENTIONAL TOUR per organizzare i tuoi tour a Sharm El Sheikh. Tour operator specializzato in escursioni Mar Rosso. Tel: +20 69 360 0000"
+        keywords="contatti tour operator, unconventional tour, tour operator sharm, escursioni sharm el sheikh"
         canonicalUrl="https://unconventionaltour.it/chi-siamo"
       />
       <Navigation />
@@ -29,8 +29,8 @@ export default function About() {
               UNCONVENTIONAL TOUR
             </h1>
             <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-90">
-              <strong>La Tua Agenzia Viaggi</strong> - I migliori viaggi per esplorare il mondo. 
-              Esperienza, professionalità e passione per farti vivere esperienze indimenticabili.
+              <strong>Il Tuo Tour Operator</strong> - Le migliori escursioni a Sharm El Sheikh. 
+              Esperienza, professionalità e passione per farti vivere esperienze indimenticabili nel Mar Rosso.
             </p>
           </div>
         </section>
@@ -44,10 +44,10 @@ export default function About() {
                   La Nostra Missione
                 </h2>
                 <p className="text-lg text-gray-600 mb-6">
-                  <strong>UNCONVENTIONAL TOUR</strong> è la tua agenzia viaggi di fiducia per ogni esigenza di viaggio. Offriamo un servizio completo e professionale nel settore turistico con pacchetti personalizzati.
+                  <strong>UNCONVENTIONAL TOUR</strong> è il tuo tour operator di fiducia specializzato in Sharm El Sheikh. Offriamo un servizio completo e professionale per escursioni, diving, snorkeling e safari nel deserto.
                 </p>
                 <p className="text-lg text-gray-600 mb-6">
-                  La nostra passione per i viaggi e la profonda conoscenza delle destinazioni più belle del mondo ci permettono di offrire esperienze uniche e servizi di alta qualità.
+                  La nostra passione per il Mar Rosso e la profonda conoscenza di Sharm El Sheikh ci permettono di offrire esperienze autentiche e indimenticabili.
                 </p>
                 <div className="bg-accent/10 p-6 rounded-lg">
                   <h3 className="text-xl font-bold text-primary mb-4">I Nostri Contatti</h3>

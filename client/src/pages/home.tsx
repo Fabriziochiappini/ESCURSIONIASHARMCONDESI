@@ -14,9 +14,9 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title="UNCONVENTIONAL TOUR - Agenzia Viaggi | Vacanze Mare, Montagna e City Break"
-        description="✈️ Scopri il mondo con UNCONVENTIONAL TOUR! Vacanze al mare, avventure in montagna, city break e viaggi culturali. Pacchetti personalizzati per ogni esigenza di viaggio."
-        keywords="agenzia viaggi, vacanze mare, viaggi montagna, city break, pacchetti viaggio, unconventional tour, viaggi organizzati, turismo"
+        title="UNCONVENTIONAL TOUR - Tour Operator Sharm El Sheikh | Escursioni Mar Rosso"
+        description="✈️ Scopri Sharm El Sheikh con UNCONVENTIONAL TOUR! Tour operator specializzato in escursioni, snorkeling, diving e safari nel deserto. Esperienze autentiche nel Mar Rosso."
+        keywords="tour operator sharm el sheikh, escursioni mar rosso, snorkeling sharm, diving egitto, safari deserto, unconventional tour, tour sharm"
         canonicalUrl="https://unconventionaltour.it/"
       />
       <Navigation />
@@ -38,14 +38,13 @@ export default function Home() {
                 </div>
                 <div className="space-y-4 text-gray-700 text-lg leading-relaxed">
                   <p>
-                    Siamo un'agenzia locale, ben consolidata, con oltre 40 anni di esperienza nel settore dei viaggi, 
-                    con sede in Via Roma, 123 - Milano, Italia.
+                    Siamo un tour operator locale specializzato in Sharm El Sheikh, con anni di esperienza 
+                    nell'organizzazione di escursioni e attività nel Mar Rosso e nel deserto egiziano.
                   </p>
                   <p>
                     Concepiamo il turismo non come una semplice attività ricreativa, ma come un viaggio educativo 
-                    e piacevole verso paesi e culture sconosciute. Mettiamo un forte accento sul portare sviluppo 
-                    sostenibile a lungo termine nelle regioni che promuoviamo, lavorando a stretto contatto con i 
-                    fornitori locali e utilizzando prodotti locali.
+                    e piacevole verso luoghi e culture affascinanti. Lavoriamo a stretto contatto con guide locali 
+                    esperte per garantire esperienze autentiche e indimenticabili a Sharm El Sheikh.
                   </p>
                 </div>
               </div>
