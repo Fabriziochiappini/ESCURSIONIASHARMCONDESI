@@ -636,7 +636,7 @@ export default function PropertyManager() {
 
       // Prepare travel data - TUTTO LIBERO COME RICHIESTO - USA TEMPIMAGES per ordine aggiornato
       const travelData: InsertTravel = {
-        title: formData.title || "Nuovo Pacchetto Viaggio",
+        title: formData.title || "Nuovo Tour",
         price: formData.price?.toString() || "0",
         type: formData.type || "mare",
         description: formData.description,
@@ -710,7 +710,7 @@ export default function PropertyManager() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Gestione Pacchetti Viaggio</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Gestione Tour</h2>
         <div className="text-sm text-gray-600">
           Usa le frecce ↑↓ accanto a ogni proprietà per riordinarle
         </div>
@@ -718,13 +718,13 @@ export default function PropertyManager() {
           <DialogTrigger asChild>
             <Button onClick={resetForm} className="bg-purple-600 text-white hover:bg-purple-700">
               <Plus className="h-4 w-4 mr-2" />
-              Nuovo Pacchetto Viaggio
+              Nuovo Tour
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                {editingProperty ? 'Modifica Pacchetto Viaggio' : 'Nuovo Pacchetto Viaggio'}
+                {editingProperty ? 'Modifica Tour' : 'Nuovo Tour'}
               </DialogTitle>
             </DialogHeader>
             

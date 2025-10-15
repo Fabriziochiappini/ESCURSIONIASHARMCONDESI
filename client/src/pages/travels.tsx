@@ -121,9 +121,9 @@ export default function Travels() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title="Viaggi e Vacanze - Scopri le Migliori Destinazioni | UNCONVENTIONAL TOUR"
-        description="🌍 Scopri i nostri viaggi: mare, montagna, città, avventura, relax e cultura. Trova la vacanza perfetta con filtri per destinazione, durata e budget."
-        keywords="viaggi, vacanze, destinazioni, mare, montagna, città, avventura, cultura, pacchetti viaggio"
+        title="Tour e Vacanze - Scopri le Migliori Destinazioni | UNCONVENTIONAL TOUR"
+        description="🌍 Scopri i nostri tour: mare, montagna, città, avventura, relax e cultura. Trova la vacanza perfetta con filtri per destinazione, durata e budget."
+        keywords="tour, vacanze, destinazioni, mare, montagna, città, avventura, cultura, pacchetti viaggio"
         canonicalUrl="https://unconventionaltour.it/viaggi"
       />
       <Navigation />
@@ -208,7 +208,7 @@ export default function Travels() {
                     className="h-12 bg-blue-600 hover:bg-blue-700 flex-1"
                   >
                     <Search className="h-4 w-4 mr-2" />
-                    Cerca
+                    Cerca Tour
                   </Button>
                 </div>
               </div>
@@ -216,7 +216,7 @@ export default function Travels() {
               {hasActiveFilters && (
                 <div className="flex justify-between items-center mt-4 pt-4 border-t border-white/20">
                   <span className="text-white/80">
-                    {travels.length} {travels.length === 1 ? 'viaggio trovato' : 'viaggi trovati'}
+                    {travels.length} {travels.length === 1 ? 'tour trovato' : 'tour trovati'}
                   </span>
                   <Button
                     variant="ghost"
@@ -238,17 +238,17 @@ export default function Travels() {
             {isLoading ? (
               <div className="text-center py-12">
                 <div className="animate-spin w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
-                <p>Caricamento viaggi...</p>
+                <p>Caricamento tour...</p>
               </div>
             ) : error ? (
               <div className="text-center py-12">
-                <p className="text-red-600">Errore nel caricamento dei viaggi</p>
+                <p className="text-red-600">Errore nel caricamento dei tour</p>
               </div>
             ) : travels.length === 0 ? (
               <div className="text-center py-12">
                 <Plane className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Nessun viaggio trovato
+                  Nessun tour trovato
                 </h3>
                 <p className="text-gray-600 mb-4">
                   Prova a modificare i filtri di ricerca

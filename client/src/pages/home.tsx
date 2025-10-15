@@ -76,10 +76,10 @@ export default function Home() {
             {/* Viaggi a tutta larghezza */}
             <div className="text-center mb-16 animate-fade-in">
               <h2 className="text-4xl lg:text-5xl font-light mb-4 text-gray-900">
-                Viaggi in Evidenza
+                Tour in Evidenza
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12">
-                Scopri le destinazioni più belle del mondo con i nostri pacchetti esclusivi
+                Scopri le destinazioni più belle del mondo con i nostri tour esclusivi
               </p>
             </div>
 

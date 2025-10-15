@@ -70,7 +70,7 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-600 mb-4">Errore nel caricamento dei pacchetti viaggio</p>
+        <p className="text-red-600 mb-4">Errore nel caricamento dei tour</p>
         <Button onClick={() => window.location.reload()}>
           Riprova
         </Button>
@@ -82,7 +82,7 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
     return (
       <div className="text-center py-12">
         <p className="text-gray-600 text-lg mb-4">
-          Nessun pacchetto viaggio trovato con i filtri selezionati
+          Nessun tour trovato con i filtri selezionati
         </p>
         <Button onClick={() => window.location.href = '/'}>
           Rimuovi filtri
@@ -102,8 +102,8 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
       {!showAll && !filters && (
         <div className="text-center">
           <Link href="/viaggi">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
-              Vedi Tutti i Pacchetti Viaggio
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg font-semibold">
+              Vedi Tutti i Tour
             </Button>
           </Link>
         </div>

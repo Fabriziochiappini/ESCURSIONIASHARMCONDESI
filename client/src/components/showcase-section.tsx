@@ -68,7 +68,7 @@ export function ShowcaseSection({ category, className = "" }: ShowcaseSectionPro
                 variant="outline"
                 className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-gray-900 font-semibold px-8 py-4 text-lg transition-all duration-300"
               >
-                Scopri le offerte
+                Scopri i Tour
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>

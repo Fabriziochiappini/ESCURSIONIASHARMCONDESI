@@ -39,7 +39,7 @@ export function TravelSearch() {
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-end">
         <div>
           <label className="block text-sm font-semibold text-gray-800 mb-3">
-            Tipo di Viaggio
+            Tipo di Tour
           </label>
           <Select value={filters.type} onValueChange={(value) => setFilters(prev => ({ ...prev, type: value }))}>
             <SelectTrigger className="w-full h-12 rounded-xl border-gray-200 bg-white/90 backdrop-blur-sm">
@@ -115,7 +115,7 @@ export function TravelSearch() {
             className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold flex items-center justify-center gap-2 transition-all duration-300"
           >
             <Search className="h-5 w-5" />
-            Cerca Viaggi
+            Cerca Tour
           </Button>
         </div>
       </div>
