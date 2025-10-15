@@ -1,7 +1,6 @@
 import React from "react";
 import { HeroSection } from "@/components/hero-section";
 import { PropertyGrid } from "@/components/property-grid";
-import { DestinationsSection } from "@/components/destinations-section";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
@@ -64,9 +63,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* Sezione Destinazioni - PRIMA dei Viaggi */}
-        <DestinationsSection />
 
         <section id="travels" className="py-20 bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden pattern-waves">
           <div className="absolute top-20 right-20 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl animate-pulse"></div>

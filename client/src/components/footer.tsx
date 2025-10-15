@@ -6,10 +6,13 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-2">
-            <div className="text-2xl font-bold mb-4 flex items-center text-white">
+            <div className="text-2xl font-bold mb-2 flex items-center text-white">
               <Home className="mr-2 h-6 w-6 text-primary" />
-              UNCONVENTIONAL TOUR
+              Si viaggia con Desi
             </div>
+            <p className="text-gray-400 mb-4 text-sm italic">
+              Escursioni a Sharm
+            </p>
             <p className="text-gray-300 mb-2 max-w-md">
               <span className="text-white font-medium">Il Tuo Tour Operator</span>
             </p>
@@ -73,10 +76,10 @@ export function Footer() {
           <div className="flex flex-col space-y-4">
             <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
               <div className="text-sm">
-                <p className="font-medium text-gray-300 mb-1">UNCONVENTIONAL TOUR</p>
+                <p className="font-medium text-gray-300 mb-1">Si viaggia con Desi - Escursioni a Sharm</p>
                 <p className="mb-1">Tour Operator Sharm El Sheikh</p>
                 <p>SHARM EL SHEIKH – Egitto</p>
-                <p>info@unconventionaltour.it</p>
+                <p>info@siviaggiacondesi.com</p>
               </div>
               <div className="flex space-x-4 text-sm">
                 <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
@@ -85,7 +88,7 @@ export function Footer() {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0 text-xs border-t border-gray-800 pt-4">
-              <p>&copy; 2025 UNCONVENTIONAL TOUR - Tour Operator. Tutti i diritti riservati.</p>
+              <p>&copy; 2025 Si viaggia con Desi - Tour Operator. Tutti i diritti riservati.</p>
               <p>
                 Realizzato da{" "}
                 <a 
