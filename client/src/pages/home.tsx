@@ -121,7 +121,7 @@ export default function Home() {
                   return (
                     <Link key={guide.id} href={`/guide/${guide.id}`}>
                       <div 
-                        className={`group cursor-pointer bg-gradient-to-r ${guide.gradient} relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300`}
+                        className={`group cursor-pointer bg-gradient-to-r ${guide.gradient} relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300 mb-16`}
                         data-testid={`guide-card-${guide.id}`}
                       >
                         <div className={`relative z-10 flex flex-col ${isEven ? 'lg:flex-row-reverse' : 'lg:flex-row'} min-h-[320px]`}>
