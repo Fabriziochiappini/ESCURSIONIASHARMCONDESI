@@ -12,9 +12,7 @@ import {
   FileText, 
   Users, 
   BarChart3,
-  Plus,
   Settings,
-  MapPin,
   Image
 } from "lucide-react";
 import { Link } from "wouter";
@@ -112,33 +110,7 @@ export default function AdminPanel() {
           </div>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => window.location.href = "/admin/countries"}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MapPin className="h-5 w-5" />
-                  Gestione Paesi
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Gestisci le destinazioni nella sezione homepage</p>
-              </CardContent>
-            </Card>
-            
-            <Link href="/admin/showcases">
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="h-5 w-5" />
-                    Gestione Vetrine
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Gestisci le sezioni promozionali</p>
-                </CardContent>
-              </Card>
-            </Link>
-            
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <Link href="/admin/galleries">
               <Card className="cursor-pointer hover:shadow-lg transition-shadow">
                 <CardHeader>
@@ -148,7 +120,7 @@ export default function AdminPanel() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">Crea e gestisci gallerie fotografiche</p>
+                  <p className="text-muted-foreground">Crea e gestisci gallerie fotografiche dei tour</p>
                 </CardContent>
               </Card>
             </Link>
@@ -157,11 +129,11 @@ export default function AdminPanel() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BarChart3 className="h-5 w-5" />
-                  Analytics
+                  Statistiche
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Visualizza statistiche e report</p>
+                <p className="text-muted-foreground">Visualizza prenotazioni e report</p>
               </CardContent>
             </Card>
           </div>
