@@ -656,9 +656,6 @@ export default function PropertyManager() {
         available: formData.available,
         showcaseCountry: formData.showcaseCountry,
       };
-      
-      console.log('💰 DEPOSITO: formData.depositAmount =', formData.depositAmount, 'travelData.depositAmount =', travelData.depositAmount);
-      
 
 
       if (editingProperty) {

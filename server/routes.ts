@@ -270,9 +270,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/travels/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      console.log('💰 BACKEND RICEVUTO depositAmount:', req.body.depositAmount);
       const travelData = insertTravelSchema.partial().parse(req.body);
-      console.log('💰 DOPO VALIDAZIONE depositAmount:', travelData.depositAmount);
       const travel = await storage.updateTravel(id, travelData);
       
       if (!travel) {
