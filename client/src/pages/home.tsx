@@ -135,7 +135,7 @@ export default function Home() {
                               {guide.title}
                             </h3>
                             <p className="text-xl text-white/90 leading-relaxed mb-8 font-medium">
-                              {guide.description}
+                              {guide.subtitle}
                             </p>
                             <div className="flex items-center">
                               <div className="bg-white text-gray-900 px-8 py-4 font-black uppercase tracking-wide group-hover:bg-yellow-400 group-hover:text-black transition-all duration-300">
