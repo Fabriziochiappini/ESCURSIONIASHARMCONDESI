@@ -7,6 +7,7 @@ import { SEOHead } from "@/components/seo-head";
 import { ShowcaseSection } from "@/components/showcase-section";
 import { GalleriesSection } from "@/components/galleries-section";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "wouter";
 import type { Guide } from "@shared/schema";
 
 
@@ -119,47 +120,48 @@ export default function Home() {
                   const tagColorClass = guide.tagColor ? `text-${guide.tagColor}` : 'text-blue-600';
                   
                   return (
-                    <div 
-                      key={guide.id} 
-                      className={`group cursor-pointer bg-gradient-to-r ${guide.gradient} relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300`}
-                      data-testid={`guide-card-${guide.id}`}
-                    >
-                      <div className={`relative z-10 flex flex-col ${isEven ? 'lg:flex-row-reverse' : 'lg:flex-row'} min-h-[320px]`}>
-                        <div className="lg:w-2/3 p-12 flex flex-col justify-center">
-                          <div className="mb-6">
-                            <span className={`px-6 py-3 bg-white ${tagColorClass} font-black text-sm uppercase tracking-wider`}>
-                              {guide.category}
-                            </span>
-                          </div>
-                          <h3 className="text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
-                            {guide.title}
-                          </h3>
-                          <p className="text-xl text-white/90 leading-relaxed mb-8 font-medium">
-                            {guide.description}
-                          </p>
-                          <div className="flex items-center">
-                            <div className={`bg-white ${tagColorClass} px-8 py-4 font-black uppercase tracking-wide group-hover:bg-yellow-400 group-hover:text-black transition-all duration-300`}>
-                              {guide.ctaText}
+                    <Link key={guide.id} href={`/guide/${guide.id}`}>
+                      <div 
+                        className={`group cursor-pointer bg-gradient-to-r ${guide.gradient} relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300`}
+                        data-testid={`guide-card-${guide.id}`}
+                      >
+                        <div className={`relative z-10 flex flex-col ${isEven ? 'lg:flex-row-reverse' : 'lg:flex-row'} min-h-[320px]`}>
+                          <div className="lg:w-2/3 p-12 flex flex-col justify-center">
+                            <div className="mb-6">
+                              <span className={`px-6 py-3 bg-white ${tagColorClass} font-black text-sm uppercase tracking-wider`}>
+                                {guide.category}
+                              </span>
+                            </div>
+                            <h3 className="text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+                              {guide.title}
+                            </h3>
+                            <p className="text-xl text-white/90 leading-relaxed mb-8 font-medium">
+                              {guide.description}
+                            </p>
+                            <div className="flex items-center">
+                              <div className={`bg-white ${tagColorClass} px-8 py-4 font-black uppercase tracking-wide group-hover:bg-yellow-400 group-hover:text-black transition-all duration-300`}>
+                                {guide.ctaText}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="lg:w-1/3 relative min-h-[200px] lg:min-h-auto">
-                          <img 
-                            src={guide.imageUrl}
-                            alt={guide.subtitle}
-                            className="absolute inset-0 w-full h-full object-cover"
-                            onError={(e) => {
-                              e.currentTarget.src = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop&crop=center';
-                            }}
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-8xl font-black text-white/30">
-                              {String(index + 1).padStart(2, '0')}
+                          <div className="lg:w-1/3 relative min-h-[200px] lg:min-h-auto">
+                            <img 
+                              src={guide.imageUrl}
+                              alt={guide.subtitle}
+                              className="absolute inset-0 w-full h-full object-cover"
+                              onError={(e) => {
+                                e.currentTarget.src = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop&crop=center';
+                              }}
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="text-8xl font-black text-white/30">
+                                {String(index + 1).padStart(2, '0')}
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })
               ) : (
