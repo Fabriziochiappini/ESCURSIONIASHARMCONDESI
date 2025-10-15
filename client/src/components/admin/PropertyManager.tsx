@@ -638,6 +638,7 @@ export default function PropertyManager() {
       const travelData: InsertTravel = {
         title: formData.title || "Nuovo Tour",
         price: formData.price?.toString() || "0",
+        depositAmount: formData.depositAmount || undefined,
         type: formData.type || "mare",
         description: formData.description,
         travelType: formData.propertyType,
@@ -655,6 +656,8 @@ export default function PropertyManager() {
         available: formData.available,
         showcaseCountry: formData.showcaseCountry,
       };
+      
+      console.log('💰 DEPOSITO: formData.depositAmount =', formData.depositAmount, 'travelData.depositAmount =', travelData.depositAmount);
       
 
 
