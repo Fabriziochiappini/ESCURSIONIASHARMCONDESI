@@ -206,7 +206,7 @@ export default function TravelDetail() {
                   <Plane className="h-6 w-6 mx-auto mb-2 text-blue-600" />
                   <p className="text-sm text-gray-600">Prezzo</p>
                   <p className="font-bold text-xl text-blue-600">
-                    {formatPrice(travel.price, travel.type, travel.priceType)}
+                    €{parseFloat(travel.price).toLocaleString("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </p>
                 </div>
               </div>
