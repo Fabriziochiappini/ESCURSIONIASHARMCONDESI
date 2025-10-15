@@ -95,6 +95,22 @@ export const galleryImages = pgTable("gallery_images", {
   sortOrder: integer("sort_order").default(0),
 });
 
+// Guides (guide per viaggiatori)
+export const guides = pgTable("guides", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  subtitle: text("subtitle").notNull(),
+  description: text("description").notNull(),
+  category: text("category").notNull(), // DESTINAZIONI 2025, STRATEGIA BAGAGLIO, etc
+  ctaText: text("cta_text").notNull().default("ACCEDI ALLA GUIDA →"),
+  imageUrl: text("image_url").notNull(),
+  gradient: text("gradient").notNull().default("from-blue-600 to-purple-600"), // gradient Tailwind
+  tagColor: text("tag_color").notNull().default("blue-600"), // colore del tag
+  isActive: boolean("is_active").default(true),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const insertTravelSchema = createInsertSchema(travels).omit({
   id: true,
   slug: true, // Auto-generated
@@ -152,6 +168,11 @@ export const insertGalleryImageSchema = createInsertSchema(galleryImages).omit({
   createdAt: true,
 });
 
+export const insertGuideSchema = createInsertSchema(guides).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertTravel = z.infer<typeof insertTravelSchema>;
 export type Travel = typeof travels.$inferSelect;
 export type InsertShowcase = z.infer<typeof insertShowcaseSchema>;
@@ -162,6 +183,8 @@ export type InsertGallery = z.infer<typeof insertGallerySchema>;
 export type Gallery = typeof galleries.$inferSelect;
 export type InsertGalleryImage = z.infer<typeof insertGalleryImageSchema>;
 export type GalleryImage = typeof galleryImages.$inferSelect;
+export type InsertGuide = z.infer<typeof insertGuideSchema>;
+export type Guide = typeof guides.$inferSelect;
 
 // Search filters schema for travel packages
 export const searchFiltersSchema = z.object({
