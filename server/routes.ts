@@ -364,12 +364,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Upload files to Object Storage
       const uploadPromises = files.map(async (file) => {
         const filename = `${Date.now()}_${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-        const objectPath = `public/tours/${filename}`;
         
-        await objectStorageService.uploadObject(objectPath, file.buffer);
-        console.log(`✅ File salvato in Object Storage: ${objectPath} (${file.size} bytes)`);
+        // Get the first public search path
+        const publicPaths = objectStorageService.getPublicObjectSearchPaths();
+        const uploadPath = `${publicPaths[0]}/tours/${filename}`;
         
-        return objectPath;
+        await objectStorageService.uploadFile(file, uploadPath);
+        console.log(`✅ File salvato in Object Storage: ${uploadPath} (${file.size} bytes)`);
+        
+        return `tours/${filename}`;
       });
 
       const imageUrls = await Promise.all(uploadPromises);
