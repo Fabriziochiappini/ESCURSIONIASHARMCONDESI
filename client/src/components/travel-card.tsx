@@ -47,15 +47,12 @@ export function TravelCard({ travel, priority = false }: TravelCardProps) {
   const getImageUrl = () => {
     if (travel.images && travel.images.length > 0 && travel.images[0]) {
       const img = travel.images[0];
-      // Se l'immagine inizia con http/https, usala direttamente (backward compatibility)
+      // Se l'immagine inizia con http/https, usala direttamente
       if (img.startsWith('http://') || img.startsWith('https://')) {
         return img;
       }
-      // Gestione path per Object Storage: le nuove immagini sono già nel formato corretto "public/tours/file.jpg"
-      // Le vecchie immagini potrebbero avere "/uploads/file.jpg" (rimuovi lo slash iniziale)
-      const cleanPath = img.startsWith('/') ? img.substring(1) : img;
-      // Usa l'endpoint API per servire le immagini dall'Object Storage
-      return `/api/images/${cleanPath}`;
+      // Usa il path diretto (le immagini sono servite da /uploads/)
+      return img;
     }
     return 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800';
   };
