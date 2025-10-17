@@ -76,11 +76,12 @@ export default function Home() {
           <div className="relative z-10 max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Viaggi a tutta larghezza */}
             <div className="text-center mb-16 animate-fade-in">
-              <h2 className="text-4xl lg:text-5xl font-light mb-4 text-gray-900">
-                Tour in Evidenza
+              <div className="text-lg lg:text-xl font-medium text-gray-500 mb-2 tracking-wide">ESCURSIONI</div>
+              <h2 className="text-5xl lg:text-7xl font-bold mb-4 text-gray-900">
+                A SHARM EL SHEIKH
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12">
-                Scopri le destinazioni più belle del mondo con i nostri tour esclusivi
+                Scopri le meraviglie del Mar Rosso e del deserto egiziano
               </p>
             </div>
 
