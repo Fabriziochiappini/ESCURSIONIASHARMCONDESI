@@ -88,7 +88,7 @@ export default function TravelDetail() {
 
   const handleWhatsAppContact = () => {
     const message = `Ciao! Sono interessato al tour "${travel.title}" (${travel.destination}). Potresti darmi più informazioni?`;
-    sendWhatsAppMessage(travel.agentPhone || '+39 346 800 3234', message);
+    sendWhatsAppMessage(travel.agentPhone || '+39 344 458 5177', message);
   };
 
   const handleEmailContact = () => {

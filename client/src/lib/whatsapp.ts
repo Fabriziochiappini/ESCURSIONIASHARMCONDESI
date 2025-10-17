@@ -1,6 +1,6 @@
 import { Travel } from "@shared/schema";
 
-const WHATSAPP_NUMBER = "3479123456"; // Numero WhatsApp UNCONVENTIONAL TOUR
+const WHATSAPP_NUMBER = "393444585177"; // Numero WhatsApp Si viaggia con Desi
 
 export function generateWhatsAppLink(travel: Travel, customMessage?: string): string {
   const baseMessage = customMessage || generateTravelMessage(travel);

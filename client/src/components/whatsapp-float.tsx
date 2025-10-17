@@ -1,8 +1,8 @@
 import { MessageCircle } from "lucide-react";
 
 export function WhatsAppFloat() {
-  const whatsappNumber = "393468003234";
-  const message = "Ciao! Sono interessato ai vostri servizi immobiliari. Potreste darmi maggiori informazioni?";
+  const whatsappNumber = "393444585177";
+  const message = "Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (
