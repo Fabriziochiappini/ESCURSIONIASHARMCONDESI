@@ -17,23 +17,42 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
     align: 'center',
     containScroll: 'trimSnaps'
   });
+  const [emblaModalRef, emblaModalApi] = useEmblaCarousel({ 
+    loop: true,
+    align: 'center',
+    containScroll: 'trimSnaps',
+    startIndex: selectedImage
+  });
   const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
     containScroll: 'keepSnaps',
     dragFree: true
   });
 
   const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
+    if (isModalOpen && emblaModalApi) {
+      emblaModalApi.scrollPrev();
+    } else if (emblaApi) {
+      emblaApi.scrollPrev();
+    }
+  }, [emblaApi, emblaModalApi, isModalOpen]);
 
   const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
+    if (isModalOpen && emblaModalApi) {
+      emblaModalApi.scrollNext();
+    } else if (emblaApi) {
+      emblaApi.scrollNext();
+    }
+  }, [emblaApi, emblaModalApi, isModalOpen]);
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     setSelectedImage(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
+
+  const onModalSelect = useCallback(() => {
+    if (!emblaModalApi) return;
+    setSelectedImage(emblaModalApi.selectedScrollSnap());
+  }, [emblaModalApi]);
 
   const onThumbClick = useCallback((index: number) => {
     if (!emblaApi) return;
@@ -48,6 +67,21 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
       emblaApi.off('select', onSelect);
     };
   }, [emblaApi, onSelect]);
+
+  useEffect(() => {
+    if (!emblaModalApi) return;
+    onModalSelect();
+    emblaModalApi.on('select', onModalSelect);
+    return () => {
+      emblaModalApi.off('select', onModalSelect);
+    };
+  }, [emblaModalApi, onModalSelect]);
+
+  useEffect(() => {
+    if (isModalOpen && emblaModalApi) {
+      emblaModalApi.scrollTo(selectedImage);
+    }
+  }, [isModalOpen, emblaModalApi, selectedImage]);
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (!isModalOpen) return;
@@ -198,17 +232,17 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
             </Button>
 
             {/* Carousel fullscreen */}
-            <div className="w-full h-full" ref={emblaRef}>
+            <div className="w-full h-full" ref={emblaModalRef}>
               <div className="flex h-full touch-pan-y">
                 {images.map((image, index) => (
                   <div
                     key={index}
-                    className="flex-[0_0_100%] min-w-0 flex items-center justify-center p-16 md:p-20"
+                    className="flex-[0_0_100%] min-w-0 flex items-center justify-center px-4 py-12 md:px-8"
                   >
                     <img
                       src={image}
                       alt={`${title} - Foto ${index + 1}`}
-                      className="max-w-[85vw] max-h-[75vh] object-contain"
+                      className="max-w-full max-h-[calc(100vh-8rem)] w-auto h-auto object-contain"
                       loading="eager"
                     />
                   </div>
