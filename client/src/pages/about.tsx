@@ -66,7 +66,7 @@ export default function About() {
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">viaggi@unconventionaltour.it</span>
+                      <span className="text-gray-700">tour@unconventionaltour.it</span>
                     </div>
                   </div>
 
@@ -86,7 +86,7 @@ export default function About() {
                       asChild
                     >
                       <a 
-                        href="https://wa.me/390212345567?text=Ciao! Sono interessato ai vostri servizi di viaggio. Potreste darmi maggiori informazioni?"
+                        href="https://wa.me/390212345567?text=Ciao! Sono interessato ai vostri tour a Sharm El Sheikh. Potreste darmi maggiori informazioni?"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -138,7 +138,7 @@ export default function About() {
                     Professionalità
                   </h3>
                   <p className="text-gray-600">
-                    Competenza e serietà in ogni viaggio, con un team di esperti costantemente aggiornato sulle migliori destinazioni del mondo.
+                    Competenza e serietà in ogni tour, con un team di esperti costantemente aggiornato sulle migliori escursioni di Sharm El Sheikh.
                   </p>
                 </CardContent>
               </Card>
@@ -152,7 +152,7 @@ export default function About() {
                     Trasparenza
                   </h3>
                   <p className="text-gray-600">
-                    Informazioni chiare e complete su ogni viaggio, con prezzi onesti e senza costi nascosti.
+                    Informazioni chiare e complete su ogni tour, con prezzi onesti e senza costi nascosti.
                   </p>
                 </CardContent>
               </Card>
@@ -178,10 +178,10 @@ export default function About() {
         <section className="py-16 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl font-bold mb-4">
-              Pronto a Partire per il Tuo Viaggio Ideale?
+              Pronto a Vivere la Tua Avventura a Sharm?
             </h2>
             <p className="text-xl mb-8 text-purple-100">
-              Contattaci oggi stesso per organizzare il tuo viaggio
+              Contattaci oggi stesso per prenotare il tuo tour
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
@@ -190,8 +190,8 @@ export default function About() {
                 className="bg-white text-purple-600 hover:bg-purple-50"
                 asChild
               >
-                <Link href="/properties">
-                  Vedi Viaggi
+                <Link href="/viaggi">
+                  Vedi Tour
                 </Link>
               </Button>
               <Button 

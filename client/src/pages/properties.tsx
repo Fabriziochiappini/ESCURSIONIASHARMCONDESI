@@ -144,9 +144,9 @@ export default function Properties() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title="Viaggi e Destinazioni | Propato Travel"
-        description="✈️ Scopri tutti i viaggi disponibili: vacanze mare, montagna, città, avventura. Propato Travel - la tua scelta migliore per viaggiare."
-        keywords="viaggi pacchetti, vacanze mare montagna, destinazioni mondo, agenzia viaggi propato travel"
+        title="Tour e Escursioni | UNCONVENTIONAL TOUR"
+        description="✈️ Scopri tutti i tour disponibili: escursioni mare, deserto, cultura, avventura. UNCONVENTIONAL TOUR - il tuo tour operator a Sharm El Sheikh."
+        keywords="tour pacchetti, escursioni mare deserto, destinazioni sharm, tour operator unconventional"
         canonicalUrl="https://propatotravel.com/properties"
       />
       <Navigation />
@@ -156,11 +156,11 @@ export default function Properties() {
         <section className="py-20 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Tutti i Nostri Viaggi
+              Tutti i Nostri Tour
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-              Esplora le destinazioni più belle del mondo con i nostri pacchetti personalizzati. 
-              Trova il viaggio perfetto per te.
+              Esplora le meraviglie di Sharm El Sheikh con i nostri tour personalizzati. 
+              Trova il tour perfetto per te.
             </p>
           </div>
         </section>
@@ -172,7 +172,7 @@ export default function Properties() {
             <CardHeader>
               <div className="flex items-center space-x-2">
                 <Filter className="h-5 w-5 text-purple-600" />
-                <h3 className="text-lg font-semibold text-gray-900">Filtra Viaggi</h3>
+                <h3 className="text-lg font-semibold text-gray-900">Filtra Tour</h3>
               </div>
             </CardHeader>
             <CardContent>

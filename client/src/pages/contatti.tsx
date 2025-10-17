@@ -71,8 +71,8 @@ export default function Contatti() {
                       <a href="mailto:info@unconventionaltour.it" className="text-blue-600 hover:underline block">
                         info@unconventionaltour.it
                       </a>
-                      <a href="mailto:viaggi@unconventionaltour.it" className="text-blue-600 hover:underline block">
-                        viaggi@unconventionaltour.it
+                      <a href="mailto:tour@unconventionaltour.it" className="text-blue-600 hover:underline block">
+                        tour@unconventionaltour.it
                       </a>
                     </div>
                   </div>
@@ -84,7 +84,7 @@ export default function Contatti() {
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-1">WhatsApp</h3>
                       <a 
-                        href="https://wa.me/390212345567?text=Ciao! Vorrei informazioni sui vostri viaggi"
+                        href="https://wa.me/390212345567?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:underline"
@@ -182,7 +182,7 @@ export default function Contatti() {
               Pronto a Partire?
             </h2>
             <p className="text-xl mb-8 text-purple-100">
-              Contattaci oggi stesso per organizzare il tuo viaggio perfetto
+              Contattaci oggi stesso per prenotare il tuo tour perfetto
             </p>
             <Button 
               size="lg" 
@@ -190,7 +190,7 @@ export default function Contatti() {
               asChild
             >
               <a href="/viaggi">
-                Scopri i Nostri Viaggi
+                Scopri i Nostri Tour
               </a>
             </Button>
           </div>

@@ -118,8 +118,8 @@ export default function PropertyDetail() {
   // Don't check for invalid ID since we support slug-based URLs now
 
   if (isLoading) return <div>Caricamento...</div>;
-  if (error) return <div>Errore nel caricamento del pacchetto viaggio</div>;
-  if (!property) return <div>Pacchetto viaggio non trovato</div>;
+  if (error) return <div>Errore nel caricamento del tour</div>;
+  if (!property) return <div>Tour non trovato</div>;
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -160,7 +160,7 @@ export default function PropertyDetail() {
       <SEOHead 
         title={property.metaTitle || `${property.title} - ${property.municipality} | Propato Travel`}
         description={property.metaDescription || `✈️ ${property.type === 'mare' ? 'Vacanza al mare' : property.type === 'montagna' ? 'Avventura in montagna' : property.type === 'citta' ? 'City break' : 'Viaggio'} a ${property.municipality}. ${property.bedrooms} giorni, max ${property.bathrooms} persone. Prezzo: €${Number(property.price).toLocaleString()}/persona. ${property.description?.slice(0, 100)}...`}
-        keywords={`${property.title}, viaggio ${property.type} ${property.municipality}, pacchetto ${property.municipality}, ${property.bedrooms} giorni ${property.municipality}, Propato Travel`}
+        keywords={`${property.title}, tour ${property.type} ${property.municipality}, escursione ${property.municipality}, ${property.bedrooms} giorni ${property.municipality}, Unconventional Tour`}
         canonicalUrl={property.slug ? `https://propatotravel.com/${property.slug}` : `https://propatotravel.com/property/${property.id}`}
         ogImage={property.images?.[0] ? `https://propatotravel.com${property.images[0]}` : undefined}
         type="article"
@@ -173,7 +173,7 @@ export default function PropertyDetail() {
           <Link href="/properties">
             <Button variant="ghost" className="mb-6">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Torna ai viaggi
+              Torna ai tour
             </Button>
           </Link>
 
@@ -332,7 +332,7 @@ export default function PropertyDetail() {
                   />
 
                   <Textarea
-                    placeholder="Ciao! Sono interessato a questo viaggio. Potreste inviarmi maggiori informazioni e disponibilità?"
+                    placeholder="Ciao! Sono interessato a questo tour. Potreste inviarmi maggiori informazioni e disponibilità?"
                     rows={4}
                     value={contactForm.message}
                     onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}

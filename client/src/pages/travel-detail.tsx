@@ -61,7 +61,7 @@ export default function TravelDetail() {
         <main className="pt-24">
           <div className="flex items-center justify-center min-h-[50vh]">
             <div className="animate-spin w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p>Caricamento viaggio...</p>
+            <p>Caricamento tour...</p>
           </div>
         </main>
         <Footer />
@@ -75,9 +75,9 @@ export default function TravelDetail() {
         <Navigation />
         <main className="pt-24">
           <div className="text-center py-12">
-            <h1 className="text-2xl font-bold mb-4">Viaggio non trovato</h1>
+            <h1 className="text-2xl font-bold mb-4">Tour non trovato</h1>
             <Link href="/viaggi">
-              <Button>Torna ai viaggi</Button>
+              <Button>Torna ai tour</Button>
             </Link>
           </div>
         </main>
@@ -87,13 +87,13 @@ export default function TravelDetail() {
   }
 
   const handleWhatsAppContact = () => {
-    const message = `Ciao! Sono interessato al viaggio "${travel.title}" (${travel.destination}). Potresti darmi più informazioni?`;
+    const message = `Ciao! Sono interessato al tour "${travel.title}" (${travel.destination}). Potresti darmi più informazioni?`;
     sendWhatsAppMessage(travel.agentPhone || '+39 346 800 3234', message);
   };
 
   const handleEmailContact = () => {
-    const subject = `Informazioni viaggio: ${travel.title}`;
-    const body = `Ciao,\n\nSono interessato al viaggio "${travel.title}" a ${travel.destination}.\n\nPotresti darmi più dettagli?\n\nGrazie!`;
+    const subject = `Informazioni tour: ${travel.title}`;
+    const body = `Ciao,\n\nSono interessato al tour "${travel.title}" a ${travel.destination}.\n\nPotresti darmi più dettagli?\n\nGrazie!`;
     window.location.href = `mailto:${travel.agentEmail || 'info@agenziaviaggi.it'}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
@@ -126,7 +126,7 @@ export default function TravelDetail() {
       <SEOHead 
         title={travel.metaTitle || `${travel.title} - ${travel.destination} | UNCONVENTIONAL TOUR`}
         description={travel.metaDescription || `${travel.description.substring(0, 160)}...`}
-        keywords={`viaggio ${travel.destination}, ${travel.country}, ${getTypeLabel(travel.type)}, vacanza`}
+        keywords={`tour ${travel.destination}, ${travel.country}, ${getTypeLabel(travel.type)}, escursione`}
         canonicalUrl={`https://unconventionaltour.it/travel/${travel.id}`}
       />
       <Navigation />
@@ -140,7 +140,7 @@ export default function TravelDetail() {
             className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
           >
             <ArrowLeft className="h-4 w-4" />
-            Torna ai viaggi
+            Torna ai tour
           </Button>
         </div>
 

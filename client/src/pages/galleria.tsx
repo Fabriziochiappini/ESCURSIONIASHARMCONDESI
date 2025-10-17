@@ -52,8 +52,8 @@ export default function GalleriaPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <SEOHead 
         title="Galleria Foto - UNCONVENTIONAL TOUR | Le Nostre Avventure"
-        description="Scopri le nostre gallerie fotografiche dei viaggi organizzati. Immagini autentiche delle destinazioni più belle del mondo."
-        keywords="galleria foto viaggi, foto tour, immagini vacanze, unconventional tour gallery"
+        description="Scopri le nostre gallerie fotografiche dei tour organizzati. Immagini autentiche delle escursioni più belle di Sharm El Sheikh."
+        keywords="galleria foto tour, foto escursioni, immagini tour sharm, unconventional tour gallery"
         canonicalUrl="https://unconventionaltour.it/galleria"
       />
       <Navigation />

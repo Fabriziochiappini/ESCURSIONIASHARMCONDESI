@@ -47,7 +47,7 @@ export default function Home() {
                     nell'organizzazione di escursioni e attività nel Mar Rosso e nel deserto egiziano.
                   </p>
                   <p>
-                    Concepiamo il turismo non come una semplice attività ricreativa, ma come un viaggio educativo 
+                    Concepiamo il turismo non come una semplice attività ricreativa, ma come un tour educativo 
                     e piacevole verso luoghi e culture affascinanti. Lavoriamo a stretto contatto con guide locali 
                     esperte per garantire esperienze autentiche e indimenticabili a Sharm El Sheikh.
                   </p>
@@ -59,7 +59,7 @@ export default function Home() {
                 <div className="rounded-3xl overflow-hidden shadow-2xl bg-gray-200">
                   <img 
                     src="/chi-siamo.png"
-                    alt="UNCONVENTIONAL TOUR - Il tuo viaggio inizia qui"
+                    alt="UNCONVENTIONAL TOUR - Il tuo tour inizia qui"
                     loading="lazy"
                     decoding="async"
                     className="w-full h-[500px] object-cover"

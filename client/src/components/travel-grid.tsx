@@ -53,7 +53,7 @@ export function TravelGrid({ filters, maxColumns = 4, featured = false }: Travel
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-600">Errore nel caricamento dei viaggi</p>
+        <p className="text-red-600">Errore nel caricamento dei tour</p>
       </div>
     );
   }
@@ -61,7 +61,7 @@ export function TravelGrid({ filters, maxColumns = 4, featured = false }: Travel
   if (travels.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-600">Nessun viaggio disponibile</p>
+        <p className="text-gray-600">Nessun tour disponibile</p>
       </div>
     );
   }

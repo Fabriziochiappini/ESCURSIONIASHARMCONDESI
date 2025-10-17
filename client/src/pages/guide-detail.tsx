@@ -58,7 +58,7 @@ export default function GuideDetail() {
       <SEOHead 
         title={`${guide.title} - ${guide.subtitle} | UNCONVENTIONAL TOUR`}
         description={guide.description}
-        keywords={`${guide.category}, guida viaggio, ${guide.title}, unconventional tour`}
+        keywords={`${guide.category}, guida tour, ${guide.title}, unconventional tour`}
       />
       <Navigation />
       

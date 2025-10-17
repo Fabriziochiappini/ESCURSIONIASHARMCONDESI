@@ -12,9 +12,9 @@ interface SEOHeadProps {
 }
 
 export function SEOHead({
-  title = "UNCONVENTIONAL TOUR - Agenzia Viaggi",
-  description = "✈️ UNCONVENTIONAL TOUR - La tua agenzia viaggi di fiducia. Pacchetti viaggio, vacanze mare, montagna, città. Esperienze uniche in tutto il mondo.",
-  keywords = "agenzia viaggi, unconventional tour, pacchetti viaggio, vacanze mare montagna, viaggi personalizzati",
+  title = "UNCONVENTIONAL TOUR - Tour Operator Sharm El Sheikh",
+  description = "✈️ UNCONVENTIONAL TOUR - Il tuo tour operator di fiducia a Sharm El Sheikh. Escursioni Mar Rosso, safari deserto, diving, snorkeling. Esperienze uniche in Egitto.",
+  keywords = "tour operator sharm, unconventional tour, escursioni mar rosso, safari deserto, diving sharm, tour personalizzati",
   canonicalUrl = "https://unconventionaltour.it/",
   ogImage = "https://unconventionaltour.it/og-image.jpg",
   type = "website",
