@@ -19,8 +19,8 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
   });
   const [emblaModalRef, emblaModalApi] = useEmblaCarousel({ 
     loop: true,
-    align: 'center',
-    containScroll: 'trimSnaps',
+    align: 'start',
+    containScroll: false,
     startIndex: selectedImage
   });
   const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
@@ -232,19 +232,23 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
             </Button>
 
             {/* Carousel fullscreen */}
-            <div className="w-full h-full flex items-center justify-center" ref={emblaModalRef}>
-              <div className="flex h-full w-full touch-pan-y">
+            <div className="w-full h-full overflow-hidden" ref={emblaModalRef}>
+              <div className="flex h-full">
                 {images.map((image, index) => (
                   <div
                     key={index}
-                    className="flex-[0_0_100%] min-w-0 h-full flex items-center justify-center p-0"
+                    className="flex-[0_0_100%] min-w-0 h-full flex items-center justify-center"
+                    style={{ width: '100%' }}
                   >
-                    <img
-                      src={image}
-                      alt={`${title} - Foto ${index + 1}`}
-                      className="max-w-[100vw] max-h-[85vh] w-auto h-auto object-contain"
-                      loading="eager"
-                    />
+                    <div className="w-full h-full flex items-center justify-center">
+                      <img
+                        src={image}
+                        alt={`${title} - Foto ${index + 1}`}
+                        className="max-w-full max-h-[85vh] object-contain"
+                        style={{ margin: '0 auto' }}
+                        loading="eager"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
