@@ -1,4 +1,5 @@
 import heroBackgroundUrl from "@assets/6345959_1759560311915.jpg";
+import logoUrl from "@assets/escursioni_a_sharm-removebg-preview_1760717653759.png";
 
 export function HeroSection() {
   return (
@@ -22,7 +23,7 @@ export function HeroSection() {
             {/* Logo Grande Centro */}
             <div className="mb-4 flex justify-center">
               <img 
-                src="/attached_assets/escursioni_a_sharm-removebg-preview_1760717653759.png" 
+                src={logoUrl} 
                 alt="Si Viaggia con Desy - Escursioni a Sharm"
                 loading="eager"
                 decoding="async"
