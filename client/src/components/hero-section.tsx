@@ -22,8 +22,8 @@ export function HeroSection() {
             {/* Logo Grande Centro */}
             <div className="mb-4 flex justify-center">
               <img 
-                src="/logo.png" 
-                alt="UNCONVENTIONAL TOUR Logo"
+                src="/attached_assets/escursioni_a_sharm-removebg-preview_1760717653759.png" 
+                alt="Si Viaggia con Desy - Escursioni a Sharm"
                 loading="eager"
                 decoding="async"
                 className="w-64 h-64 md:w-80 md:h-80 object-contain drop-shadow-2xl animate-fade-in"

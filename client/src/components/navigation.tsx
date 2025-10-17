@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import logoUrl from "@assets/ChatGPT_Image_4_ott_2025__08_38_54-removebg-preview_1759559972753.png";
+import logoUrl from "@assets/escursioni_a_sharm-removebg-preview_1760717653759.png";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +16,7 @@ export function Navigation() {
             <Link href="/" className="flex items-center group">
               <img 
                 src={logoUrl} 
-                alt="Unconventional Tour Logo" 
+                alt="Si Viaggia con Desy - Escursioni a Sharm" 
                 className="h-20 w-auto group-hover:scale-105 transition-all duration-300"
               />
             </Link>
@@ -65,7 +65,7 @@ export function Navigation() {
           <Link href="/" className="flex items-center">
             <img 
               src={logoUrl} 
-              alt="Unconventional Tour Logo" 
+              alt="Si Viaggia con Desy - Escursioni a Sharm" 
               className="h-16 w-auto"
             />
           </Link>
