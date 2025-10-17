@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { X, Cookie } from "lucide-react";
+import { Cookie } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function CookieBanner() {
@@ -29,58 +29,45 @@ export function CookieBanner() {
 
   return (
     <div 
-      className="fixed bottom-6 left-6 right-6 md:left-auto md:right-6 md:max-w-md z-50 animate-in slide-in-from-bottom-5 duration-500"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg animate-in slide-in-from-bottom duration-300"
       data-testid="cookie-banner"
     >
-      <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 relative">
-        <button
-          onClick={declineCookies}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-          aria-label="Chiudi"
-          data-testid="button-close-cookie"
-        >
-          <X className="h-5 w-5" />
-        </button>
-        
-        <div className="flex items-start space-x-4 mb-4">
-          <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-            <Cookie className="h-6 w-6 text-blue-600" />
-          </div>
-          <div className="flex-1">
-            <h3 className="font-bold text-gray-900 text-lg mb-2">
-              Cookie
-            </h3>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Utilizziamo cookie per migliorare la tua esperienza di navigazione. 
-              Continuando, accetti la nostra{" "}
+      <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+          {/* Icona e testo */}
+          <div className="flex items-start gap-2 flex-1 min-w-0">
+            <Cookie className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+            <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
+              Utilizziamo cookie tecnici per garantire il corretto funzionamento del sito. 
+              Per maggiori informazioni consulta la nostra{" "}
               <a 
-                href="/privacy#cookie" 
+                href="/privacy" 
                 className="text-blue-600 hover:underline font-medium"
                 data-testid="link-cookie-policy"
               >
-                Cookie Policy
-              </a>
-              .
+                Privacy Policy
+              </a>.
             </p>
           </div>
-        </div>
 
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Button
-            onClick={acceptCookies}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
-            data-testid="button-accept-cookies"
-          >
-            Accetta
-          </Button>
-          <Button
-            onClick={declineCookies}
-            variant="outline"
-            className="flex-1"
-            data-testid="button-decline-cookies"
-          >
-            Rifiuta
-          </Button>
+          {/* Pulsanti */}
+          <div className="flex gap-2 w-full sm:w-auto flex-shrink-0">
+            <Button
+              onClick={acceptCookies}
+              className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 sm:py-2 text-xs sm:text-sm h-8 sm:h-9 rounded-lg"
+              data-testid="button-accept-cookies"
+            >
+              Accetta
+            </Button>
+            <Button
+              onClick={declineCookies}
+              variant="outline"
+              className="flex-1 sm:flex-none px-4 py-1.5 sm:py-2 text-xs sm:text-sm h-8 sm:h-9 rounded-lg"
+              data-testid="button-decline-cookies"
+            >
+              Rifiuta
+            </Button>
+          </div>
         </div>
       </div>
     </div>
