@@ -88,10 +88,10 @@ export function Navigation() {
                 Contatti
               </Link>
               <a 
-                href="tel:+390212345567" 
+                href="tel:+393444585177" 
                 className="block gradient-primary text-white px-6 py-4 rounded-2xl font-bold text-center text-lg mt-6"
               >
-                ✈️ 02 1234567
+                ✈️ +39 344 458 5177
               </a>
             </div>
           </div>

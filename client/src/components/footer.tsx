@@ -44,15 +44,11 @@ export function Footer() {
               </li>
               <li className="flex items-center">
                 <Phone className="mr-2 h-4 w-4 text-primary" />
-                +39 02 1234567
+                +39 344 458 5177
               </li>
               <li className="flex items-center">
                 <Mail className="mr-2 h-4 w-4 text-primary" />
-                info@unconventionaltour.it
-              </li>
-              <li className="flex items-center">
-                <Mail className="mr-2 h-4 w-4 text-primary" />
-                viaggi@unconventionaltour.it
+                siviaggiacondesi@gmail.com
               </li>
 
               <li className="flex items-center">
@@ -70,7 +66,7 @@ export function Footer() {
                 <p className="font-medium text-gray-300 mb-1">Si viaggia con Desi - Escursioni a Sharm</p>
                 <p className="mb-1">Tour Operator Sharm El Sheikh</p>
                 <p>SHARM EL SHEIKH – Egitto</p>
-                <p>info@siviaggiacondesi.com</p>
+                <p>siviaggiacondesi@gmail.com</p>
               </div>
               <div className="flex space-x-4 text-sm">
                 <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>

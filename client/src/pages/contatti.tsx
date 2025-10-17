@@ -56,8 +56,8 @@ export default function Contatti() {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-1">Telefono</h3>
-                      <a href="tel:+390212345567" className="text-blue-600 hover:underline text-lg">
-                        02 1234567
+                      <a href="tel:+393444585177" className="text-blue-600 hover:underline text-lg">
+                        +39 344 458 5177
                       </a>
                     </div>
                   </div>
@@ -68,11 +68,8 @@ export default function Contatti() {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-1">Email</h3>
-                      <a href="mailto:info@unconventionaltour.it" className="text-blue-600 hover:underline block">
-                        info@unconventionaltour.it
-                      </a>
-                      <a href="mailto:tour@unconventionaltour.it" className="text-blue-600 hover:underline block">
-                        tour@unconventionaltour.it
+                      <a href="mailto:siviaggiacondesi@gmail.com" className="text-blue-600 hover:underline block">
+                        siviaggiacondesi@gmail.com
                       </a>
                     </div>
                   </div>
@@ -84,7 +81,7 @@ export default function Contatti() {
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-1">WhatsApp</h3>
                       <a 
-                        href="https://wa.me/390212345567?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
+                        href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:underline"
@@ -101,7 +98,7 @@ export default function Contatti() {
                     className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
                     asChild
                   >
-                    <a href="tel:+390212345567">
+                    <a href="tel:+393444585177">
                       <Phone className="h-4 w-4 mr-2" />
                       Chiama Ora
                     </a>
@@ -111,7 +108,7 @@ export default function Contatti() {
                     asChild
                   >
                     <a 
-                      href="https://wa.me/390212345567?text=Ciao! Vorrei informazioni sui vostri viaggi"
+                      href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
                       target="_blank"
                       rel="noopener noreferrer"
                     >

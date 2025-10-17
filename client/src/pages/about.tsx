@@ -58,15 +58,11 @@ export default function About() {
                     </div>
                     <div className="flex items-center space-x-3">
                       <Phone className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">02 1234567</span>
+                      <span className="text-gray-700">+39 344 458 5177</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">info@unconventionaltour.it</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">tour@unconventionaltour.it</span>
+                      <span className="text-gray-700">siviaggiacondesi@gmail.com</span>
                     </div>
                   </div>
 
@@ -76,7 +72,7 @@ export default function About() {
                       className="bg-sky-500 text-white flex-1 hover:bg-sky-600"
                       asChild
                     >
-                      <a href="tel:+390212345567">
+                      <a href="tel:+393444585177">
                         <Phone className="h-4 w-4 mr-2" />
                         Chiama Ora
                       </a>
@@ -86,7 +82,7 @@ export default function About() {
                       asChild
                     >
                       <a 
-                        href="https://wa.me/390212345567?text=Ciao! Sono interessato ai vostri tour a Sharm El Sheikh. Potreste darmi maggiori informazioni?"
+                        href="https://wa.me/393444585177?text=Ciao! Sono interessato ai vostri tour a Sharm El Sheikh. Potreste darmi maggiori informazioni?"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -197,7 +193,7 @@ export default function About() {
               <Button 
                 size="lg" 
                 className="bg-purple-600 text-white font-semibold border-2 border-purple-500"
-                onClick={() => window.open('tel:+390212345567', '_self')}
+                onClick={() => window.open('tel:+393444585177', '_self')}
               >
                 <Phone className="h-5 w-5 mr-2" />
                 Chiamaci Ora
