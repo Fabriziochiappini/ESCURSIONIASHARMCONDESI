@@ -54,47 +54,100 @@ export function PayPalCheckout({ amount, onSuccess, onError, bookingId }: PayPal
           throw new Error("PopUp blocked. Please allow popups for PayPal payment.");
         }
 
-        // Poll for window closure (user completed or cancelled payment)
+        // Wait for PayPal to process the payment, then capture it
+        const checkPaymentStatus = async () => {
+          try {
+            // Give user time to authorize payment on PayPal
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            
+            // Step 3: Capture the payment
+            const captureResponseData = await apiRequest("POST", `/paypal/order/${orderID}/capture`, {});
+            const captureResponse = await captureResponseData.json();
+            
+            if (captureResponse.status === "COMPLETED") {
+              // Close PayPal window automatically
+              if (!paypalWindow.closed) {
+                paypalWindow.close();
+              }
+              
+              setMessage("Pagamento PayPal completato con successo!");
+              
+              // Confirm payment on backend to update status
+              try {
+                await fetch('/api/confirm-paypal-payment', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ 
+                    orderID: orderID,
+                    bookingId: bookingId 
+                  })
+                });
+                console.log('✅ PayPal payment status updated in database');
+              } catch (confirmError) {
+                console.error('Error confirming PayPal payment:', confirmError);
+              }
+              
+              setIsProcessing(false);
+              onSuccess();
+            } else {
+              throw new Error("Payment not completed");
+            }
+          } catch (error) {
+            console.error("PayPal capture error:", error);
+            
+            // Close window on error too
+            if (!paypalWindow.closed) {
+              paypalWindow.close();
+            }
+            
+            setMessage("Errore durante la finalizzazione del pagamento PayPal.");
+            setIsProcessing(false);
+            onError();
+          }
+        };
+
+        // Poll for window closure OR successful payment
         const pollTimer = setInterval(async () => {
           if (paypalWindow.closed) {
             clearInterval(pollTimer);
             
+            // Window closed by user - try to capture anyway in case payment was approved
             try {
-              // Step 3: Capture the payment
               const captureResponseData = await apiRequest("POST", `/paypal/order/${orderID}/capture`, {});
               const captureResponse = await captureResponseData.json();
               
               if (captureResponse.status === "COMPLETED") {
                 setMessage("Pagamento PayPal completato con successo!");
                 
-                // Confirm payment on backend to update status
-                try {
-                  await fetch('/api/confirm-paypal-payment', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                      orderID: orderID,
-                      bookingId: bookingId 
-                    })
-                  });
-                  console.log('✅ PayPal payment status updated in database');
-                } catch (confirmError) {
-                  console.error('Error confirming PayPal payment:', confirmError);
-                }
+                // Confirm payment on backend
+                await fetch('/api/confirm-paypal-payment', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ orderID, bookingId })
+                });
                 
+                setIsProcessing(false);
                 onSuccess();
               } else {
-                throw new Error("Payment not completed");
+                setIsProcessing(false);
+                setMessage("Pagamento PayPal annullato.");
+                onError();
               }
-            } catch (error) {
-              console.error("PayPal capture error:", error);
-              setMessage("Errore durante la finalizzazione del pagamento PayPal.");
+            } catch {
+              setIsProcessing(false);
+              setMessage("Pagamento PayPal annullato.");
               onError();
             }
-            
-            setIsProcessing(false);
           }
         }, 1000);
+
+        // Auto-capture after user approves (alternative flow)
+        setTimeout(async () => {
+          if (!paypalWindow.closed) {
+            await checkPaymentStatus();
+            clearInterval(pollTimer);
+          }
+        }, 5000); // Try to capture after 5 seconds
 
         // Set a timeout to stop polling after 10 minutes
         setTimeout(() => {
