@@ -38,7 +38,6 @@ export function HeroSection() {
             <div className="max-w-4xl mx-auto mb-12">
               <div className="bg-gradient-to-r from-blue-600/80 via-blue-500/80 to-cyan-500/80 backdrop-blur-sm rounded-2xl p-8 border-2 border-white/30 shadow-2xl">
                 <p className="text-xl sm:text-2xl text-white leading-relaxed font-medium">
-                  Dal cristallino Mar Rosso alle dune del deserto, dalle barriere coralline alle antiche meraviglie d'Egitto. 
                   Scopri Sharm El Sheikh con le nostre escursioni indimenticabili.
                 </p>
               </div>
