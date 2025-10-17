@@ -570,6 +570,7 @@ export default function PropertyManager() {
       featured: property.featured || false,
       available: property.available !== undefined ? property.available : true,
       showcaseCountry: property.country || "", // DATABASE: country -> FORM: showcaseCountry
+      rating: property.rating || "0", // DATABASE: rating -> FORM: rating
     };
     
     setFormData(populatedFormData);
@@ -655,6 +656,7 @@ export default function PropertyManager() {
         youtubeVideoId: formData.youtubeVideoId,
         featured: formData.featured,
         available: formData.available,
+        rating: formData.rating || "0",
         showcaseCountry: formData.showcaseCountry,
       };
 
