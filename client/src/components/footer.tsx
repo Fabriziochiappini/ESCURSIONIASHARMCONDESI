@@ -25,13 +25,13 @@ export function Footer() {
           </div>
           
           <div>
-            <h4 className="font-semibold mb-4 text-white">Servizi</h4>
+            <h4 className="font-semibold mb-4 text-white">Escursioni</h4>
             <ul className="space-y-2 text-gray-300">
-              <li><a href="/servizi" className="hover:text-primary transition-colors">Consulenza Viaggi</a></li>
-              <li><a href="/servizi" className="hover:text-primary transition-colors">Pacchetti Personalizzati</a></li>
-              <li><a href="/servizi" className="hover:text-primary transition-colors">Prenotazioni</a></li>
-              <li><a href="/servizi" className="hover:text-primary transition-colors">Assistenza Documenti</a></li>
-              <li><a href="/servizi" className="hover:text-primary transition-colors">Assicurazioni Viaggio</a></li>
+              <li><a href="/tour" className="hover:text-primary transition-colors">Tour Mar Rosso</a></li>
+              <li><a href="/tour" className="hover:text-primary transition-colors">Safari nel Deserto</a></li>
+              <li><a href="/tour" className="hover:text-primary transition-colors">Snorkeling & Diving</a></li>
+              <li><a href="/tour" className="hover:text-primary transition-colors">Escursioni Culturali</a></li>
+              <li><a href="/tour" className="hover:text-primary transition-colors">Tour Personalizzati</a></li>
             </ul>
           </div>
           

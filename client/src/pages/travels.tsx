@@ -134,15 +134,15 @@ export default function Travels() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8">
               <h1 className="text-4xl md:text-5xl font-light mb-4">
-                Esplora il Mondo
+                Scegli la tua avventura a Sharm
               </h1>
               <p className="text-xl opacity-90 max-w-3xl mx-auto">
-                Trova la tua prossima avventura tra le nostre destinazioni esclusive
+                Scopri le meraviglie del Mar Rosso e del deserto egiziano
               </p>
             </div>
 
             {/* Search and Filter Bar */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8">
+            <div className="hidden bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8">
               <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-7 gap-4">
                 <div className="md:col-span-2">
                   <Input
