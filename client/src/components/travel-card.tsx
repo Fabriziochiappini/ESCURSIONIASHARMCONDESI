@@ -179,13 +179,13 @@ export function TravelCard({ travel, priority = false }: TravelCardProps) {
             </p>
           </Link>
 
-          {/* Pulsante SCOPRI TOUR */}
+          {/* Pulsante PRENOTA/ACQUISTA */}
           <Link href={travelUrl}>
             <Button 
-              className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold py-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-base rounded-2xl"
+              className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-base rounded-2xl"
               data-testid={`button-discover-${travel.id}`}
             >
-              SCOPRI TOUR
+              PRENOTA/ACQUISTA
             </Button>
           </Link>
         </CardContent>
