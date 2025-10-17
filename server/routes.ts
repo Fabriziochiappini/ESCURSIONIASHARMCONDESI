@@ -1248,6 +1248,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { amount, travelId, bookingData } = req.body;
       
+      console.log('📦 Creating PayPal booking:', { amount, travelId });
+      
       // Map frontend fields to database fields
       const mappedBookingData = {
         travelId: bookingData.travelId,
@@ -1263,6 +1265,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Create booking first
       const booking = await storage.createBooking(mappedBookingData);
+      console.log('✅ Booking created:', booking.id);
 
       // Create payment record with PayPal provider (no payment intent yet)
       await storage.createPayment({
@@ -1273,13 +1276,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         currency: 'EUR',
         status: 'pending',
       });
+      console.log('✅ Payment record created for booking:', booking.id);
 
-      res.json({ 
+      return res.status(200).json({ 
         bookingId: booking.id 
       });
     } catch (error: any) {
       console.error('Create PayPal booking error:', error);
-      res.status(500).json({ message: "Error creating PayPal booking: " + error.message });
+      return res.status(500).json({ message: "Error creating PayPal booking: " + error.message });
     }
   });
 
