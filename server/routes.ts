@@ -1283,6 +1283,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // PayPal payment confirmation endpoint
+  app.post('/api/confirm-paypal-payment', async (req, res) => {
+    try {
+      const { orderID, bookingId } = req.body;
+      
+      if (!orderID || !bookingId) {
+        return res.status(400).json({ message: "Order ID and Booking ID required" });
+      }
+
+      // Update payment with PayPal order ID
+      await storage.updatePaymentByBookingId(bookingId, {
+        paymentIntentId: orderID,
+        status: 'succeeded',
+        paymentDate: new Date(),
+      });
+      
+      // Update booking status
+      await storage.updateBooking(bookingId, {
+        status: 'confirmed',
+      });
+      
+      console.log('✅ PayPal payment confirmed:', orderID);
+      return res.json({ success: true, message: 'PayPal payment confirmed' });
+    } catch (error: any) {
+      console.error('Confirm PayPal payment error:', error);
+      res.status(500).json({ message: "Error confirming PayPal payment: " + error.message });
+    }
+  });
+
   // Manual payment confirmation endpoint (for development/testing)
   app.post('/api/confirm-payment', async (req, res) => {
     try {

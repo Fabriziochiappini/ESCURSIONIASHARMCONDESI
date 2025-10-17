@@ -108,6 +108,7 @@ export interface IStorage {
   updatePayment(id: number, payment: Partial<InsertPayment>): Promise<Payment | undefined>;
   updatePaymentByStripeId(paymentIntentId: string, payment: Partial<InsertPayment>): Promise<Payment | undefined>;
   updatePaymentByPayPalId(paypalOrderId: string, payment: Partial<InsertPayment>): Promise<Payment | undefined>;
+  updatePaymentByBookingId(bookingId: number, payment: Partial<InsertPayment>): Promise<Payment | undefined>;
   deletePayment(id: number): Promise<boolean>;
   getPaymentsByBooking(bookingId: number): Promise<Payment[]>;
 
@@ -849,6 +850,11 @@ export class DatabaseStorage implements IStorage {
 
   async updatePaymentByPayPalId(paypalOrderId: string, payment: Partial<InsertPayment>): Promise<Payment | undefined> {
     const [updatedPayment] = await db.update(payments).set(payment).where(eq(payments.paypalOrderId, paypalOrderId)).returning();
+    return updatedPayment || undefined;
+  }
+
+  async updatePaymentByBookingId(bookingId: number, payment: Partial<InsertPayment>): Promise<Payment | undefined> {
+    const [updatedPayment] = await db.update(payments).set(payment).where(eq(payments.bookingId, bookingId)).returning();
     return updatedPayment || undefined;
   }
 

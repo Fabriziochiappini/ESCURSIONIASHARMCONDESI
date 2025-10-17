@@ -67,8 +67,20 @@ export function PayPalCheckout({ amount, onSuccess, onError, bookingId }: PayPal
               if (captureResponse.status === "COMPLETED") {
                 setMessage("Pagamento PayPal completato con successo!");
                 
-                // Payment completed successfully - backend will handle via webhook
-                console.log("PayPal payment completed:", captureResponse);
+                // Confirm payment on backend to update status
+                try {
+                  await fetch('/api/confirm-paypal-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                      orderID: orderID,
+                      bookingId: bookingId 
+                    })
+                  });
+                  console.log('✅ PayPal payment status updated in database');
+                } catch (confirmError) {
+                  console.error('Error confirming PayPal payment:', confirmError);
+                }
                 
                 onSuccess();
               } else {
