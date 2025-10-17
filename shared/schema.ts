@@ -31,7 +31,7 @@ export const travels = pgTable("travels", {
   images: json("images").$type<string[]>().default([]),
   features: json("features").$type<string[]>().notNull(),
   youtubeVideoId: text("youtube_video_id"),
-  featured: boolean("featured").default(false),
+  featured: boolean("featured").default(true),
   available: boolean("available").default(true),
   sortOrder: integer("sort_order").default(0),
   slug: text("slug").unique(), // SEO-friendly URL slug
