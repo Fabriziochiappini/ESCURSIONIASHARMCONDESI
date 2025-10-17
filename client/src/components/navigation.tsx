@@ -91,7 +91,7 @@ export function Navigation() {
                 href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block gradient-primary text-white px-6 py-4 rounded-2xl font-bold text-center text-lg mt-6"
+                className="block bg-green-500 hover:bg-green-600 text-white px-6 py-4 rounded-2xl font-bold text-center text-lg mt-6 transition-colors"
               >
                 💬 Contatto su WhatsApp
               </a>
