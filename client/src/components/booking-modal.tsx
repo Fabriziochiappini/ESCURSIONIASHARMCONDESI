@@ -206,7 +206,7 @@ export function BookingModal({ travel, children }: BookingModalProps) {
               </div>
               <div className="mt-3 flex justify-between items-center">
                 <span className="text-lg font-semibold text-blue-600">
-                  {formatPrice(travel.price, travel.type, travel.priceType)} / persona
+                  {formatPrice(travel.price, travel.type, travel.priceType ?? undefined)} / persona
                 </span>
                 <Badge variant="outline" className="bg-white">
                   <Users className="h-3 w-3 mr-1" />
