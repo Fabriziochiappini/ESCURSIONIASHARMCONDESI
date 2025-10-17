@@ -105,17 +105,26 @@ export function BookingModal({ travel, children }: BookingModalProps) {
         status: 'pending' as const,
       };
 
-      const response = await apiRequest("POST", "/api/create-payment-intent", {
+      // Use different endpoints based on payment method
+      const endpoint = formData.paymentMethod === 'paypal' 
+        ? '/api/create-paypal-booking'
+        : '/api/create-payment-intent';
+
+      const response = await apiRequest("POST", endpoint, {
         amount: totalPrice,
         travelId: travel.id,
         bookingData: bookingPayload,
       });
 
       const jsonResponse = await response.json();
-      return jsonResponse as { clientSecret: string; bookingId: number };
+      
+      // Stripe returns clientSecret, PayPal just returns bookingId
+      return jsonResponse as { clientSecret?: string; bookingId: number };
     },
     onSuccess: (data) => {
-      setClientSecret(data.clientSecret);
+      if (data.clientSecret) {
+        setClientSecret(data.clientSecret);
+      }
       setBookingId(data.bookingId);
       setShowPayment(true);
       toast({
