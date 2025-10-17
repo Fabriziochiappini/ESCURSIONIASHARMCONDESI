@@ -1243,6 +1243,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // PayPal Booking Creation
+  app.post("/api/create-paypal-booking", async (req, res) => {
+    try {
+      const { amount, travelId, bookingData } = req.body;
+      
+      // Map frontend fields to database fields
+      const mappedBookingData = {
+        travelId: bookingData.travelId,
+        customerEmail: bookingData.email,
+        customerName: `${bookingData.firstName} ${bookingData.lastName}`,
+        customerPhone: bookingData.phone || "",
+        numberOfParticipants: bookingData.numberOfTravelers,
+        totalAmount: bookingData.totalPrice,
+        travelDate: bookingData.travelDate ? new Date(bookingData.travelDate).toISOString().split('T')[0] : null,
+        status: bookingData.status || "pending",
+        notes: bookingData.notes || "",
+      };
+      
+      // Create booking first
+      const booking = await storage.createBooking(mappedBookingData);
+
+      // Create payment record with PayPal provider (no payment intent yet)
+      await storage.createPayment({
+        bookingId: booking.id,
+        paymentProvider: 'paypal',
+        paymentIntentId: '', // Will be updated when PayPal order is captured
+        amount: amount.toString(),
+        currency: 'EUR',
+        status: 'pending',
+      });
+
+      res.json({ 
+        bookingId: booking.id 
+      });
+    } catch (error: any) {
+      console.error('Create PayPal booking error:', error);
+      res.status(500).json({ message: "Error creating PayPal booking: " + error.message });
+    }
+  });
+
   // Manual payment confirmation endpoint (for development/testing)
   app.post('/api/confirm-payment', async (req, res) => {
     try {
