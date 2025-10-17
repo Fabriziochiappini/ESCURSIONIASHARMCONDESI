@@ -99,6 +99,7 @@ export interface IStorage {
   updateBooking(id: number, booking: Partial<InsertBooking>): Promise<Booking | undefined>;
   deleteBooking(id: number): Promise<boolean>;
   getBookingsByTravel(travelId: number): Promise<Booking[]>;
+  getBookingsWithDetails(): Promise<Array<Booking & { travel: Travel | null, payment: Payment | null }>>;
 
   // Payment operations
   getAllPayments(): Promise<Payment[]>;
@@ -788,6 +789,36 @@ export class DatabaseStorage implements IStorage {
       .where(eq(bookings.travelId, travelId))
       .orderBy(bookings.createdAt);
     return travelBookings;
+  }
+
+  async getBookingsWithDetails(): Promise<Array<Booking & { travel: Travel | null, payment: Payment | null }>> {
+    const result = await db
+      .select({
+        booking: bookings,
+        travel: travels,
+        payment: payments,
+      })
+      .from(bookings)
+      .leftJoin(travels, eq(bookings.travelId, travels.id))
+      .leftJoin(payments, eq(payments.bookingId, bookings.id))
+      .orderBy(desc(bookings.createdAt));
+
+    // Group payments by booking to handle multiple payments
+    const bookingsMap = new Map();
+    
+    for (const row of result) {
+      const bookingId = row.booking.id;
+      
+      if (!bookingsMap.has(bookingId)) {
+        bookingsMap.set(bookingId, {
+          ...row.booking,
+          travel: row.travel,
+          payment: row.payment,
+        });
+      }
+    }
+
+    return Array.from(bookingsMap.values());
   }
 
   // Payment operations

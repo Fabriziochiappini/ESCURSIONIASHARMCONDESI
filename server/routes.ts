@@ -1126,6 +1126,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ===== BOOKING ADMIN ROUTES =====
+  
+  // Admin: Get all bookings with details (travel + payment)
+  app.get("/api/admin/bookings", async (req, res) => {
+    try {
+      const bookingsWithDetails = await storage.getBookingsWithDetails();
+      res.json(bookingsWithDetails);
+    } catch (error) {
+      console.error("Error retrieving bookings:", error);
+      res.status(500).json({ message: "Error retrieving bookings" });
+    }
+  });
+
+  // Admin: Update booking status
+  app.put("/api/admin/bookings/:id/status", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { status } = req.body;
+      
+      if (!status || !["pending", "confirmed", "cancelled", "completed"].includes(status)) {
+        return res.status(400).json({ message: "Invalid status" });
+      }
+      
+      const updatedBooking = await storage.updateBooking(id, { status });
+      
+      if (!updatedBooking) {
+        return res.status(404).json({ message: "Booking not found" });
+      }
+      
+      res.json(updatedBooking);
+    } catch (error) {
+      console.error("Error updating booking status:", error);
+      res.status(500).json({ message: "Error updating booking status" });
+    }
+  });
+
   // ===== PAYMENT ROUTES =====
   
   // PayPal Routes - Required by javascript_paypal integration
