@@ -179,7 +179,7 @@ export function BookingModal({ travel, children }: BookingModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto sm:p-6 p-4">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <CalendarDays className="h-5 w-5 text-blue-600" />
@@ -219,18 +219,19 @@ export function BookingModal({ travel, children }: BookingModalProps) {
 
             {/* Booking Form */}
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 sm:space-y-6">
                 {/* Personal Information */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Nome *</FormLabel>
+                        <FormLabel className="text-base font-semibold">Nome *</FormLabel>
                         <FormControl>
                           <Input 
                             placeholder="Mario"
+                            className="h-12 text-base"
                             data-testid="input-firstName"
                             {...field}
                           />
@@ -244,10 +245,11 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                     name="lastName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Cognome *</FormLabel>
+                        <FormLabel className="text-base font-semibold">Cognome *</FormLabel>
                         <FormControl>
                           <Input 
                             placeholder="Rossi"
+                            className="h-12 text-base"
                             data-testid="input-lastName"
                             {...field}
                           />
@@ -258,17 +260,18 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email *</FormLabel>
+                        <FormLabel className="text-base font-semibold">Email *</FormLabel>
                         <FormControl>
                           <Input
                             type="email"
                             placeholder="mario.rossi@email.com"
+                            className="h-12 text-base"
                             data-testid="input-email"
                             {...field}
                           />
@@ -282,11 +285,12 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Telefono *</FormLabel>
+                        <FormLabel className="text-base font-semibold">Telefono *</FormLabel>
                         <FormControl>
                           <Input
                             type="tel"
                             placeholder="+39 123 456 7890"
+                            className="h-12 text-base"
                             data-testid="input-phone"
                             {...field}
                           />
@@ -298,18 +302,19 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                 </div>
 
                 {/* Travel Details */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="numberOfTravelers"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Numero viaggiatori *</FormLabel>
+                        <FormLabel className="text-base font-semibold">Numero viaggiatori *</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
                             min="1"
                             max={travel.maxParticipants}
+                            className="h-12 text-base"
                             data-testid="input-numberOfTravelers"
                             {...field}
                             onChange={(e) => field.onChange(Number(e.target.value))}
@@ -324,11 +329,12 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                     name="travelDate"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Data di partenza *</FormLabel>
+                        <FormLabel className="text-base font-semibold">Data di partenza *</FormLabel>
                         <FormControl>
                           <Input
                             type="date"
                             min={new Date().toISOString().split('T')[0]}
+                            className="h-12 text-base"
                             data-testid="input-travelDate"
                             {...field}
                           />
@@ -344,11 +350,11 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                   name="notes"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Note aggiuntive</FormLabel>
+                      <FormLabel className="text-base font-semibold">Note aggiuntive</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Richieste speciali, allergie, preferenze..."
-                          className="min-h-[80px]"
+                          className="min-h-[100px] text-base"
                           data-testid="textarea-notes"
                           {...field}
                         />
@@ -372,22 +378,22 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                           <RadioGroup
                             onValueChange={field.onChange}
                             value={field.value}
-                            className="grid grid-cols-2 gap-4"
+                            className="grid grid-cols-1 sm:grid-cols-2 gap-3"
                           >
-                            <div className="flex items-center space-x-2 border rounded-lg p-3 hover:border-blue-500 cursor-pointer transition-colors">
-                              <RadioGroupItem value="full" id="payment-full" />
+                            <div className="flex items-center space-x-3 border-2 rounded-xl p-4 hover:border-blue-500 cursor-pointer transition-colors touch-manipulation">
+                              <RadioGroupItem value="full" id="payment-full" className="h-5 w-5" />
                               <Label htmlFor="payment-full" className="cursor-pointer flex-1">
-                                <div className="font-medium">Pagamento Completo</div>
-                                <div className="text-sm text-gray-500">
+                                <div className="font-semibold text-base">Pagamento Completo</div>
+                                <div className="text-base text-gray-600 font-medium mt-1">
                                   € {(basePrice * numberOfTravelers).toLocaleString("it-IT")}
                                 </div>
                               </Label>
                             </div>
-                            <div className="flex items-center space-x-2 border rounded-lg p-3 hover:border-blue-500 cursor-pointer transition-colors">
-                              <RadioGroupItem value="deposit" id="payment-deposit" />
+                            <div className="flex items-center space-x-3 border-2 rounded-xl p-4 hover:border-blue-500 cursor-pointer transition-colors touch-manipulation">
+                              <RadioGroupItem value="deposit" id="payment-deposit" className="h-5 w-5" />
                               <Label htmlFor="payment-deposit" className="cursor-pointer flex-1">
-                                <div className="font-medium">Acconto</div>
-                                <div className="text-sm text-gray-500">
+                                <div className="font-semibold text-base">Acconto</div>
+                                <div className="text-base text-gray-600 font-medium mt-1">
                                   € {(depositAmount * numberOfTravelers).toLocaleString("it-IT")}
                                 </div>
                               </Label>
@@ -413,20 +419,20 @@ export function BookingModal({ travel, children }: BookingModalProps) {
                         <RadioGroup
                           onValueChange={field.onChange}
                           defaultValue={field.value}
-                          className="grid grid-cols-2 gap-4"
+                          className="grid grid-cols-1 sm:grid-cols-2 gap-3"
                         >
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="stripe" id="stripe" />
-                            <Label htmlFor="stripe" className="flex items-center gap-2 cursor-pointer">
-                              <CreditCard className="h-4 w-4" />
-                              Carta di Credito
+                          <div className="flex items-center space-x-3 border-2 rounded-xl p-4 hover:border-blue-500 cursor-pointer transition-colors touch-manipulation">
+                            <RadioGroupItem value="stripe" id="stripe" className="h-5 w-5" />
+                            <Label htmlFor="stripe" className="flex items-center gap-2 cursor-pointer flex-1">
+                              <CreditCard className="h-5 w-5" />
+                              <span className="font-semibold text-base">Carta di Credito</span>
                             </Label>
                           </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="paypal" id="paypal" />
-                            <Label htmlFor="paypal" className="flex items-center gap-2 cursor-pointer">
-                              <Banknote className="h-4 w-4" />
-                              PayPal
+                          <div className="flex items-center space-x-3 border-2 rounded-xl p-4 hover:border-blue-500 cursor-pointer transition-colors touch-manipulation">
+                            <RadioGroupItem value="paypal" id="paypal" className="h-5 w-5" />
+                            <Label htmlFor="paypal" className="flex items-center gap-2 cursor-pointer flex-1">
+                              <Banknote className="h-5 w-5" />
+                              <span className="font-semibold text-base">PayPal</span>
                             </Label>
                           </div>
                         </RadioGroup>
@@ -479,13 +485,13 @@ export function BookingModal({ travel, children }: BookingModalProps) {
 
                 <Button 
                   type="submit" 
-                  className="w-full" 
+                  className="w-full h-14 text-lg font-bold touch-manipulation" 
                   disabled={createBookingMutation.isPending}
                   data-testid="button-submit-booking"
                 >
                   {createBookingMutation.isPending ? (
                     <>
-                      <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2" />
+                      <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2" />
                       Creazione prenotazione...
                     </>
                   ) : (
@@ -543,7 +549,7 @@ export function BookingModal({ travel, children }: BookingModalProps) {
               <Button
                 variant="outline"
                 onClick={() => setShowPayment(false)}
-                className="w-full"
+                className="w-full h-14 text-lg font-bold touch-manipulation"
                 data-testid="button-back-to-form"
               >
                 Torna ai dettagli
