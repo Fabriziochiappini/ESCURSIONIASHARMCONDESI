@@ -282,6 +282,7 @@ const initialFormData: PropertyFormData = {
   featured: false,
   available: true,
   showcaseCountry: "",
+  rating: "0",
 };
 
 export default function PropertyManager() {
@@ -835,6 +836,29 @@ export default function PropertyManager() {
                     required
                   />
                 </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="rating">Valutazione (stelle)</Label>
+                <Select
+                  value={formData.rating || "0"}
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, rating: value }))}
+                >
+                  <SelectTrigger id="rating">
+                    <SelectValue placeholder="Seleziona valutazione" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="0">⭐ Nessuna valutazione</SelectItem>
+                    <SelectItem value="1">⭐ 1 stella</SelectItem>
+                    <SelectItem value="2">⭐⭐ 2 stelle</SelectItem>
+                    <SelectItem value="3">⭐⭐⭐ 3 stelle</SelectItem>
+                    <SelectItem value="4">⭐⭐⭐⭐ 4 stelle</SelectItem>
+                    <SelectItem value="5">⭐⭐⭐⭐⭐ 5 stelle</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-gray-500">
+                  Imposta la valutazione del tour da mostrare nelle card
+                </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
