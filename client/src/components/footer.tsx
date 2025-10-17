@@ -1,4 +1,5 @@
-import { Home, MapPin, Phone, Mail, Clock, Facebook, Instagram, Linkedin } from "lucide-react";
+import { Home, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { SocialButtons } from "@/components/social-buttons";
 
 export function Footer() {
   return (
@@ -20,17 +21,7 @@ export function Footer() {
               Il tuo tour operator di fiducia specializzato in Sharm El Sheikh. Esperienza, professionalità e passione 
               per farti vivere esperienze indimenticabili nel Mar Rosso.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-300 hover:text-primary text-xl transition-colors bg-gray-800 p-3 rounded-lg">
-                <Facebook className="h-6 w-6" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-primary text-xl transition-colors bg-gray-800 p-3 rounded-lg">
-                <Instagram className="h-6 w-6" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-primary text-xl transition-colors bg-gray-800 p-3 rounded-lg">
-                <Linkedin className="h-6 w-6" />
-              </a>
-            </div>
+            <SocialButtons variant="large" />
           </div>
           
           <div>

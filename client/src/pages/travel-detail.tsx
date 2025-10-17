@@ -15,6 +15,7 @@ import { formatPrice, formatDuration, getTravelTypeIcon, getCategoryIcon } from 
 import { Link } from "wouter";
 import { SEOHead } from "@/components/seo-head";
 import { sendWhatsAppMessage, shareOnWhatsApp } from "@/lib/whatsapp";
+import { SocialButtons } from "@/components/social-buttons";
 
 export default function TravelDetail() {
   const params = useParams();
@@ -303,7 +304,7 @@ export default function TravelDetail() {
             {/* Call to Action Banner */}
             <Card className="border-none shadow-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white">
               <CardContent className="py-8">
-                <div className="text-center space-y-4">
+                <div className="text-center space-y-6">
                   <h3 className="text-2xl font-bold">Pronto a Partire?</h3>
                   <p className="text-blue-100 text-lg">Prenota ora o contattaci per maggiori informazioni</p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -326,6 +327,14 @@ export default function TravelDetail() {
                       <Phone className="h-5 w-5 mr-2" />
                       Contattaci su WhatsApp
                     </Button>
+                  </div>
+                  
+                  {/* Social Media */}
+                  <div className="pt-6 border-t border-blue-400/30">
+                    <p className="text-blue-100 text-sm mb-3">Seguici sui Social</p>
+                    <div className="flex justify-center">
+                      <SocialButtons variant="default" />
+                    </div>
                   </div>
                 </div>
               </CardContent>

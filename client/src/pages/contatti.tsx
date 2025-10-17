@@ -3,6 +3,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { Button } from "@/components/ui/button";
+import { SocialButtons } from "@/components/social-buttons";
 
 export default function Contatti() {
   return (
@@ -118,6 +119,14 @@ export default function Contatti() {
                       WhatsApp
                     </a>
                   </Button>
+                </div>
+
+                {/* Social Media */}
+                <div className="mt-8 pt-8 border-t border-gray-200">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Seguici sui Social</h3>
+                  <div className="flex justify-center">
+                    <SocialButtons variant="large" />
+                  </div>
                 </div>
               </div>
 
