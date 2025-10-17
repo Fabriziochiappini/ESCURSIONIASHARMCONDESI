@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, Star, Users, MapPin, Calendar, Share2 } from "lucide-react";
+import { Clock, Star, Users, MapPin, Calendar, Share2, ShoppingCart } from "lucide-react";
 import type { Travel } from "@shared/schema";
 import { formatPrice } from "@/lib/types";
 import { Link } from "wouter";
@@ -182,9 +182,10 @@ export function TravelCard({ travel, priority = false }: TravelCardProps) {
           {/* Pulsante PRENOTA/ACQUISTA */}
           <Link href={travelUrl}>
             <Button 
-              className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-base rounded-2xl"
+              className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-base rounded-2xl flex items-center justify-center gap-2"
               data-testid={`button-discover-${travel.id}`}
             >
+              <ShoppingCart className="h-5 w-5" />
               PRENOTA/ACQUISTA
             </Button>
           </Link>
