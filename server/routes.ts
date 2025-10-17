@@ -1206,6 +1206,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         customerPhone: bookingData.phone || "",
         numberOfParticipants: bookingData.numberOfTravelers,
         totalAmount: bookingData.totalPrice,
+        travelDate: bookingData.travelDate ? new Date(bookingData.travelDate).toISOString().split('T')[0] : null,
         status: bookingData.status || "pending",
         notes: bookingData.notes || "",
       };

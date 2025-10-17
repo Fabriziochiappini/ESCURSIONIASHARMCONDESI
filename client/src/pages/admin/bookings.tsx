@@ -167,7 +167,6 @@ export default function AdminBookings() {
                       <TableHead>Stato Pag.</TableHead>
                       <TableHead>Stato</TableHead>
                       <TableHead>Prenotato il</TableHead>
-                      <TableHead>Azioni</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -214,7 +213,15 @@ export default function AdminBookings() {
                           €{parseFloat(booking.totalAmount).toFixed(2)}
                         </TableCell>
                         <TableCell>
-                          <Badge variant={getPaymentType(booking) === "Completo" ? "default" : "secondary"}>
+                          <Badge 
+                            className={
+                              getPaymentType(booking) === "Completo" 
+                                ? "bg-green-500 text-white hover:bg-green-600" 
+                                : getPaymentType(booking) === "Acconto"
+                                ? "bg-orange-500 text-white hover:bg-orange-600"
+                                : "bg-gray-500 text-white hover:bg-gray-600"
+                            }
+                          >
                             {getPaymentType(booking)}
                           </Badge>
                         </TableCell>
@@ -246,23 +253,6 @@ export default function AdminBookings() {
                         </TableCell>
                         <TableCell className="text-sm text-gray-500">
                           {formatDateTime(booking.bookingDate)}
-                        </TableCell>
-                        <TableCell>
-                          <Select
-                            value={booking.status || "pending"}
-                            onValueChange={(value) => updateStatusMutation.mutate({ id: booking.id, status: value })}
-                            disabled={updateStatusMutation.isPending}
-                          >
-                            <SelectTrigger className="w-[140px]" data-testid={`select-status-${booking.id}`}>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="pending">In Attesa</SelectItem>
-                              <SelectItem value="confirmed">Confermata</SelectItem>
-                              <SelectItem value="completed">Completata</SelectItem>
-                              <SelectItem value="cancelled">Annullata</SelectItem>
-                            </SelectContent>
-                          </Select>
                         </TableCell>
                       </TableRow>
                     ))}
