@@ -1311,14 +1311,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Send confirmation emails
       try {
-        const booking = await storage.getBookingWithDetails(bookingId);
-        if (booking) {
+        const booking = await storage.getBooking(bookingId);
+        const travel = booking ? await storage.getTravel(booking.travelId) : null;
+        
+        if (booking && travel) {
           await sendBookingConfirmationEmails({
             bookingId: booking.id,
             customerName: booking.customerName,
             customerEmail: booking.customerEmail,
-            customerPhone: booking.customerPhone,
-            travelTitle: booking.travel?.title || 'Tour',
+            customerPhone: booking.customerPhone || '',
+            travelTitle: travel.title,
             travelDate: booking.travelDate || new Date().toISOString(),
             numberOfParticipants: booking.numberOfParticipants,
             totalAmount: booking.totalAmount,
@@ -1367,14 +1369,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
           // Send confirmation emails
           try {
-            const booking = await storage.getBookingWithDetails(bookingId);
-            if (booking) {
+            const booking = await storage.getBooking(bookingId);
+            const travel = booking ? await storage.getTravel(booking.travelId) : null;
+            
+            if (booking && travel) {
               await sendBookingConfirmationEmails({
                 bookingId: booking.id,
                 customerName: booking.customerName,
                 customerEmail: booking.customerEmail,
-                customerPhone: booking.customerPhone,
-                travelTitle: booking.travel?.title || 'Tour',
+                customerPhone: booking.customerPhone || '',
+                travelTitle: travel.title,
                 travelDate: booking.travelDate || new Date().toISOString(),
                 numberOfParticipants: booking.numberOfParticipants,
                 totalAmount: booking.totalAmount,
