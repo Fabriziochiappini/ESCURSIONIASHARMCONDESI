@@ -1308,6 +1308,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.updateBooking(bookingId, {
         status: 'confirmed',
       });
+
+      // Send confirmation emails
+      try {
+        const booking = await storage.getBookingWithDetails(bookingId);
+        if (booking) {
+          await sendBookingConfirmationEmails({
+            bookingId: booking.id,
+            customerName: booking.customerName,
+            customerEmail: booking.customerEmail,
+            customerPhone: booking.customerPhone,
+            travelTitle: booking.travel?.title || 'Tour',
+            travelDate: booking.travelDate || new Date().toISOString(),
+            numberOfParticipants: booking.numberOfParticipants,
+            totalAmount: booking.totalAmount,
+            paymentProvider: 'paypal',
+            paymentStatus: 'succeeded',
+            notes: booking.notes || undefined,
+          });
+        }
+      } catch (emailError) {
+        console.error('Error sending PayPal confirmation emails:', emailError);
+      }
       
       console.log('✅ PayPal payment confirmed:', orderID);
       return res.json({ success: true, message: 'PayPal payment confirmed' });
