@@ -20,6 +20,7 @@ import { db } from "./db";
 import { eq, like, or } from "drizzle-orm";
 import Stripe from "stripe";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault } from "./paypal";
+import { sendBookingConfirmationEmails } from "./email";
 
 // NUOVO SISTEMA UPLOAD PER AGENZIA VIAGGI - OBJECT STORAGE PERMANENTE
 const upload = multer({ 
@@ -1337,9 +1338,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         // Update booking status
         if (paymentIntent.metadata.bookingId) {
-          await storage.updateBooking(parseInt(paymentIntent.metadata.bookingId), {
+          const bookingId = parseInt(paymentIntent.metadata.bookingId);
+          await storage.updateBooking(bookingId, {
             status: 'confirmed',
           });
+
+          // Send confirmation emails
+          try {
+            const booking = await storage.getBookingWithDetails(bookingId);
+            if (booking) {
+              await sendBookingConfirmationEmails({
+                bookingId: booking.id,
+                customerName: booking.customerName,
+                customerEmail: booking.customerEmail,
+                customerPhone: booking.customerPhone,
+                travelTitle: booking.travel?.title || 'Tour',
+                travelDate: booking.travelDate || new Date().toISOString(),
+                numberOfParticipants: booking.numberOfParticipants,
+                totalAmount: booking.totalAmount,
+                paymentProvider: 'stripe',
+                paymentStatus: 'succeeded',
+                notes: booking.notes || undefined,
+              });
+            }
+          } catch (emailError) {
+            console.error('Error sending confirmation emails:', emailError);
+          }
         }
         
         console.log('✅ Payment confirmed manually:', paymentIntent.id);
