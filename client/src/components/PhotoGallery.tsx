@@ -237,12 +237,12 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
                 {images.map((image, index) => (
                   <div
                     key={index}
-                    className="flex-[0_0_100%] min-w-0 flex items-center justify-center px-4 py-12 md:px-8"
+                    className="flex-[0_0_100%] min-w-0 flex items-center justify-center px-2 py-16 sm:px-4 sm:py-12 md:px-8"
                   >
                     <img
                       src={image}
                       alt={`${title} - Foto ${index + 1}`}
-                      className="max-w-full max-h-[calc(100vh-8rem)] w-auto h-auto object-contain"
+                      className="max-w-full max-h-[calc(100vh-10rem)] w-auto h-auto object-contain mx-auto"
                       loading="eager"
                     />
                   </div>
