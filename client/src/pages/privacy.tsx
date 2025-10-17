@@ -9,10 +9,10 @@ export default function Privacy() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead 
-        title="Privacy Policy - UNCONVENTIONAL TOUR Agenzia Viaggi"
-        description="Informativa sulla Privacy di UNCONVENTIONAL TOUR. Scopri come proteggiamo i tuoi dati personali in conformità al GDPR."
-        keywords="privacy policy, gdpr, protezione dati, agenzia viaggi, unconventional tour, trattamento dati personali"
-        canonicalUrl="https://unconventionaltour.it/privacy"
+        title="Privacy Policy - Si viaggia con Desi - Escursioni a Sharm"
+        description="Informativa sulla Privacy di Si viaggia con Desi. Scopri come proteggiamo i tuoi dati personali in conformità al GDPR."
+        keywords="privacy policy, gdpr, protezione dati, tour operator, sharm el sheikh, escursioni, trattamento dati personali"
+        canonicalUrl="https://siviaggiascondesi.it/privacy"
       />
       <Navigation />
 
@@ -48,19 +48,19 @@ export default function Privacy() {
                 <div className="space-y-4">
                   <div>
                     <h3 className="font-bold text-gray-900 mb-2">Titolare del Trattamento</h3>
-                    <p className="text-gray-700 mb-2"><strong>UNCONVENTIONAL TOUR</strong></p>
-                    <p className="text-gray-700">Agenzia Viaggi</p>
+                    <p className="text-gray-700 mb-2"><strong>Si viaggia con Desi - Escursioni a Sharm</strong></p>
+                    <p className="text-gray-700">Tour Operator - Escursioni e Attività a Sharm El Sheikh</p>
                     <div className="flex items-center space-x-3 mt-3">
                       <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">Via Roma, 123 - 20121 Milano (MI)</span>
+                      <span className="text-gray-700">Sharm El Sheikh, Egitto</span>
                     </div>
                     <div className="flex items-center space-x-3 mt-2">
                       <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">02 1234567</span>
+                      <span className="text-gray-700">+39 346 800 3234</span>
                     </div>
                     <div className="flex items-center space-x-3 mt-2">
                       <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">info@unconventionaltour.it</span>
+                      <span className="text-gray-700">info@webproitalia.com</span>
                     </div>
                   </div>
                 </div>
@@ -103,11 +103,11 @@ export default function Privacy() {
                         </ul>
                       </div>
                       <div>
-                        <h4 className="font-semibold mb-2">Dati di Viaggio:</h4>
+                        <h4 className="font-semibold mb-2">Dati di Prenotazione:</h4>
                         <ul className="list-disc list-inside space-y-1 ml-4">
-                          <li>Informazioni su pacchetti viaggio di interesse</li>
-                          <li>Criteri di ricerca e preferenze</li>
-                          <li>Documenti forniti per valutazioni</li>
+                          <li>Informazioni su tour ed escursioni di interesse</li>
+                          <li>Criteri di ricerca e preferenze turistiche</li>
+                          <li>Dati di pagamento per prenotazioni (gestiti tramite Stripe e PayPal)</li>
                         </ul>
                       </div>
                     </AccordionContent>
@@ -122,19 +122,19 @@ export default function Privacy() {
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 space-y-3">
                       <div>
-                        <h4 className="font-semibold mb-2">Servizi di Viaggio:</h4>
+                        <h4 className="font-semibold mb-2">Servizi Turistici:</h4>
                         <ul className="list-disc list-inside space-y-1 ml-4">
-                          <li>Assistenza nella prenotazione e organizzazione viaggi</li>
-                          <li>Valutazioni e perizie tecniche</li>
-                          <li>Consulenza legale e finanziaria</li>
+                          <li>Prenotazione di tour, escursioni e attività a Sharm El Sheikh</li>
+                          <li>Organizzazione di esperienze personalizzate</li>
+                          <li>Gestione pagamenti tramite Stripe e PayPal</li>
                         </ul>
                       </div>
                       <div>
                         <h4 className="font-semibold mb-2">Comunicazione:</h4>
                         <ul className="list-disc list-inside space-y-1 ml-4">
-                          <li>Risposta a richieste di informazioni</li>
-                          <li>Invio di proposte commerciali pertinenti</li>
-                          <li>Aggiornamenti su servizi e offerte viaggio</li>
+                          <li>Risposta a richieste di informazioni via email e WhatsApp</li>
+                          <li>Invio conferme prenotazione e dettagli tour</li>
+                          <li>Aggiornamenti su nuove escursioni e offerte speciali</li>
                         </ul>
                       </div>
                       <div>
@@ -157,10 +157,10 @@ export default function Privacy() {
                     </AccordionTrigger>
                     <AccordionContent className="text-gray-700 space-y-3">
                       <ul className="list-disc list-inside space-y-2">
-                        <li><strong>Consenso:</strong> Per invio di comunicazioni commerciali</li>
-                        <li><strong>Esecuzione contratto:</strong> Per servizi immobiliari richiesti</li>
-                        <li><strong>Legittimo interesse:</strong> Per proposte commerciali pertinenti</li>
-                        <li><strong>Obbligo legale:</strong> Per adempimenti normativi</li>
+                        <li><strong>Consenso:</strong> Per invio di comunicazioni commerciali e newsletter</li>
+                        <li><strong>Esecuzione contratto:</strong> Per servizi turistici richiesti e prenotazioni</li>
+                        <li><strong>Legittimo interesse:</strong> Per proposte di tour ed escursioni pertinenti</li>
+                        <li><strong>Obbligo legale:</strong> Per adempimenti normativi e fiscali</li>
                       </ul>
                     </AccordionContent>
                   </AccordionItem>
@@ -202,8 +202,8 @@ export default function Privacy() {
                       </ul>
                       <div className="mt-4 p-4 bg-accent/10 rounded-lg">
                         <p className="font-semibold text-accent mb-2">Per esercitare i tuoi diritti:</p>
-                        <p>Contattaci a: <strong>info@propatotravel.it</strong></p>
-                        <p>Telefono: <strong>02 1234567</strong></p>
+                        <p>Contattaci a: <strong>info@webproitalia.com</strong></p>
+                        <p>Telefono: <strong>+39 346 800 3234</strong></p>
                       </div>
                     </AccordionContent>
                   </AccordionItem>
@@ -248,12 +248,12 @@ export default function Privacy() {
             {/* Ultima Modifica */}
             <div className="text-center mt-12 text-gray-600">
               <p className="text-sm">
-                Ultima modifica: <strong>31 Gennaio 2025</strong>
+                Ultima modifica: <strong>17 Ottobre 2025</strong>
               </p>
               <p className="text-sm mt-2">
                 Per domande su questa Privacy Policy, contattaci a: 
-                <a href="mailto:info@propatotravel.it" className="text-primary hover:underline ml-1">
-                  info@propatotravel.it
+                <a href="mailto:info@webproitalia.com" className="text-primary hover:underline ml-1">
+                  info@webproitalia.com
                 </a>
               </p>
             </div>
