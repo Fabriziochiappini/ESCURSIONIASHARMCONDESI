@@ -1243,6 +1243,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Manual payment confirmation endpoint (for development/testing)
+  app.post('/api/confirm-payment', async (req, res) => {
+    try {
+      const { paymentIntentId } = req.body;
+      
+      if (!paymentIntentId) {
+        return res.status(400).json({ message: "Payment intent ID required" });
+      }
+
+      // Retrieve payment intent from Stripe to verify it succeeded
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      
+      if (paymentIntent.status === 'succeeded') {
+        // Update payment status
+        await storage.updatePaymentByStripeId(paymentIntent.id, {
+          status: 'succeeded',
+          paymentDate: new Date(),
+        });
+        
+        // Update booking status
+        if (paymentIntent.metadata.bookingId) {
+          await storage.updateBooking(parseInt(paymentIntent.metadata.bookingId), {
+            status: 'confirmed',
+          });
+        }
+        
+        console.log('✅ Payment confirmed manually:', paymentIntent.id);
+        return res.json({ success: true, message: 'Payment confirmed' });
+      } else {
+        return res.status(400).json({ message: 'Payment not succeeded yet', status: paymentIntent.status });
+      }
+    } catch (error: any) {
+      console.error('Confirm payment error:', error);
+      res.status(500).json({ message: "Error confirming payment: " + error.message });
+    }
+  });
+
   // Stripe webhook to handle payment confirmations
   app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), async (req, res) => {
     const sig = req.headers['stripe-signature'];

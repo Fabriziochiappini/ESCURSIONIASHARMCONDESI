@@ -54,6 +54,19 @@ function CheckoutForm({ clientSecret, onSuccess, onError }: CheckoutFormProps) {
         onError();
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
         setMessage("Pagamento completato con successo!");
+        
+        // Confirm payment on backend to update status
+        try {
+          await fetch('/api/confirm-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ paymentIntentId: paymentIntent.id })
+          });
+          console.log('✅ Payment status updated in database');
+        } catch (confirmError) {
+          console.error('Error confirming payment:', confirmError);
+        }
+        
         onSuccess();
       }
     } catch (err) {
