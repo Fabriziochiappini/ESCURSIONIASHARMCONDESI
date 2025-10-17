@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Table,
   TableBody,
@@ -22,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Calendar, User, Users, CreditCard, MapPin, CheckCircle2, Clock, XCircle } from "lucide-react";
+import { Calendar, User, Users, CreditCard, MapPin, CheckCircle2, Clock, XCircle, Filter, X } from "lucide-react";
 import type { Booking, Payment, Travel } from "@shared/schema";
 
 type BookingWithDetails = Booking & {
@@ -51,9 +53,17 @@ const providerLabels: Record<string, string> = {
 
 export default function AdminBookings() {
   const { toast } = useToast();
+  const [dateFilter, setDateFilter] = useState<string>("all");
+  const [customStartDate, setCustomStartDate] = useState<string>("");
+  const [customEndDate, setCustomEndDate] = useState<string>("");
+  const [tourFilter, setTourFilter] = useState<string>("all");
 
   const { data: bookings = [], isLoading } = useQuery<BookingWithDetails[]>({
     queryKey: ["/api/admin/bookings"],
+  });
+
+  const { data: travels = [] } = useQuery<Travel[]>({
+    queryKey: ["/api/travels"],
   });
 
   const updateStatusMutation = useMutation({
@@ -111,6 +121,62 @@ export default function AdminBookings() {
     return "Parziale";
   };
 
+  // Logica di filtraggio
+  const filteredBookings = useMemo(() => {
+    let filtered = [...bookings];
+
+    // Filtro per date
+    if (dateFilter !== "all") {
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      
+      filtered = filtered.filter(booking => {
+        const bookingDate = new Date(booking.bookingDate);
+        
+        switch (dateFilter) {
+          case "today":
+            return bookingDate >= today;
+          case "yesterday":
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            return bookingDate >= yesterday && bookingDate < today;
+          case "last7days":
+            const last7days = new Date(today);
+            last7days.setDate(last7days.getDate() - 7);
+            return bookingDate >= last7days;
+          case "last30days":
+            const last30days = new Date(today);
+            last30days.setDate(last30days.getDate() - 30);
+            return bookingDate >= last30days;
+          case "custom":
+            if (customStartDate && customEndDate) {
+              const start = new Date(customStartDate);
+              const end = new Date(customEndDate);
+              end.setHours(23, 59, 59, 999);
+              return bookingDate >= start && bookingDate <= end;
+            }
+            return true;
+          default:
+            return true;
+        }
+      });
+    }
+
+    // Filtro per tour
+    if (tourFilter !== "all") {
+      filtered = filtered.filter(booking => booking.travelId === parseInt(tourFilter));
+    }
+
+    return filtered;
+  }, [bookings, dateFilter, customStartDate, customEndDate, tourFilter]);
+
+  const clearFilters = () => {
+    setDateFilter("all");
+    setCustomStartDate("");
+    setCustomEndDate("");
+    setTourFilter("all");
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -137,18 +203,113 @@ export default function AdminBookings() {
           </p>
         </div>
 
-        <Card>
+        {/* Filtri */}
+        <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Calendar className="w-5 h-5" />
-              Elenco Prenotazioni ({bookings.length})
+              <Filter className="w-5 h-5" />
+              Filtri di Ricerca
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {bookings.length === 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Filtro Date */}
+              <div className="space-y-2">
+                <Label htmlFor="date-filter">Periodo</Label>
+                <Select value={dateFilter} onValueChange={setDateFilter}>
+                  <SelectTrigger id="date-filter" data-testid="select-date-filter">
+                    <SelectValue placeholder="Seleziona periodo" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tutte le date</SelectItem>
+                    <SelectItem value="today">Oggi</SelectItem>
+                    <SelectItem value="yesterday">Ieri</SelectItem>
+                    <SelectItem value="last7days">Ultimi 7 giorni</SelectItem>
+                    <SelectItem value="last30days">Ultimi 30 giorni</SelectItem>
+                    <SelectItem value="custom">Intervallo personalizzato</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Filtro Tour */}
+              <div className="space-y-2">
+                <Label htmlFor="tour-filter">Tour</Label>
+                <Select value={tourFilter} onValueChange={setTourFilter}>
+                  <SelectTrigger id="tour-filter" data-testid="select-tour-filter">
+                    <SelectValue placeholder="Seleziona tour" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tutti i tour</SelectItem>
+                    {travels
+                      .filter(t => t.available)
+                      .map(travel => (
+                        <SelectItem key={travel.id} value={travel.id.toString()}>
+                          {travel.title}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Pulsante Resetta */}
+              <div className="space-y-2 flex items-end">
+                <Button
+                  onClick={clearFilters}
+                  variant="outline"
+                  className="w-full"
+                  data-testid="button-clear-filters"
+                >
+                  <X className="w-4 h-4 mr-2" />
+                  Resetta Filtri
+                </Button>
+              </div>
+            </div>
+
+            {/* Date personalizzate */}
+            {dateFilter === "custom" && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t">
+                <div className="space-y-2">
+                  <Label htmlFor="start-date">Data Inizio</Label>
+                  <Input
+                    id="start-date"
+                    type="date"
+                    value={customStartDate}
+                    onChange={(e) => setCustomStartDate(e.target.value)}
+                    data-testid="input-start-date"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="end-date">Data Fine</Label>
+                  <Input
+                    id="end-date"
+                    type="date"
+                    value={customEndDate}
+                    onChange={(e) => setCustomEndDate(e.target.value)}
+                    data-testid="input-end-date"
+                  />
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-5 h-5" />
+                Elenco Prenotazioni
+              </div>
+              <Badge variant="outline" className="text-base">
+                {filteredBookings.length} di {bookings.length}
+              </Badge>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {filteredBookings.length === 0 ? (
               <div className="text-center py-12 text-gray-500">
                 <Calendar className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>Nessuna prenotazione ancora registrata</p>
+                <p>{bookings.length === 0 ? "Nessuna prenotazione ancora registrata" : "Nessuna prenotazione trovata con i filtri selezionati"}</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
@@ -170,7 +331,7 @@ export default function AdminBookings() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {bookings.map((booking) => (
+                    {filteredBookings.map((booking) => (
                       <TableRow key={booking.id} data-testid={`booking-row-${booking.id}`}>
                         <TableCell className="font-medium">#{booking.id}</TableCell>
                         <TableCell>
@@ -270,7 +431,10 @@ export default function AdminBookings() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-gray-500">Totale Prenotazioni</p>
-                    <p className="text-2xl font-bold">{bookings.length}</p>
+                    <p className="text-2xl font-bold">{filteredBookings.length}</p>
+                    {filteredBookings.length !== bookings.length && (
+                      <p className="text-xs text-gray-400">di {bookings.length} totali</p>
+                    )}
                   </div>
                   <Calendar className="w-8 h-8 text-blue-500" />
                 </div>
@@ -283,7 +447,7 @@ export default function AdminBookings() {
                   <div>
                     <p className="text-sm text-gray-500">Confermate</p>
                     <p className="text-2xl font-bold text-green-600">
-                      {bookings.filter(b => b.status === "confirmed").length}
+                      {filteredBookings.filter(b => b.status === "confirmed").length}
                     </p>
                   </div>
                   <CheckCircle2 className="w-8 h-8 text-green-500" />
@@ -297,7 +461,7 @@ export default function AdminBookings() {
                   <div>
                     <p className="text-sm text-gray-500">In Attesa</p>
                     <p className="text-2xl font-bold text-yellow-600">
-                      {bookings.filter(b => b.status === "pending").length}
+                      {filteredBookings.filter(b => b.status === "pending").length}
                     </p>
                   </div>
                   <Clock className="w-8 h-8 text-yellow-500" />
@@ -311,7 +475,7 @@ export default function AdminBookings() {
                   <div>
                     <p className="text-sm text-gray-500">Ricavo Totale</p>
                     <p className="text-2xl font-bold text-blue-600">
-                      €{bookings
+                      €{filteredBookings
                         .filter(b => b.payment?.status === "succeeded")
                         .reduce((sum, b) => sum + (b.payment ? parseFloat(b.payment.amount) : 0), 0)
                         .toFixed(2)}
