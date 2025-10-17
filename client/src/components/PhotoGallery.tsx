@@ -232,17 +232,17 @@ export function PhotoGallery({ images, title }: PhotoGalleryProps) {
             </Button>
 
             {/* Carousel fullscreen */}
-            <div className="w-full h-full" ref={emblaModalRef}>
-              <div className="flex h-full touch-pan-y">
+            <div className="w-full h-full flex items-center justify-center" ref={emblaModalRef}>
+              <div className="flex h-full w-full touch-pan-y">
                 {images.map((image, index) => (
                   <div
                     key={index}
-                    className="flex-[0_0_100%] min-w-0 flex items-center justify-center px-2 py-16 sm:px-4 sm:py-12 md:px-8"
+                    className="flex-[0_0_100%] min-w-0 h-full flex items-center justify-center p-0"
                   >
                     <img
                       src={image}
                       alt={`${title} - Foto ${index + 1}`}
-                      className="max-w-full max-h-[calc(100vh-10rem)] w-auto h-auto object-contain mx-auto"
+                      className="max-w-[100vw] max-h-[85vh] w-auto h-auto object-contain"
                       loading="eager"
                     />
                   </div>

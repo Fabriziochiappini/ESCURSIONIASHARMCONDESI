@@ -88,10 +88,12 @@ export function Navigation() {
                 Contatti
               </Link>
               <a 
-                href="tel:+393444585177" 
+                href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block gradient-primary text-white px-6 py-4 rounded-2xl font-bold text-center text-lg mt-6"
               >
-                ✈️ +39 344 458 5177
+                💬 Contatto su WhatsApp
               </a>
             </div>
           </div>
