@@ -24,6 +24,7 @@ import AdminGalleries from "@/pages/admin/galleries";
 import AdminGuides from "@/pages/admin/guides";
 import AdminBookings from "@/pages/admin/bookings";
 import ResetDemo from "@/pages/reset-demo";
+import PayPalReturn from "@/pages/paypal-return";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -49,6 +50,7 @@ function Router() {
       <Route path="/admin/guides" component={AdminGuides} />
       <Route path="/admin/bookings" component={AdminBookings} />
       <Route path="/reset-demo" component={ResetDemo} />
+      <Route path="/paypal-return" component={PayPalReturn} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -89,6 +89,11 @@ export async function createPaypalOrder(req: Request, res: Response) {
         .json({ error: "Invalid intent. Intent is required." });
     }
 
+    // Get the base URL from the request
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+    const host = req.headers['x-forwarded-host'] || req.headers.host;
+    const returnUrl = `${protocol}://${host}/paypal-return`;
+
     const collect = {
       body: {
         intent: intent,
@@ -100,6 +105,10 @@ export async function createPaypalOrder(req: Request, res: Response) {
             },
           },
         ],
+        applicationContext: {
+          returnUrl: returnUrl,
+          cancelUrl: returnUrl,
+        },
       },
       prefer: "return=minimal",
     };
