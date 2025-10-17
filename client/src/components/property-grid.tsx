@@ -98,16 +98,6 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
           <TravelCard key={property.id} travel={property} priority={index < 4} />
         ))}
       </div>
-
-      {!showAll && !filters && (
-        <div className="text-center">
-          <Link href="/viaggi">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg font-semibold">
-              Vedi Tutti i Tour
-            </Button>
-          </Link>
-        </div>
-      )}
     </div>
   );
 }

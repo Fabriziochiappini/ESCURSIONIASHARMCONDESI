@@ -86,7 +86,7 @@ export default function Home() {
             </div>
 
             <div className="animate-slide-up">
-              <PropertyGrid showAll={false} />
+              <PropertyGrid showAll={true} />
             </div>
           </div>
         </section>
