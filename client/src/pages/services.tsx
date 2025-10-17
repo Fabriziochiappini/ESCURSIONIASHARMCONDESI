@@ -8,55 +8,55 @@ import { FileText, Scale, Home as HomeIcon, CreditCard, CheckCircle, MapPin, Pho
 
 const services = [
   {
-    category: "Consulenza e Preventivi",
+    category: "Escursioni Mar Rosso",
     icon: <FileText className="h-8 w-8 text-white" />,
-    description: "Consulenza professionale per organizzare il viaggio perfetto",
+    description: "Tour ed escursioni nelle acque cristalline del Mar Rosso",
     color: "bg-primary text-white",
     items: [
-      "Preventivi personalizzati",
-      "Consulenza destinazioni",
-      "Pianificazione itinerari", 
-      "Consigli esperti",
-      "Valutazione budget viaggio"
+      "Snorkeling tra le barriere coralline",
+      "Diving per tutti i livelli",
+      "Tour in barca con pranzo",
+      "Ras Mohammed National Park", 
+      "Isola di Tiran"
     ]
   },
   {
-    category: "Documentazione e Assistenza",
+    category: "Safari nel Deserto",
     icon: <Scale className="h-8 w-8 text-white" />,
-    description: "Supporto completo per documenti di viaggio e assistenza",
+    description: "Avventure indimenticabili nelle dune del deserto",
     color: "bg-secondary text-white",
     items: [
-      "Assistenza visti e passaporti",
-      "Documenti di viaggio",
-      "Assistenza assicurazioni",
-      "Support 24/7 durante il viaggio",
-      "Gestione emergenze"
+      "Safari in quad o jeep",
+      "Cena beduina sotto le stelle",
+      "Giro in cammello",
+      "Tour al tramonto nel deserto",
+      "Visita villaggi beduini"
     ]
   },
   {
-    category: "Pacchetti Viaggio",
+    category: "Tour Culturali",
     icon: <HomeIcon className="h-8 w-8 text-white" />,
-    description: "Pacchetti completi per ogni tipo di esperienza",
+    description: "Scopri le antiche meraviglie dell'Egitto",
     color: "bg-accent text-white",
     items: [
-      "Vacanze al mare",
-      "Avventure in montagna",
-      "City break culturali",
-      "Viaggi di gruppo",
-      "Viaggi su misura"
+      "Escursione al Cairo e Piramidi",
+      "Luxor e Valle dei Re",
+      "Petra (Giordania)",
+      "Monte Sinai e Monastero",
+      "Tour storico di Sharm"
     ]
   },
   {
-    category: "Prenotazioni e Pagamenti",
+    category: "Servizi Premium",
     icon: <CreditCard className="h-8 w-8 text-white" />,
-    description: "Gestione completa prenotazioni e soluzioni di pagamento",
+    description: "Organizzazione completa e assistenza dedicata",
     color: "bg-primary text-white",
     items: [
-      "Prenotazioni hotel",
-      "Biglietti aerei",
-      "Noleggio auto",
-      "Pagamenti dilazionati",
-      "Garanzia miglior prezzo"
+      "Pick-up da hotel incluso",
+      "Guide esperte multilingue",
+      "Tour privati personalizzati",
+      "Pagamento online sicuro",
+      "Assistenza 24/7"
     ]
   }
 ];
@@ -87,14 +87,14 @@ export default function Services() {
         <div className="relative max-w-6xl mx-auto text-center">
           <div className="inline-flex items-center px-4 py-2 bg-white/20 text-white rounded-full text-sm font-medium mb-6">
             <HomeIcon className="h-4 w-4 mr-2 text-white" />
-            Servizi di Viaggio Professionali
+            Tour ed Escursioni a Sharm El Sheikh
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
             I Nostri Servizi
           </h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
-            Soluzioni complete per ogni esigenza di viaggio. 
-            Professionalità, esperienza e passione per farti vivere esperienze indimenticabili.
+            Esperienze indimenticabili tra Mar Rosso e deserto. 
+            Tour organizzati, guide esperte e massima professionalità per le tue escursioni a Sharm.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="group bg-white text-primary hover:bg-white/90">
@@ -114,10 +114,10 @@ export default function Services() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-              Servizi Specializzati
+              Le Nostre Escursioni
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Offriamo una gamma completa di servizi professionali per soddisfare ogni esigenza di viaggio
+              Scopri le meraviglie di Sharm El Sheikh con i nostri tour organizzati e guide esperte
             </p>
           </div>
 
