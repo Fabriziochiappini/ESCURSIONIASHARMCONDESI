@@ -39,6 +39,24 @@ export function generateQuickInquiryMessage(travel: Travel): string {
   return `✈️ Ciao! Sono interessato/a al viaggio "${travel.title}" destinazione ${travel.destination}. Potreste inviarmi maggiori dettagli? Grazie!`;
 }
 
+export function shareOnWhatsApp(travel: Travel, travelUrl: string): void {
+  const fullUrl = window.location.origin + travelUrl;
+  const priceFormatted = formatPrice(travel.price, travel.type);
+  
+  const shareMessage = `🌟 Guarda questo tour fantastico! 🌟
+
+📍 *${travel.title}*
+${travel.destination ? `🌍 ${travel.destination}` : ''}
+💰 A partire da ${priceFormatted}
+${travel.duration ? `📅 Durata: ${travel.duration} ${travel.duration === 1 ? 'giorno' : 'giorni'}` : ''}
+
+🔗 Scopri di più: ${fullUrl}`;
+
+  const encodedMessage = encodeURIComponent(shareMessage);
+  const url = `https://wa.me/?text=${encodedMessage}`;
+  window.open(url, '_blank');
+}
+
 function formatPrice(price: string, type: string): string {
   const numPrice = parseInt(price);
   if (type === "mare" || type === "montagna") {

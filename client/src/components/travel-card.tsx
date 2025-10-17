@@ -1,10 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, Star, Users, MapPin, Calendar } from "lucide-react";
+import { Clock, Star, Users, MapPin, Calendar, Share2 } from "lucide-react";
 import type { Travel } from "@shared/schema";
 import { formatPrice } from "@/lib/types";
 import { Link } from "wouter";
+import { shareOnWhatsApp } from "@/lib/whatsapp";
 
 interface TravelCardProps {
   travel: Travel;
@@ -83,6 +84,20 @@ export function TravelCard({ travel, priority = false }: TravelCardProps) {
                 {getBadgeLabel(travel.type)}
               </Badge>
             </div>
+
+            {/* Pulsante condivisione in alto a destra */}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                shareOnWhatsApp(travel, travelUrl);
+              }}
+              className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 group/share"
+              data-testid={`button-share-${travel.id}`}
+              title="Condividi su WhatsApp"
+            >
+              <Share2 className="h-5 w-5 text-green-600 group-hover/share:scale-110 transition-transform" />
+            </button>
 
             {/* Prezzo in basso a destra sull'immagine */}
             <div className="absolute bottom-4 right-4 z-10 bg-white rounded-2xl px-5 py-3 shadow-xl">

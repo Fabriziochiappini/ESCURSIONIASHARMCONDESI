@@ -14,7 +14,7 @@ import type { Travel } from "@shared/schema";
 import { formatPrice, formatDuration, getTravelTypeIcon, getCategoryIcon } from "@/lib/types";
 import { Link } from "wouter";
 import { SEOHead } from "@/components/seo-head";
-import { sendWhatsAppMessage } from "@/lib/whatsapp";
+import { sendWhatsAppMessage, shareOnWhatsApp } from "@/lib/whatsapp";
 
 export default function TravelDetail() {
   const params = useParams();
@@ -148,7 +148,7 @@ export default function TravelDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Image Gallery */}
             <div className="space-y-4">
-              <PhotoGallery images={travel.images} title={travel.title} />
+              <PhotoGallery images={travel.images || []} title={travel.title} />
             </div>
 
             {/* Travel Info */}
@@ -249,6 +249,14 @@ export default function TravelDetail() {
                 >
                   <Mail className="h-5 w-5 mr-2" />
                   Invia Email
+                </Button>
+                <Button
+                  onClick={() => shareOnWhatsApp(travel, `/travel/${travel.id}`)}
+                  className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-3"
+                  data-testid="button-share-whatsapp"
+                >
+                  <Share2 className="h-5 w-5 mr-2" />
+                  Condividi Tour
                 </Button>
               </div>
             </div>
