@@ -51,21 +51,21 @@ export default function GalleriaPage() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title="Galleria Foto - Si viaggia con Desi | Le Nostre Avventure"
+        title="Galleria Foto - Si Viaggia con Desy | Le Nostre Avventure"
         description="Scopri le nostre gallerie fotografiche dei tour organizzati. Immagini autentiche delle escursioni più belle di Sharm El Sheikh."
-        keywords="galleria foto tour, foto escursioni, immagini tour sharm, si viaggia con desi gallery"
-        canonicalUrl="https://unconventionaltour.it/galleria"
+        keywords="galleria foto tour, foto escursioni, immagini tour sharm, si viaggia con desy gallery"
+        canonicalUrl="https://siviaggiacondesy.it/galleria"
       />
       <Navigation />
 
       <main className="pt-20">
-        <section className="py-20 bg-gradient-to-br from-white to-[#A8CFEB]/10">
+        <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-lg transform hover:scale-105 transition-transform duration-300 font-eagle-lake">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#E6C87F] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent tracking-[0.15em] uppercase drop-shadow-2xl font-eagle-lake">
               Le nostre foto
             </h1>
             <div className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
-            <p className="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto font-light">
+            <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto font-light opacity-90">
               Scopri le nostre avventure attraverso immagini autentiche
             </p>
           </div>

@@ -1,4 +1,4 @@
-import { MessageCircle, Phone, Mail, MapPin } from "lucide-react";
+import { MessageCircle, Phone, Mail } from "lucide-react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
@@ -9,22 +9,22 @@ export default function Contatti() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title="Contatti Si viaggia con Desi | Tour Operator Sharm El Sheikh"
-        description="Contatta Si viaggia con Desi per organizzare i tuoi tour a Sharm El Sheikh. Tel: +39 344 458 5177, Email: siviaggiacondesi@gmail.com"
-        keywords="contatti tour operator, si viaggia con desi contatti, tour operator sharm el sheikh"
-        canonicalUrl="https://unconventionaltour.it/contatti"
+        title="Contatti Si Viaggia con Desy | Tour Operator Sharm El Sheikh"
+        description="Contatta Si Viaggia con Desy per organizzare i tuoi tour a Sharm El Sheikh. Tel: +39 344 458 5177, Email: siviaggiacondesi@gmail.com"
+        keywords="contatti tour operator, si viaggia con desy contatti, tour operator sharm el sheikh"
+        canonicalUrl="https://siviaggiacondesy.it/contatti"
       />
       <Navigation />
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-br from-white to-[#A8CFEB]/10">
+        <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-lg transform hover:scale-105 transition-transform duration-300 font-eagle-lake">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#E6C87F] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent tracking-[0.15em] uppercase drop-shadow-2xl font-eagle-lake">
               Contattaci
             </h1>
             <div className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
-            <p className="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto font-light">
+            <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto font-light opacity-90">
               Siamo qui per aiutarti a scoprire le meraviglie di Sharm El Sheikh
             </p>
           </div>
@@ -32,116 +32,87 @@ export default function Contatti() {
 
         {/* Contatti Section */}
         <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Info Contatti */}
-              <div>
-                <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
-                  I Nostri Contatti
-                </h2>
-                
-                <div className="space-y-6">
-                  <div className="flex items-start space-x-4 p-6 bg-[#A8CFEB]/5 rounded-2xl hover:shadow-lg transition-all duration-300 border border-[#D4AF37]/20">
-                    <div className="w-12 h-12 bg-[#A8CFEB]/20 rounded-full flex items-center justify-center flex-shrink-0">
-                      <MapPin className="h-6 w-6 text-[#A8CFEB]" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-normal text-gray-600 mb-1">Indirizzo</h3>
-                      <p className="text-gray-400 font-light">Via Roma, 123<br />20121 Milano (MI)</p>
-                    </div>
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Info Contatti */}
+            <div>
+              <h2 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
+                I Nostri Contatti
+              </h2>
+              
+              <div className="space-y-6">
+                <div className="flex items-start space-x-4 p-6 bg-[#D4AF37]/5 rounded-2xl hover:shadow-lg transition-all duration-300 border border-[#D4AF37]/20">
+                  <div className="w-12 h-12 bg-[#D4AF37]/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Phone className="h-6 w-6 text-[#D4AF37]" />
                   </div>
-
-                  <div className="flex items-start space-x-4 p-6 bg-[#D4AF37]/5 rounded-2xl hover:shadow-lg transition-all duration-300 border border-[#D4AF37]/20">
-                    <div className="w-12 h-12 bg-[#D4AF37]/20 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Phone className="h-6 w-6 text-[#D4AF37]" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-normal text-gray-600 mb-1">Telefono</h3>
-                      <a href="tel:+393444585177" className="text-[#A8CFEB] hover:underline text-lg font-light">
-                        +39 344 458 5177
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4 p-6 bg-[#A8CFEB]/5 rounded-2xl hover:shadow-lg transition-all duration-300 border border-[#D4AF37]/20">
-                    <div className="w-12 h-12 bg-[#A8CFEB]/20 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Mail className="h-6 w-6 text-[#A8CFEB]" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-normal text-gray-600 mb-1">Email</h3>
-                      <a href="mailto:siviaggiacondesi@gmail.com" className="text-[#A8CFEB] hover:underline block font-light">
-                        siviaggiacondesi@gmail.com
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4 p-6 bg-green-50/50 rounded-2xl hover:shadow-lg transition-all duration-300 border border-green-200/30">
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <MessageCircle className="h-6 w-6 text-green-600" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-normal text-gray-600 mb-1">WhatsApp</h3>
-                      <a 
-                        href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-green-600 hover:underline font-light"
-                      >
-                        Scrivici su WhatsApp
-                      </a>
-                    </div>
+                  <div>
+                    <h3 className="text-lg font-normal text-gray-600 mb-1">Telefono</h3>
+                    <a href="tel:+393444585177" className="text-[#A8CFEB] hover:underline text-lg font-light">
+                      +39 344 458 5177
+                    </a>
                   </div>
                 </div>
 
-                {/* Pulsanti CTA */}
-                <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                  <Button 
-                    className="bg-gradient-to-r from-[#A8CFEB] to-[#C5E1F5] hover:from-[#95C4E6] hover:to-[#A8CFEB] text-white flex-1 font-light border border-[#D4AF37]/20"
-                    asChild
-                  >
-                    <a href="tel:+393444585177">
-                      <Phone className="h-4 w-4 mr-2" />
-                      Chiama Ora
+                <div className="flex items-start space-x-4 p-6 bg-[#A8CFEB]/5 rounded-2xl hover:shadow-lg transition-all duration-300 border border-[#D4AF37]/20">
+                  <div className="w-12 h-12 bg-[#A8CFEB]/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Mail className="h-6 w-6 text-[#A8CFEB]" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-normal text-gray-600 mb-1">Email</h3>
+                    <a href="mailto:siviaggiacondesi@gmail.com" className="text-[#A8CFEB] hover:underline block font-light">
+                      siviaggiacondesi@gmail.com
                     </a>
-                  </Button>
-                  <Button 
-                    className="bg-green-500 hover:bg-green-600 text-white flex-1 font-light"
-                    asChild
-                  >
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4 p-6 bg-green-50/50 rounded-2xl hover:shadow-lg transition-all duration-300 border border-green-200/30">
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <MessageCircle className="h-6 w-6 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-normal text-gray-600 mb-1">WhatsApp</h3>
                     <a 
                       href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="text-green-600 hover:underline font-light"
                     >
-                      <MessageCircle className="h-4 w-4 mr-2" />
-                      WhatsApp
+                      Scrivici su WhatsApp
                     </a>
-                  </Button>
-                </div>
-
-                {/* Social Media */}
-                <div className="mt-8 pt-8 border-t border-[#D4AF37]/20">
-                  <h3 className="text-lg font-normal text-gray-600 mb-4 text-center tracking-wide">Seguici sui Social</h3>
-                  <div className="flex justify-center">
-                    <SocialButtons variant="large" />
                   </div>
                 </div>
               </div>
 
-              {/* Mappa */}
-              <div className="relative">
-                <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2970.0!2d9.19!3d45.46!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDXCsDI3JzM2LjAiTiA5wrAxMScyNC4wIkU!5e0!3m2!1sit!2sit!4v1234567890!5m2!1sit!2sit"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Mappa UNCONVENTIONAL TOUR - Via Roma 123, Milano"
-                    className="rounded-2xl"
-                  />
+              {/* Pulsanti CTA */}
+              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                <Button 
+                  className="bg-gradient-to-r from-[#A8CFEB] to-[#C5E1F5] hover:from-[#95C4E6] hover:to-[#A8CFEB] text-white flex-1 font-light border border-[#D4AF37]/20"
+                  asChild
+                >
+                  <a href="tel:+393444585177">
+                    <Phone className="h-4 w-4 mr-2" />
+                    Chiama Ora
+                  </a>
+                </Button>
+                <Button 
+                  className="bg-green-500 hover:bg-green-600 text-white flex-1 font-light"
+                  asChild
+                >
+                  <a 
+                    href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    WhatsApp
+                  </a>
+                </Button>
+              </div>
+
+              {/* Social Media */}
+              <div className="mt-8 pt-8 border-t border-[#D4AF37]/20">
+                <h3 className="text-lg font-normal text-gray-600 mb-4 text-center tracking-wide">Seguici sui Social</h3>
+                <div className="flex justify-center">
+                  <SocialButtons variant="large" />
                 </div>
               </div>
             </div>
