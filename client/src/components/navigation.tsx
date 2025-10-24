@@ -7,7 +7,7 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-[52px] left-0 right-0 z-50 bg-gradient-to-r from-[#1e3a5f] to-[#2c3e50] backdrop-blur-md border-b border-[#D4AF37]/20 shadow-sm">
+    <nav className="fixed top-[52px] left-0 right-0 z-50 bg-gradient-to-r from-[#1e3a5f]/80 to-[#2c3e50]/80 backdrop-blur-lg border-b border-[#D4AF37]/20 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Desktop Navbar - Altezza ridotta */}
         <div className="hidden lg:flex lg:justify-between items-center h-24">
@@ -77,7 +77,7 @@ export function Navigation() {
 
         {/* Mobile menu */}
         {isOpen && (
-          <div className="lg:hidden bg-[#1e3a5f]/98 backdrop-blur-md mt-4 rounded-3xl overflow-hidden animate-slide-up border border-[#D4AF37]/20 shadow-lg">
+          <div className="lg:hidden bg-[#1e3a5f]/90 backdrop-blur-lg mt-4 rounded-3xl overflow-hidden animate-slide-up border border-[#D4AF37]/20 shadow-lg">
             <div className="p-6 space-y-4">
               <Link href="/" className="block px-4 py-3 text-white hover:text-[#D4AF37] font-medium text-lg hover:bg-white/10 rounded-xl transition-all duration-200">
                 Home
