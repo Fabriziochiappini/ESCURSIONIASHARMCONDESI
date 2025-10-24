@@ -29,19 +29,19 @@ export default function Home() {
         <HeroSection />
 
         {/* Sezione Chi Siamo */}
-        <section className="py-20 bg-white pattern-dots relative overflow-hidden">
-          <div className="absolute inset-0 gradient-animated opacity-30"></div>
+        <section className="py-20 bg-white relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#A8CFEB]/5 to-white opacity-60"></div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Testo a sinistra */}
               <div>
-                <div className="mb-4">
-                  <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-2">
+                <div className="mb-6">
+                  <h2 className="text-4xl lg:text-5xl font-light text-gray-600 mb-3 tracking-wide">
                     Chi Siamo
                   </h2>
-                  <div className="w-24 h-1 bg-blue-500"></div>
+                  <div className="w-32 h-[2px] bg-gradient-to-r from-[#D4AF37] to-transparent"></div>
                 </div>
-                <div className="space-y-4 text-gray-700 text-lg leading-relaxed">
+                <div className="space-y-4 text-gray-500 text-lg leading-relaxed font-light">
                   <p>
                     Siamo un tour operator locale specializzato in Sharm El Sheikh, con anni di esperienza 
                     nell'organizzazione di escursioni e attività nel Mar Rosso e nel deserto egiziano.
@@ -56,7 +56,7 @@ export default function Home() {
 
               {/* Immagine a destra */}
               <div className="relative">
-                <div className="rounded-3xl overflow-hidden shadow-2xl bg-gray-200">
+                <div className="rounded-3xl overflow-hidden shadow-xl bg-gray-100 border border-[#D4AF37]/20">
                   <img 
                     src="/chi-siamo.png"
                     alt="UNCONVENTIONAL TOUR - Il tuo tour inizia qui"
@@ -70,17 +70,18 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="travels" className="py-20 bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden pattern-waves">
-          <div className="absolute top-20 right-20 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        <section id="travels" className="py-20 bg-gradient-to-br from-white via-[#A8CFEB]/5 to-white relative overflow-hidden">
+          <div className="absolute top-20 right-20 w-80 h-80 bg-[#A8CFEB]/15 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-[#D4AF37]/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
           <div className="relative z-10 max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Viaggi a tutta larghezza */}
             <div className="text-center mb-16 animate-fade-in">
-              <div className="text-lg lg:text-xl font-medium text-gray-500 mb-2 tracking-wide">ESCURSIONI</div>
-              <h2 className="text-5xl lg:text-7xl font-bold mb-4 text-gray-900">
-                A SHARM EL SHEIKH
+              <div className="text-lg lg:text-xl font-light text-[#A8CFEB] mb-2 tracking-widest uppercase">Escursioni</div>
+              <h2 className="text-5xl lg:text-7xl font-light mb-4 text-gray-500 tracking-wide">
+                A Sharm El Sheikh
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12">
+              <div className="w-64 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-8"></div>
+              <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-12 font-light">
                 Scopri le meraviglie del Mar Rosso e del deserto egiziano
               </p>
             </div>
