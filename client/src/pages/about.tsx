@@ -5,6 +5,7 @@ import { SEOHead } from "@/components/seo-head";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SupportSection } from "@/components/support-section";
+import { CtaEscursioni } from "@/components/cta-escursioni";
 import { Link } from "wouter";
 
 export default function About() {
@@ -209,6 +210,7 @@ export default function About() {
         </section>
       </main>
 
+      <CtaEscursioni />
       <SupportSection />
       <Footer />
     </div>

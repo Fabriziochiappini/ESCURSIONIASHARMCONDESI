@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SupportSection } from "@/components/support-section";
+import { CtaEscursioni } from "@/components/cta-escursioni";
 import { SEOHead } from "@/components/seo-head";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -353,6 +354,7 @@ export default function GalleriaPage() {
         </DialogContent>
       </Dialog>
 
+      <CtaEscursioni />
       <SupportSection />
       <Footer />
     </div>

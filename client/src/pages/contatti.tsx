@@ -119,31 +119,6 @@ export default function Contatti() {
           </div>
         </section>
 
-        {/* Orari Section */}
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
-              Orari di Apertura
-            </h2>
-            <div className="inline-block bg-white p-8 rounded-2xl shadow-lg">
-              <div className="space-y-3 text-left">
-                <div className="flex justify-between space-x-12">
-                  <span className="font-semibold text-gray-900">Lunedì - Venerdì:</span>
-                  <span className="text-gray-600">09:00 - 19:00</span>
-                </div>
-                <div className="flex justify-between space-x-12">
-                  <span className="font-semibold text-gray-900">Sabato:</span>
-                  <span className="text-gray-600">09:00 - 13:00</span>
-                </div>
-                <div className="flex justify-between space-x-12">
-                  <span className="font-semibold text-gray-900">Domenica:</span>
-                  <span className="text-gray-600">Chiuso</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* CTA Final */}
         <section className="py-16 bg-gradient-to-r from-[#A8CFEB] to-[#C5E1F5]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
