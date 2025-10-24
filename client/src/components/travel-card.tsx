@@ -43,7 +43,7 @@ export function TravelCard({ travel, priority = false }: TravelCardProps) {
   
   return (
     <Link href={travelUrl} className="block h-full">
-      <div className="relative h-96 overflow-hidden group cursor-pointer rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500">
+      <div className="relative h-96 overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500">
         {/* Immagine di sfondo */}
         <div 
           className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
