@@ -1,5 +1,6 @@
 import { MessageCircle, Phone, Mail } from "lucide-react";
 import { Navigation } from "@/components/navigation";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ export default function Contatti() {
         keywords="contatti tour operator, si viaggia con desy contatti, tour operator sharm el sheikh"
         canonicalUrl="https://siviaggiacondesy.it/contatti"
       />
+      <AnnouncementBar />
       <Navigation />
 
       <main className="pt-20 lg:pt-[148px]">

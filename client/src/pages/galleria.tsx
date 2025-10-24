@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { Footer } from "@/components/footer";
 import { SupportSection } from "@/components/support-section";
 import { CtaEscursioni } from "@/components/cta-escursioni";
@@ -58,6 +59,7 @@ export default function GalleriaPage() {
         keywords="galleria foto tour, foto escursioni, immagini tour sharm, si viaggia con desy gallery"
         canonicalUrl="https://siviaggiacondesy.it/galleria"
       />
+      <AnnouncementBar />
       <Navigation />
 
       <main className="pt-20 lg:pt-[148px]">

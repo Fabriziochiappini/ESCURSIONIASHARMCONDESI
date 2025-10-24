@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { Navigation } from "@/components/navigation";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { Footer } from "@/components/footer";
 import { SupportSection } from "@/components/support-section";
 import type { Travel } from "@shared/schema";
@@ -127,6 +128,7 @@ export default function Travels() {
         keywords="tour, escursioni, destinazioni sharm, mare, deserto, cultura, avventura, pacchetti tour"
         canonicalUrl="https://unconventionaltour.it/viaggi"
       />
+      <AnnouncementBar />
       <Navigation />
       
       <main className="pt-20 lg:pt-[148px]">

@@ -1,5 +1,6 @@
 import { MessageCircle, Phone, Mail, MapPin, Clock, Award, Users, Shield, Home, Map, ThumbsUp } from "lucide-react";
 import { Navigation } from "@/components/navigation";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ export default function About() {
         keywords="chi siamo, si viaggia con desy, tour operator sharm, escursioni sharm el sheikh"
         canonicalUrl="https://siviaggiacondesy.it/chi-siamo"
       />
+      <AnnouncementBar />
       <Navigation />
 
       <main className="pt-20 lg:pt-[148px]">
