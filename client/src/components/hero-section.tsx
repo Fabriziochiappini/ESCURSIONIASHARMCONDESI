@@ -14,9 +14,13 @@ import img8 from "@assets/cosa-fare-sharm-el-sheikh_1761320594654.jpg";
 const heroImages = [img1, img2, img3, img4, img5, img6, img7, img8];
 
 export function HeroSection() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 5000, stopOnInteraction: false })
-  ]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { 
+      loop: true,
+      duration: 30
+    }, 
+    [Autoplay({ delay: 5000, stopOnInteraction: false })]
+  );
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -38,14 +42,14 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Slider di Sfondo */}
       <div className="absolute inset-0 overflow-hidden" ref={emblaRef}>
-        <div className="flex h-full">
+        <div className="flex h-full transition-opacity duration-1000">
           {heroImages.map((img, index) => (
             <div key={index} className="relative flex-[0_0_100%] min-w-0 h-full">
               <img
                 src={img}
                 alt={`Escursione ${index + 1}`}
                 loading={index === 0 ? "eager" : "lazy"}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-opacity duration-700"
               />
               {/* Overlay scuro per leggibilità */}
               <div className="absolute inset-0 bg-black/30"></div>
