@@ -62,7 +62,7 @@ export default function GalleriaPage() {
         <section className="py-20 bg-gradient-to-br from-white to-[#A8CFEB]/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-lg transform hover:scale-105 transition-transform duration-300 font-eagle-lake">
-              Galleria Fotografica
+              Le nostre foto
             </h1>
             <div className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
             <p className="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto font-light">
