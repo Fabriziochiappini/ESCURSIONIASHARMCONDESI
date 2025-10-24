@@ -174,17 +174,17 @@ export default function Contatti() {
         </section>
 
         {/* CTA Final */}
-        <section className="py-16 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+        <section className="py-16 bg-gradient-to-r from-[#A8CFEB] to-[#C5E1F5]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold mb-4">
+            <h2 className="text-3xl font-light mb-4 text-white tracking-wide">
               Pronto a Partire?
             </h2>
-            <p className="text-xl mb-8 text-purple-100">
+            <p className="text-xl mb-8 text-white/90 font-light">
               Contattaci oggi stesso per prenotare il tuo tour perfetto
             </p>
             <Button 
               size="lg" 
-              className="bg-white text-purple-600 hover:bg-purple-50 font-bold"
+              className="bg-white text-[#A8CFEB] hover:bg-white/90 font-light border border-[#D4AF37]/30 shadow-lg"
               asChild
             >
               <a href="/viaggi">

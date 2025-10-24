@@ -302,16 +302,16 @@ export default function TravelDetail() {
             )}
 
             {/* Call to Action Banner */}
-            <Card className="border-none shadow-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+            <Card className="border border-[#D4AF37]/20 shadow-lg bg-gradient-to-r from-[#A8CFEB] to-[#C5E1F5]">
               <CardContent className="py-8">
                 <div className="text-center space-y-6">
-                  <h3 className="text-2xl font-bold">Pronto a Partire?</h3>
-                  <p className="text-blue-100 text-lg">Prenota ora o contattaci per maggiori informazioni</p>
+                  <h3 className="text-2xl font-light text-white tracking-wide">Pronto a Partire?</h3>
+                  <p className="text-white/90 text-lg font-light">Prenota ora o contattaci per maggiori informazioni</p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                     <BookingModal travel={travel}>
                       <Button 
                         size="lg"
-                        className="bg-white text-blue-600 hover:bg-gray-100"
+                        className="bg-white text-[#A8CFEB] hover:bg-white/90 font-light border border-[#D4AF37]/30"
                         data-testid="button-book-cta"
                       >
                         <CreditCard className="h-5 w-5 mr-2" />
@@ -321,7 +321,7 @@ export default function TravelDetail() {
                     <Button
                       size="lg"
                       onClick={handleWhatsAppContact}
-                      className="bg-green-600 hover:bg-green-700"
+                      className="bg-green-500 hover:bg-green-600 font-light"
                       data-testid="button-whatsapp-cta"
                     >
                       <Phone className="h-5 w-5 mr-2" />
@@ -330,8 +330,8 @@ export default function TravelDetail() {
                   </div>
                   
                   {/* Social Media */}
-                  <div className="pt-6 border-t border-blue-400/30">
-                    <p className="text-blue-100 text-sm mb-3">Seguici sui Social</p>
+                  <div className="pt-6 border-t border-white/20">
+                    <p className="text-white/90 text-sm mb-3 font-light">Seguici sui Social</p>
                     <div className="flex justify-center">
                       <SocialButtons variant="default" />
                     </div>
