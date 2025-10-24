@@ -1,5 +1,5 @@
 import heroBackgroundUrl from "@assets/6345959_1759560311915.jpg";
-import logoUrl from "@assets/escursioni_a_sharm-removebg-preview_1760717653759.png";
+import logoUrl from "@assets/si_viaggia_con_desy_logo-removebg-preview_1761318900270.png";
 
 export function HeroSection() {
   return (

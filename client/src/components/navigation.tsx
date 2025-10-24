@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import logoUrl from "@assets/escursioni_a_sharm-removebg-preview_1760717653759.png";
+import logoUrl from "@assets/si_viaggia_con_desy_logo-removebg-preview_1761318900270.png";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
