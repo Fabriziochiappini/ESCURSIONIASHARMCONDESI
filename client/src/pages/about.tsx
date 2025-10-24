@@ -1,4 +1,4 @@
-import { MessageCircle, Phone, Mail, MapPin, Clock, Award, Users, Shield, Home } from "lucide-react";
+import { MessageCircle, Phone, Mail, MapPin, Clock, Award, Users, Shield, Home, Map, ThumbsUp } from "lucide-react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
@@ -32,6 +32,62 @@ export default function About() {
               <strong>Escursioni a Sharm El Sheikh</strong> - Le migliori esperienze nel Mar Rosso. 
               Professionalità e passione per farti vivere avventure indimenticabili.
             </p>
+          </div>
+        </section>
+
+        {/* Perché Scegliere Noi Section */}
+        <section className="py-20 bg-gradient-to-br from-[#F5F5DC]/30 via-white to-[#F5F5DC]/20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-6 tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
+                Perché Scegliere Noi?
+              </h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Dal 2011 aiutiamo i nostri turisti a trascorrere delle vacanze indimenticabili nella bellissima Sharm El Sheikh. 
+                Ecco 3 motivi per cui dovresti scegliere noi...
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {/* Sicurezza */}
+              <div className="text-center">
+                <div className="w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                  <Shield className="w-20 h-20 text-[#D4AF37] stroke-[1.5]" />
+                </div>
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-4 tracking-wide uppercase font-eagle-lake">
+                  Sicurezza
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Le nostre escursioni sono tutte coperte dall'assicurazione di viaggio. Con noi puoi viaggiare tranquillo.
+                </p>
+              </div>
+
+              {/* Guida Italiana */}
+              <div className="text-center">
+                <div className="w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                  <Map className="w-20 h-20 text-[#D4AF37] stroke-[1.5]" />
+                </div>
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-4 tracking-wide uppercase font-eagle-lake">
+                  Guida Italiana
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Ti mettiamo a disposizione la nostra guida turistica italiana che ti farà scoprire i fantastici luoghi di Sharm El Sheikh.
+                </p>
+              </div>
+
+              {/* Esperienza indimenticabile */}
+              <div className="text-center">
+                <div className="w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                  <ThumbsUp className="w-20 h-20 text-[#D4AF37] stroke-[1.5]" />
+                </div>
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-4 tracking-wide uppercase font-eagle-lake">
+                  Esperienza Indimenticabile
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Ti faremo ricordare a vita la vacanza che trascorrerai a Sharm che porterai per sempre nel cuore.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
