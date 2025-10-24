@@ -76,13 +76,13 @@ export default function Home() {
           <div className="relative z-10 max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Viaggi a tutta larghezza */}
             <div className="text-center mb-16 animate-fade-in">
-              <div className="text-lg lg:text-xl font-light text-[#A8CFEB] mb-2 tracking-widest uppercase">Escursioni</div>
-              <h2 className="text-5xl lg:text-7xl font-light mb-4 text-gray-500 tracking-wide">
-                A Sharm El Sheikh
+              <h2 className="text-4xl lg:text-6xl font-normal mb-6 text-[#D4AF37] tracking-wider uppercase">
+                Le Nostre Escursioni
               </h2>
-              <div className="w-64 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-8"></div>
-              <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-12 font-light">
-                Scopri le meraviglie del Mar Rosso e del deserto egiziano
+              <div className="w-64 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
+              <p className="text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed mb-12 font-light">
+                Ti offriamo un'ampia scelta di destinazioni da visitare a Sharm El Sheikh.<br />
+                Scegli quella che più ti piace e lasciati ispirare dalla meravigliosa barriera corallina del Mar Rosso.
               </p>
             </div>
 
