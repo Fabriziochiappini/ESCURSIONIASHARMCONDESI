@@ -2,7 +2,7 @@ import { Mail, MessageCircle, Facebook, Instagram } from "lucide-react";
 
 export function AnnouncementBar() {
   return (
-    <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-[#1e3a5f] to-[#2c3e50] text-white py-3 border-b border-[#D4AF37]/20">
+    <div className="hidden lg:block fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-[#1e3a5f] to-[#2c3e50] text-white py-3 border-b border-[#D4AF37]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Testo a sinistra */}

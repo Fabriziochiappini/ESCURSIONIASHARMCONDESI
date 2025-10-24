@@ -7,7 +7,7 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-[52px] left-0 right-0 z-50 bg-gradient-to-r from-[#1e3a5f]/80 to-[#2c3e50]/80 backdrop-blur-lg border-b border-[#D4AF37]/20 shadow-sm">
+    <nav className="fixed top-0 lg:top-[52px] left-0 right-0 z-50 bg-gradient-to-r from-[#1e3a5f]/80 to-[#2c3e50]/80 backdrop-blur-lg border-b border-[#D4AF37]/20 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Desktop Navbar - Altezza ridotta */}
         <div className="hidden lg:flex lg:justify-between items-center h-24">
