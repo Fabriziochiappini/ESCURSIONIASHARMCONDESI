@@ -10,27 +10,27 @@ export default function About() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead 
-        title="Contatti UNCONVENTIONAL TOUR | Il Tuo Tour Operator Sharm El Sheikh"
-        description="✈️ Contatta UNCONVENTIONAL TOUR per organizzare i tuoi tour a Sharm El Sheikh. Tour operator specializzato in escursioni Mar Rosso. Tel: +20 69 360 0000"
-        keywords="contatti tour operator, unconventional tour, tour operator sharm, escursioni sharm el sheikh"
-        canonicalUrl="https://unconventionaltour.it/chi-siamo"
+        title="Chi Siamo - Si Viaggia con Desy | Escursioni a Sharm El Sheikh"
+        description="✈️ Scopri Si Viaggia con Desy, il tuo punto di riferimento per escursioni a Sharm El Sheikh. Tour operator specializzato in escursioni Mar Rosso. Tel: +39 344 458 5177"
+        keywords="chi siamo, si viaggia con desy, tour operator sharm, escursioni sharm el sheikh"
+        canonicalUrl="https://siviaggiacondesy.it/chi-siamo"
       />
       <Navigation />
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-br from-primary to-primary/80 text-white">
+        <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="inline-flex items-center px-4 py-2 bg-white/20 text-white rounded-full text-sm font-medium mb-6">
               <Users className="h-4 w-4 mr-2 text-white" />
-              Contatti
+              Chi Siamo
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              UNCONVENTIONAL TOUR
+            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-[#E6C87F] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent mb-6 tracking-[0.15em] uppercase drop-shadow-2xl font-eagle-lake">
+              Si Viaggia con Desy
             </h1>
             <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-90">
-              <strong>Il Tuo Tour Operator</strong> - Le migliori escursioni a Sharm El Sheikh. 
-              Esperienza, professionalità e passione per farti vivere esperienze indimenticabili nel Mar Rosso.
+              <strong>Escursioni a Sharm El Sheikh</strong> - Le migliori esperienze nel Mar Rosso. 
+              Professionalità e passione per farti vivere avventure indimenticabili.
             </p>
           </div>
         </section>
@@ -40,11 +40,11 @@ export default function About() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-3xl font-bold text-primary mb-6">
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-6 tracking-[0.1em] uppercase font-eagle-lake">
                   La Nostra Missione
                 </h2>
                 <p className="text-lg text-gray-600 mb-6">
-                  <strong>UNCONVENTIONAL TOUR</strong> è il tuo tour operator di fiducia specializzato in Sharm El Sheikh. Offriamo un servizio completo e professionale per escursioni, diving, snorkeling e safari nel deserto.
+                  <strong className="text-[#D4AF37]">Si Viaggia con Desy</strong> è il tuo punto di riferimento per le escursioni a Sharm El Sheikh. Offriamo un servizio completo e professionale per escursioni, diving, snorkeling e safari nel deserto.
                 </p>
                 <p className="text-lg text-gray-600 mb-6">
                   La nostra passione per il Mar Rosso e la profonda conoscenza di Sharm El Sheikh ci permettono di offrire esperienze autentiche e indimenticabili.
@@ -116,7 +116,7 @@ export default function About() {
         <section className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-4 tracking-[0.1em] uppercase font-eagle-lake">
                 I Nostri Valori
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
