@@ -51,8 +51,6 @@ export function HeroSection() {
                 loading={index === 0 ? "eager" : "lazy"}
                 className="w-full h-full object-cover transition-opacity duration-700"
               />
-              {/* Overlay scuro per leggibilità */}
-              <div className="absolute inset-0 bg-black/30"></div>
             </div>
           ))}
         </div>

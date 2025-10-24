@@ -27,7 +27,7 @@ export default function About() {
     .slice(0, 6) || [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
+    <div className="min-h-screen bg-white">
       <SEOHead 
         title="Chi Siamo - Si Viaggia con Desy | Escursioni a Sharm El Sheikh"
         description="✈️ Scopri Si Viaggia con Desy, il tuo punto di riferimento per escursioni a Sharm El Sheikh. Tour operator specializzato in escursioni Mar Rosso. Tel: +39 344 458 5177"
@@ -57,7 +57,6 @@ export default function About() {
 
         {/* Sezione Chi Siamo con Immagine */}
         <section className="py-20 bg-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#A8CFEB]/5 to-white opacity-60"></div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Testo a sinistra */}
@@ -99,7 +98,7 @@ export default function About() {
         </section>
 
         {/* Perché Scegliere Noi Section */}
-        <section className="py-20 bg-gradient-to-br from-[#F5F5DC]/30 via-white to-[#F5F5DC]/20">
+        <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-6 tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
