@@ -7,7 +7,7 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-[52px] left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-b border-[#D4AF37]/20 shadow-sm">
+    <nav className="fixed top-[52px] left-0 right-0 z-50 bg-gradient-to-r from-[#1e3a5f] to-[#2c3e50] backdrop-blur-md border-b border-[#D4AF37]/20 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Desktop Navbar - Altezza ridotta */}
         <div className="hidden lg:flex lg:justify-between items-center h-24">
@@ -24,33 +24,33 @@ export function Navigation() {
 
           {/* Menu a Destra - Tutte le voci */}
           <div className="flex items-center space-x-8">
-            <Link href="/" className="text-gray-500 hover:text-[#A8CFEB] font-light text-lg tracking-wide transition-all duration-300 relative group">
+            <Link href="/" className="text-white hover:text-[#D4AF37] font-medium text-lg tracking-wide transition-all duration-300 relative group">
               Home
-              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/chi-siamo" className="text-gray-500 hover:text-[#A8CFEB] font-light text-lg tracking-wide transition-all duration-300 relative group">
+            <Link href="/chi-siamo" className="text-white hover:text-[#D4AF37] font-medium text-lg tracking-wide transition-all duration-300 relative group">
               Chi Siamo
-              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/viaggi" className="text-gray-500 hover:text-[#A8CFEB] font-light text-lg tracking-wide transition-all duration-300 relative group">
+            <Link href="/viaggi" className="text-white hover:text-[#D4AF37] font-medium text-lg tracking-wide transition-all duration-300 relative group">
               Escursioni
-              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/galleria" className="text-gray-500 hover:text-[#A8CFEB] font-light text-lg tracking-wide transition-all duration-300 relative group">
+            <Link href="/galleria" className="text-white hover:text-[#D4AF37] font-medium text-lg tracking-wide transition-all duration-300 relative group">
               Galleria
-              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/contatti" className="text-gray-500 hover:text-[#A8CFEB] font-light text-lg tracking-wide transition-all duration-300 relative group">
+            <Link href="/contatti" className="text-white hover:text-[#D4AF37] font-medium text-lg tracking-wide transition-all duration-300 relative group">
               Contatti
-              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
             </Link>
             {/* Pulsante Admin nascosto trasparente */}
             <Link 
               href="/admin" 
-              className="w-12 h-12 rounded-lg bg-transparent hover:bg-[#A8CFEB]/10 hover:shadow-md transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100"
+              className="w-12 h-12 rounded-lg bg-transparent hover:bg-white/10 hover:shadow-md transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100"
               title="Admin Panel"
             >
-              <span className="text-xs font-bold text-gray-400 hover:text-[#A8CFEB]">⚙️</span>
+              <span className="text-xs font-bold text-white/60 hover:text-white">⚙️</span>
             </Link>
           </div>
         </div>
@@ -69,7 +69,7 @@ export function Navigation() {
           {/* Hamburger Menu a Destra */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded-xl text-gray-700 hover:text-primary focus:outline-none transition-all duration-300"
+            className="p-2 rounded-xl text-white hover:text-[#D4AF37] focus:outline-none transition-all duration-300"
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -77,21 +77,21 @@ export function Navigation() {
 
         {/* Mobile menu */}
         {isOpen && (
-          <div className="lg:hidden bg-white/95 backdrop-blur-md mt-4 rounded-3xl overflow-hidden animate-slide-up border border-[#D4AF37]/20 shadow-lg">
+          <div className="lg:hidden bg-[#1e3a5f]/98 backdrop-blur-md mt-4 rounded-3xl overflow-hidden animate-slide-up border border-[#D4AF37]/20 shadow-lg">
             <div className="p-6 space-y-4">
-              <Link href="/" className="block px-4 py-3 text-gray-500 hover:text-[#A8CFEB] font-light text-lg hover:bg-[#A8CFEB]/5 rounded-xl transition-all duration-200">
+              <Link href="/" className="block px-4 py-3 text-white hover:text-[#D4AF37] font-medium text-lg hover:bg-white/10 rounded-xl transition-all duration-200">
                 Home
               </Link>
-              <Link href="/chi-siamo" className="block px-4 py-3 text-gray-500 hover:text-[#A8CFEB] font-light text-lg hover:bg-[#A8CFEB]/5 rounded-xl transition-all duration-200">
+              <Link href="/chi-siamo" className="block px-4 py-3 text-white hover:text-[#D4AF37] font-medium text-lg hover:bg-white/10 rounded-xl transition-all duration-200">
                 Chi Siamo
               </Link>
-              <Link href="/viaggi" className="block px-4 py-3 text-gray-500 hover:text-[#A8CFEB] font-light text-lg hover:bg-[#A8CFEB]/5 rounded-xl transition-all duration-200">
+              <Link href="/viaggi" className="block px-4 py-3 text-white hover:text-[#D4AF37] font-medium text-lg hover:bg-white/10 rounded-xl transition-all duration-200">
                 Escursioni
               </Link>
-              <Link href="/galleria" className="block px-4 py-3 text-gray-500 hover:text-[#A8CFEB] font-light text-lg hover:bg-[#A8CFEB]/5 rounded-xl transition-all duration-200">
+              <Link href="/galleria" className="block px-4 py-3 text-white hover:text-[#D4AF37] font-medium text-lg hover:bg-white/10 rounded-xl transition-all duration-200">
                 Galleria
               </Link>
-              <Link href="/contatti" className="block px-4 py-3 text-gray-500 hover:text-[#A8CFEB] font-light text-lg hover:bg-[#A8CFEB]/5 rounded-xl transition-all duration-200">
+              <Link href="/contatti" className="block px-4 py-3 text-white hover:text-[#D4AF37] font-medium text-lg hover:bg-white/10 rounded-xl transition-all duration-200">
                 Contatti
               </Link>
               <a 
