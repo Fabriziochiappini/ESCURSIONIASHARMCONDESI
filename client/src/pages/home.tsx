@@ -76,7 +76,7 @@ export default function Home() {
           <div className="relative z-10 max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Viaggi a tutta larghezza */}
             <div className="text-center mb-16 animate-fade-in">
-              <h2 className="text-4xl lg:text-6xl font-normal mb-6 text-[#D4AF37] tracking-wider uppercase">
+              <h2 className="text-4xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-lg transform hover:scale-105 transition-transform duration-300">
                 Le Nostre Escursioni
               </h2>
               <div className="w-64 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
