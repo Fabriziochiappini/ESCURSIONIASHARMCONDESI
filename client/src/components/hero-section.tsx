@@ -3,21 +3,21 @@ import logoUrl from "@assets/escursioni_a_sharm-removebg-preview_1760717653759.p
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white">
       {/* Full-width Background */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
         style={{
           backgroundImage: `url('${heroBackgroundUrl}')`,
         }}
       />
       
-      {/* Elementi decorativi animati */}
-      <div className="absolute top-10 left-10 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-20 w-80 h-80 bg-orange-500/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1.5s'}}></div>
+      {/* Elementi decorativi soft pastello */}
+      <div className="absolute top-10 left-10 w-72 h-72 bg-[#A8CFEB]/30 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#D4AF37]/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
       
       <div className="relative z-10 text-center w-full px-0">
-        {/* Full-width Hero Container without overlay */}
+        {/* Full-width Hero Container */}
         <div className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Logo Grande Centro */}
@@ -31,13 +31,13 @@ export function HeroSection() {
               />
             </div>
             
-            {/* Accent Line */}
-            <div className="w-40 h-2 bg-blue-500 mx-auto mb-6"></div>
+            {/* Accent Line Oro */}
+            <div className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-8"></div>
             
-            {/* Description con riquadro elegante */}
+            {/* Description con riquadro elegante pastello */}
             <div className="max-w-4xl mx-auto mb-12">
-              <div className="bg-gradient-to-r from-blue-600/80 via-blue-500/80 to-cyan-500/80 backdrop-blur-sm rounded-2xl p-8 border-2 border-white/30 shadow-2xl">
-                <p className="text-xl sm:text-2xl text-white leading-relaxed font-medium">
+              <div className="bg-gradient-to-r from-[#A8CFEB]/60 via-white/80 to-[#A8CFEB]/60 backdrop-blur-md rounded-3xl p-8 border border-[#D4AF37]/30 shadow-xl">
+                <p className="text-xl sm:text-2xl text-gray-600 leading-relaxed font-light tracking-wide">
                   Scopri Sharm El Sheikh con le nostre escursioni indimenticabili.
                 </p>
               </div>
