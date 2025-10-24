@@ -49,22 +49,23 @@ export default function GalleriaPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen bg-white">
       <SEOHead 
-        title="Galleria Foto - UNCONVENTIONAL TOUR | Le Nostre Avventure"
+        title="Galleria Foto - Si viaggia con Desi | Le Nostre Avventure"
         description="Scopri le nostre gallerie fotografiche dei tour organizzati. Immagini autentiche delle escursioni più belle di Sharm El Sheikh."
-        keywords="galleria foto tour, foto escursioni, immagini tour sharm, unconventional tour gallery"
+        keywords="galleria foto tour, foto escursioni, immagini tour sharm, si viaggia con desi gallery"
         canonicalUrl="https://unconventionaltour.it/galleria"
       />
       <Navigation />
 
       <main className="pt-20">
-        <section className="py-20 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
+        <section className="py-20 bg-gradient-to-br from-white to-[#A8CFEB]/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+            <h1 className="text-4xl md:text-6xl font-light text-gray-600 mb-6 tracking-wide">
               Galleria Fotografica
             </h1>
-            <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-90">
+            <div className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
+            <p className="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto font-light">
               Scopri le nostre avventure attraverso immagini autentiche
             </p>
           </div>
@@ -158,16 +159,16 @@ export default function GalleriaPage() {
                       </div>
 
                       <div className="text-center space-y-2">
-                        <h3 className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                        <h3 className="text-2xl font-light text-gray-600 group-hover:text-[#A8CFEB] transition-colors tracking-wide">
                           {gallery.title}
                         </h3>
                         {gallery.description && (
-                          <p className="text-gray-600 line-clamp-2">
+                          <p className="text-gray-400 line-clamp-2 font-light">
                             {gallery.description}
                           </p>
                         )}
-                        <div className="flex items-center justify-center gap-4 text-sm text-gray-500">
-                          <span className="font-medium">
+                        <div className="flex items-center justify-center gap-4 text-sm text-gray-400 font-light">
+                          <span className="font-normal">
                             📸 {totalPhotos} {totalPhotos === 1 ? 'foto' : 'foto'}
                           </span>
                           <span>•</span>
@@ -204,12 +205,12 @@ export default function GalleriaPage() {
       </main>
 
       <Dialog open={!!selectedGallery} onOpenChange={() => setSelectedGallery(null)}>
-        <DialogContent className="max-w-[95vw] max-h-[95vh] overflow-y-auto bg-white">
+        <DialogContent className="max-w-[95vw] max-h-[95vh] overflow-y-auto bg-white border border-[#D4AF37]/20">
           {selectedGallery && (
             <div className="py-6">
               <button
                 onClick={() => setSelectedGallery(null)}
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+                className="flex items-center gap-2 text-gray-500 hover:text-[#A8CFEB] mb-6 transition-colors font-light"
                 data-testid="back-to-galleries"
               >
                 <ArrowLeft className="h-5 w-5" />
@@ -217,15 +218,15 @@ export default function GalleriaPage() {
               </button>
 
               <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+                <h2 className="text-3xl md:text-4xl font-light text-gray-600 mb-3 tracking-wide">
                   {selectedGallery.title}
                 </h2>
                 {selectedGallery.description && (
-                  <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-2">
+                  <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-2 font-light">
                     {selectedGallery.description}
                   </p>
                 )}
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-gray-400 font-light">
                   {selectedGallery.images?.length || 0} foto • {new Date(selectedGallery.createdAt).toLocaleDateString('it-IT', { 
                     year: 'numeric', 
                     month: 'long', 
