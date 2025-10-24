@@ -56,7 +56,7 @@ export function ShowcaseSection({ category, className = "" }: ShowcaseSectionPro
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-[#E6C87F] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent mb-6 tracking-[0.2em] uppercase drop-shadow-2xl">
+            <h2 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-[#E6C87F] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent mb-6 tracking-[0.2em] uppercase drop-shadow-2xl font-eagle-lake">
               {showcase.title.toUpperCase()}
             </h2>
             <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed max-w-3xl mx-auto">

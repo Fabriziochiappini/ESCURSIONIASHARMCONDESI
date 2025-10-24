@@ -61,7 +61,7 @@ export default function GalleriaPage() {
       <main className="pt-20">
         <section className="py-20 bg-gradient-to-br from-white to-[#A8CFEB]/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-lg transform hover:scale-105 transition-transform duration-300">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-lg transform hover:scale-105 transition-transform duration-300 font-eagle-lake">
               Galleria Fotografica
             </h1>
             <div className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
@@ -159,7 +159,7 @@ export default function GalleriaPage() {
                       </div>
 
                       <div className="text-center space-y-2">
-                        <h3 className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-wide group-hover:scale-105 transition-transform">
+                        <h3 className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-wide group-hover:scale-105 transition-transform font-eagle-lake">
                           {gallery.title}
                         </h3>
                         {gallery.description && (
@@ -218,7 +218,7 @@ export default function GalleriaPage() {
               </button>
 
               <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-3 tracking-[0.1em] uppercase drop-shadow-lg">
+                <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-3 tracking-[0.1em] uppercase drop-shadow-lg font-eagle-lake">
                   {selectedGallery.title}
                 </h2>
                 {selectedGallery.description && (

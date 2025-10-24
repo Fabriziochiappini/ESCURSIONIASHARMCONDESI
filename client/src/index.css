@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -396,3 +398,8 @@ img[loading="lazy"] {
 .parallax-slow { transform: translateZ(-1px) scale(2); }
 .parallax-medium { transform: translateZ(-0.5px) scale(1.5); }
 .parallax-fast { transform: translateZ(0px) scale(1); }
+
+/* Eagle Lake Font per Titoli */
+.font-eagle-lake {
+  font-family: 'Eagle Lake', cursive;
+}
