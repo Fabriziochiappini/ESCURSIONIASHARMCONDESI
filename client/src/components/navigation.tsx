@@ -7,7 +7,7 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b shadow-sm">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-b border-[#D4AF37]/20 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Desktop Navbar - Altezza ridotta */}
         <div className="hidden lg:flex lg:justify-between items-center h-24">
@@ -23,30 +23,30 @@ export function Navigation() {
           </div>
 
           {/* Menu a Destra - Tutte le voci */}
-          <div className="flex items-center space-x-6">
-            <Link href="/" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+          <div className="flex items-center space-x-8">
+            <Link href="/" className="text-gray-500 hover:text-[#A8CFEB] font-light text-lg tracking-wide transition-all duration-300 relative group">
               Home
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/chi-siamo" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+            <Link href="/chi-siamo" className="text-gray-500 hover:text-[#A8CFEB] font-light text-lg tracking-wide transition-all duration-300 relative group">
               Chi Siamo
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/galleria" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+            <Link href="/galleria" className="text-gray-500 hover:text-[#A8CFEB] font-light text-lg tracking-wide transition-all duration-300 relative group">
               Galleria
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link href="/contatti" className="text-gray-700 hover:text-primary font-medium transition-all duration-300 relative group">
+            <Link href="/contatti" className="text-gray-500 hover:text-[#A8CFEB] font-light text-lg tracking-wide transition-all duration-300 relative group">
               Contatti
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
             </Link>
             {/* Pulsante Admin nascosto trasparente */}
             <Link 
               href="/admin" 
-              className="w-12 h-12 rounded-lg bg-transparent hover:bg-gray-100 hover:shadow-md transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100"
+              className="w-12 h-12 rounded-lg bg-transparent hover:bg-[#A8CFEB]/10 hover:shadow-md transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100"
               title="Admin Panel"
             >
-              <span className="text-xs font-bold text-gray-400 hover:text-gray-600">⚙️</span>
+              <span className="text-xs font-bold text-gray-400 hover:text-[#A8CFEB]">⚙️</span>
             </Link>
           </div>
         </div>
@@ -73,25 +73,25 @@ export function Navigation() {
 
         {/* Mobile menu */}
         {isOpen && (
-          <div className="lg:hidden glass-card mt-4 rounded-3xl overflow-hidden animate-slide-up">
+          <div className="lg:hidden bg-white/95 backdrop-blur-md mt-4 rounded-3xl overflow-hidden animate-slide-up border border-[#D4AF37]/20 shadow-lg">
             <div className="p-6 space-y-4">
-              <Link href="/" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
+              <Link href="/" className="block px-4 py-3 text-gray-500 hover:text-[#A8CFEB] font-light text-lg hover:bg-[#A8CFEB]/5 rounded-xl transition-all duration-200">
                 Home
               </Link>
-              <Link href="/chi-siamo" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
+              <Link href="/chi-siamo" className="block px-4 py-3 text-gray-500 hover:text-[#A8CFEB] font-light text-lg hover:bg-[#A8CFEB]/5 rounded-xl transition-all duration-200">
                 Chi Siamo
               </Link>
-              <Link href="/galleria" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
+              <Link href="/galleria" className="block px-4 py-3 text-gray-500 hover:text-[#A8CFEB] font-light text-lg hover:bg-[#A8CFEB]/5 rounded-xl transition-all duration-200">
                 Galleria
               </Link>
-              <Link href="/contatti" className="block px-4 py-3 text-foreground/90 hover:text-primary font-semibold text-lg hover:bg-white/5 rounded-xl transition-all duration-200">
+              <Link href="/contatti" className="block px-4 py-3 text-gray-500 hover:text-[#A8CFEB] font-light text-lg hover:bg-[#A8CFEB]/5 rounded-xl transition-all duration-200">
                 Contatti
               </Link>
               <a 
                 href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block bg-green-500 hover:bg-green-600 text-white px-6 py-4 rounded-2xl font-bold text-center text-lg mt-6 transition-colors"
+                className="block bg-green-500 hover:bg-green-600 text-white px-6 py-4 rounded-2xl font-medium text-center text-lg mt-6 transition-colors shadow-md"
               >
                 💬 Contatto su WhatsApp
               </a>
