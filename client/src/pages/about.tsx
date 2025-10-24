@@ -137,78 +137,16 @@ export default function About() {
 
         {/* Story Section */}
         <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-6 tracking-[0.1em] uppercase font-eagle-lake">
-                  La Nostra Missione
-                </h2>
-                <p className="text-lg text-gray-600 mb-6">
-                  <strong className="text-[#D4AF37]">Si Viaggia con Desy</strong> è il tuo punto di riferimento per le escursioni a Sharm El Sheikh. Offriamo un servizio completo e professionale per escursioni, diving, snorkeling e safari nel deserto.
-                </p>
-                <p className="text-lg text-gray-600 mb-6">
-                  La nostra passione per il Mar Rosso e la profonda conoscenza di Sharm El Sheikh ci permettono di offrire esperienze autentiche e indimenticabili.
-                </p>
-                <div className="bg-accent/10 p-6 rounded-lg">
-                  <h3 className="text-xl font-bold text-primary mb-4">I Nostri Contatti</h3>
-                  <div className="space-y-3 text-left mb-6">
-                    <div className="flex items-center space-x-3">
-                      <MapPin className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">Via Roma, 123 - 20121 Milano (MI)</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Phone className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">+39 344 458 5177</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
-                      <span className="text-gray-700">siviaggiacondesi@gmail.com</span>
-                    </div>
-                  </div>
-
-                  {/* Pulsanti di contatto */}
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Button 
-                      className="bg-sky-500 text-white flex-1 hover:bg-sky-600"
-                      asChild
-                    >
-                      <a href="tel:+393444585177">
-                        <Phone className="h-4 w-4 mr-2" />
-                        Chiama Ora
-                      </a>
-                    </Button>
-                    <Button 
-                      className="bg-green-500 hover:bg-green-600 text-white flex-1"
-                      asChild
-                    >
-                      <a 
-                        href="https://wa.me/393444585177?text=Ciao! Sono interessato ai vostri tour a Sharm El Sheikh. Potreste darmi maggiori informazioni?"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <MessageCircle className="h-4 w-4 mr-2" />
-                        WhatsApp
-                      </a>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              <div className="relative">
-                <div className="aspect-square rounded-2xl overflow-hidden">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3152.123456789!2d15.1635!3d37.6078!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1313f9b9b9b9b9b9%3A0xabcdef1234567890!2sVia%20San%20Girolamo%2C%2020%2C%2095024%20Acireale%20CT%2C%20Italy!5e0!3m2!1sit!2sit!4v1703025000000!5m2!1sit!2sit"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Mappa Propato Travel - Via San Girolamo 20, Acireale"
-                    className="rounded-2xl"
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-8 tracking-[0.1em] uppercase font-eagle-lake">
+              La Nostra Missione
+            </h2>
+            <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+              <strong className="text-[#D4AF37]">Si Viaggia con Desy</strong> è il tuo punto di riferimento per le escursioni a Sharm El Sheikh. Offriamo un servizio completo e professionale per escursioni, diving, snorkeling e safari nel deserto.
+            </p>
+            <p className="text-lg text-gray-600 leading-relaxed">
+              La nostra passione per il Mar Rosso e la profonda conoscenza di Sharm El Sheikh ci permettono di offrire esperienze autentiche e indimenticabili.
+            </p>
           </div>
         </section>
 
