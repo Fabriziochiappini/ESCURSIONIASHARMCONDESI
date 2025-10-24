@@ -129,7 +129,7 @@ export default function Travels() {
       />
       <Navigation />
       
-      <main className="pt-24">
+      <main className="pt-20 lg:pt-[148px]">
         {/* Header Section */}
         <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

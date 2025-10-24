@@ -19,7 +19,7 @@ export default function About() {
       />
       <Navigation />
 
-      <main className="pt-20">
+      <main className="pt-20 lg:pt-[148px]">
         {/* Hero Section */}
         <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
