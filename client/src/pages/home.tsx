@@ -28,7 +28,7 @@ export default function Home() {
       />
       <AnnouncementBar />
       <Navigation />
-      <main className="relative">
+      <main className="relative pt-[52px]">
         <HeroSection />
 
         {/* Sezione Chi Siamo */}
