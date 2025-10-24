@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { SupportSection } from "@/components/support-section";
 import { Link } from "wouter";
 
 export default function About() {
@@ -259,6 +260,7 @@ export default function About() {
         </section>
       </main>
 
+      <SupportSection />
       <Footer />
     </div>
   );

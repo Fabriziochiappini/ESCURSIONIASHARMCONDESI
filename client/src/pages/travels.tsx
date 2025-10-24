@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { SupportSection } from "@/components/support-section";
 import type { Travel } from "@shared/schema";
 import { SEOHead } from "@/components/seo-head";
 import { TravelCard } from "@/components/travel-card";
@@ -268,6 +269,7 @@ export default function Travels() {
         </section>
       </main>
 
+      <SupportSection />
       <Footer />
     </div>
   );

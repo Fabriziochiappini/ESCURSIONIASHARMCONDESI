@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { ShowcaseSection } from "@/components/showcase-section";
 import { GalleriesSection } from "@/components/galleries-section";
+import { SupportSection } from "@/components/support-section";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import type { Guide } from "@shared/schema";
@@ -103,6 +104,7 @@ export default function Home() {
         <GalleriesSection />
 
       </main>
+      <SupportSection />
       <Footer />
     </div>
   );
