@@ -3,39 +3,40 @@
 @tailwind utilities;
 
 :root {
-  /* UNCONVENTIONAL TOUR - Colori Mare & Sole */
-  --primary: hsl(25, 100%, 55%);      /* Arancione sole vibrante */
-  --secondary: hsl(200, 85%, 65%);    /* Azzurro cielo luminoso */
-  --accent: hsl(195, 100%, 70%);      /* Azzurro brillante */
-  --growth: hsl(210, 90%, 50%);       /* Blu mare profondo */
-  --balance: hsl(200, 100%, 98%);     /* Azzurro chiarissimo */
-  --growth-foreground: hsl(0, 0%, 100%);
+  /* SI VIAGGIA CON DESI - Colori Pastello Eleganti */
+  --primary: hsl(206, 55%, 78%);      /* Azzurro pastello chiaro */
+  --secondary: hsl(45, 55%, 70%);     /* Oro leggero */
+  --accent: hsl(206, 65%, 85%);       /* Azzurro più chiaro */
+  --growth: hsl(45, 60%, 75%);        /* Oro champagne */
+  --balance: hsl(0, 0%, 98%);         /* Bianco sporco */
+  --growth-foreground: hsl(210, 15%, 35%);
 
-  /* Travel specific colors */
-  --orange-sun: hsl(25, 100%, 55%);   /* Arancione sole */
-  --orange-warm: hsl(30, 95%, 60%);   /* Arancione caldo */
-  --blue-sky: hsl(200, 85%, 65%);     /* Azzurro cielo */
-  --blue-sea: hsl(210, 90%, 50%);     /* Blu mare */
-  --blue-deep: hsl(220, 85%, 35%);    /* Blu profondo */
+  /* Travel specific colors - Pastello */
+  --pastel-blue: hsl(206, 55%, 78%);  /* Azzurro pastello */
+  --pastel-gold: hsl(45, 55%, 70%);   /* Oro pastello */
+  --light-blue: hsl(206, 65%, 90%);   /* Azzurro chiarissimo */
+  --soft-gold: hsl(45, 65%, 80%);     /* Oro soft */
+  --cream: hsl(40, 35%, 95%);         /* Crema */
 
-  --destructive: hsl(0, 84%, 60%);
-  --muted: hsl(200, 40%, 92%);        /* Azzurro molto chiaro */
-  --muted-foreground: hsl(210, 25%, 35%);
+  --destructive: hsl(0, 65%, 75%);
+  --muted: hsl(206, 35%, 95%);        /* Azzurro tenue */
+  --muted-foreground: hsl(210, 15%, 50%);
   --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(210, 25%, 12%);
+  --popover-foreground: hsl(210, 15%, 35%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(210, 25%, 12%);
-  --border: hsl(200, 30%, 85%);
-  --input: hsl(200, 30%, 90%);
-  --background: hsl(200, 100%, 98%);   /* Azzurro chiarissimo */
-  --foreground: hsl(210, 25%, 12%);    /* Blu scuro per testi */
-  --radius: 1rem;
+  --card-foreground: hsl(210, 15%, 35%);
+  --border: hsl(206, 30%, 90%);
+  --input: hsl(206, 25%, 95%);
+  --background: hsl(0, 0%, 100%);      /* Bianco puro */
+  --foreground: hsl(210, 15%, 35%);    /* Grigio soft per testi */
+  --radius: 1.5rem;
 }
 
 body {
-  background: linear-gradient(135deg, hsl(200, 100%, 98%) 0%, hsl(200, 80%, 95%) 100%);
+  background: linear-gradient(135deg, hsl(0, 0%, 100%) 0%, hsl(206, 45%, 97%) 100%);
   min-height: 100vh;
-  color: hsl(210, 25%, 12%);
+  color: hsl(210, 15%, 35%);
+  font-weight: 300;
 }
 
 /* Placeholder leggibili in tutti gli input */
@@ -50,26 +51,26 @@ textarea:focus::placeholder {
   color: hsl(210, 15%, 55%) !important;
 }
 
-/* Travel Theme - Mare & Sole */
+/* Travel Theme - Elegante Pastello */
 .glass {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 165, 0, 0.1); /* Arancione tenue */
-  box-shadow: 0 8px 32px rgba(0, 150, 255, 0.1); /* Ombra azzurra */
+  border: 1px solid rgba(212, 175, 55, 0.15); /* Bordo oro leggero */
+  box-shadow: 0 8px 32px rgba(168, 207, 235, 0.15); /* Ombra azzurra soft */
 }
 
 .glass-card {
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 165, 0, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.12);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 20px rgba(0, 150, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(168, 207, 235, 0.12);
 }
 
 .glass-card:hover {
   background: rgba(255, 255, 255, 1);
   transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(255, 165, 0, 0.15); /* Ombra arancione */
+  box-shadow: 0 12px 40px rgba(212, 175, 55, 0.2); /* Ombra oro */
 }
 
 /* Dark section for properties only */
