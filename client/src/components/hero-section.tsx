@@ -1,17 +1,8 @@
-import heroBackgroundUrl from "@assets/6345959_1759560311915.jpg";
 import logoUrl from "@assets/si_viaggia_con_desy_logo-removebg-preview_1761318900270.png";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white">
-      {/* Full-width Background */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
-        style={{
-          backgroundImage: `url('${heroBackgroundUrl}')`,
-        }}
-      />
-      
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-[#A8CFEB]/5 to-white">
       {/* Elementi decorativi soft pastello */}
       <div className="absolute top-10 left-10 w-72 h-72 bg-[#A8CFEB]/30 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#D4AF37]/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
