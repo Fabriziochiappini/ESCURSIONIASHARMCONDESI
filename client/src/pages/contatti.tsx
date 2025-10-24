@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { Button } from "@/components/ui/button";
 import { SocialButtons } from "@/components/social-buttons";
+import { CtaEscursioni } from "@/components/cta-escursioni";
 
 export default function Contatti() {
   return (
@@ -118,29 +119,9 @@ export default function Contatti() {
             </div>
           </div>
         </section>
-
-        {/* CTA Final */}
-        <section className="py-16 bg-gradient-to-r from-[#A8CFEB] to-[#C5E1F5]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold mb-4 text-white tracking-[0.15em] uppercase drop-shadow-2xl font-eagle-lake">
-              Pronto a Partire?
-            </h2>
-            <p className="text-xl mb-8 text-white/90 font-light">
-              Contattaci oggi stesso per prenotare il tuo tour perfetto
-            </p>
-            <Button 
-              size="lg" 
-              className="bg-white text-[#A8CFEB] hover:bg-white/90 font-light border border-[#D4AF37]/30 shadow-lg"
-              asChild
-            >
-              <a href="/viaggi">
-                Scopri i Nostri Tour
-              </a>
-            </Button>
-          </div>
-        </section>
       </main>
 
+      <CtaEscursioni />
       <Footer />
     </div>
   );
