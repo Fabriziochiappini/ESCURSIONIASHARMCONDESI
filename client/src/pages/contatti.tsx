@@ -20,7 +20,7 @@ export default function Contatti() {
         {/* Hero Section */}
         <section className="py-20 bg-gradient-to-br from-white to-[#A8CFEB]/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-6xl font-light text-gray-600 mb-6 tracking-wide">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-lg transform hover:scale-105 transition-transform duration-300">
               Contattaci
             </h1>
             <div className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
@@ -36,7 +36,7 @@ export default function Contatti() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Info Contatti */}
               <div>
-                <h2 className="text-3xl font-light text-gray-600 mb-8 tracking-wide">
+                <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.15em] uppercase drop-shadow-lg">
                   I Nostri Contatti
                 </h2>
                 
@@ -151,7 +151,7 @@ export default function Contatti() {
         {/* Orari Section */}
         <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">
+            <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.15em] uppercase drop-shadow-lg">
               Orari di Apertura
             </h2>
             <div className="inline-block bg-white p-8 rounded-2xl shadow-lg">
@@ -176,7 +176,7 @@ export default function Contatti() {
         {/* CTA Final */}
         <section className="py-16 bg-gradient-to-r from-[#A8CFEB] to-[#C5E1F5]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-light mb-4 text-white tracking-wide">
+            <h2 className="text-3xl font-bold mb-4 text-white tracking-[0.15em] uppercase drop-shadow-2xl">
               Pronto a Partire?
             </h2>
             <p className="text-xl mb-8 text-white/90 font-light">
