@@ -1,6 +1,5 @@
 import { useState, useMemo } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -180,7 +179,6 @@ export default function AdminBookings() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
         <div className="max-w-7xl mx-auto px-4 py-8">
           <p className="text-center text-gray-500">Caricamento prenotazioni...</p>
         </div>
@@ -191,7 +189,6 @@ export default function AdminBookings() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
