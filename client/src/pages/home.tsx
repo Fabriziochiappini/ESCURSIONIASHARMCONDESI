@@ -43,13 +43,14 @@ export default function Home() {
                 </div>
                 <div className="space-y-4 text-gray-500 text-lg leading-relaxed font-light">
                   <p>
-                    Siamo un tour operator locale specializzato in Sharm El Sheikh, con anni di esperienza 
-                    nell'organizzazione di escursioni e attività nel Mar Rosso e nel deserto egiziano.
+                    <strong className="text-[#D4AF37]">Si Viaggia con Desy</strong> è il tuo punto di riferimento per le escursioni 
+                    a Sharm El Sheikh. Con anni di esperienza nel Mar Rosso, organizziamo tour indimenticabili tra 
+                    spiagge cristalline, barriere coralline mozzafiato e avventure nel deserto egiziano.
                   </p>
                   <p>
-                    Concepiamo il turismo non come una semplice attività ricreativa, ma come un tour educativo 
-                    e piacevole verso luoghi e culture affascinanti. Lavoriamo a stretto contatto con guide locali 
-                    esperte per garantire esperienze autentiche e indimenticabili a Sharm El Sheikh.
+                    Per noi viaggiare non è solo una vacanza, ma un'esperienza educativa e piacevole che ti porta 
+                    a scoprire luoghi e culture affascinanti. Lavoriamo con guide locali esperte per garantirti 
+                    escursioni autentiche e sicure a Sharm El Sheikh.
                   </p>
                 </div>
               </div>
@@ -59,7 +60,7 @@ export default function Home() {
                 <div className="rounded-3xl overflow-hidden shadow-xl bg-gray-100 border border-[#D4AF37]/20">
                   <img 
                     src="/chi-siamo.png"
-                    alt="UNCONVENTIONAL TOUR - Il tuo tour inizia qui"
+                    alt="Si Viaggia con Desy - Escursioni a Sharm El Sheikh"
                     loading="lazy"
                     decoding="async"
                     className="w-full h-[500px] object-cover"
