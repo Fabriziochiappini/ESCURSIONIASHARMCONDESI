@@ -36,6 +36,49 @@ export default function About() {
           </div>
         </section>
 
+        {/* Sezione Chi Siamo con Immagine */}
+        <section className="py-20 bg-white relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#A8CFEB]/5 to-white opacity-60"></div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Testo a sinistra */}
+              <div>
+                <div className="mb-6">
+                  <h2 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-3 tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
+                    Chi Siamo
+                  </h2>
+                  <div className="w-32 h-[2px] bg-gradient-to-r from-[#D4AF37] to-transparent"></div>
+                </div>
+                <div className="space-y-4 text-gray-500 text-lg leading-relaxed font-light">
+                  <p>
+                    <strong className="text-[#D4AF37]">Si Viaggia con Desy</strong> è il tuo punto di riferimento per le escursioni 
+                    a Sharm El Sheikh. Con anni di esperienza nel Mar Rosso, organizziamo tour indimenticabili tra 
+                    spiagge cristalline, barriere coralline mozzafiato e avventure nel deserto egiziano.
+                  </p>
+                  <p>
+                    Per noi viaggiare non è solo una vacanza, ma un'esperienza educativa e piacevole che ti porta 
+                    a scoprire luoghi e culture affascinanti. Lavoriamo con guide locali esperte per garantirti 
+                    escursioni autentiche e sicure a Sharm El Sheikh.
+                  </p>
+                </div>
+              </div>
+
+              {/* Immagine a destra */}
+              <div className="relative">
+                <div className="rounded-3xl overflow-hidden shadow-xl bg-gray-100 border border-[#D4AF37]/20">
+                  <img 
+                    src="/chi-siamo.png"
+                    alt="Si Viaggia con Desy - Escursioni a Sharm El Sheikh"
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-[500px] object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Perché Scegliere Noi Section */}
         <section className="py-20 bg-gradient-to-br from-[#F5F5DC]/30 via-white to-[#F5F5DC]/20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
