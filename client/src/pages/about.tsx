@@ -8,8 +8,24 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { SupportSection } from "@/components/support-section";
 import { CtaEscursioni } from "@/components/cta-escursioni";
 import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
+import type { Gallery, GalleryImage } from "@shared/schema";
 
 export default function About() {
+  const { data: galleries } = useQuery<(Gallery & { images: GalleryImage[] })[]>({
+    queryKey: ["/api/galleries"],
+  });
+
+  const convertImageUrl = (url: string) => {
+    return url.replace('/public-objects/', '/api/images/');
+  };
+
+  // Prendi 6 foto random dalle gallerie
+  const randomImages = galleries
+    ?.flatMap(g => g.images || [])
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 6) || [];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead 
@@ -137,6 +153,27 @@ export default function About() {
             </div>
           </div>
         </section>
+
+        {/* Sezione Foto dalle Gallerie */}
+        {randomImages.length > 0 && (
+          <section className="py-16 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {randomImages.map((image, index) => (
+                  <div key={image.id} className="relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                    <img
+                      src={convertImageUrl(image.imageUrl)}
+                      alt={`Escursione a Sharm El Sheikh ${index + 1}`}
+                      className="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Story Section */}
         <section className="py-20 bg-white">
