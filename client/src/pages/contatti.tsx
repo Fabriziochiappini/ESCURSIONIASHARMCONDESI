@@ -7,23 +7,24 @@ import { SocialButtons } from "@/components/social-buttons";
 
 export default function Contatti() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen bg-white">
       <SEOHead 
-        title="Contatti UNCONVENTIONAL TOUR | Tour Operator Sharm El Sheikh"
-        description="Contatta UNCONVENTIONAL TOUR per organizzare i tuoi tour a Sharm El Sheikh. Tel: +20 69 360 0000, Email: info@unconventionaltour.it"
-        keywords="contatti tour operator, unconventional tour contatti, tour operator sharm el sheikh"
+        title="Contatti Si viaggia con Desi | Tour Operator Sharm El Sheikh"
+        description="Contatta Si viaggia con Desi per organizzare i tuoi tour a Sharm El Sheikh. Tel: +39 344 458 5177, Email: siviaggiacondesi@gmail.com"
+        keywords="contatti tour operator, si viaggia con desi contatti, tour operator sharm el sheikh"
         canonicalUrl="https://unconventionaltour.it/contatti"
       />
       <Navigation />
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
+        <section className="py-20 bg-gradient-to-br from-white to-[#A8CFEB]/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+            <h1 className="text-4xl md:text-6xl font-light text-gray-600 mb-6 tracking-wide">
               Contattaci
             </h1>
-            <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-90">
+            <div className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
+            <p className="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto font-light">
               Siamo qui per aiutarti a scoprire le meraviglie di Sharm El Sheikh
             </p>
           </div>
@@ -35,56 +36,56 @@ export default function Contatti() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Info Contatti */}
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-8">
+                <h2 className="text-3xl font-light text-gray-600 mb-8 tracking-wide">
                   I Nostri Contatti
                 </h2>
                 
                 <div className="space-y-6">
-                  <div className="flex items-start space-x-4 p-6 bg-gray-50 rounded-2xl hover:shadow-lg transition-all duration-300">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <MapPin className="h-6 w-6 text-blue-600" />
+                  <div className="flex items-start space-x-4 p-6 bg-[#A8CFEB]/5 rounded-2xl hover:shadow-lg transition-all duration-300 border border-[#D4AF37]/20">
+                    <div className="w-12 h-12 bg-[#A8CFEB]/20 rounded-full flex items-center justify-center flex-shrink-0">
+                      <MapPin className="h-6 w-6 text-[#A8CFEB]" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-1">Indirizzo</h3>
-                      <p className="text-gray-600">Via Roma, 123<br />20121 Milano (MI)</p>
+                      <h3 className="text-lg font-normal text-gray-600 mb-1">Indirizzo</h3>
+                      <p className="text-gray-400 font-light">Via Roma, 123<br />20121 Milano (MI)</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-4 p-6 bg-gray-50 rounded-2xl hover:shadow-lg transition-all duration-300">
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Phone className="h-6 w-6 text-green-600" />
+                  <div className="flex items-start space-x-4 p-6 bg-[#D4AF37]/5 rounded-2xl hover:shadow-lg transition-all duration-300 border border-[#D4AF37]/20">
+                    <div className="w-12 h-12 bg-[#D4AF37]/20 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Phone className="h-6 w-6 text-[#D4AF37]" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-1">Telefono</h3>
-                      <a href="tel:+393444585177" className="text-blue-600 hover:underline text-lg">
+                      <h3 className="text-lg font-normal text-gray-600 mb-1">Telefono</h3>
+                      <a href="tel:+393444585177" className="text-[#A8CFEB] hover:underline text-lg font-light">
                         +39 344 458 5177
                       </a>
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-4 p-6 bg-gray-50 rounded-2xl hover:shadow-lg transition-all duration-300">
-                    <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Mail className="h-6 w-6 text-purple-600" />
+                  <div className="flex items-start space-x-4 p-6 bg-[#A8CFEB]/5 rounded-2xl hover:shadow-lg transition-all duration-300 border border-[#D4AF37]/20">
+                    <div className="w-12 h-12 bg-[#A8CFEB]/20 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Mail className="h-6 w-6 text-[#A8CFEB]" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-1">Email</h3>
-                      <a href="mailto:siviaggiacondesi@gmail.com" className="text-blue-600 hover:underline block">
+                      <h3 className="text-lg font-normal text-gray-600 mb-1">Email</h3>
+                      <a href="mailto:siviaggiacondesi@gmail.com" className="text-[#A8CFEB] hover:underline block font-light">
                         siviaggiacondesi@gmail.com
                       </a>
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-4 p-6 bg-gray-50 rounded-2xl hover:shadow-lg transition-all duration-300">
+                  <div className="flex items-start space-x-4 p-6 bg-green-50/50 rounded-2xl hover:shadow-lg transition-all duration-300 border border-green-200/30">
                     <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
                       <MessageCircle className="h-6 w-6 text-green-600" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-1">WhatsApp</h3>
+                      <h3 className="text-lg font-normal text-gray-600 mb-1">WhatsApp</h3>
                       <a 
                         href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
+                        className="text-green-600 hover:underline font-light"
                       >
                         Scrivici su WhatsApp
                       </a>
@@ -95,7 +96,7 @@ export default function Contatti() {
                 {/* Pulsanti CTA */}
                 <div className="mt-8 flex flex-col sm:flex-row gap-4">
                   <Button 
-                    className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                    className="bg-gradient-to-r from-[#A8CFEB] to-[#C5E1F5] hover:from-[#95C4E6] hover:to-[#A8CFEB] text-white flex-1 font-light border border-[#D4AF37]/20"
                     asChild
                   >
                     <a href="tel:+393444585177">
@@ -104,7 +105,7 @@ export default function Contatti() {
                     </a>
                   </Button>
                   <Button 
-                    className="bg-green-500 hover:bg-green-600 text-white flex-1"
+                    className="bg-green-500 hover:bg-green-600 text-white flex-1 font-light"
                     asChild
                   >
                     <a 
@@ -119,8 +120,8 @@ export default function Contatti() {
                 </div>
 
                 {/* Social Media */}
-                <div className="mt-8 pt-8 border-t border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Seguici sui Social</h3>
+                <div className="mt-8 pt-8 border-t border-[#D4AF37]/20">
+                  <h3 className="text-lg font-normal text-gray-600 mb-4 text-center tracking-wide">Seguici sui Social</h3>
                   <div className="flex justify-center">
                     <SocialButtons variant="large" />
                   </div>
