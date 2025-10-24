@@ -78,25 +78,15 @@ export function HeroSection() {
       <div className="relative z-10 text-center w-full px-0">
         <div className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Logo Grande Centro */}
-            <div className="mb-4 flex justify-center">
-              <img 
-                src={logoUrl} 
-                alt="Si Viaggia con Desy - Escursioni a Sharm"
-                loading="eager"
-                decoding="async"
-                className="w-64 h-64 md:w-80 md:h-80 object-contain drop-shadow-2xl animate-fade-in"
-              />
-            </div>
-            
-            {/* Accent Line Oro */}
-            <div className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-8"></div>
-            
-            {/* Description con riquadro elegante */}
-            <div className="max-w-4xl mx-auto mb-12">
-              <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 border border-[#D4AF37]/30 shadow-2xl">
-                <p className="text-xl sm:text-2xl text-gray-700 leading-relaxed font-light tracking-wide">
-                  Scopri Sharm El Sheikh con le nostre escursioni indimenticabili.
+            {/* Riquadro Unico con Titolo e Descrizione */}
+            <div className="max-w-5xl mx-auto">
+              <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-10 md:p-16 border-2 border-[#D4AF37]/40 shadow-2xl">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-6 tracking-wide uppercase drop-shadow-lg font-eagle-lake leading-tight">
+                  Si Viaggia con Desy
+                </h1>
+                <div className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
+                <p className="text-2xl sm:text-3xl md:text-4xl text-gray-700 leading-relaxed font-light tracking-wide">
+                  Escursioni a Sharm El Sheikh
                 </p>
               </div>
             </div>
