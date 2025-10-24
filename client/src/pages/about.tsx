@@ -27,7 +27,7 @@ export default function About() {
               <Users className="h-4 w-4 mr-2 text-white" />
               Chi Siamo
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-[#E6C87F] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent mb-6 tracking-[0.15em] uppercase drop-shadow-2xl font-eagle-lake">
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#E6C87F] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent mb-6 tracking-[0.15em] uppercase drop-shadow-2xl font-eagle-lake">
               Si Viaggia con Desy
             </h1>
             <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-90">
