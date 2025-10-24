@@ -7,6 +7,7 @@ import { SEOHead } from "@/components/seo-head";
 import { ShowcaseSection } from "@/components/showcase-section";
 import { GalleriesSection } from "@/components/galleries-section";
 import { SupportSection } from "@/components/support-section";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import type { Guide } from "@shared/schema";
@@ -25,6 +26,7 @@ export default function Home() {
         keywords="tour operator sharm el sheikh, escursioni mar rosso, snorkeling sharm, diving egitto, safari deserto, unconventional tour, tour sharm"
         canonicalUrl="https://unconventionaltour.it/"
       />
+      <AnnouncementBar />
       <Navigation />
       <main className="relative">
         <HeroSection />
