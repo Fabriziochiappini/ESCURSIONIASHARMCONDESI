@@ -226,38 +226,6 @@ export default function About() {
             </div>
           </div>
         </section>
-
-        {/* Contact CTA */}
-        <section className="py-16 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold mb-4">
-              Pronto a Vivere la Tua Avventura a Sharm?
-            </h2>
-            <p className="text-xl mb-8 text-purple-100">
-              Contattaci oggi stesso per prenotare il tuo tour
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                variant="secondary"
-                className="bg-white text-purple-600 hover:bg-purple-50"
-                asChild
-              >
-                <Link href="/viaggi">
-                  Vedi Tour
-                </Link>
-              </Button>
-              <Button 
-                size="lg" 
-                className="bg-purple-600 text-white font-semibold border-2 border-purple-500"
-                onClick={() => window.open('tel:+393444585177', '_self')}
-              >
-                <Phone className="h-5 w-5 mr-2" />
-                Chiamaci Ora
-              </Button>
-            </div>
-          </div>
-        </section>
       </main>
 
       <SupportSection />
