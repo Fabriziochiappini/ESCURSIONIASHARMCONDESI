@@ -159,7 +159,7 @@ export default function GalleriaPage() {
                       </div>
 
                       <div className="text-center space-y-2">
-                        <h3 className="text-2xl font-light text-gray-600 group-hover:text-[#A8CFEB] transition-colors tracking-wide">
+                        <h3 className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-wide group-hover:scale-105 transition-transform">
                           {gallery.title}
                         </h3>
                         {gallery.description && (
@@ -218,7 +218,7 @@ export default function GalleriaPage() {
               </button>
 
               <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-light text-gray-600 mb-3 tracking-wide">
+                <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-3 tracking-[0.1em] uppercase drop-shadow-lg">
                   {selectedGallery.title}
                 </h2>
                 {selectedGallery.description && (

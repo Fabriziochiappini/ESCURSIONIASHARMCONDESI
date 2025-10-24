@@ -174,7 +174,7 @@ export default function TravelDetail() {
 
               {/* Title and Location */}
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-4 tracking-wide uppercase drop-shadow-lg">
                   {travel.title}
                 </h1>
                 <div className="flex items-center text-xl text-gray-600 mb-2">
@@ -270,7 +270,7 @@ export default function TravelDetail() {
             {/* Description */}
             <Card className="border-none shadow-lg">
               <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100">
-                <CardTitle className="text-2xl">Descrizione del Tour</CardTitle>
+                <CardTitle className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-wide uppercase">Descrizione del Tour</CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
                 <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
@@ -283,8 +283,8 @@ export default function TravelDetail() {
             {travel.features && travel.features.length > 0 && (
               <Card className="border-none shadow-lg">
                 <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-100">
-                  <CardTitle className="text-2xl flex items-center gap-2">
-                    <CheckCircle className="h-6 w-6 text-green-600" />
+                  <CardTitle className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-wide uppercase flex items-center gap-2">
+                    <CheckCircle className="h-6 w-6 text-[#D4AF37]" />
                     Cosa Include il Tour
                   </CardTitle>
                 </CardHeader>
@@ -305,7 +305,7 @@ export default function TravelDetail() {
             <Card className="border border-[#D4AF37]/20 shadow-lg bg-gradient-to-r from-[#A8CFEB] to-[#C5E1F5]">
               <CardContent className="py-8">
                 <div className="text-center space-y-6">
-                  <h3 className="text-2xl font-light text-white tracking-wide">Pronto a Partire?</h3>
+                  <h3 className="text-2xl font-bold text-white tracking-[0.15em] uppercase drop-shadow-lg">Pronto a Partire?</h3>
                   <p className="text-white/90 text-lg font-light">Prenota ora o contattaci per maggiori informazioni</p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                     <BookingModal travel={travel}>

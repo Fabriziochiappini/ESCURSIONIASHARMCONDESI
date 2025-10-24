@@ -36,7 +36,7 @@ export default function Home() {
               {/* Testo a sinistra */}
               <div>
                 <div className="mb-6">
-                  <h2 className="text-4xl lg:text-5xl font-light text-gray-600 mb-3 tracking-wide">
+                  <h2 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-3 tracking-[0.15em] uppercase drop-shadow-lg">
                     Chi Siamo
                   </h2>
                   <div className="w-32 h-[2px] bg-gradient-to-r from-[#D4AF37] to-transparent"></div>

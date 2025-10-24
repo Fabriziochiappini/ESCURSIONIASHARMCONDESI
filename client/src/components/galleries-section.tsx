@@ -29,13 +29,11 @@ export function GalleriesSection() {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Camera className="h-12 w-12 text-purple-600" />
-          </div>
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-gray-900">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.15em] uppercase drop-shadow-lg">
             Le Nostre Gallerie
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <div className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light">
             Scopri le nostre avventure attraverso immagini autentiche
           </p>
         </div>
@@ -105,7 +103,7 @@ export function GalleriesSection() {
 
                   {/* Info Galleria */}
                   <div className="text-center space-y-2">
-                    <h3 className="text-2xl font-bold text-gray-900 group-hover:text-purple-600 transition-colors">
+                    <h3 className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-wide group-hover:scale-105 transition-transform">
                       {gallery.title}
                     </h3>
                     {gallery.description && (
