@@ -16,6 +16,7 @@ import { Link } from "wouter";
 import { SEOHead } from "@/components/seo-head";
 import { sendWhatsAppMessage, shareOnWhatsApp } from "@/lib/whatsapp";
 import { SocialButtons } from "@/components/social-buttons";
+import { AnnouncementBar } from "@/components/announcement-bar";
 
 export default function TravelDetail() {
   const params = useParams();
@@ -57,8 +58,9 @@ export default function TravelDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
+        <AnnouncementBar />
         <Navigation />
-        <main className="pt-24">
+        <main className="pt-20 lg:pt-[148px]">
           <div className="flex items-center justify-center min-h-[50vh]">
             <div className="animate-spin w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
             <p>Caricamento tour...</p>
@@ -72,8 +74,9 @@ export default function TravelDetail() {
   if (error || !travel) {
     return (
       <div className="min-h-screen bg-background">
+        <AnnouncementBar />
         <Navigation />
-        <main className="pt-24">
+        <main className="pt-20 lg:pt-[148px]">
           <div className="text-center py-12">
             <h1 className="text-2xl font-bold mb-4">Tour non trovato</h1>
             <Link href="/viaggi">
@@ -129,9 +132,10 @@ export default function TravelDetail() {
         keywords={`tour ${travel.destination}, ${travel.country}, ${getTypeLabel(travel.type)}, escursione`}
         canonicalUrl={`https://unconventionaltour.it/travel/${travel.id}`}
       />
+      <AnnouncementBar />
       <Navigation />
       
-      <main className="pt-24">
+      <main className="pt-20 lg:pt-[148px]">
         {/* Back Button */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <Button
