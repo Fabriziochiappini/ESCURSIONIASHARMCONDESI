@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, MapPin, Clock, Users, Calendar, Phone, Mail, Heart, Share2, Star, Plane, CheckCircle, XCircle, CreditCard } from "lucide-react";
+import { ArrowLeft, MapPin, Clock, Users, Calendar, Heart, Star, Plane, CheckCircle, XCircle, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,19 +14,12 @@ import type { Travel } from "@shared/schema";
 import { formatPrice, formatDuration, getTravelTypeIcon, getCategoryIcon } from "@/lib/types";
 import { Link } from "wouter";
 import { SEOHead } from "@/components/seo-head";
-import { sendWhatsAppMessage, shareOnWhatsApp } from "@/lib/whatsapp";
-import { SocialButtons } from "@/components/social-buttons";
 import { AnnouncementBar } from "@/components/announcement-bar";
-import { useCart } from "@/contexts/cart-context";
-import { useToast } from "@/hooks/use-toast";
-import { ShoppingCart } from "lucide-react";
 
 export default function TravelDetail() {
   const params = useParams();
   const [, setLocation] = useLocation();
   const travelId = params.id;
-  const { addToCart } = useCart();
-  const { toast } = useToast();
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -93,17 +86,6 @@ export default function TravelDetail() {
       </div>
     );
   }
-
-  const handleWhatsAppContact = () => {
-    const message = `Ciao! Sono interessato al tour "${travel.title}" (${travel.destination}). Potresti darmi più informazioni?`;
-    sendWhatsAppMessage(travel.agentPhone || '+39 344 458 5177', message);
-  };
-
-  const handleEmailContact = () => {
-    const subject = `Informazioni tour: ${travel.title}`;
-    const body = `Ciao,\n\nSono interessato al tour "${travel.title}" a ${travel.destination}.\n\nPotresti darmi più dettagli?\n\nGrazie!`;
-    window.location.href = `mailto:${travel.agentEmail || 'info@agenziaviaggi.it'}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  };
 
   const getTypeBadgeColor = (type: string) => {
     switch (type) {
@@ -221,67 +203,17 @@ export default function TravelDetail() {
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Action Button */}
+              <div className="flex justify-center">
                 <BookingModal travel={travel}>
                   <Button 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3"
+                    className="w-full max-w-md bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white py-4 text-lg font-semibold shadow-lg"
                     data-testid="button-book-now"
                   >
                     <CreditCard className="h-5 w-5 mr-2" />
-                    Prenota ora
+                    Prenota Ora
                   </Button>
                 </BookingModal>
-                <Button 
-                  className="w-full bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white py-3"
-                  onClick={() => {
-                    addToCart(travel, 1);
-                    toast({ 
-                      title: "Aggiunto al carrello!", 
-                      description: `${travel.title} è stato aggiunto al tuo carrello.` 
-                    });
-                  }}
-                  data-testid="button-add-to-cart"
-                >
-                  <ShoppingCart className="h-5 w-5 mr-2" />
-                  Aggiungi al Carrello
-                </Button>
-                {travel.depositAmount && parseFloat(travel.depositAmount) > 0 && (
-                  <BookingModal travel={travel}>
-                    <Button 
-                      className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3"
-                      data-testid="button-deposit"
-                    >
-                      <CreditCard className="h-5 w-5 mr-2" />
-                      Acconto (€{parseFloat(travel.depositAmount).toLocaleString("it-IT")})
-                    </Button>
-                  </BookingModal>
-                )}
-                <Button
-                  onClick={handleWhatsAppContact}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3"
-                  data-testid="button-whatsapp-contact"
-                >
-                  <Phone className="h-5 w-5 mr-2" />
-                  Contatta via WhatsApp
-                </Button>
-                <Button
-                  onClick={handleEmailContact}
-                  variant="outline"
-                  className="w-full py-3"
-                  data-testid="button-email-contact"
-                >
-                  <Mail className="h-5 w-5 mr-2" />
-                  Invia Email
-                </Button>
-                <Button
-                  onClick={() => shareOnWhatsApp(travel, `/travel/${travel.id}`)}
-                  className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-3"
-                  data-testid="button-share-whatsapp"
-                >
-                  <Share2 className="h-5 w-5 mr-2" />
-                  Condividi Tour
-                </Button>
               </div>
             </div>
           </div>
@@ -329,8 +261,8 @@ export default function TravelDetail() {
               <CardContent className="py-8">
                 <div className="text-center space-y-6">
                   <h3 className="text-2xl font-bold text-white tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">Pronto a Partire?</h3>
-                  <p className="text-white/90 text-lg font-light">Prenota ora o contattaci per maggiori informazioni</p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                  <p className="text-white/90 text-lg font-light">Prenota ora la tua escursione!</p>
+                  <div className="flex justify-center pt-4">
                     <BookingModal travel={travel}>
                       <Button 
                         size="lg"
@@ -341,23 +273,6 @@ export default function TravelDetail() {
                         Prenota Ora
                       </Button>
                     </BookingModal>
-                    <Button
-                      size="lg"
-                      onClick={handleWhatsAppContact}
-                      className="bg-green-500 hover:bg-green-600 font-light"
-                      data-testid="button-whatsapp-cta"
-                    >
-                      <Phone className="h-5 w-5 mr-2" />
-                      Contattaci su WhatsApp
-                    </Button>
-                  </div>
-                  
-                  {/* Social Media */}
-                  <div className="pt-6 border-t border-white/20">
-                    <p className="text-white/90 text-sm mb-3 font-light">Seguici sui Social</p>
-                    <div className="flex justify-center">
-                      <SocialButtons variant="default" />
-                    </div>
                   </div>
                 </div>
               </CardContent>
