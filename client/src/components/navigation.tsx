@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Menu, X, ShoppingCart } from "lucide-react";
+import { Menu, X, ShoppingCart, Settings } from "lucide-react";
 import { useState } from "react";
 import logoUrl from "@assets/si_viaggia_con_desy_logo-removebg-preview_1761318900270.png";
 import { useCart } from "@/contexts/cart-context";
@@ -56,13 +56,9 @@ export function Navigation() {
                 </span>
               )}
             </Link>
-            {/* Pulsante Admin nascosto trasparente */}
-            <Link 
-              href="/admin" 
-              className="w-12 h-12 rounded-lg bg-transparent hover:bg-white/10 hover:shadow-md transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100"
-              title="Admin Panel"
-            >
-              <span className="text-xs font-bold text-white/60 hover:text-white">⚙️</span>
+            {/* Admin */}
+            <Link href="/admin" className="text-white hover:text-[#D4AF37] transition-all duration-300 p-2 flex items-center gap-1" data-testid="nav-admin">
+              <Settings className="h-5 w-5" />
             </Link>
           </div>
         </div>
@@ -125,6 +121,10 @@ export function Navigation() {
                     {itemCount}
                   </span>
                 )}
+              </Link>
+              <Link href="/admin" className="flex items-center gap-2 px-4 py-3 text-white hover:text-[#D4AF37] font-medium text-lg hover:bg-white/10 rounded-xl transition-all duration-200">
+                <Settings className="h-5 w-5" />
+                Admin
               </Link>
               <a 
                 href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
