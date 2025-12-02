@@ -1244,6 +1244,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Cart Checkout - Create Stripe Checkout Session for multiple items
+  app.post("/api/cart/checkout", async (req, res) => {
+    try {
+      const { items, total, paymentType } = req.body;
+      
+      if (!items || items.length === 0) {
+        return res.status(400).json({ message: "Il carrello è vuoto" });
+      }
+
+      // Create line items for Stripe Checkout
+      const lineItems = items.map((item: any) => ({
+        price_data: {
+          currency: 'eur',
+          product_data: {
+            name: item.travelTitle,
+            description: `${item.participants} partecipanti x ${item.quantity}`,
+          },
+          unit_amount: Math.round(item.price * 100), // Convert to cents
+        },
+        quantity: 1,
+      }));
+
+      // Create Stripe Checkout Session
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: lineItems,
+        mode: 'payment',
+        success_url: `${process.env.REPLIT_DOMAINS?.split(',')[0] ? 'https://' + process.env.REPLIT_DOMAINS?.split(',')[0] : 'http://localhost:5000'}/carrello?success=true`,
+        cancel_url: `${process.env.REPLIT_DOMAINS?.split(',')[0] ? 'https://' + process.env.REPLIT_DOMAINS?.split(',')[0] : 'http://localhost:5000'}/carrello?canceled=true`,
+        metadata: {
+          cartItems: JSON.stringify(items.map((i: any) => ({ travelId: i.travelId, participants: i.participants, quantity: i.quantity }))),
+          total: total.toString(),
+        },
+      });
+
+      res.json({ sessionId: session.id });
+    } catch (error: any) {
+      console.error('Cart checkout error:', error);
+      res.status(500).json({ message: "Errore nel checkout: " + error.message });
+    }
+  });
+
   // PayPal Booking Creation
   app.post("/api/create-paypal-booking", async (req, res) => {
     try {
