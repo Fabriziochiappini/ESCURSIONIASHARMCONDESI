@@ -179,7 +179,8 @@ export default function Carrello() {
                                     variant="ghost"
                                     size="icon"
                                     className="h-8 w-8"
-                                    onClick={() => updateQuantity(item.travel.id, item.quantity - 1)}
+                                    onClick={() => item.quantity > 1 && updateQuantity(item.travel.id, item.quantity - 1)}
+                                    disabled={item.quantity <= 1}
                                   >
                                     <Minus className="h-4 w-4" />
                                   </Button>
@@ -203,7 +204,8 @@ export default function Carrello() {
                                     variant="ghost"
                                     size="icon"
                                     className="h-8 w-8"
-                                    onClick={() => updateParticipants(item.travel.id, item.participants - 1)}
+                                    onClick={() => item.participants > 1 && updateParticipants(item.travel.id, item.participants - 1)}
+                                    disabled={item.participants <= 1}
                                   >
                                     <Minus className="h-4 w-4" />
                                   </Button>
