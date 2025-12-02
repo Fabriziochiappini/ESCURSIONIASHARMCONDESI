@@ -821,15 +821,17 @@ export default function PropertyManager() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Gestione Tour</h2>
-        <div className="text-sm text-gray-600">
-          Usa le frecce ↑↓ accanto a ogni tour per riordinarli
+    <div className="space-y-6 overflow-x-hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Gestione Tour</h2>
+          <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">
+            Usa le frecce ↑↓ accanto a ogni tour per riordinarli
+          </p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={resetForm} className="bg-purple-600 text-white hover:bg-purple-700">
+            <Button onClick={resetForm} className="bg-purple-600 text-white hover:bg-purple-700 w-full sm:w-auto">
               <Plus className="h-4 w-4 mr-2" />
               Nuovo Tour
             </Button>

@@ -40,20 +40,21 @@ export default function AdminPanel() {
       <main className="pb-20">
         {/* Header */}
         <div className="bg-white border-b">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="flex items-center justify-between">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">
-                  Pannello Amministrazione
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                  Pannello Admin
                 </h1>
-                <p className="text-gray-600 mt-2">
+                <p className="text-gray-600 mt-1 text-sm sm:text-base">
                   Benvenuto nell'area riservata
                 </p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                 <Button
                   onClick={handleLogout}
                   variant="outline"
+                  className="w-full sm:w-auto"
                 >
                   <Settings className="h-4 w-4 mr-2" />
                   Logout
@@ -61,8 +62,8 @@ export default function AdminPanel() {
                 <Button
                   onClick={() => window.location.href = "/"}
                   variant="outline"
+                  className="w-full sm:w-auto"
                 >
-                  <Settings className="h-4 w-4 mr-2" />
                   Torna al Sito
                 </Button>
               </div>
