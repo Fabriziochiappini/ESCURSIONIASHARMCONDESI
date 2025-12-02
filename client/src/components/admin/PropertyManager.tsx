@@ -122,101 +122,211 @@ function PropertyItem({ property, onEdit, onDelete, onMoveUp, onMoveDown, isFirs
 
   const getTypeBadgeColor = (type: string) => {
     switch(type) {
-      case "vendita": return "bg-green-100 text-green-800";
-      case "affitto": return "bg-blue-100 text-blue-800";
-      case "casa_vacanza": return "bg-purple-100 text-purple-800";
+      case "mare": return "bg-blue-100 text-blue-800";
+      case "deserto": return "bg-yellow-100 text-yellow-800";
+      case "citta": return "bg-purple-100 text-purple-800";
+      case "avventura": return "bg-orange-100 text-orange-800";
+      case "relax": return "bg-green-100 text-green-800";
+      case "cultura": return "bg-pink-100 text-pink-800";
       default: return "bg-gray-100 text-gray-800";
     }
   };
 
   return (
-    <div className="bg-white border rounded-lg p-4 shadow hover:shadow-md">
-      <div className="flex items-center gap-4">
-        <div className="flex flex-col space-y-1">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onMoveUp(property.id)}
-            disabled={isFirst}
-            className="h-6 w-6 p-0"
-            title="Sposta su"
-          >
-            ↑
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onMoveDown(property.id)}
-            disabled={isLast}
-            className="h-6 w-6 p-0"
-            title="Sposta giù"
-          >
-            ↓
-          </Button>
-        </div>
-        
-        {property.images && property.images[0] && (
-          <img 
-            src={property.images[0]} 
-            alt={property.title}
-            className="w-16 h-16 object-cover rounded flex-shrink-0"
-          />
-        )}
-        
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between">
-            <div>
-              <h3 className="font-semibold text-gray-900 truncate">{property.title}</h3>
-              <p className="text-sm text-gray-500 flex items-center">
-                <MapPin className="h-3 w-3 mr-1" />
-                {property.destination}
-              </p>
-              <div className="flex items-center space-x-4 mt-1 text-sm text-gray-600">
-                <span className="flex items-center">
-                  <Calendar className="h-3 w-3 mr-1" />
-                  {property.duration || 7}g
-                </span>
-                <span className="flex items-center">
-                  <Users className="h-3 w-3 mr-1" />
-                  {property.maxParticipants || 2}pax
-                </span>
-                <span className="flex items-center">
-                  <Baby className="h-3 w-3 mr-1" />
-                  {property.minAge || 0}+ anni
+    <>
+      {/* Desktop Layout */}
+      <div className="hidden md:block bg-white border rounded-lg p-4 shadow hover:shadow-md">
+        <div className="flex items-center gap-4">
+          <div className="flex flex-col space-y-1">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onMoveUp(property.id)}
+              disabled={isFirst}
+              className="h-6 w-6 p-0"
+              title="Sposta su"
+            >
+              ↑
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onMoveDown(property.id)}
+              disabled={isLast}
+              className="h-6 w-6 p-0"
+              title="Sposta giù"
+            >
+              ↓
+            </Button>
+          </div>
+          
+          {property.images && property.images[0] && (
+            <img 
+              src={property.images[0]} 
+              alt={property.title}
+              className="w-16 h-16 object-cover rounded flex-shrink-0"
+            />
+          )}
+          
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between">
+              <div>
+                <h3 className="font-semibold text-gray-900 truncate">{property.title}</h3>
+                <p className="text-sm text-gray-500 flex items-center">
+                  <MapPin className="h-3 w-3 mr-1" />
+                  {property.destination}
+                </p>
+                <div className="flex items-center space-x-4 mt-1 text-sm text-gray-600">
+                  <span className="flex items-center">
+                    <Calendar className="h-3 w-3 mr-1" />
+                    {property.duration || 7}g
+                  </span>
+                  <span className="flex items-center">
+                    <Users className="h-3 w-3 mr-1" />
+                    {property.maxParticipants || 2}pax
+                  </span>
+                  <span className="flex items-center">
+                    <Baby className="h-3 w-3 mr-1" />
+                    {property.minAge || 0}+ anni
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Badge className={getTypeBadgeColor(property.type)}>
+                  {property.type}
+                </Badge>
+                <span className="font-bold text-blue-600">
+                  {formatPrice(property.price, property.type)}
                 </span>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
-              <Badge className={getTypeBadgeColor(property.type)}>
-                {property.type}
-              </Badge>
-              <span className="font-bold text-blue-600">
-                {formatPrice(property.price, property.type)}
-              </span>
-            </div>
+          </div>
+          
+          <div className="flex space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onEdit(property)}
+              className="h-8"
+            >
+              <Edit className="h-3 w-3" />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onDelete(property.id)}
+              className="h-8 hover:bg-red-50 hover:border-red-300"
+            >
+              <Trash2 className="h-3 w-3 text-red-600" />
+            </Button>
           </div>
         </div>
-        
-        <div className="flex space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onEdit(property)}
-            className="h-8"
-          >
-            <Edit className="h-3 w-3" />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onDelete(property.id)}
-            className="h-8 hover:bg-red-50 hover:border-red-300"
-          >
-            <Trash2 className="h-3 w-3 text-red-600" />
-          </Button>
+      </div>
+
+      {/* Mobile Layout - Card grande e quadrata */}
+      <div className="md:hidden bg-white border rounded-xl shadow-md overflow-hidden">
+        {/* Immagine grande */}
+        <div className="relative aspect-square w-full bg-gray-100">
+          {property.images && property.images[0] ? (
+            <img 
+              src={property.images[0]} 
+              alt={property.title}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <ImageIcon className="h-16 w-16 text-gray-300" />
+            </div>
+          )}
+          {/* Badge tipo in overlay */}
+          <div className="absolute top-3 left-3">
+            <Badge className={`${getTypeBadgeColor(property.type)} shadow-md`}>
+              {property.type}
+            </Badge>
+          </div>
+          {/* Prezzo in overlay */}
+          <div className="absolute top-3 right-3">
+            <span className="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full font-bold text-blue-600 shadow-md">
+              {formatPrice(property.price, property.type)}
+            </span>
+          </div>
+          {/* Numero immagini */}
+          {property.images && property.images.length > 1 && (
+            <div className="absolute bottom-3 right-3 bg-black/60 text-white px-2 py-1 rounded-md text-xs flex items-center gap-1">
+              <ImageIcon className="h-3 w-3" />
+              {property.images.length}
+            </div>
+          )}
+        </div>
+
+        {/* Info tour */}
+        <div className="p-4">
+          <h3 className="font-bold text-gray-900 text-lg mb-1">{property.title}</h3>
+          <p className="text-sm text-gray-500 flex items-center mb-3">
+            <MapPin className="h-4 w-4 mr-1" />
+            {property.destination}
+          </p>
+
+          {/* Dettagli tour */}
+          <div className="flex items-center justify-between text-sm text-gray-600 mb-4 bg-gray-50 rounded-lg p-3">
+            <span className="flex items-center gap-1">
+              <Calendar className="h-4 w-4 text-blue-500" />
+              <span className="font-medium">{property.duration || 7}g</span>
+            </span>
+            <span className="flex items-center gap-1">
+              <Users className="h-4 w-4 text-green-500" />
+              <span className="font-medium">{property.maxParticipants || 2} pax</span>
+            </span>
+            <span className="flex items-center gap-1">
+              <Baby className="h-4 w-4 text-orange-500" />
+              <span className="font-medium">{property.minAge || 0}+ anni</span>
+            </span>
+          </div>
+
+          {/* Pulsanti azione */}
+          <div className="grid grid-cols-4 gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onMoveUp(property.id)}
+              disabled={isFirst}
+              className="h-12 flex flex-col items-center justify-center gap-1"
+            >
+              <ArrowUp className="h-4 w-4" />
+              <span className="text-[10px]">Su</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onMoveDown(property.id)}
+              disabled={isLast}
+              className="h-12 flex flex-col items-center justify-center gap-1"
+            >
+              <ArrowDown className="h-4 w-4" />
+              <span className="text-[10px]">Giù</span>
+            </Button>
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => onEdit(property)}
+              className="h-12 flex flex-col items-center justify-center gap-1 bg-blue-600 hover:bg-blue-700"
+            >
+              <Edit className="h-4 w-4" />
+              <span className="text-[10px]">Modifica</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onDelete(property.id)}
+              className="h-12 flex flex-col items-center justify-center gap-1 hover:bg-red-50 hover:border-red-300 text-red-600"
+            >
+              <Trash2 className="h-4 w-4" />
+              <span className="text-[10px]">Elimina</span>
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
