@@ -430,7 +430,7 @@ export default function PropertyManager() {
       queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
       toast({
         title: "Successo",
-        description: "Ordine proprietà aggiornato con successo",
+        description: "Ordine tour aggiornato con successo",
       });
     },
     onError: () => {
@@ -825,7 +825,7 @@ export default function PropertyManager() {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">Gestione Tour</h2>
         <div className="text-sm text-gray-600">
-          Usa le frecce ↑↓ accanto a ogni proprietà per riordinarle
+          Usa le frecce ↑↓ accanto a ogni tour per riordinarli
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
