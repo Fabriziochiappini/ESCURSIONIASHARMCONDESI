@@ -6,12 +6,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { CookieBanner } from "@/components/cookie-banner";
+import { CartProvider } from "@/contexts/cart-context";
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import Properties from "@/pages/properties";
 import Travels from "@/pages/travels";
 import Galleria from "@/pages/galleria";
 import Contatti from "@/pages/contatti";
+import Carrello from "@/pages/carrello";
 import PropertyDetail from "@/pages/property-detail";
 import TravelDetail from "@/pages/travel-detail";
 import GuideDetail from "@/pages/guide-detail";
@@ -35,6 +37,7 @@ function Router() {
       <Route path="/viaggi" component={Travels} />
       <Route path="/galleria" component={Galleria} />
       <Route path="/contatti" component={Contatti} />
+      <Route path="/carrello" component={Carrello} />
       <Route path="/properties" component={Properties} />
       <Route path="/travel/:id" component={TravelDetail} />
       <Route path="/guide/:id" component={GuideDetail} />
@@ -59,13 +62,15 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <ScrollToTop />
-        <Toaster />
-        <Router />
-        <WhatsAppFloat />
-        <CookieBanner />
-      </TooltipProvider>
+      <CartProvider>
+        <TooltipProvider>
+          <ScrollToTop />
+          <Toaster />
+          <Router />
+          <WhatsAppFloat />
+          <CookieBanner />
+        </TooltipProvider>
+      </CartProvider>
     </QueryClientProvider>
   );
 }
