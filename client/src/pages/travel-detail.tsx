@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, MapPin, Clock, Users, Calendar, Heart, Star, Plane, CheckCircle, XCircle, CreditCard } from "lucide-react";
+import { ArrowLeft, MapPin, Clock, Users, Calendar, Heart, Star, Plane, CheckCircle, XCircle, CreditCard, Phone, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,6 +15,7 @@ import { formatPrice, formatDuration, getTravelTypeIcon, getCategoryIcon } from 
 import { Link } from "wouter";
 import { SEOHead } from "@/components/seo-head";
 import { AnnouncementBar } from "@/components/announcement-bar";
+import { shareOnWhatsApp } from "@/lib/whatsapp";
 
 export default function TravelDetail() {
   const params = useParams();
@@ -277,6 +278,33 @@ export default function TravelDetail() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Contact & Share Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center py-8">
+              <a
+                href={`https://wa.me/393444585177?text=${encodeURIComponent(`Ciao! Sono interessato al tour "${travel.title}" (${travel.destination}). Potresti darmi più informazioni?`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button
+                  size="lg"
+                  className="bg-green-500 hover:bg-green-600 text-white px-8"
+                  data-testid="button-whatsapp-contact"
+                >
+                  <Phone className="h-5 w-5 mr-2" />
+                  Contatta via WhatsApp
+                </Button>
+              </a>
+              <Button
+                size="lg"
+                onClick={() => shareOnWhatsApp(travel, `/travel/${travel.id}`)}
+                className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-8"
+                data-testid="button-share-tour"
+              >
+                <Share2 className="h-5 w-5 mr-2" />
+                Condividi Tour
+              </Button>
+            </div>
           </div>
         </section>
       </main>
