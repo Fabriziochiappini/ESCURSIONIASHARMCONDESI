@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Footer } from "@/components/footer";
+import { isAuthValid } from "@/lib/adminAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,11 +24,18 @@ const gallerySchema = z.object({
 type GalleryFormData = z.infer<typeof gallerySchema>;
 
 export default function AdminGalleries() {
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingGallery, setEditingGallery] = useState<any>(null);
   const [uploadingFor, setUploadingFor] = useState<number | null>(null);
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+
+  useEffect(() => {
+    if (!isAuthValid()) {
+      setLocation("/admin");
+    }
+  }, [setLocation]);
 
   const { data: galleries = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/galleries"],

@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Footer } from "@/components/footer";
+import { isAuthValid } from "@/lib/adminAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -48,9 +50,16 @@ const gradientOptions = [
 ];
 
 export default function AdminGuides() {
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingGuide, setEditingGuide] = useState<Guide | null>(null);
+
+  useEffect(() => {
+    if (!isAuthValid()) {
+      setLocation("/admin");
+    }
+  }, [setLocation]);
 
   const { data: guides = [], isLoading } = useQuery<Guide[]>({
     queryKey: ["/api/admin/guides"],

@@ -1,6 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Footer } from "@/components/footer";
+import { isAuthValid } from "@/lib/adminAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -57,6 +59,7 @@ const providerLabels: Record<string, string> = {
 };
 
 export default function AdminBookings() {
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [dateFilter, setDateFilter] = useState<string>("all");
   const [customStartDate, setCustomStartDate] = useState<string>("");
@@ -64,6 +67,12 @@ export default function AdminBookings() {
   const [tourFilter, setTourFilter] = useState<string>("all");
   const [selectedBooking, setSelectedBooking] = useState<BookingWithDetails | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isAuthValid()) {
+      setLocation("/admin");
+    }
+  }, [setLocation]);
 
   const { data: bookings = [], isLoading } = useQuery<BookingWithDetails[]>({
     queryKey: ["/api/admin/bookings"],

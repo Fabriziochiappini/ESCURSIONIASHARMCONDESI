@@ -16,12 +16,23 @@ import {
   Calendar
 } from "lucide-react";
 import { Link } from "wouter";
+import { isAuthValid, setAuthToken, clearAuthToken } from "@/lib/adminAuth";
 
 export default function AdminPanel() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => isAuthValid());
+
+  const handleLogin = () => {
+    setAuthToken();
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    clearAuthToken();
+    setIsLoggedIn(false);
+  };
 
   if (!isLoggedIn) {
-    return <LoginForm onLogin={() => setIsLoggedIn(true)} />;
+    return <LoginForm onLogin={handleLogin} />;
   }
 
   return (
@@ -41,7 +52,7 @@ export default function AdminPanel() {
               </div>
               <div className="flex gap-2">
                 <Button
-                  onClick={() => setIsLoggedIn(false)}
+                  onClick={handleLogout}
                   variant="outline"
                 >
                   <Settings className="h-4 w-4 mr-2" />
