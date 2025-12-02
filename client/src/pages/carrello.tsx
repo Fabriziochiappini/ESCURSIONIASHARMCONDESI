@@ -10,13 +10,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { ShoppingCart, Trash2, Plus, Minus, CreditCard, ArrowLeft, ShoppingBag, Users } from "lucide-react";
-import { formatPrice } from "@/lib/types";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || "");
+
+function formatCartPrice(price: number): string {
+  return new Intl.NumberFormat('it-IT', {
+    style: 'currency',
+    currency: 'EUR',
+    maximumFractionDigits: 2
+  }).format(price);
+}
 
 export default function Carrello() {
   const { items, removeFromCart, updateQuantity, updateParticipants, clearCart, getTotal, getItemCount } = useCart();
@@ -195,10 +202,10 @@ export default function Carrello() {
                             
                             <div className="mt-3 flex justify-between items-center">
                               <span className="text-sm text-gray-500">
-                                {formatPrice(Number(item.travel.price))} x {item.participants} pers. x {item.quantity}
+                                {formatCartPrice(Number(item.travel.price))} x {item.participants} pers. x {item.quantity}
                               </span>
                               <span className="text-lg font-bold text-[#D4AF37]">
-                                {formatPrice(Number(item.travel.price) * item.participants * item.quantity)}
+                                {formatCartPrice(Number(item.travel.price) * item.participants * item.quantity)}
                               </span>
                             </div>
                           </div>
@@ -242,7 +249,7 @@ export default function Carrello() {
                               {item.travel.title} ({item.participants} pers. x {item.quantity})
                             </span>
                             <span className="font-medium">
-                              {formatPrice(Number(item.travel.price) * item.participants * item.quantity)}
+                              {formatCartPrice(Number(item.travel.price) * item.participants * item.quantity)}
                             </span>
                           </div>
                         ))}
@@ -252,7 +259,7 @@ export default function Carrello() {
                       
                       <div className="flex justify-between items-center text-lg font-bold">
                         <span>Totale</span>
-                        <span className="text-[#D4AF37] text-2xl">{formatPrice(getTotal())}</span>
+                        <span className="text-[#D4AF37] text-2xl">{formatCartPrice(getTotal())}</span>
                       </div>
                       
                       <Button

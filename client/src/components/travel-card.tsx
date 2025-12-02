@@ -1,10 +1,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, Users, Share2 } from "lucide-react";
+import { Clock, Users, Share2, ShoppingCart } from "lucide-react";
 import type { Travel } from "@shared/schema";
 import { formatPrice } from "@/lib/types";
 import { Link } from "wouter";
 import { shareOnWhatsApp } from "@/lib/whatsapp";
+import { useCart } from "@/contexts/cart-context";
+import { useToast } from "@/hooks/use-toast";
 
 interface TravelCardProps {
   travel: Travel;
@@ -12,6 +14,19 @@ interface TravelCardProps {
 }
 
 export function TravelCard({ travel, priority = false }: TravelCardProps) {
+  const { addToCart } = useCart();
+  const { toast } = useToast();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(travel, 1);
+    toast({ 
+      title: "Aggiunto al carrello!", 
+      description: `${travel.title} è stato aggiunto al tuo carrello.` 
+    });
+  };
+
   const getBadgeLabel = (type: string) => {
     switch (type) {
       case "mare": return "MAR ROSSO";
@@ -112,13 +127,23 @@ export function TravelCard({ travel, priority = false }: TravelCardProps) {
               </div>
             </div>
 
-            {/* Pulsante SCOPRI */}
-            <Button 
-              className="w-full bg-white/95 hover:bg-white text-gray-800 font-normal py-6 shadow-xl hover:shadow-2xl transition-all duration-300 text-base rounded-full border-2 border-[#D4AF37]/50 uppercase tracking-wider"
-              data-testid={`button-discover-${travel.id}`}
-            >
-              Scopri
-            </Button>
+            {/* Pulsanti azione */}
+            <div className="flex gap-3 w-full">
+              <Button 
+                className="flex-1 bg-white/95 hover:bg-white text-gray-800 font-normal py-5 shadow-xl hover:shadow-2xl transition-all duration-300 text-sm rounded-full border-2 border-[#D4AF37]/50 uppercase tracking-wider"
+                data-testid={`button-discover-${travel.id}`}
+              >
+                Scopri
+              </Button>
+              <Button 
+                onClick={handleAddToCart}
+                className="flex-1 bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white font-normal py-5 shadow-xl hover:shadow-2xl transition-all duration-300 text-sm rounded-full uppercase tracking-wider"
+                data-testid={`button-add-cart-${travel.id}`}
+              >
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                Carrello
+              </Button>
+            </div>
           </div>
         </div>
       </div>
