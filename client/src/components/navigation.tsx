@@ -1,10 +1,13 @@
 import { Link } from "wouter";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import logoUrl from "@assets/si_viaggia_con_desy_logo-removebg-preview_1761318900270.png";
+import { useCart } from "@/contexts/cart-context";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const { getItemCount } = useCart();
+  const itemCount = getItemCount();
 
   return (
     <nav className="fixed top-0 lg:top-[52px] left-0 right-0 z-50 bg-gradient-to-r from-[#1e3a5f]/80 to-[#2c3e50]/80 backdrop-blur-lg border-b border-[#D4AF37]/20 shadow-sm">
@@ -44,6 +47,15 @@ export function Navigation() {
               Contatti
               <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
             </Link>
+            {/* Carrello */}
+            <Link href="/carrello" className="relative text-white hover:text-[#D4AF37] transition-all duration-300 p-2" data-testid="nav-cart">
+              <ShoppingCart className="h-6 w-6" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                  {itemCount}
+                </span>
+              )}
+            </Link>
             {/* Pulsante Admin nascosto trasparente */}
             <Link 
               href="/admin" 
@@ -66,13 +78,24 @@ export function Navigation() {
             />
           </Link>
 
-          {/* Hamburger Menu a Destra */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded-xl text-white hover:text-[#D4AF37] focus:outline-none transition-all duration-300"
-          >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Carrello Mobile */}
+            <Link href="/carrello" className="relative text-white hover:text-[#D4AF37] transition-all duration-300 p-2" data-testid="nav-cart-mobile">
+              <ShoppingCart className="h-6 w-6" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                  {itemCount}
+                </span>
+              )}
+            </Link>
+            {/* Hamburger Menu */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 rounded-xl text-white hover:text-[#D4AF37] focus:outline-none transition-all duration-300"
+            >
+              {isOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile menu */}

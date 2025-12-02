@@ -17,11 +17,16 @@ import { SEOHead } from "@/components/seo-head";
 import { sendWhatsAppMessage, shareOnWhatsApp } from "@/lib/whatsapp";
 import { SocialButtons } from "@/components/social-buttons";
 import { AnnouncementBar } from "@/components/announcement-bar";
+import { useCart } from "@/contexts/cart-context";
+import { useToast } from "@/hooks/use-toast";
+import { ShoppingCart } from "lucide-react";
 
 export default function TravelDetail() {
   const params = useParams();
   const [, setLocation] = useLocation();
   const travelId = params.id;
+  const { addToCart } = useCart();
+  const { toast } = useToast();
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -227,6 +232,20 @@ export default function TravelDetail() {
                     Prenota ora
                   </Button>
                 </BookingModal>
+                <Button 
+                  className="w-full bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white py-3"
+                  onClick={() => {
+                    addToCart(travel, 1);
+                    toast({ 
+                      title: "Aggiunto al carrello!", 
+                      description: `${travel.title} è stato aggiunto al tuo carrello.` 
+                    });
+                  }}
+                  data-testid="button-add-to-cart"
+                >
+                  <ShoppingCart className="h-5 w-5 mr-2" />
+                  Aggiungi al Carrello
+                </Button>
                 {travel.depositAmount && parseFloat(travel.depositAmount) > 0 && (
                   <BookingModal travel={travel}>
                     <Button 
