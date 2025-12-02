@@ -21,9 +21,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Calendar, User, Users, CreditCard, MapPin, CheckCircle2, Clock, XCircle, Filter, X } from "lucide-react";
+import { Calendar, User, Users, CreditCard, MapPin, CheckCircle2, Clock, XCircle, Filter, X, Phone, Mail, Eye } from "lucide-react";
 import type { Booking, Payment, Travel } from "@shared/schema";
 
 type BookingWithDetails = Booking & {
@@ -56,6 +62,8 @@ export default function AdminBookings() {
   const [customStartDate, setCustomStartDate] = useState<string>("");
   const [customEndDate, setCustomEndDate] = useState<string>("");
   const [tourFilter, setTourFilter] = useState<string>("all");
+  const [selectedBooking, setSelectedBooking] = useState<BookingWithDetails | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   const { data: bookings = [], isLoading } = useQuery<BookingWithDetails[]>({
     queryKey: ["/api/admin/bookings"],
@@ -309,117 +317,285 @@ export default function AdminBookings() {
                 <p>{bookings.length === 0 ? "Nessuna prenotazione ancora registrata" : "Nessuna prenotazione trovata con i filtri selezionati"}</p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>ID</TableHead>
-                      <TableHead>Cliente</TableHead>
-                      <TableHead>Tour</TableHead>
-                      <TableHead>Luogo</TableHead>
-                      <TableHead>Data Tour</TableHead>
-                      <TableHead>Persone</TableHead>
-                      <TableHead>Importo</TableHead>
-                      <TableHead>Tipo Pag.</TableHead>
-                      <TableHead>Provider</TableHead>
-                      <TableHead>Stato Pag.</TableHead>
-                      <TableHead>Stato</TableHead>
-                      <TableHead>Prenotato il</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredBookings.map((booking) => (
-                      <TableRow key={booking.id} data-testid={`booking-row-${booking.id}`}>
-                        <TableCell className="font-medium">#{booking.id}</TableCell>
-                        <TableCell>
-                          <div className="flex flex-col">
-                            <div className="flex items-center gap-1 font-medium">
-                              <User className="w-3 h-3" />
-                              {booking.customerName}
-                            </div>
-                            <span className="text-xs text-gray-500">{booking.customerEmail}</span>
-                            {booking.customerPhone && (
-                              <span className="text-xs text-gray-500">{booking.customerPhone}</span>
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex flex-col">
-                            <span className="font-medium">{booking.travel?.title || "N/D"}</span>
-                            <span className="text-xs text-gray-500 capitalize">{booking.travel?.type || ""}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1 text-sm">
-                            <MapPin className="w-3 h-3" />
-                            {booking.travel?.destination || "N/D"}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1 text-sm">
-                            <Calendar className="w-3 h-3" />
-                            {formatDate(booking.travelDate)}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1">
-                            <Users className="w-4 h-4" />
-                            {booking.numberOfParticipants}
-                          </div>
-                        </TableCell>
-                        <TableCell className="font-semibold">
-                          €{parseFloat(booking.totalAmount).toFixed(2)}
-                        </TableCell>
-                        <TableCell>
-                          <Badge 
-                            className={
-                              getPaymentType(booking) === "Completo" 
-                                ? "bg-green-500 text-white hover:bg-green-600" 
-                                : getPaymentType(booking) === "Acconto"
-                                ? "bg-orange-500 text-white hover:bg-orange-600"
-                                : "bg-gray-500 text-white hover:bg-gray-600"
-                            }
-                          >
-                            {getPaymentType(booking)}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          {booking.payment ? (
-                            <div className="flex items-center gap-1">
-                              <CreditCard className="w-3 h-3" />
-                              <span className="text-sm">
-                                {providerLabels[booking.payment.paymentProvider] || booking.payment.paymentProvider}
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="text-gray-400 text-sm">N/D</span>
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {booking.payment ? (
-                            <Badge variant={paymentStatusLabels[booking.payment.status]?.variant || "outline"}>
-                              {paymentStatusLabels[booking.payment.status]?.label || booking.payment.status}
+              <>
+                {/* Vista Mobile - Card cliccabili */}
+                <div className="md:hidden space-y-3">
+                  {filteredBookings.map((booking) => (
+                    <div 
+                      key={booking.id}
+                      onClick={() => {
+                        setSelectedBooking(booking);
+                        setIsDetailOpen(true);
+                      }}
+                      className="p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 active:bg-gray-200 transition-colors border border-gray-200"
+                      data-testid={`booking-card-${booking.id}`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <Badge variant="outline" className="text-xs">#{booking.id}</Badge>
+                            <Badge variant={statusLabels[booking.status || "pending"]?.variant || "outline"} className="text-xs">
+                              {statusLabels[booking.status || "pending"]?.label || booking.status}
                             </Badge>
-                          ) : (
-                            <Badge variant="outline">N/D</Badge>
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant={statusLabels[booking.status || "pending"]?.variant || "outline"}>
-                            {statusLabels[booking.status || "pending"]?.label || booking.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-sm text-gray-500">
-                          {formatDateTime(booking.bookingDate)}
-                        </TableCell>
+                          </div>
+                          <p className="font-semibold text-gray-900">{booking.customerName}</p>
+                          <p className="text-sm text-gray-600">{booking.travel?.title || "N/D"}</p>
+                          <p className="text-sm font-bold text-blue-600">€{parseFloat(booking.totalAmount).toFixed(2)}</p>
+                        </div>
+                        <Eye className="w-5 h-5 text-gray-400" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Vista Desktop - Tabella completa */}
+                <div className="hidden md:block overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>ID</TableHead>
+                        <TableHead>Cliente</TableHead>
+                        <TableHead>Tour</TableHead>
+                        <TableHead>Luogo</TableHead>
+                        <TableHead>Data Tour</TableHead>
+                        <TableHead>Persone</TableHead>
+                        <TableHead>Importo</TableHead>
+                        <TableHead>Tipo Pag.</TableHead>
+                        <TableHead>Provider</TableHead>
+                        <TableHead>Stato Pag.</TableHead>
+                        <TableHead>Stato</TableHead>
+                        <TableHead>Prenotato il</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredBookings.map((booking) => (
+                        <TableRow key={booking.id} data-testid={`booking-row-${booking.id}`}>
+                          <TableCell className="font-medium">#{booking.id}</TableCell>
+                          <TableCell>
+                            <div className="flex flex-col">
+                              <div className="flex items-center gap-1 font-medium">
+                                <User className="w-3 h-3" />
+                                {booking.customerName}
+                              </div>
+                              <span className="text-xs text-gray-500">{booking.customerEmail}</span>
+                              {booking.customerPhone && (
+                                <span className="text-xs text-gray-500">{booking.customerPhone}</span>
+                              )}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex flex-col">
+                              <span className="font-medium">{booking.travel?.title || "N/D"}</span>
+                              <span className="text-xs text-gray-500 capitalize">{booking.travel?.type || ""}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1 text-sm">
+                              <MapPin className="w-3 h-3" />
+                              {booking.travel?.destination || "N/D"}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1 text-sm">
+                              <Calendar className="w-3 h-3" />
+                              {formatDate(booking.travelDate)}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1">
+                              <Users className="w-4 h-4" />
+                              {booking.numberOfParticipants}
+                            </div>
+                          </TableCell>
+                          <TableCell className="font-semibold">
+                            €{parseFloat(booking.totalAmount).toFixed(2)}
+                          </TableCell>
+                          <TableCell>
+                            <Badge 
+                              className={
+                                getPaymentType(booking) === "Completo" 
+                                  ? "bg-green-500 text-white hover:bg-green-600" 
+                                  : getPaymentType(booking) === "Acconto"
+                                  ? "bg-orange-500 text-white hover:bg-orange-600"
+                                  : "bg-gray-500 text-white hover:bg-gray-600"
+                              }
+                            >
+                              {getPaymentType(booking)}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            {booking.payment ? (
+                              <div className="flex items-center gap-1">
+                                <CreditCard className="w-3 h-3" />
+                                <span className="text-sm">
+                                  {providerLabels[booking.payment.paymentProvider] || booking.payment.paymentProvider}
+                                </span>
+                              </div>
+                            ) : (
+                              <span className="text-gray-400 text-sm">N/D</span>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {booking.payment ? (
+                              <Badge variant={paymentStatusLabels[booking.payment.status]?.variant || "outline"}>
+                                {paymentStatusLabels[booking.payment.status]?.label || booking.payment.status}
+                              </Badge>
+                            ) : (
+                              <Badge variant="outline">N/D</Badge>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant={statusLabels[booking.status || "pending"]?.variant || "outline"}>
+                              {statusLabels[booking.status || "pending"]?.label || booking.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-sm text-gray-500">
+                            {formatDateTime(booking.bookingDate)}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </>
             )}
           </CardContent>
         </Card>
+
+        {/* Dialog Dettagli Prenotazione (Mobile) */}
+        <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
+          <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Calendar className="w-5 h-5" />
+                Prenotazione #{selectedBooking?.id}
+              </DialogTitle>
+            </DialogHeader>
+            {selectedBooking && (
+              <div className="space-y-4">
+                {/* Stato */}
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <span className="text-sm text-gray-600">Stato Prenotazione</span>
+                  <Badge variant={statusLabels[selectedBooking.status || "pending"]?.variant || "outline"}>
+                    {statusLabels[selectedBooking.status || "pending"]?.label || selectedBooking.status}
+                  </Badge>
+                </div>
+
+                {/* Cliente */}
+                <div className="p-3 bg-blue-50 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    Cliente
+                  </h4>
+                  <p className="font-medium">{selectedBooking.customerName}</p>
+                  <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                    <Mail className="w-3 h-3" />
+                    {selectedBooking.customerEmail}
+                  </div>
+                  {selectedBooking.customerPhone && (
+                    <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                      <Phone className="w-3 h-3" />
+                      {selectedBooking.customerPhone}
+                    </div>
+                  )}
+                </div>
+
+                {/* Tour */}
+                <div className="p-3 bg-green-50 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                    <MapPin className="w-4 h-4" />
+                    Tour
+                  </h4>
+                  <p className="font-medium">{selectedBooking.travel?.title || "N/D"}</p>
+                  <p className="text-sm text-gray-600">{selectedBooking.travel?.destination || "N/D"}</p>
+                  <p className="text-xs text-gray-500 capitalize">{selectedBooking.travel?.type || ""}</p>
+                </div>
+
+                {/* Data e Partecipanti */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="p-3 bg-purple-50 rounded-lg">
+                    <h4 className="text-xs text-gray-600 mb-1">Data Tour</h4>
+                    <p className="font-semibold flex items-center gap-1">
+                      <Calendar className="w-3 h-3" />
+                      {formatDate(selectedBooking.travelDate)}
+                    </p>
+                  </div>
+                  <div className="p-3 bg-orange-50 rounded-lg">
+                    <h4 className="text-xs text-gray-600 mb-1">Partecipanti</h4>
+                    <p className="font-semibold flex items-center gap-1">
+                      <Users className="w-3 h-3" />
+                      {selectedBooking.numberOfParticipants}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Pagamento */}
+                <div className="p-3 bg-yellow-50 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                    <CreditCard className="w-4 h-4" />
+                    Pagamento
+                  </h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Importo Totale</span>
+                      <span className="font-bold text-lg">€{parseFloat(selectedBooking.totalAmount).toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Tipo Pagamento</span>
+                      <Badge 
+                        className={
+                          getPaymentType(selectedBooking) === "Completo" 
+                            ? "bg-green-500 text-white" 
+                            : getPaymentType(selectedBooking) === "Acconto"
+                            ? "bg-orange-500 text-white"
+                            : "bg-gray-500 text-white"
+                        }
+                      >
+                        {getPaymentType(selectedBooking)}
+                      </Badge>
+                    </div>
+                    {selectedBooking.payment && (
+                      <>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-600">Provider</span>
+                          <span className="text-sm font-medium">
+                            {providerLabels[selectedBooking.payment.paymentProvider] || selectedBooking.payment.paymentProvider}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-600">Stato Pagamento</span>
+                          <Badge variant={paymentStatusLabels[selectedBooking.payment.status]?.variant || "outline"}>
+                            {paymentStatusLabels[selectedBooking.payment.status]?.label || selectedBooking.payment.status}
+                          </Badge>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-600">Importo Pagato</span>
+                          <span className="font-semibold">€{parseFloat(selectedBooking.payment.amount).toFixed(2)}</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Data Prenotazione */}
+                <div className="p-3 bg-gray-50 rounded-lg">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Prenotato il</span>
+                    <span className="text-sm font-medium">{formatDateTime(selectedBooking.bookingDate)}</span>
+                  </div>
+                </div>
+
+                {/* Note */}
+                {selectedBooking.notes && (
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <h4 className="text-xs text-gray-600 mb-1">Note</h4>
+                    <p className="text-sm">{selectedBooking.notes}</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
 
         {bookings.length > 0 && (
           <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
