@@ -72,7 +72,7 @@ export default function AdminPanel() {
 
         {/* Quick Actions */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <Link href="/admin/galleries">
               <Card className="cursor-pointer hover:shadow-lg transition-shadow">
                 <CardHeader>
@@ -83,20 +83,6 @@ export default function AdminPanel() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">Crea e gestisci gallerie fotografiche dei tour</p>
-                </CardContent>
-              </Card>
-            </Link>
-            
-            <Link href="/admin/guides">
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="h-5 w-5" />
-                    Gestione Guide
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Crea e gestisci guide per viaggiatori</p>
                 </CardContent>
               </Card>
             </Link>
