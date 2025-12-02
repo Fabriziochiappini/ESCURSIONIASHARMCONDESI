@@ -117,6 +117,15 @@ export function Navigation() {
               <Link href="/contatti" className="block px-4 py-3 text-white hover:text-[#D4AF37] font-medium text-lg hover:bg-white/10 rounded-xl transition-all duration-200">
                 Contatti
               </Link>
+              <Link href="/carrello" className="flex items-center gap-2 px-4 py-3 text-white hover:text-[#D4AF37] font-medium text-lg hover:bg-white/10 rounded-xl transition-all duration-200">
+                <ShoppingCart className="h-5 w-5" />
+                Carrello
+                {itemCount > 0 && (
+                  <span className="bg-[#D4AF37] text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                    {itemCount}
+                  </span>
+                )}
+              </Link>
               <a 
                 href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
                 target="_blank"

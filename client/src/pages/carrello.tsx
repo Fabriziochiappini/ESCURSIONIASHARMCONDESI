@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -27,9 +27,29 @@ function formatCartPrice(price: number): string {
 
 export default function Carrello() {
   const { items, removeFromCart, updateQuantity, updateParticipants, clearCart, getTotal, getItemCount } = useCart();
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // Handle payment success/cancel from URL params
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('success') === 'true') {
+      toast({ 
+        title: "Pagamento completato!", 
+        description: "Grazie per il tuo acquisto. Riceverai una email di conferma." 
+      });
+      clearCart();
+      window.history.replaceState({}, '', '/carrello');
+    } else if (params.get('canceled') === 'true') {
+      toast({ 
+        title: "Pagamento annullato", 
+        description: "Il pagamento è stato annullato. Puoi riprovare quando vuoi.",
+        variant: "destructive"
+      });
+      window.history.replaceState({}, '', '/carrello');
+    }
+  }, []);
 
   const convertImageUrl = (url: string) => {
     if (!url) return "/placeholder-tour.jpg";
