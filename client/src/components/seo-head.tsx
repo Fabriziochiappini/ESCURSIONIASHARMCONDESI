@@ -16,7 +16,7 @@ export function SEOHead({
   description = "✈️ Si Viaggia con Desy - Il tuo tour operator di fiducia a Sharm El Sheikh. Escursioni Mar Rosso, safari deserto, diving, snorkeling. Esperienze uniche in Egitto.",
   keywords = "tour operator sharm, si viaggia con desy, escursioni mar rosso, safari deserto, diving sharm, tour personalizzati",
   canonicalUrl = "https://siviaggiacondesy.com/",
-  ogImage = "/attached_assets/si_viaggia_con_desy_logo-removebg-preview_1761318900270.png",
+  ogImage = "/attached_assets/si_viaggia_con_desy_logo-removebg-preview_1761318900270_1764772501378.png",
   type = "website",
   structuredData
 }: SEOHeadProps) {
