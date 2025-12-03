@@ -32,6 +32,28 @@ export default function Home() {
       <main className="relative lg:pt-[52px]">
         <HeroSection />
 
+        {/* Sezione Tour */}
+        <section id="travels" className="py-20 bg-gradient-to-br from-white via-[#A8CFEB]/5 to-white relative overflow-hidden">
+          <div className="absolute top-20 right-20 w-80 h-80 bg-[#A8CFEB]/15 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-[#D4AF37]/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+          <div className="relative z-10 max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16 animate-fade-in">
+              <h2 className="text-4xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-lg transform hover:scale-105 transition-transform duration-300 font-eagle-lake">
+                Le Nostre Escursioni
+              </h2>
+              <div className="w-64 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
+              <p className="text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed mb-12 font-light">
+                Ti offriamo un'ampia scelta di destinazioni da visitare a Sharm El Sheikh.<br />
+                Scegli quella che più ti piace e lasciati ispirare dalla meravigliosa barriera corallina del Mar Rosso.
+              </p>
+            </div>
+
+            <div className="animate-slide-up">
+              <PropertyGrid showAll={true} />
+            </div>
+          </div>
+        </section>
+
         {/* Sezione Chi Siamo */}
         <section className="py-20 bg-white relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -70,28 +92,6 @@ export default function Home() {
                   />
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="travels" className="py-20 bg-gradient-to-br from-white via-[#A8CFEB]/5 to-white relative overflow-hidden">
-          <div className="absolute top-20 right-20 w-80 h-80 bg-[#A8CFEB]/15 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-[#D4AF37]/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-          <div className="relative z-10 max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Viaggi a tutta larghezza */}
-            <div className="text-center mb-16 animate-fade-in">
-              <h2 className="text-4xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-lg transform hover:scale-105 transition-transform duration-300 font-eagle-lake">
-                Le Nostre Escursioni
-              </h2>
-              <div className="w-64 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
-              <p className="text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed mb-12 font-light">
-                Ti offriamo un'ampia scelta di destinazioni da visitare a Sharm El Sheikh.<br />
-                Scegli quella che più ti piace e lasciati ispirare dalla meravigliosa barriera corallina del Mar Rosso.
-              </p>
-            </div>
-
-            <div className="animate-slide-up">
-              <PropertyGrid showAll={true} />
             </div>
           </div>
         </section>
