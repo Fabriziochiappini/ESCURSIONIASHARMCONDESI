@@ -56,9 +56,9 @@ export default function GuideDetail() {
   return (
     <div className="min-h-screen bg-gray-50">
       <SEOHead 
-        title={`${guide.title} - ${guide.subtitle} | UNCONVENTIONAL TOUR`}
+        title={`${guide.title} - ${guide.subtitle} | Si Viaggia con Desy`}
         description={guide.description}
-        keywords={`${guide.category}, guida tour, ${guide.title}, unconventional tour`}
+        keywords={`${guide.category}, guida tour, ${guide.title}, si viaggia con desy`}
       />
       <Navigation />
       

@@ -123,34 +123,19 @@ export default function PropertyDetail() {
 
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "RealEstateListing",
+    "@type": "TouristTrip",
     "name": property.title,
     "description": property.description,
-    "url": property.slug ? `https://propatotravel.com/${property.slug}` : `https://propatotravel.com/property/${property.id}`,
-    "image": property.images?.[0] ? `https://propatotravel.com${property.images[0]}` : undefined,
-    "price": property.price,
-    "priceCurrency": "EUR",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": property.municipality,
-      "addressRegion": "Sicilia",
-      "addressCountry": "IT"
-    },
-    "floorSize": {
-      "@type": "QuantitativeValue",
-      "value": property.area,
-      "unitCode": "MTK"
-    },
-    "numberOfRooms": property.bedrooms,
-    "numberOfBathroomsTotal": property.bathrooms,
+    "url": property.slug ? `https://siviaggiacondesy.com/${property.slug}` : `https://siviaggiacondesy.com/property/${property.id}`,
+    "image": property.images?.[0] ? `https://siviaggiacondesy.com${property.images[0]}` : undefined,
     "offers": {
       "@type": "Offer",
       "price": property.price,
       "priceCurrency": "EUR",
       "availability": "https://schema.org/InStock",
       "seller": {
-        "@type": "RealEstateAgent",
-        "name": "Propato Travel"
+        "@type": "TravelAgency",
+        "name": "Si Viaggia con Desy"
       }
     }
   };
@@ -158,11 +143,11 @@ export default function PropertyDetail() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title={property.metaTitle || `${property.title} - ${property.municipality} | Propato Travel`}
+        title={property.metaTitle || `${property.title} - ${property.municipality} | Si Viaggia con Desy`}
         description={property.metaDescription || `✈️ ${property.type === 'mare' ? 'Vacanza al mare' : property.type === 'montagna' ? 'Avventura in montagna' : property.type === 'citta' ? 'City break' : 'Viaggio'} a ${property.municipality}. ${property.bedrooms} giorni, max ${property.bathrooms} persone. Prezzo: €${Number(property.price).toLocaleString()}/persona. ${property.description?.slice(0, 100)}...`}
-        keywords={`${property.title}, tour ${property.type} ${property.municipality}, escursione ${property.municipality}, ${property.bedrooms} giorni ${property.municipality}, Unconventional Tour`}
-        canonicalUrl={property.slug ? `https://propatotravel.com/${property.slug}` : `https://propatotravel.com/property/${property.id}`}
-        ogImage={property.images?.[0] ? `https://propatotravel.com${property.images[0]}` : undefined}
+        keywords={`${property.title}, tour ${property.type} ${property.municipality}, escursione ${property.municipality}, ${property.bedrooms} giorni ${property.municipality}, Si Viaggia con Desy`}
+        canonicalUrl={property.slug ? `https://siviaggiacondesy.com/${property.slug}` : `https://siviaggiacondesy.com/property/${property.id}`}
+        ogImage={property.images?.[0] ? `https://siviaggiacondesy.com${property.images[0]}` : undefined}
         type="article"
         structuredData={structuredData}
       />

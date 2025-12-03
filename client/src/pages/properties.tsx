@@ -144,10 +144,10 @@ export default function Properties() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title="Tour e Escursioni | UNCONVENTIONAL TOUR"
-        description="✈️ Scopri tutti i tour disponibili: escursioni mare, deserto, cultura, avventura. UNCONVENTIONAL TOUR - il tuo tour operator a Sharm El Sheikh."
-        keywords="tour pacchetti, escursioni mare deserto, destinazioni sharm, tour operator unconventional"
-        canonicalUrl="https://propatotravel.com/properties"
+        title="Tour e Escursioni | Si Viaggia con Desy"
+        description="✈️ Scopri tutti i tour disponibili: escursioni mare, deserto, cultura, avventura. Si Viaggia con Desy - il tuo tour operator a Sharm El Sheikh."
+        keywords="tour pacchetti, escursioni mare deserto, destinazioni sharm, si viaggia con desy"
+        canonicalUrl="https://siviaggiacondesy.com/properties"
       />
       <Navigation />
 

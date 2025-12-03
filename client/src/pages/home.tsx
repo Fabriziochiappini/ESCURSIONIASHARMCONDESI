@@ -22,10 +22,10 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title="UNCONVENTIONAL TOUR - Tour Operator Sharm El Sheikh | Escursioni Mar Rosso"
-        description="✈️ Scopri Sharm El Sheikh con UNCONVENTIONAL TOUR! Tour operator specializzato in escursioni, snorkeling, diving e safari nel deserto. Esperienze autentiche nel Mar Rosso."
-        keywords="tour operator sharm el sheikh, escursioni mar rosso, snorkeling sharm, diving egitto, safari deserto, unconventional tour, tour sharm"
-        canonicalUrl="https://unconventionaltour.it/"
+        title="Si Viaggia con Desy - Escursioni a Sharm El Sheikh | Tour Operator Mar Rosso"
+        description="✈️ Scopri Sharm El Sheikh con Si Viaggia con Desy! Tour operator specializzato in escursioni, snorkeling, diving e safari nel deserto. Esperienze autentiche nel Mar Rosso."
+        keywords="tour operator sharm el sheikh, escursioni mar rosso, snorkeling sharm, diving egitto, safari deserto, si viaggia con desy, tour sharm"
+        canonicalUrl="https://siviaggiacondesy.com/"
       />
       <AnnouncementBar />
       <Navigation />

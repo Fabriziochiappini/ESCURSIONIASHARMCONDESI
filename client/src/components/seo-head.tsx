@@ -12,11 +12,11 @@ interface SEOHeadProps {
 }
 
 export function SEOHead({
-  title = "UNCONVENTIONAL TOUR - Tour Operator Sharm El Sheikh",
-  description = "✈️ UNCONVENTIONAL TOUR - Il tuo tour operator di fiducia a Sharm El Sheikh. Escursioni Mar Rosso, safari deserto, diving, snorkeling. Esperienze uniche in Egitto.",
-  keywords = "tour operator sharm, unconventional tour, escursioni mar rosso, safari deserto, diving sharm, tour personalizzati",
-  canonicalUrl = "https://unconventionaltour.it/",
-  ogImage = "https://unconventionaltour.it/og-image.jpg",
+  title = "Si Viaggia con Desy - Escursioni a Sharm El Sheikh",
+  description = "✈️ Si Viaggia con Desy - Il tuo tour operator di fiducia a Sharm El Sheikh. Escursioni Mar Rosso, safari deserto, diving, snorkeling. Esperienze uniche in Egitto.",
+  keywords = "tour operator sharm, si viaggia con desy, escursioni mar rosso, safari deserto, diving sharm, tour personalizzati",
+  canonicalUrl = "https://siviaggiacondesy.com/",
+  ogImage = "/attached_assets/si_viaggia_con_desy_logo-removebg-preview_1761318900270.png",
   type = "website",
   structuredData
 }: SEOHeadProps) {

@@ -62,22 +62,22 @@ const services = [
 ];
 
 const contactInfo = {
-  name: "UNCONVENTIONAL TOUR",
+  name: "Si Viaggia con Desy",
   role: "Tour Operator Sharm El Sheikh",
   address: "Sharm El Sheikh - Egitto",
-  phone: "+20 69 360 0000",
-  email: "info@unconventionaltour.it",
-  email2: "tour@unconventionaltour.it"
+  phone: "+39 344 458 5177",
+  email: "siviaggiacondesi@gmail.com",
+  email2: "siviaggiacondesi@gmail.com"
 };
 
 export default function Services() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead
-        title="UNCONVENTIONAL TOUR - Servizi Tour Operator Sharm El Sheikh"
+        title="Si Viaggia con Desy - Servizi Escursioni Sharm El Sheikh"
         description="Scopri i nostri servizi: escursioni Mar Rosso, diving, snorkeling, safari nel deserto. Tour operator specializzato in Sharm El Sheikh. Contattaci per i tuoi tour!"
-        keywords="servizi tour operator, tour sharm el sheikh, escursioni mar rosso, diving sharm, unconventional tour"
-        canonicalUrl="https://unconventionaltour.it/servizi"
+        keywords="servizi tour operator, tour sharm el sheikh, escursioni mar rosso, diving sharm, si viaggia con desy"
+        canonicalUrl="https://siviaggiacondesy.com/servizi"
       />
       <Navigation />
 

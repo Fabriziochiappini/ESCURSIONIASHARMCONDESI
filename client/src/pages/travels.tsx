@@ -123,10 +123,10 @@ export default function Travels() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title="Tour e Vacanze - Scopri le Migliori Destinazioni | UNCONVENTIONAL TOUR"
-        description="🌍 Scopri i nostri tour: mare, montagna, città, avventura, relax e cultura. Trova la vacanza perfetta con filtri per destinazione, durata e budget."
-        keywords="tour, escursioni, destinazioni sharm, mare, deserto, cultura, avventura, pacchetti tour"
-        canonicalUrl="https://unconventionaltour.it/viaggi"
+        title="Escursioni a Sharm - Scopri le Migliori Destinazioni | Si Viaggia con Desy"
+        description="🌍 Scopri i nostri tour: mare, deserto, cultura, avventura, relax. Trova l'escursione perfetta a Sharm El Sheikh con Si Viaggia con Desy."
+        keywords="tour, escursioni, destinazioni sharm, mare, deserto, cultura, avventura, pacchetti tour, si viaggia con desy"
+        canonicalUrl="https://siviaggiacondesy.com/viaggi"
       />
       <AnnouncementBar />
       <Navigation />

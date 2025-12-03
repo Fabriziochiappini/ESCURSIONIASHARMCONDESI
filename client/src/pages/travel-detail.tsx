@@ -115,10 +115,10 @@ export default function TravelDetail() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title={travel.metaTitle || `${travel.title} - ${travel.destination} | UNCONVENTIONAL TOUR`}
+        title={travel.metaTitle || `${travel.title} - ${travel.destination} | Si Viaggia con Desy`}
         description={travel.metaDescription || `${travel.description.substring(0, 160)}...`}
-        keywords={`tour ${travel.destination}, ${travel.country}, ${getTypeLabel(travel.type)}, escursione`}
-        canonicalUrl={`https://unconventionaltour.it/travel/${travel.id}`}
+        keywords={`tour ${travel.destination}, ${travel.country}, ${getTypeLabel(travel.type)}, escursione, si viaggia con desy`}
+        canonicalUrl={`https://siviaggiacondesy.com/travel/${travel.id}`}
       />
       <AnnouncementBar />
       <Navigation />
