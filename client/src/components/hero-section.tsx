@@ -72,8 +72,8 @@ export function HeroSection() {
         ))}
       </div>
 
-      {/* Contenuto Sovrapposto - Posizionato in basso */}
-      <div className="absolute bottom-16 left-0 right-0 z-10 text-center w-full px-4">
+      {/* Contenuto Sovrapposto - Posizionato al centro-alto */}
+      <div className="absolute top-1/3 left-0 right-0 z-10 text-center w-full px-4 transform -translate-y-1/2 md:top-1/2 md:-translate-y-1/2">
         <div className="max-w-7xl mx-auto">
           {/* Riquadro Piccolo e Discreto */}
           <div className="max-w-2xl mx-auto">
