@@ -63,7 +63,7 @@ export default function GalleriaPage() {
       <Navigation />
 
       <main className="pt-20 lg:pt-[148px]">
-        <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
+        <section className="py-20 bg-gradient-to-br from-[#2C3E50] via-[#1e3a5f] to-[#2C3E50] text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-[#E6C87F] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent tracking-[0.15em] uppercase drop-shadow-2xl font-eagle-lake">
               Le nostre foto

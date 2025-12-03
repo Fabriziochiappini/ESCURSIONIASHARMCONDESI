@@ -153,7 +153,7 @@ export default function Properties() {
 
       <main className="pt-28">
         {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
+        <section className="py-20 bg-gradient-to-br from-[#2C3E50] via-[#1e3a5f] to-[#2C3E50] text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               Tutti i Nostri Tour

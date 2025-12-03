@@ -39,7 +39,7 @@ export default function About() {
 
       <main className="pt-20 lg:pt-[148px]">
         {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
+        <section className="py-20 bg-gradient-to-br from-[#2C3E50] via-[#1e3a5f] to-[#2C3E50] text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="inline-flex items-center px-4 py-2 bg-white/20 text-white rounded-full text-sm font-medium mb-6">
               <Users className="h-4 w-4 mr-2 text-white" />

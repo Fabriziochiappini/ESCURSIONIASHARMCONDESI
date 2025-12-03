@@ -133,7 +133,7 @@ export default function Travels() {
       
       <main className="pt-20 lg:pt-[148px]">
         {/* Header Section */}
-        <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
+        <section className="bg-gradient-to-br from-[#2C3E50] via-[#1e3a5f] to-[#2C3E50] text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#E6C87F] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent mb-4 tracking-[0.15em] uppercase drop-shadow-2xl font-eagle-lake">
