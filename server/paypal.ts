@@ -148,9 +148,14 @@ export async function capturePaypalOrder(req: Request, res: Response) {
 }
 
 export async function loadPaypalDefault(req: Request, res: Response) {
-  const clientToken = await getClientToken();
-  res.json({
-    clientToken,
-  });
+  try {
+    const clientToken = await getClientToken();
+    res.json({
+      clientToken,
+    });
+  } catch (error) {
+    console.error("Failed to get PayPal client token:", error);
+    res.status(500).json({ error: "PayPal authentication failed. Please check credentials." });
+  }
 }
 // <END_EXACT_CODE>
