@@ -1,5 +1,4 @@
 import { MessageCircle, Facebook, Instagram } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export function SupportSection() {
   return (
@@ -12,25 +11,21 @@ export function SupportSection() {
           Contattaci subito
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+        <div className="flex flex-row items-center justify-center gap-4">
           {/* WhatsApp */}
-          <Button 
-            className="bg-green-500 hover:bg-green-600 text-white px-8 py-6 text-lg font-light shadow-xl hover:shadow-2xl transition-all duration-300"
-            asChild
+          <a
+            href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-14 h-14 rounded-full bg-green-500 hover:bg-green-600 text-white flex items-center justify-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110"
+            aria-label="WhatsApp"
           >
-            <a 
-              href="https://wa.me/393444585177?text=Ciao! Vorrei informazioni sui vostri tour a Sharm El Sheikh"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <MessageCircle className="h-6 w-6 mr-3" />
-              WhatsApp
-            </a>
-          </Button>
+            <MessageCircle className="h-7 w-7" />
+          </a>
 
           {/* Facebook */}
           <a
-            href="#"
+            href="https://www.facebook.com/siviaggiacondesi/"
             target="_blank"
             rel="noopener noreferrer"
             className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white flex items-center justify-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110"
@@ -41,7 +36,7 @@ export function SupportSection() {
 
           {/* Instagram */}
           <a
-            href="#"
+            href="https://www.instagram.com/siviaggiacondesi/"
             target="_blank"
             rel="noopener noreferrer"
             className="w-14 h-14 rounded-full bg-gradient-to-br from-pink-600 via-purple-600 to-orange-500 hover:from-pink-700 hover:via-purple-700 hover:to-orange-600 text-white flex items-center justify-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110"
