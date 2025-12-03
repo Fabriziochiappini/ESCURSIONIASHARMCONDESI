@@ -11,9 +11,8 @@ export function SocialButtons({
   layout = "horizontal",
   showLabels = false 
 }: SocialButtonsProps) {
-  // I link verranno forniti in seguito
-  const facebookUrl = "#"; // TODO: Inserire link Facebook
-  const instagramUrl = "#"; // TODO: Inserire link Instagram
+  const facebookUrl = "https://www.facebook.com/siviaggiacondesi/";
+  const instagramUrl = "https://www.instagram.com/siviaggiacondesi/";
 
   const sizeClasses = {
     default: "w-10 h-10",
