@@ -8,6 +8,7 @@ import { ShowcaseSection } from "@/components/showcase-section";
 import { GalleriesSection } from "@/components/galleries-section";
 import { SupportSection } from "@/components/support-section";
 import { AnnouncementBar } from "@/components/announcement-bar";
+import { FacebookReviews } from "@/components/facebook-reviews";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import type { Guide } from "@shared/schema";
@@ -103,6 +104,9 @@ export default function Home() {
 
         {/* Sezione Gallerie */}
         <GalleriesSection />
+
+        {/* Sezione Recensioni Facebook */}
+        <FacebookReviews />
 
       </main>
       <SupportSection />
