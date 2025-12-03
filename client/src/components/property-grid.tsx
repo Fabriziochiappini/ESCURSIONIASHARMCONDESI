@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { Link } from "wouter";
 import { TravelCard } from "./travel-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { LayoutGrid, Rows3 } from "lucide-react";
 import type { Travel, SearchFilters } from "@shared/schema";
 import { useLocation } from "wouter";
 
@@ -14,6 +16,7 @@ interface PropertyGridProps {
 
 export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: PropertyGridProps) {
   const [location] = useLocation();
+  const [mobileGridView, setMobileGridView] = useState<'two-cols' | 'single'>('two-cols');
 
   const { data: allProperties, isLoading, error } = useQuery<Travel[]>({
     queryKey: filters ? ['/api/travels/search', filters] : ['/api/travels/featured'],
@@ -91,11 +94,53 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
     );
   }
 
+  const getMobileGridClass = () => {
+    if (mobileGridView === 'two-cols') {
+      return 'grid-cols-2';
+    }
+    return 'grid-cols-1';
+  };
+
   return (
-    <div className="space-y-8">
-      <div className={`grid ${maxColumns === 2 ? "grid-cols-2 md:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"} gap-6 md:gap-8`}>
+    <div className="space-y-6">
+      {/* Switch visualizzazione - solo mobile */}
+      <div className="flex justify-end sm:hidden">
+        <div className="inline-flex items-center bg-white/80 backdrop-blur-sm rounded-full p-1 border border-[#D4AF37]/30 shadow-sm">
+          <button
+            onClick={() => setMobileGridView('two-cols')}
+            className={`p-2 rounded-full transition-all duration-200 ${
+              mobileGridView === 'two-cols' 
+                ? 'bg-[#D4AF37] text-white shadow-md' 
+                : 'text-gray-500 hover:text-[#D4AF37]'
+            }`}
+            aria-label="Griglia 2 colonne"
+            data-testid="button-grid-two-cols"
+          >
+            <LayoutGrid className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => setMobileGridView('single')}
+            className={`p-2 rounded-full transition-all duration-200 ${
+              mobileGridView === 'single' 
+                ? 'bg-[#D4AF37] text-white shadow-md' 
+                : 'text-gray-500 hover:text-[#D4AF37]'
+            }`}
+            aria-label="Colonna singola"
+            data-testid="button-grid-single"
+          >
+            <Rows3 className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      <div className={`grid ${getMobileGridClass()} sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8`}>
         {properties.map((property, index) => (
-          <TravelCard key={property.id} travel={property} priority={index < 4} />
+          <TravelCard 
+            key={property.id} 
+            travel={property} 
+            priority={index < 4}
+            compact={mobileGridView === 'two-cols'}
+          />
         ))}
       </div>
     </div>

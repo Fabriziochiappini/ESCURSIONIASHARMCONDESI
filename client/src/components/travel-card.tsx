@@ -11,9 +11,10 @@ import { useToast } from "@/hooks/use-toast";
 interface TravelCardProps {
   travel: Travel;
   priority?: boolean;
+  compact?: boolean;
 }
 
-export function TravelCard({ travel, priority = false }: TravelCardProps) {
+export function TravelCard({ travel, priority = false, compact = false }: TravelCardProps) {
   const { addToCart } = useCart();
   const { toast } = useToast();
 
@@ -56,6 +57,58 @@ export function TravelCard({ travel, priority = false }: TravelCardProps) {
   
   const firstImage = getImageUrl();
   
+  if (compact) {
+    return (
+      <Link href={travelUrl} className="block h-full">
+        <div className="relative h-56 sm:h-96 overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 rounded-lg">
+          {/* Immagine di sfondo */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+            style={{
+              backgroundImage: `url('${firstImage}')`,
+            }}
+          />
+          
+          {/* Overlay scuro */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
+          
+          {/* Badge tipo */}
+          <div className="absolute top-2 left-2 z-10">
+            <Badge className="bg-[#D4AF37]/90 backdrop-blur-sm text-white px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider shadow-lg border-0">
+              {getBadgeLabel(travel.type)}
+            </Badge>
+          </div>
+
+          {/* Contenuto in basso */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 p-3">
+            <h3 className="text-sm font-medium text-white text-center leading-tight uppercase tracking-wide mb-2 line-clamp-2">
+              {travel.title}
+            </h3>
+            
+            {/* Info e prezzo */}
+            <div className="flex items-center justify-between text-white/90 text-xs mb-2">
+              <div className="flex items-center gap-1">
+                <Clock className="h-3 w-3" />
+                <span>{travel.duration}g</span>
+              </div>
+              <div className="text-[#D4AF37] font-semibold text-sm">
+                {formatPrice(travel.price, travel.type, travel.priceType || undefined)}
+              </div>
+            </div>
+
+            {/* Pulsante Scopri */}
+            <Button 
+              className="w-full bg-white/95 hover:bg-white text-gray-800 font-medium py-1.5 h-auto shadow-lg text-xs rounded-full border border-[#D4AF37]/50 uppercase tracking-wider"
+              data-testid={`button-discover-${travel.id}`}
+            >
+              Scopri
+            </Button>
+          </div>
+        </div>
+      </Link>
+    );
+  }
+
   return (
     <Link href={travelUrl} className="block h-full">
       <div className="relative h-96 overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500">
