@@ -379,6 +379,7 @@ const initialFormData: PropertyFormData = {
   description: "",
   price: "0",
   depositAmount: undefined,
+  depositPercentage: undefined,
   type: "mare",
   propertyType: undefined,
   priceType: "per_person",
@@ -666,6 +667,7 @@ export default function PropertyManager() {
       description: property.description || "", 
       price: property.price?.toString() || "0",
       depositAmount: property.depositAmount?.toString() || undefined,
+      depositPercentage: property.depositPercentage || undefined,
       type: property.type || "mare",
       propertyType: property.travelType || undefined, // DATABASE: travelType -> FORM: propertyType
       priceType: property.priceType || "per_person",
@@ -751,6 +753,7 @@ export default function PropertyManager() {
         title: formData.title || "Nuovo Tour",
         price: formData.price?.toString() || "0",
         depositAmount: formData.depositAmount || undefined,
+        depositPercentage: formData.depositPercentage || undefined,
         type: formData.type || "mare",
         description: formData.description,
         travelType: formData.propertyType,
@@ -900,16 +903,22 @@ export default function PropertyManager() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="depositAmount">Acconto (opzionale)</Label>
+                  <Label htmlFor="depositPercentage">Percentuale Acconto (%)</Label>
                   <Input
-                    id="depositAmount"
+                    id="depositPercentage"
                     type="number"
-                    value={formData.depositAmount || ''}
-                    onChange={(e) => setFormData(prev => ({ ...prev, depositAmount: e.target.value }))}
-                    placeholder="es. 500"
+                    min="0"
+                    max="100"
+                    value={formData.depositPercentage || ''}
+                    onChange={(e) => setFormData(prev => ({ 
+                      ...prev, 
+                      depositPercentage: e.target.value ? parseInt(e.target.value) : undefined,
+                      depositAmount: undefined
+                    }))}
+                    placeholder="es. 30"
                   />
                   <p className="text-xs text-gray-500">
-                    Importo acconto richiesto. Lascia vuoto se non previsto.
+                    Percentuale acconto (es. 30 = 30%). Lascia vuoto se non previsto.
                   </p>
                 </div>
               </div>
