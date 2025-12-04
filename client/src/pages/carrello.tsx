@@ -377,7 +377,7 @@ export default function Carrello() {
                       {paymentType === "deposit" && (
                         <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
                           <p className="text-sm text-amber-800">
-                            <strong>Saldo restante:</strong> {formatCartPrice(getTotal() - getDepositTotal())} da pagare all'arrivo
+                            <strong>Saldo restante:</strong> {formatCartPrice(getTotal() - getDepositTotal())}
                           </p>
                         </div>
                       )}
