@@ -81,6 +81,8 @@ export default function AdminBookings() {
   const [tourFilter, setTourFilter] = useState<string>("all");
   const [selectedBooking, setSelectedBooking] = useState<BookingWithDetails | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [isOrderDetailOpen, setIsOrderDetailOpen] = useState(false);
 
   useEffect(() => {
     if (!isAuthValid()) {
@@ -439,117 +441,83 @@ export default function AdminBookings() {
                       <TableRow>
                         <TableHead>Ordine</TableHead>
                         <TableHead>Cliente</TableHead>
-                        <TableHead>Tour Prenotati</TableHead>
-                        <TableHead>Totale Persone</TableHead>
-                        <TableHead>Totale Ordine</TableHead>
-                        <TableHead>Pagamento</TableHead>
-                        <TableHead>Saldo Mancante</TableHead>
+                        <TableHead>Tour</TableHead>
+                        <TableHead>Totale</TableHead>
+                        <TableHead>Pagato</TableHead>
+                        <TableHead>Saldo</TableHead>
                         <TableHead>Stato</TableHead>
-                        <TableHead>Data Ordine</TableHead>
+                        <TableHead>Data</TableHead>
+                        <TableHead>Azioni</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {groupedOrders.map((order) => (
-                        <TableRow key={order.orderId} data-testid={`order-row-${order.orderId}`}>
-                          <TableCell className="font-medium">
-                            <div className="flex flex-col gap-1">
-                              <span className="font-mono text-xs bg-gray-100 px-2 py-1 rounded">
-                                {order.orderId.substring(0, 20)}
-                              </span>
-                              {order.bookings.length > 1 && (
-                                <Badge className="bg-purple-500 w-fit">{order.bookings.length} tour</Badge>
-                              )}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex flex-col">
-                              <div className="flex items-center gap-1 font-medium">
-                                <User className="w-3 h-3" />
-                                {order.customerName}
+                      {groupedOrders.map((order) => {
+                        const paidAmount = order.payment ? parseFloat(order.payment.amount) : 0;
+                        const remaining = order.orderTotal - paidAmount;
+                        return (
+                          <TableRow key={order.orderId} data-testid={`order-row-${order.orderId}`}>
+                            <TableCell className="font-medium">
+                              <div className="flex flex-col gap-1">
+                                <span className="font-mono text-xs">
+                                  {order.orderId.startsWith('SINGLE-') ? `#${order.orderId.replace('SINGLE-', '')}` : order.orderId.substring(0, 12)}
+                                </span>
+                                {order.bookings.length > 1 && (
+                                  <Badge className="bg-purple-500 w-fit text-xs">{order.bookings.length} tour</Badge>
+                                )}
                               </div>
-                              <span className="text-xs text-gray-500">{order.customerEmail}</span>
-                              {order.customerPhone && (
-                                <span className="text-xs text-gray-500">{order.customerPhone}</span>
-                              )}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex flex-col gap-1 max-w-xs">
-                              {order.bookings.map((booking, idx) => (
-                                <div key={booking.id} className="flex items-center gap-2 text-sm">
-                                  <span className="font-medium">{booking.travel?.title || "N/D"}</span>
-                                  <span className="text-gray-400">({booking.numberOfParticipants} pers.)</span>
-                                  {booking.travelDate && (
-                                    <span className="text-xs text-gray-500">{formatDate(booking.travelDate)}</span>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-1">
-                              <Users className="w-4 h-4" />
-                              {order.bookings.reduce((sum, b) => sum + b.numberOfParticipants, 0)}
-                            </div>
-                          </TableCell>
-                          <TableCell className="font-semibold text-lg">
-                            €{order.totalAmount.toFixed(2)}
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex flex-col gap-1">
-                              {order.payment ? (
-                                <>
-                                  <div className="flex items-center gap-1">
-                                    <CreditCard className="w-3 h-3" />
-                                    <span className="text-sm">
-                                      {providerLabels[order.payment.paymentProvider] || order.payment.paymentProvider}
-                                    </span>
-                                  </div>
-                                  <Badge variant={paymentStatusLabels[order.payment.status]?.variant || "outline"}>
-                                    {paymentStatusLabels[order.payment.status]?.label || order.payment.status}
-                                  </Badge>
-                                  <span className="text-xs text-gray-500">
-                                    €{parseFloat(order.payment.amount).toFixed(2)}
-                                  </span>
-                                </>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex flex-col">
+                                <span className="font-medium text-sm">{order.customerName}</span>
+                                <span className="text-xs text-gray-500">{order.customerEmail}</span>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <div className="text-sm">
+                                {order.bookings.length === 1 
+                                  ? order.bookings[0].travel?.title || "N/D"
+                                  : `${order.bookings.length} tour`
+                                }
+                              </div>
+                            </TableCell>
+                            <TableCell className="font-semibold">
+                              €{order.totalAmount.toFixed(2)}
+                            </TableCell>
+                            <TableCell>
+                              <span className="text-green-600 font-medium">€{paidAmount.toFixed(2)}</span>
+                            </TableCell>
+                            <TableCell>
+                              {remaining <= 0 ? (
+                                <Badge className="bg-green-500 text-white text-xs">Saldato</Badge>
                               ) : (
-                                <span className="text-gray-400 text-sm">N/D</span>
+                                <span className="text-orange-600 font-bold">€{remaining.toFixed(2)}</span>
                               )}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            {(() => {
-                              const paidAmount = order.payment ? parseFloat(order.payment.amount) : 0;
-                              const remaining = order.orderTotal - paidAmount;
-                              if (remaining <= 0) {
-                                return (
-                                  <Badge className="bg-green-500 text-white">
-                                    Saldato
-                                  </Badge>
-                                );
-                              }
-                              return (
-                                <div className="flex flex-col gap-1">
-                                  <Badge className="bg-orange-500 text-white">
-                                    Acconto
-                                  </Badge>
-                                  <span className="text-sm font-bold text-orange-600">
-                                    €{remaining.toFixed(2)}
-                                  </span>
-                                </div>
-                              );
-                            })()}
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant={statusLabels[order.status || "pending"]?.variant || "outline"}>
-                              {statusLabels[order.status || "pending"]?.label || order.status}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="text-sm text-gray-500">
-                            {formatDateTime(order.bookingDate)}
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant={statusLabels[order.status || "pending"]?.variant || "outline"} className="text-xs">
+                                {statusLabels[order.status || "pending"]?.label || order.status}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="text-xs text-gray-500">
+                              {formatDate(order.bookingDate)}
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  setSelectedOrder(order);
+                                  setIsOrderDetailOpen(true);
+                                }}
+                                data-testid={`button-detail-${order.orderId}`}
+                              >
+                                <Eye className="w-4 h-4 mr-1" />
+                                Dettaglio
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                     </TableBody>
                   </Table>
                 </div>
@@ -688,6 +656,158 @@ export default function AdminBookings() {
                     <p className="text-sm">{selectedBooking.notes}</p>
                   </div>
                 )}
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* Dialog Dettaglio Ordine Completo */}
+        <Dialog open={isOrderDetailOpen} onOpenChange={setIsOrderDetailOpen}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <CreditCard className="w-5 h-5" />
+                Dettaglio Ordine
+              </DialogTitle>
+            </DialogHeader>
+            {selectedOrder && (
+              <div className="space-y-6">
+                {/* Numero Ordine */}
+                <div className="p-4 bg-gray-100 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">Numero Ordine:</span>
+                    <span className="font-mono font-bold text-lg">
+                      {selectedOrder.orderId.startsWith('SINGLE-') 
+                        ? `#${selectedOrder.orderId.replace('SINGLE-', '')}` 
+                        : selectedOrder.orderId}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-sm text-gray-600">Data Ordine:</span>
+                    <span className="font-medium">{formatDateTime(selectedOrder.bookingDate)}</span>
+                  </div>
+                </div>
+
+                {/* Dati Cliente */}
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <h3 className="font-bold text-blue-800 mb-3 flex items-center gap-2">
+                    <User className="w-5 h-5" />
+                    Dati Cliente
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                      <span className="text-xs text-gray-500">Nome</span>
+                      <p className="font-semibold">{selectedOrder.customerName}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs text-gray-500">Email</span>
+                      <p className="font-medium text-sm">{selectedOrder.customerEmail}</p>
+                    </div>
+                    {selectedOrder.customerPhone && (
+                      <div>
+                        <span className="text-xs text-gray-500">Telefono</span>
+                        <p className="font-medium">{selectedOrder.customerPhone}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Tour Ordinati */}
+                <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                  <h3 className="font-bold text-green-800 mb-3 flex items-center gap-2">
+                    <MapPin className="w-5 h-5" />
+                    Tour Ordinati ({selectedOrder.bookings.length})
+                  </h3>
+                  <div className="space-y-3">
+                    {selectedOrder.bookings.map((booking, index) => (
+                      <div key={booking.id} className="p-3 bg-white rounded-lg border border-green-100">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <p className="font-bold text-gray-900">{booking.travel?.title || "Tour N/D"}</p>
+                            <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
+                              <span className="flex items-center gap-1">
+                                <Calendar className="w-4 h-4" />
+                                {booking.travelDate ? formatDate(booking.travelDate) : "Data da definire"}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Users className="w-4 h-4" />
+                                {booking.numberOfParticipants} partecipant{booking.numberOfParticipants > 1 ? 'i' : 'e'}
+                              </span>
+                            </div>
+                            {booking.notes && (
+                              <p className="mt-2 text-sm text-gray-500 italic">Note: {booking.notes}</p>
+                            )}
+                          </div>
+                          <div className="text-right">
+                            <p className="font-bold text-lg text-green-700">€{parseFloat(booking.totalAmount).toFixed(2)}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Riepilogo Pagamento */}
+                <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                  <h3 className="font-bold text-yellow-800 mb-3 flex items-center gap-2">
+                    <CreditCard className="w-5 h-5" />
+                    Riepilogo Pagamento
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center py-2 border-b border-yellow-200">
+                      <span className="text-gray-700">Totale Ordine:</span>
+                      <span className="font-bold text-xl">€{selectedOrder.totalAmount.toFixed(2)}</span>
+                    </div>
+                    
+                    {selectedOrder.payment && (
+                      <>
+                        <div className="flex justify-between items-center py-2">
+                          <span className="text-gray-700">Metodo Pagamento:</span>
+                          <span className="font-medium">
+                            {providerLabels[selectedOrder.payment.paymentProvider] || selectedOrder.payment.paymentProvider}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center py-2">
+                          <span className="text-gray-700">Stato Pagamento:</span>
+                          <Badge variant={paymentStatusLabels[selectedOrder.payment.status]?.variant || "outline"}>
+                            {paymentStatusLabels[selectedOrder.payment.status]?.label || selectedOrder.payment.status}
+                          </Badge>
+                        </div>
+                        <div className="flex justify-between items-center py-2 bg-green-100 px-3 rounded-lg">
+                          <span className="text-green-800 font-medium">Importo Pagato:</span>
+                          <span className="font-bold text-xl text-green-700">€{parseFloat(selectedOrder.payment.amount).toFixed(2)}</span>
+                        </div>
+                        
+                        {(() => {
+                          const paidAmount = parseFloat(selectedOrder.payment.amount);
+                          const remaining = selectedOrder.orderTotal - paidAmount;
+                          if (remaining > 0) {
+                            return (
+                              <div className="flex justify-between items-center py-3 bg-orange-100 px-3 rounded-lg border-2 border-orange-300">
+                                <span className="text-orange-800 font-bold">Saldo da Versare:</span>
+                                <span className="font-bold text-2xl text-orange-700">€{remaining.toFixed(2)}</span>
+                              </div>
+                            );
+                          }
+                          return (
+                            <div className="flex justify-between items-center py-3 bg-green-200 px-3 rounded-lg">
+                              <span className="text-green-800 font-bold">Stato:</span>
+                              <Badge className="bg-green-600 text-white text-base px-4 py-1">SALDATO</Badge>
+                            </div>
+                          );
+                        })()}
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Stato Ordine */}
+                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                  <span className="font-medium text-gray-700">Stato Ordine:</span>
+                  <Badge variant={statusLabels[selectedOrder.status || "pending"]?.variant || "outline"} className="text-base px-4 py-1">
+                    {statusLabels[selectedOrder.status || "pending"]?.label || selectedOrder.status}
+                  </Badge>
+                </div>
               </div>
             )}
           </DialogContent>
