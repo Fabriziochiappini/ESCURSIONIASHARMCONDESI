@@ -79,12 +79,18 @@ export function HeroSection() {
           <div className="max-w-2xl mx-auto">
             <div className="bg-white/75 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#D4AF37]/30 shadow-xl">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-3 tracking-wide uppercase font-eagle-lake leading-tight">
-                Si Viaggia con Desi
+                Escursioni a Sharm con Desi
               </h1>
               <div className="w-32 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-3"></div>
-              <p className="text-lg sm:text-xl md:text-2xl text-gray-700 leading-relaxed font-light">
-                Escursioni a Sharm El Sheikh
-              </p>
+              <a 
+                href="https://siviaggiacondesy.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-base sm:text-lg md:text-xl text-[#1e3a5f] underline underline-offset-4 decoration-[#D4AF37] hover:text-[#D4AF37] transition-colors duration-300 font-medium"
+                data-testid="link-siviaggiacondesy"
+              >
+                Siviaggiacondesy.com
+              </a>
             </div>
           </div>
         </div>
