@@ -48,13 +48,21 @@ export default function Carrello() {
     (item.travel.depositPercentage && item.travel.depositPercentage > 0)
   );
 
+  const getItemAddonsTotal = (item: typeof items[0]) => {
+    if (!item.selectedAddons || item.selectedAddons.length === 0) return 0;
+    return item.selectedAddons.reduce((t, sa) => t + Number(sa.addon.price) * item.participants, 0);
+  };
+
   const calculateItemDeposit = (item: typeof items[0]) => {
-    const fullPrice = Number(item.travel.price) * item.participants;
+    const travelPrice = Number(item.travel.price) * item.participants;
+    const addonsPrice = getItemAddonsTotal(item);
+    const fullPrice = travelPrice + addonsPrice;
+    
     if (item.travel.depositPercentage && item.travel.depositPercentage > 0) {
       return (fullPrice * item.travel.depositPercentage) / 100;
     }
     if (item.travel.depositAmount && Number(item.travel.depositAmount) > 0) {
-      return Number(item.travel.depositAmount) * item.participants;
+      return Number(item.travel.depositAmount) * item.participants + addonsPrice;
     }
     return fullPrice;
   };
@@ -93,7 +101,9 @@ export default function Carrello() {
   const checkoutMutation = useMutation({
     mutationFn: async () => {
       const cartData = items.map(item => {
-        const fullPrice = Number(item.travel.price) * item.participants;
+        const travelPrice = Number(item.travel.price) * item.participants;
+        const addonsPrice = getItemAddonsTotal(item);
+        const fullPrice = travelPrice + addonsPrice;
         const depositPrice = calculateItemDeposit(item);
         return {
           travelId: item.travel.id,
@@ -103,7 +113,13 @@ export default function Carrello() {
           participantNotes: item.participantNotes || "",
           price: paymentType === "deposit" ? depositPrice : fullPrice,
           fullPrice: fullPrice,
-          selectedDate: item.selectedDate
+          selectedDate: item.selectedDate,
+          selectedAddons: item.selectedAddons?.map(sa => ({
+            addonId: sa.addon.id,
+            addonName: sa.addon.name,
+            addonPrice: sa.addon.price,
+            quantity: sa.quantity
+          })) || []
         };
       });
       
@@ -321,12 +337,35 @@ export default function Carrello() {
                               </CollapsibleContent>
                             </Collapsible>
                             
+                            {/* Add-ons display */}
+                            {item.selectedAddons && item.selectedAddons.length > 0 && (
+                              <div className="mt-2 sm:mt-3 p-2 bg-amber-50 rounded-lg border border-amber-200">
+                                <p className="text-xs font-semibold text-amber-800 mb-1">Add-on selezionati:</p>
+                                <div className="space-y-1">
+                                  {item.selectedAddons.map((sa) => (
+                                    <div key={sa.addon.id} className="flex justify-between text-xs text-amber-700">
+                                      <span>{sa.addon.name}</span>
+                                      <span>+{formatCartPrice(Number(sa.addon.price) * item.participants)}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
                             <div className="mt-2 sm:mt-3 flex justify-between items-center">
-                              <span className="text-xs sm:text-sm text-gray-500">
-                                {formatCartPrice(Number(item.travel.price))} x {item.participants} pers.
-                              </span>
+                              <div className="text-xs sm:text-sm text-gray-500">
+                                <div>{formatCartPrice(Number(item.travel.price))} x {item.participants} pers.</div>
+                                {item.selectedAddons && item.selectedAddons.length > 0 && (
+                                  <div className="text-amber-600">
+                                    + {formatCartPrice(item.selectedAddons.reduce((t, sa) => t + Number(sa.addon.price) * item.participants, 0))} add-on
+                                  </div>
+                                )}
+                              </div>
                               <span className="text-base sm:text-lg font-bold text-[#D4AF37]">
-                                {formatCartPrice(Number(item.travel.price) * item.participants)}
+                                {formatCartPrice(
+                                  Number(item.travel.price) * item.participants + 
+                                  (item.selectedAddons?.reduce((t, sa) => t + Number(sa.addon.price) * item.participants, 0) || 0)
+                                )}
                               </span>
                             </div>
                           </div>
