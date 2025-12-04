@@ -9,11 +9,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CreditCard, Search, Calendar, Users, MapPin, CheckCircle, AlertCircle, Wallet } from "lucide-react";
+import { SiPaypal } from "react-icons/si";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { StripeCheckout } from "@/components/stripe-checkout";
+import { PayPalCheckout } from "@/components/paypal-checkout";
 
 interface OrderData {
   orderId: string;
@@ -42,6 +45,8 @@ export default function VersaSaldo() {
   const [error, setError] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [showPayment, setShowPayment] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<"stripe" | "paypal">("stripe");
+  const [showPayPalPayment, setShowPayPalPayment] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -144,6 +149,32 @@ export default function VersaSaldo() {
     });
   };
 
+  const handlePayPalSuccess = () => {
+    toast({
+      title: "Pagamento completato!",
+      description: "Il saldo è stato versato con successo tramite PayPal. Riceverai una email di conferma.",
+    });
+    setShowPayPalPayment(false);
+    setOrderData(null);
+    setOrderCode("");
+  };
+
+  const handlePayPalError = () => {
+    toast({
+      title: "Pagamento non riuscito",
+      description: "Si è verificato un errore durante il pagamento PayPal. Riprova.",
+      variant: "destructive",
+    });
+  };
+
+  const handlePayBalance = () => {
+    if (paymentMethod === "paypal") {
+      setShowPayPalPayment(true);
+    } else {
+      createPaymentMutation.mutate();
+    }
+  };
+
   const formatDate = (date: string) => {
     if (!date) return "Da definire";
     return new Date(date).toLocaleDateString('it-IT', {
@@ -226,7 +257,7 @@ export default function VersaSaldo() {
             </Card>
           )}
 
-          {orderData && !showPayment && (
+          {orderData && !showPayment && !showPayPalPayment && (
             <div className="space-y-6">
               <Card className="border-green-200 bg-green-50">
                 <CardContent className="pt-6">
@@ -299,10 +330,34 @@ export default function VersaSaldo() {
                     </div>
                   </div>
 
+                  <div className="mt-6 space-y-4">
+                    <Label className="text-base font-semibold">Metodo di Pagamento</Label>
+                    <RadioGroup
+                      value={paymentMethod}
+                      onValueChange={(v) => setPaymentMethod(v as "stripe" | "paypal")}
+                      className="grid grid-cols-2 gap-4"
+                    >
+                      <div className={`flex items-center space-x-2 p-4 border-2 rounded-lg cursor-pointer transition-all ${paymentMethod === "stripe" ? "border-orange-500 bg-orange-50" : "border-gray-200 hover:border-gray-300"}`}>
+                        <RadioGroupItem value="stripe" id="stripe-balance" />
+                        <Label htmlFor="stripe-balance" className="flex-1 cursor-pointer flex items-center gap-2">
+                          <CreditCard className="h-5 w-5 text-gray-700" />
+                          <span className="font-medium">Carta</span>
+                        </Label>
+                      </div>
+                      <div className={`flex items-center space-x-2 p-4 border-2 rounded-lg cursor-pointer transition-all ${paymentMethod === "paypal" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300"}`}>
+                        <RadioGroupItem value="paypal" id="paypal-balance" />
+                        <Label htmlFor="paypal-balance" className="flex-1 cursor-pointer flex items-center gap-2">
+                          <SiPaypal className="h-5 w-5 text-blue-600" />
+                          <span className="font-medium">PayPal</span>
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+
                   <Button
-                    onClick={() => createPaymentMutation.mutate()}
+                    onClick={handlePayBalance}
                     disabled={createPaymentMutation.isPending}
-                    className="w-full mt-6 bg-orange-600 hover:bg-orange-700"
+                    className={`w-full mt-6 ${paymentMethod === "paypal" ? "bg-blue-600 hover:bg-blue-700" : "bg-orange-600 hover:bg-orange-700"}`}
                     size="lg"
                     data-testid="button-pay-balance"
                   >
@@ -313,7 +368,11 @@ export default function VersaSaldo() {
                       </>
                     ) : (
                       <>
-                        <CreditCard className="w-5 h-5 mr-2" />
+                        {paymentMethod === "paypal" ? (
+                          <SiPaypal className="w-5 h-5 mr-2" />
+                        ) : (
+                          <CreditCard className="w-5 h-5 mr-2" />
+                        )}
                         Paga Saldo €{orderData.remainingBalance.toFixed(2)}
                       </>
                     )}
@@ -332,6 +391,40 @@ export default function VersaSaldo() {
                 Cerca un altro ordine
               </Button>
             </div>
+          )}
+
+          {showPayPalPayment && orderData && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <SiPaypal className="w-5 h-5 text-blue-600" />
+                  Pagamento PayPal - €{orderData.remainingBalance.toFixed(2)}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4 p-3 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-blue-800">
+                    <strong>Ordine:</strong> {orderData.orderId}
+                  </p>
+                  <p className="text-sm text-blue-800 mt-1">
+                    <strong>Saldo da pagare:</strong> €{orderData.remainingBalance.toFixed(2)}
+                  </p>
+                </div>
+                <PayPalCheckout
+                  amount={orderData.remainingBalance}
+                  onSuccess={handlePayPalSuccess}
+                  onError={handlePayPalError}
+                  bookingId={0}
+                />
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowPayPalPayment(false)}
+                  className="w-full mt-4"
+                >
+                  Annulla
+                </Button>
+              </CardContent>
+            </Card>
           )}
 
           {showPayment && clientSecret && orderData && (
