@@ -78,9 +78,12 @@ export function HeroSection() {
           {/* Riquadro Piccolo e Discreto */}
           <div className="max-w-2xl mx-auto">
             <div className="bg-white/75 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#D4AF37]/30 shadow-xl">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-3 tracking-wide uppercase font-eagle-lake leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-2 tracking-wide uppercase font-eagle-lake leading-tight">
                 Escursioni a Sharm con Desi
               </h1>
+              <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-3 font-light italic">
+                Vivi l'avventura di Sharm El Sheikh
+              </p>
               <div className="w-32 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-3"></div>
               <a 
                 href="https://siviaggiacondesy.com" 
