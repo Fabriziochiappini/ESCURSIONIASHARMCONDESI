@@ -6,6 +6,7 @@ export interface CartItem {
   quantity: number;
   selectedDate?: string;
   participants: number;
+  participantNotes?: string;
 }
 
 interface CartContextType {
@@ -14,6 +15,7 @@ interface CartContextType {
   removeFromCart: (travelId: number) => void;
   updateQuantity: (travelId: number, quantity: number) => void;
   updateParticipants: (travelId: number, participants: number) => void;
+  updateParticipantNotes: (travelId: number, notes: string) => void;
   clearCart: () => void;
   getTotal: () => number;
   getItemCount: () => number;
@@ -72,6 +74,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  const updateParticipantNotes = (travelId: number, notes: string) => {
+    setItems((prev) =>
+      prev.map((item) =>
+        item.travel.id === travelId ? { ...item, participantNotes: notes } : item
+      )
+    );
+  };
+
   const clearCart = () => {
     setItems([]);
   };
@@ -95,6 +105,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         removeFromCart,
         updateQuantity,
         updateParticipants,
+        updateParticipantNotes,
         clearCart,
         getTotal,
         getItemCount,

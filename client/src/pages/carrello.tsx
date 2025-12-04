@@ -9,7 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { ShoppingCart, Trash2, Plus, Minus, CreditCard, ArrowLeft, ShoppingBag, Users, Wallet } from "lucide-react";
+import { ShoppingCart, Trash2, Plus, Minus, CreditCard, ArrowLeft, ShoppingBag, Users, Wallet, ChevronDown, ChevronUp, FileText } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useMutation } from "@tanstack/react-query";
@@ -28,7 +30,8 @@ function formatCartPrice(price: number): string {
 }
 
 export default function Carrello() {
-  const { items, removeFromCart, updateQuantity, updateParticipants, clearCart, getTotal, getItemCount } = useCart();
+  const { items, removeFromCart, updateQuantity, updateParticipants, updateParticipantNotes, clearCart, getTotal, getItemCount } = useCart();
+  const [openNotes, setOpenNotes] = useState<Record<number, boolean>>({});
   const [location, setLocation] = useLocation();
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -77,6 +80,7 @@ export default function Carrello() {
         travelTitle: item.travel.title,
         quantity: item.quantity,
         participants: item.participants,
+        participantNotes: item.participantNotes || "",
         price: paymentType === "deposit" && item.travel.depositAmount 
           ? Number(item.travel.depositAmount) * item.participants * item.quantity
           : Number(item.travel.price) * item.participants * item.quantity,
@@ -192,30 +196,6 @@ export default function Carrello() {
                             
                             <div className="mt-3 flex flex-wrap items-center gap-4">
                               <div className="flex items-center gap-2">
-                                <span className="text-sm text-gray-600">Quantità:</span>
-                                <div className="flex items-center border rounded-lg">
-                                  <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-8 w-8"
-                                    onClick={() => item.quantity > 1 && updateQuantity(item.travel.id, item.quantity - 1)}
-                                    disabled={item.quantity <= 1}
-                                  >
-                                    <Minus className="h-4 w-4" />
-                                  </Button>
-                                  <span className="px-3 font-medium">{item.quantity}</span>
-                                  <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-8 w-8"
-                                    onClick={() => updateQuantity(item.travel.id, item.quantity + 1)}
-                                  >
-                                    <Plus className="h-4 w-4" />
-                                  </Button>
-                                </div>
-                              </div>
-                              
-                              <div className="flex items-center gap-2">
                                 <Users className="h-4 w-4 text-gray-500" />
                                 <span className="text-sm text-gray-600">Partecipanti:</span>
                                 <div className="flex items-center border rounded-lg">
@@ -240,10 +220,52 @@ export default function Carrello() {
                                 </div>
                               </div>
                             </div>
+
+                            {/* Sezione Note Partecipanti */}
+                            <Collapsible 
+                              open={openNotes[item.travel.id]} 
+                              onOpenChange={(open) => setOpenNotes(prev => ({ ...prev, [item.travel.id]: open }))}
+                              className="mt-3"
+                            >
+                              <CollapsibleTrigger asChild>
+                                <Button 
+                                  variant="ghost" 
+                                  size="sm" 
+                                  className="text-[#D4AF37] hover:text-[#C9A961] hover:bg-[#D4AF37]/10 p-0 h-auto font-medium"
+                                  data-testid={`toggle-notes-${item.travel.id}`}
+                                >
+                                  <Plus className="h-4 w-4 mr-1" />
+                                  Aggiungi i nomi dei partecipanti
+                                  {openNotes[item.travel.id] ? (
+                                    <ChevronUp className="h-4 w-4 ml-1" />
+                                  ) : (
+                                    <ChevronDown className="h-4 w-4 ml-1" />
+                                  )}
+                                </Button>
+                              </CollapsibleTrigger>
+                              <CollapsibleContent className="mt-2">
+                                <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <FileText className="h-4 w-4 text-gray-500" />
+                                    <span className="text-sm font-medium text-gray-700">Note (facoltativo)</span>
+                                  </div>
+                                  <Textarea
+                                    placeholder="Inserisci i nomi e cognomi dei partecipanti, uno per riga..."
+                                    value={item.participantNotes || ""}
+                                    onChange={(e) => updateParticipantNotes(item.travel.id, e.target.value)}
+                                    className="min-h-[80px] text-sm resize-none"
+                                    data-testid={`notes-input-${item.travel.id}`}
+                                  />
+                                  <p className="text-xs text-gray-400 mt-1">
+                                    Esempio: Mario Rossi, Anna Bianchi, etc.
+                                  </p>
+                                </div>
+                              </CollapsibleContent>
+                            </Collapsible>
                             
                             <div className="mt-3 flex justify-between items-center">
                               <span className="text-sm text-gray-500">
-                                {formatCartPrice(Number(item.travel.price))} x {item.participants} pers. x {item.quantity}
+                                {formatCartPrice(Number(item.travel.price))} x {item.participants} pers.
                               </span>
                               <span className="text-lg font-bold text-[#D4AF37]">
                                 {formatCartPrice(Number(item.travel.price) * item.participants * item.quantity)}
