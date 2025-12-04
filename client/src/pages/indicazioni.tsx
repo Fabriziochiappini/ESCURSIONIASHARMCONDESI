@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { Footer } from "@/components/footer";
 import { 
   FileText, 
@@ -17,9 +18,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function Indicazioni() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#F0F8FF] to-white">
+      <AnnouncementBar />
       <Navigation />
 
-      <main className="pt-32 lg:pt-48 pb-16">
+      <main className="pt-20 lg:pt-[148px] pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="font-['Eagle_Lake'] text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent drop-shadow-sm mb-4">
