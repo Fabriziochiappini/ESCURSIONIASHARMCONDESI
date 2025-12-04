@@ -171,6 +171,19 @@ export default function Indicazioni() {
             </Card>
           </div>
 
+          <Card className="border-2 border-blue-300 bg-gradient-to-br from-blue-100 to-white shadow-lg">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-blue-200 rounded-full">
+                    <span className="text-3xl">🚐</span>
+                  </div>
+                  <p className="text-blue-800 font-semibold text-lg">
+                    Tutte le escursioni includono il trasferimento da e per il villaggio.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
           <div className="mt-12 text-center">
             <p className="text-gray-500 text-sm">
               Per qualsiasi altra domanda, non esitare a contattarci su WhatsApp!
