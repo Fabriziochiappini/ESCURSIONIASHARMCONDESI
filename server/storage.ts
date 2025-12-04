@@ -105,6 +105,7 @@ export interface IStorage {
   updateBooking(id: number, booking: Partial<InsertBooking>): Promise<Booking | undefined>;
   deleteBooking(id: number): Promise<boolean>;
   getBookingsByTravel(travelId: number): Promise<Booking[]>;
+  getBookingsByOrderId(orderId: string): Promise<Booking[]>;
   getBookingsWithDetails(): Promise<Array<Booking & { travel: Travel | null, payment: Payment | null }>>;
 
   // Payment operations
@@ -809,6 +810,15 @@ export class DatabaseStorage implements IStorage {
       .where(eq(bookings.travelId, travelId))
       .orderBy(bookings.createdAt);
     return travelBookings;
+  }
+
+  async getBookingsByOrderId(orderId: string): Promise<Booking[]> {
+    const orderBookings = await db
+      .select()
+      .from(bookings)
+      .where(eq(bookings.orderId, orderId))
+      .orderBy(bookings.createdAt);
+    return orderBookings;
   }
 
   async getBookingsWithDetails(): Promise<Array<Booking & { travel: Travel | null, payment: Payment | null }>> {

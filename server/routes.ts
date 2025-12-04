@@ -1653,6 +1653,65 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (paymentIntent.status === 'succeeded') {
         const metadata = paymentIntent.metadata;
         
+        // Check if this is a balance payment
+        if (metadata.paymentType === 'balance' && metadata.orderId) {
+          console.log('💰 Processing balance payment for order:', metadata.orderId);
+          
+          const balanceAmount = paymentIntent.amount / 100; // Convert from cents
+          
+          // Find all bookings for this order and update their payment status
+          const bookings = await storage.getBookingsByOrderId(metadata.orderId);
+          
+          if (bookings.length > 0) {
+            // Create payment record for balance
+            await storage.createPayment({
+              bookingId: bookings[0].id,
+              paymentProvider: 'stripe',
+              paymentIntentId: paymentIntent.id,
+              amount: balanceAmount.toString(),
+              currency: 'EUR',
+              status: 'succeeded',
+            });
+            
+            // Send balance payment confirmation email
+            try {
+              const items = await Promise.all(bookings.map(async (booking: any) => {
+                const travel = await storage.getTravel(booking.travelId);
+                return {
+                  travelTitle: travel?.title || 'Tour',
+                  travelDate: booking.travelDate || '',
+                  numberOfParticipants: booking.numberOfParticipants,
+                  pricePerPerson: parseFloat(booking.totalAmount) / booking.numberOfParticipants,
+                  itemTotal: parseFloat(booking.totalAmount),
+                  selectedAddons: [],
+                };
+              }));
+              
+              const orderTotal = bookings.reduce((sum: number, b: any) => sum + parseFloat(b.totalAmount), 0);
+              
+              await sendOrderConfirmationEmails({
+                orderId: metadata.orderId,
+                customerName: bookings[0].customerName,
+                customerEmail: bookings[0].customerEmail,
+                customerPhone: bookings[0].customerPhone || '',
+                items: items,
+                orderTotal: orderTotal,
+                amountPaid: orderTotal, // Now fully paid
+                paymentType: 'full' as const,
+                remainingBalance: 0,
+                paymentProvider: 'stripe',
+                paymentStatus: 'succeeded',
+              });
+              console.log(`✅ Balance payment confirmation email sent for ${metadata.orderId}`);
+            } catch (emailError) {
+              console.error('Error sending balance payment email:', emailError);
+            }
+          }
+          
+          console.log('✅ Balance payment confirmed for order:', metadata.orderId);
+          return res.json({ success: true, message: 'Balance payment confirmed', orderId: metadata.orderId });
+        }
+        
         // Check if this is a cart order (has orderId and cartItems)
         if (metadata.orderId && metadata.cartItems) {
           console.log('📦 Processing cart order:', metadata.orderId);
