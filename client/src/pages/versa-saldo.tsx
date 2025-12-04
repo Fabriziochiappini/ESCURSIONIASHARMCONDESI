@@ -93,9 +93,10 @@ export default function VersaSaldo() {
         orderId: orderData.orderId,
         amount: orderData.remainingBalance,
       });
-      return response;
+      return response.json();
     },
     onSuccess: (data: any) => {
+      console.log('✅ Saldo checkout response:', data);
       setClientSecret(data.clientSecret);
       setShowPayment(true);
     },
