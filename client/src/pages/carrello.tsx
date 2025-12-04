@@ -107,14 +107,15 @@ export default function Carrello() {
       
       const totalAmount = paymentType === "deposit" ? getDepositTotal() : getTotal();
       
-      return apiRequest("POST", "/api/cart/checkout", {
+      const response = await apiRequest("POST", "/api/cart/checkout", {
         items: cartData,
         total: totalAmount,
         paymentType: paymentType
       });
+      
+      return response.json();
     },
-    onSuccess: async (response: Response) => {
-      const data = await response.json();
+    onSuccess: async (data: { sessionId: string }) => {
       if (data.sessionId) {
         const stripe = await stripePromise;
         if (stripe) {
@@ -123,11 +124,15 @@ export default function Carrello() {
             toast({ title: "Errore nel pagamento", description: error.message, variant: "destructive" });
             setIsProcessing(false);
           }
+        } else {
+          toast({ title: "Errore Stripe", description: "Impossibile inizializzare Stripe", variant: "destructive" });
+          setIsProcessing(false);
         }
       }
     },
-    onError: () => {
-      toast({ title: "Errore nel checkout", variant: "destructive" });
+    onError: (error: any) => {
+      console.error("Checkout error:", error);
+      toast({ title: "Errore nel checkout", description: error.message || "Si è verificato un errore", variant: "destructive" });
       setIsProcessing(false);
     }
   });
