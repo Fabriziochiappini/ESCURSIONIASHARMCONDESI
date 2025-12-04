@@ -1378,6 +1378,162 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Order Lookup - Find order by orderId for balance payment
+  app.get("/api/order/lookup", async (req, res) => {
+    try {
+      const { code } = req.query;
+      
+      if (!code || typeof code !== 'string') {
+        return res.status(400).json({ message: "Codice ordine richiesto" });
+      }
+
+      // Search for bookings with this orderId
+      const allBookings = await storage.getAllBookings();
+      const orderBookings = allBookings.filter(b => (b as any).orderId === code);
+      
+      if (orderBookings.length === 0) {
+        // Try searching by booking ID for legacy orders
+        const bookingId = parseInt(code.replace(/\D/g, ''));
+        if (!isNaN(bookingId)) {
+          const singleBooking = allBookings.find(b => b.id === bookingId);
+          if (singleBooking) {
+            const travel = await storage.getTravel(singleBooking.travelId);
+            const payment = await storage.getPaymentByBookingId(singleBooking.id);
+            const orderTotal = parseFloat(singleBooking.totalAmount);
+            const amountPaid = payment ? parseFloat(payment.amount) : 0;
+            
+            return res.json({
+              orderId: `#${singleBooking.id}`,
+              customerName: singleBooking.customerName,
+              customerEmail: singleBooking.customerEmail,
+              orderTotal: orderTotal,
+              amountPaid: amountPaid,
+              remainingBalance: orderTotal - amountPaid,
+              status: singleBooking.status,
+              bookingDate: singleBooking.bookingDate,
+              items: [{
+                id: singleBooking.id,
+                travelTitle: travel?.title || 'Tour',
+                travelDate: singleBooking.travelDate || '',
+                numberOfParticipants: singleBooking.numberOfParticipants,
+                amount: parseFloat(singleBooking.totalAmount)
+              }]
+            });
+          }
+        }
+        return res.status(404).json({ message: "Ordine non trovato" });
+      }
+
+      // Get first booking for customer info
+      const firstBooking = orderBookings[0];
+      const payment = await storage.getPaymentByBookingId(firstBooking.id);
+      
+      // Calculate totals
+      const orderTotal = (firstBooking as any).orderTotal 
+        ? parseFloat((firstBooking as any).orderTotal) 
+        : orderBookings.reduce((sum, b) => sum + parseFloat(b.totalAmount), 0);
+      const amountPaid = payment ? parseFloat(payment.amount) : 0;
+      
+      // Get travel info for each booking
+      const items = await Promise.all(orderBookings.map(async (booking) => {
+        const travel = await storage.getTravel(booking.travelId);
+        return {
+          id: booking.id,
+          travelTitle: travel?.title || 'Tour',
+          travelDate: booking.travelDate || '',
+          numberOfParticipants: booking.numberOfParticipants,
+          amount: parseFloat(booking.totalAmount)
+        };
+      }));
+
+      res.json({
+        orderId: code,
+        customerName: firstBooking.customerName,
+        customerEmail: firstBooking.customerEmail,
+        orderTotal: orderTotal,
+        amountPaid: amountPaid,
+        remainingBalance: orderTotal - amountPaid,
+        status: firstBooking.status,
+        bookingDate: firstBooking.bookingDate,
+        items: items
+      });
+    } catch (error: any) {
+      console.error('Order lookup error:', error);
+      res.status(500).json({ message: "Errore nella ricerca ordine: " + error.message });
+    }
+  });
+
+  // Balance Payment Checkout - Create Stripe Payment Intent for remaining balance
+  app.post("/api/saldo/checkout", async (req, res) => {
+    try {
+      const { orderId, amount } = req.body;
+      
+      if (!orderId || !amount) {
+        return res.status(400).json({ message: "Ordine e importo richiesti" });
+      }
+
+      // Create Stripe Payment Intent for balance
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100), // Convert to cents
+        currency: 'eur',
+        description: `Saldo ordine ${orderId}`,
+        metadata: {
+          orderId: orderId,
+          paymentType: 'balance',
+          balanceAmount: amount.toString(),
+        },
+      });
+
+      res.json({ clientSecret: paymentIntent.client_secret });
+    } catch (error: any) {
+      console.error('Balance checkout error:', error);
+      res.status(500).json({ message: "Errore nel checkout saldo: " + error.message });
+    }
+  });
+
+  // Confirm Balance Payment
+  app.post("/api/saldo/confirm", async (req, res) => {
+    try {
+      const { orderId, paymentIntentId } = req.body;
+      
+      if (!orderId || !paymentIntentId) {
+        return res.status(400).json({ message: "Dati mancanti" });
+      }
+
+      // Verify payment with Stripe
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      
+      if (paymentIntent.status !== 'succeeded') {
+        return res.status(400).json({ message: "Pagamento non riuscito" });
+      }
+
+      // Find bookings with this orderId
+      const allBookings = await storage.getAllBookings();
+      const orderBookings = allBookings.filter(b => (b as any).orderId === orderId);
+      
+      if (orderBookings.length > 0) {
+        // Update payment record for the first booking
+        const firstBooking = orderBookings[0];
+        const existingPayment = await storage.getPaymentByBookingId(firstBooking.id);
+        
+        if (existingPayment) {
+          // Update existing payment with new total
+          const newTotal = parseFloat(existingPayment.amount) + parseFloat(paymentIntent.metadata.balanceAmount || '0');
+          await storage.updatePaymentByBookingId(firstBooking.id, {
+            amount: newTotal.toString(),
+            paymentDate: new Date(),
+          });
+        }
+      }
+
+      console.log(`✅ Balance payment confirmed for order ${orderId}`);
+      res.json({ success: true, message: 'Saldo versato con successo' });
+    } catch (error: any) {
+      console.error('Confirm balance payment error:', error);
+      res.status(500).json({ message: "Errore nella conferma pagamento: " + error.message });
+    }
+  });
+
   // PayPal Booking Creation
   app.post("/api/create-paypal-booking", async (req, res) => {
     try {

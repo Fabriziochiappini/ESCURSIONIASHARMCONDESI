@@ -29,6 +29,7 @@ import AdminAddons from "@/pages/admin/addons";
 import ResetDemo from "@/pages/reset-demo";
 import PayPalReturn from "@/pages/paypal-return";
 import Indicazioni from "@/pages/indicazioni";
+import VersaSaldo from "@/pages/versa-saldo";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -58,6 +59,7 @@ function Router() {
       <Route path="/admin/addons" component={AdminAddons} />
       <Route path="/reset-demo" component={ResetDemo} />
       <Route path="/paypal-return" component={PayPalReturn} />
+      <Route path="/versa-saldo" component={VersaSaldo} />
       <Route component={NotFound} />
     </Switch>
   );
