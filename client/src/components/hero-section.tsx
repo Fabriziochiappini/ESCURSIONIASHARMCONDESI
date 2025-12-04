@@ -86,13 +86,13 @@ export function HeroSection() {
               </p>
               <div className="w-32 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-3"></div>
               <a 
-                href="https://siviaggiacondesy.com" 
+                href="https://siviaggiacondesi.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-base sm:text-lg md:text-xl text-[#1e3a5f] underline underline-offset-4 decoration-[#D4AF37] hover:text-[#D4AF37] transition-colors duration-300 font-medium"
-                data-testid="link-siviaggiacondesy"
+                data-testid="link-siviaggiacondesi"
               >
-                Siviaggiacondesy.com
+                Siviaggiacondesi.com
               </a>
             </div>
           </div>
