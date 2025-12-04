@@ -108,11 +108,11 @@ export default function AdminPanel() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-amber-700">
                     <Plus className="h-5 w-5" />
-                    Add-on / Upsell
+                    Servizi Extra
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">Crea e gestisci add-on da associare ai tour (es. cena, barca)</p>
+                  <p className="text-muted-foreground">Crea e gestisci servizi extra da associare ai tour (es. cena, barca)</p>
                 </CardContent>
               </Card>
             </Link>

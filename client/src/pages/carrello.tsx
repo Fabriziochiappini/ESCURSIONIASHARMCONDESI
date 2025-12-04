@@ -337,10 +337,10 @@ export default function Carrello() {
                               </CollapsibleContent>
                             </Collapsible>
                             
-                            {/* Add-ons display */}
+                            {/* Servizi display */}
                             {item.selectedAddons && item.selectedAddons.length > 0 && (
                               <div className="mt-2 sm:mt-3 p-2 bg-amber-50 rounded-lg border border-amber-200">
-                                <p className="text-xs font-semibold text-amber-800 mb-1">Add-on selezionati:</p>
+                                <p className="text-xs font-semibold text-amber-800 mb-1">Servizi selezionati:</p>
                                 <div className="space-y-1">
                                   {item.selectedAddons.map((sa) => (
                                     <div key={sa.addon.id} className="flex justify-between text-xs text-amber-700">
@@ -357,7 +357,7 @@ export default function Carrello() {
                                 <div>{formatCartPrice(Number(item.travel.price))} x {item.participants} pers.</div>
                                 {item.selectedAddons && item.selectedAddons.length > 0 && (
                                   <div className="text-amber-600">
-                                    + {formatCartPrice(item.selectedAddons.reduce((t, sa) => t + Number(sa.addon.price) * item.participants, 0))} add-on
+                                    + {formatCartPrice(item.selectedAddons.reduce((t, sa) => t + Number(sa.addon.price) * item.participants, 0))} servizi
                                   </div>
                                 )}
                               </div>

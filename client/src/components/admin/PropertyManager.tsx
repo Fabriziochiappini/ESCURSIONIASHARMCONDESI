@@ -1043,15 +1043,15 @@ export default function PropertyManager() {
                 />
               </div>
 
-              {/* Add-ons Section */}
+              {/* Servizi Section */}
               {allAddons.length > 0 && (
                 <div className="space-y-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
                   <Label className="text-amber-800 font-semibold flex items-center gap-2">
                     <Plus className="h-4 w-4" />
-                    Add-on disponibili per questo tour
+                    Servizi disponibili per questo tour
                   </Label>
                   <p className="text-xs text-amber-600">
-                    Seleziona gli add-on che i clienti potranno acquistare con questo tour
+                    Seleziona i servizi che i clienti potranno acquistare con questo tour
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {allAddons.map((addon) => {
@@ -1091,7 +1091,7 @@ export default function PropertyManager() {
                   </div>
                   {selectedAddonIds.length > 0 && (
                     <p className="text-sm text-amber-700 font-medium">
-                      {selectedAddonIds.length} add-on selezionati
+                      {selectedAddonIds.length} servizi selezionati
                     </p>
                   )}
                 </div>

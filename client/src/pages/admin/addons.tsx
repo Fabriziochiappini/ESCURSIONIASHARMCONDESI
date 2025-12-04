@@ -49,7 +49,7 @@ export default function AdminAddons() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/addons"] });
-      toast({ title: "Add-on creato con successo" });
+      toast({ title: "Servizio creato con successo" });
       resetForm();
       setIsOpen(false);
     },
@@ -64,7 +64,7 @@ export default function AdminAddons() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/addons"] });
-      toast({ title: "Add-on aggiornato con successo" });
+      toast({ title: "Servizio aggiornato con successo" });
       resetForm();
       setIsOpen(false);
     },
@@ -79,7 +79,7 @@ export default function AdminAddons() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/addons"] });
-      toast({ title: "Add-on eliminato con successo" });
+      toast({ title: "Servizio eliminato con successo" });
     },
     onError: () => {
       toast({ title: "Errore nell'eliminazione", variant: "destructive" });
@@ -128,7 +128,7 @@ export default function AdminAddons() {
   };
 
   const handleDelete = (id: number) => {
-    if (confirm("Sei sicuro di voler eliminare questo add-on?")) {
+    if (confirm("Sei sicuro di voler eliminare questo servizio?")) {
       deleteMutation.mutate(id);
     }
   };
@@ -148,10 +148,10 @@ export default function AdminAddons() {
                 </Link>
                 <div>
                   <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                    Gestione Add-on
+                    Gestione Servizi
                   </h1>
                   <p className="text-gray-600 mt-1 text-sm sm:text-base">
-                    Crea e gestisci add-on da associare ai tour
+                    Crea e gestisci servizi extra da associare ai tour
                   </p>
                 </div>
               </div>
@@ -163,13 +163,13 @@ export default function AdminAddons() {
                 <DialogTrigger asChild>
                   <Button className="bg-amber-600 hover:bg-amber-700">
                     <Plus className="h-4 w-4 mr-2" />
-                    Nuovo Add-on
+                    Nuovo Servizio
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>
-                      {editingAddon ? "Modifica Add-on" : "Nuovo Add-on"}
+                      {editingAddon ? "Modifica Servizio" : "Nuovo Servizio"}
                     </DialogTitle>
                   </DialogHeader>
                   <form onSubmit={handleSubmit} className="space-y-4">
@@ -191,7 +191,7 @@ export default function AdminAddons() {
                         id="description"
                         value={formData.description}
                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                        placeholder="Descrizione dell'add-on"
+                        placeholder="Descrizione del servizio"
                         data-testid="input-addon-description"
                       />
                     </div>
@@ -266,14 +266,14 @@ export default function AdminAddons() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Card>
             <CardHeader>
-              <CardTitle>Lista Add-on</CardTitle>
+              <CardTitle>Lista Servizi</CardTitle>
             </CardHeader>
             <CardContent>
               {isLoading ? (
                 <p className="text-center py-8 text-gray-500">Caricamento...</p>
               ) : addons.length === 0 ? (
                 <p className="text-center py-8 text-gray-500">
-                  Nessun add-on creato. Crea il primo add-on cliccando "Nuovo Add-on".
+                  Nessun servizio creato. Crea il primo servizio cliccando "Nuovo Servizio".
                 </p>
               ) : (
                 <Table>
@@ -341,10 +341,10 @@ export default function AdminAddons() {
               <CardTitle>Come funziona</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 text-gray-600">
-              <p>1. <strong>Crea un add-on</strong> con nome e prezzo (es. "Aggiungi cena" €25)</p>
-              <p>2. <strong>Associa gli add-on ai tour</strong> dall'editor del singolo tour</p>
-              <p>3. <strong>I clienti vedranno</strong> gli add-on nella pagina dettaglio del tour</p>
-              <p>4. <strong>Il prezzo dell'add-on</strong> si aggiunge automaticamente al totale nel carrello</p>
+              <p>1. <strong>Crea un servizio</strong> con nome e prezzo (es. "Aggiungi cena" €25)</p>
+              <p>2. <strong>Associa i servizi ai tour</strong> dall'editor del singolo tour</p>
+              <p>3. <strong>I clienti vedranno</strong> i servizi nella pagina dettaglio del tour</p>
+              <p>4. <strong>Il prezzo del servizio</strong> si aggiunge automaticamente al totale nel carrello</p>
             </CardContent>
           </Card>
         </div>

@@ -199,7 +199,7 @@ export default function TravelDetail() {
     toast({
       title: "Aggiunto al carrello!",
       description: selectedAddons.length > 0 
-        ? `${travel.title} + ${selectedAddons.length} add-on`
+        ? `${travel.title} + ${selectedAddons.length} servizi`
         : travel.title
     });
   };
@@ -296,12 +296,12 @@ export default function TravelDetail() {
                 </div>
               </div>
 
-              {/* Add-ons / Upsells Section */}
+              {/* Servizi Extra Section */}
               {travelAddons.length > 0 && (
                 <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-5 border border-amber-200">
                   <h3 className="text-lg font-bold text-amber-800 mb-4 flex items-center gap-2">
                     <Plus className="h-5 w-5" />
-                    Aggiungi al tuo tour
+                    Servizi Extra
                   </h3>
                   <div className="space-y-3">
                     {travelAddons.map((addon) => (
@@ -337,7 +337,7 @@ export default function TravelDetail() {
                   {selectedAddons.length > 0 && (
                     <div className="mt-4 pt-4 border-t border-amber-200">
                       <div className="flex justify-between items-center text-amber-800">
-                        <span className="font-medium">Add-on selezionati:</span>
+                        <span className="font-medium">Servizi selezionati:</span>
                         <span className="font-bold text-lg">
                           +€{getSelectedAddonsTotal().toLocaleString("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </span>
