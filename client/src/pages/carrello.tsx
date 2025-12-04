@@ -9,7 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { ShoppingCart, Trash2, Plus, Minus, CreditCard, ArrowLeft, ShoppingBag, Users } from "lucide-react";
+import { ShoppingCart, Trash2, Plus, Minus, CreditCard, ArrowLeft, ShoppingBag, Users, Wallet } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -30,6 +32,18 @@ export default function Carrello() {
   const [location, setLocation] = useLocation();
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentType, setPaymentType] = useState<"full" | "deposit">("full");
+
+  const hasDepositOption = items.some(item => 
+    item.travel.depositAmount && Number(item.travel.depositAmount) > 0
+  );
+
+  const getDepositTotal = () => {
+    return items.reduce((total, item) => {
+      const depositAmount = item.travel.depositAmount ? Number(item.travel.depositAmount) : Number(item.travel.price);
+      return total + depositAmount * item.participants * item.quantity;
+    }, 0);
+  };
 
   // Handle payment success/cancel from URL params
   useEffect(() => {
@@ -63,14 +77,19 @@ export default function Carrello() {
         travelTitle: item.travel.title,
         quantity: item.quantity,
         participants: item.participants,
-        price: Number(item.travel.price) * item.participants * item.quantity,
+        price: paymentType === "deposit" && item.travel.depositAmount 
+          ? Number(item.travel.depositAmount) * item.participants * item.quantity
+          : Number(item.travel.price) * item.participants * item.quantity,
+        fullPrice: Number(item.travel.price) * item.participants * item.quantity,
         selectedDate: item.selectedDate
       }));
       
+      const totalAmount = paymentType === "deposit" ? getDepositTotal() : getTotal();
+      
       return apiRequest("POST", "/api/cart/checkout", {
         items: cartData,
-        total: getTotal(),
-        paymentType: "full"
+        total: totalAmount,
+        paymentType: paymentType
       });
     },
     onSuccess: async (data: any) => {
@@ -278,11 +297,58 @@ export default function Carrello() {
                       </div>
                       
                       <Separator />
+
+                      {hasDepositOption && (
+                        <div className="space-y-3">
+                          <p className="text-sm font-medium text-gray-700">Opzione di pagamento:</p>
+                          <RadioGroup
+                            value={paymentType}
+                            onValueChange={(value: "full" | "deposit") => setPaymentType(value)}
+                            className="space-y-2"
+                          >
+                            <div className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:border-[#D4AF37]/50 cursor-pointer transition-colors">
+                              <RadioGroupItem value="full" id="full" className="text-[#D4AF37]" />
+                              <Label htmlFor="full" className="flex-1 cursor-pointer">
+                                <div className="flex justify-between items-center">
+                                  <div>
+                                    <p className="font-medium">Pagamento Completo</p>
+                                    <p className="text-xs text-gray-500">Paga tutto subito</p>
+                                  </div>
+                                  <span className="font-bold text-[#D4AF37]">{formatCartPrice(getTotal())}</span>
+                                </div>
+                              </Label>
+                            </div>
+                            <div className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:border-[#D4AF37]/50 cursor-pointer transition-colors">
+                              <RadioGroupItem value="deposit" id="deposit" className="text-[#D4AF37]" />
+                              <Label htmlFor="deposit" className="flex-1 cursor-pointer">
+                                <div className="flex justify-between items-center">
+                                  <div>
+                                    <p className="font-medium">Acconto</p>
+                                    <p className="text-xs text-gray-500">Saldo all'arrivo</p>
+                                  </div>
+                                  <span className="font-bold text-green-600">{formatCartPrice(getDepositTotal())}</span>
+                                </div>
+                              </Label>
+                            </div>
+                          </RadioGroup>
+                          <Separator />
+                        </div>
+                      )}
                       
                       <div className="flex justify-between items-center text-lg font-bold">
-                        <span>Totale</span>
-                        <span className="text-[#D4AF37] text-2xl">{formatCartPrice(getTotal())}</span>
+                        <span>{paymentType === "deposit" ? "Da pagare ora" : "Totale"}</span>
+                        <span className="text-[#D4AF37] text-2xl">
+                          {formatCartPrice(paymentType === "deposit" ? getDepositTotal() : getTotal())}
+                        </span>
                       </div>
+
+                      {paymentType === "deposit" && (
+                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                          <p className="text-sm text-amber-800">
+                            <strong>Saldo restante:</strong> {formatCartPrice(getTotal() - getDepositTotal())} da pagare all'arrivo
+                          </p>
+                        </div>
+                      )}
                       
                       <Button
                         className="w-full bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white font-bold py-6 text-lg shadow-lg"
