@@ -230,12 +230,20 @@ export default function Carrello() {
                 <ShoppingBag className="w-24 h-24 mx-auto text-gray-300 mb-6" />
                 <h2 className="text-2xl font-bold text-gray-700 mb-4">Il tuo carrello è vuoto</h2>
                 <p className="text-gray-500 mb-8">Esplora le nostre escursioni e aggiungi quelle che ti interessano!</p>
-                <Link href="/viaggi">
-                  <Button className="bg-[#D4AF37] hover:bg-[#C9A961] text-white px-8 py-3">
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Sfoglia le Escursioni
-                  </Button>
-                </Link>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link href="/viaggi">
+                    <Button className="bg-[#D4AF37] hover:bg-[#C9A961] text-white px-8 py-3">
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      Sfoglia le Escursioni
+                    </Button>
+                  </Link>
+                  <Link href="/versa-saldo">
+                    <Button variant="outline" className="border-orange-500 text-orange-600 hover:bg-orange-50 px-8 py-3" data-testid="button-pay-balance-cart">
+                      <Wallet className="w-4 h-4 mr-2" />
+                      Versa Saldo
+                    </Button>
+                  </Link>
+                </div>
               </div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
