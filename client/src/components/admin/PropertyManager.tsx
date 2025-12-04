@@ -369,9 +369,26 @@ function ImageItem({ image, index, onRemove }: {
 import { isUnauthorizedError } from "@/lib/authUtils";
 
 
-interface PropertyFormData extends Omit<InsertProperty, 'images' | 'features' | 'address'> {
+interface PropertyFormData {
+  title: string;
+  description: string;
+  price: string;
+  depositAmount?: string;
+  depositPercentage?: number;
+  type: string;
+  propertyType?: string;
+  priceType?: string;
+  location: string;
+  municipality: string;
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
   features: string;
+  youtubeVideoId?: string;
+  featured: boolean;
+  available: boolean;
   showcaseCountry?: string;
+  rating?: string;
 }
 
 const initialFormData: PropertyFormData = {
@@ -390,7 +407,7 @@ const initialFormData: PropertyFormData = {
   area: 50,
   features: "",
   youtubeVideoId: "",
-  featured: false,
+  featured: true,
   available: true,
   showcaseCountry: "",
   rating: "0",
@@ -679,8 +696,8 @@ export default function PropertyManager() {
       area: property.minAge || 50, // DATABASE: minAge -> FORM: area
       features: Array.isArray(property.features) ? property.features.join('\n') : (property.features || ''),
       youtubeVideoId: property.youtubeVideoId || "",
-      featured: property.featured || false,
-      available: property.available !== undefined ? property.available : true,
+      featured: property.featured ?? true,
+      available: property.available ?? true,
       showcaseCountry: property.country || "", // DATABASE: country -> FORM: showcaseCountry
       rating: property.rating || "0", // DATABASE: rating -> FORM: rating
     };
@@ -767,8 +784,8 @@ export default function PropertyManager() {
         images: tempImages,
         features: formData.features ? formData.features.split('\n').filter(f => f.trim()) : [],
         youtubeVideoId: formData.youtubeVideoId,
-        featured: formData.featured,
-        available: formData.available,
+        featured: true,
+        available: true,
         rating: formData.rating || "0",
         showcaseCountry: formData.showcaseCountry,
       };
@@ -847,36 +864,14 @@ export default function PropertyManager() {
             </DialogHeader>
             
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Titolo Tour *</Label>
-                  <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="type">Tipo Tour *</Label>
-                  <Select
-                    value={formData.type}
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, type: value as "vendita" | "affitto" | "casa_vacanza" }))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="mare">Mare</SelectItem>
-                      <SelectItem value="montagna">Montagna</SelectItem>
-                      <SelectItem value="citta">Città</SelectItem>
-                      <SelectItem value="cultura">Cultura</SelectItem>
-                      <SelectItem value="avventura">Avventura</SelectItem>
-                      <SelectItem value="relax">Relax</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="title">Titolo Tour *</Label>
+                <Input
+                  id="title"
+                  value={formData.title}
+                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                  required
+                />
               </div>
 
               <div className="space-y-2">
@@ -984,27 +979,15 @@ export default function PropertyManager() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="location">Destinazione *</Label>
-                  <Input
-                    id="location"
-                    value={formData.location}
-                    onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
-                    placeholder="es. Ras Mohammed"
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="municipality">Area/Zona</Label>
-                  <Input
-                    id="municipality"
-                    value={formData.municipality}
-                    onChange={(e) => setFormData(prev => ({ ...prev, municipality: e.target.value }))}
-                    placeholder="es. Sud Sinai"
-                  />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="location">Destinazione *</Label>
+                <Input
+                  id="location"
+                  value={formData.location}
+                  onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
+                  placeholder="es. Ras Mohammed"
+                  required
+                />
               </div>
 
 
@@ -1114,59 +1097,6 @@ export default function PropertyManager() {
                 )}
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="features">Caratteristiche (una per riga)</Label>
-                <Textarea
-                  id="features"
-                  value={formData.features}
-                  onChange={(e) => setFormData(prev => ({ ...prev, features: e.target.value }))}
-                  rows={4}
-                  placeholder="Volo incluso&#10;Hotel 4 stelle&#10;Colazione inclusa&#10;Trasferimenti inclusi&#10;Guida turistica&#10;Assicurazione viaggio&#10;Wi-Fi gratuito&#10;Escursioni incluse"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="youtubeVideoId">Video YouTube</Label>
-                  <Input
-                    id="youtubeVideoId"
-                    value={formData.youtubeVideoId || ''}
-                    onChange={(e) => {
-                      let value = e.target.value;
-                      // Extract YouTube video ID from URL if pasted
-                      const match = value.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-                      if (match) {
-                        value = match[1];
-                      }
-                      setFormData(prev => ({ ...prev, youtubeVideoId: value }));
-                    }}
-                    placeholder="Incolla URL YouTube o solo ID: x8WntjPQtw4"
-                  />
-                  <p className="text-xs text-gray-500">
-                    Puoi incollare l'URL completo YouTube o solo l'ID del video
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-6">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="featured"
-                    checked={!!formData.featured}
-                    onCheckedChange={(checked) => setFormData(prev => ({ ...prev, featured: !!checked }))}
-                  />
-                  <Label htmlFor="featured">In evidenza</Label>
-                </div>
-                
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="available"
-                    checked={!!formData.available}
-                    onCheckedChange={(checked) => setFormData(prev => ({ ...prev, available: !!checked }))}
-                  />
-                  <Label htmlFor="available">Disponibile</Label>
-                </div>
-              </div>
 
               <div className="flex justify-end space-x-2">
                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
