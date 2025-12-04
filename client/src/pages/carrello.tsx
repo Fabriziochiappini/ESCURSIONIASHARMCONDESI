@@ -19,6 +19,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { SiPaypal } from "react-icons/si";
 import { StripeCheckout } from "@/components/stripe-checkout";
+import { PayPalCheckout } from "@/components/paypal-checkout";
 
 function formatCartPrice(price: number): string {
   return new Intl.NumberFormat('it-IT', {
@@ -40,6 +41,7 @@ export default function Carrello() {
   const [paypalOrderId, setPaypalOrderId] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [showStripePayment, setShowStripePayment] = useState(false);
+  const [showPayPalPayment, setShowPayPalPayment] = useState(false);
 
   const hasDepositOption = items.some(item => 
     (item.travel.depositAmount && Number(item.travel.depositAmount) > 0) ||
@@ -147,106 +149,21 @@ export default function Carrello() {
     });
   };
 
-  const handlePayPalPayment = async () => {
-    const totalAmount = paymentType === "deposit" ? getDepositTotal() : getTotal();
-    
-    setIsProcessing(true);
-    try {
-      const orderResponseData = await apiRequest("POST", "/paypal/order", {
-        intent: "CAPTURE",
-        amount: totalAmount.toString(),
-        currency: "EUR",
-      });
-      
-      const orderResponse = await orderResponseData.json();
+  const handlePayPalPaymentSuccess = () => {
+    toast({ 
+      title: "Pagamento completato!", 
+      description: "Grazie per il tuo acquisto. Riceverai una email di conferma." 
+    });
+    clearCart();
+    setShowPayPalPayment(false);
+  };
 
-      if (!orderResponse.id) {
-        throw new Error("Errore nella creazione dell'ordine PayPal");
-      }
-
-      const orderID = orderResponse.id;
-      setPaypalOrderId(orderID);
-      
-      const approvalUrl = orderResponse.links?.find(
-        (link: any) => link.rel === "approve"
-      )?.href;
-
-      if (approvalUrl) {
-        const paypalWindow = window.open(
-          approvalUrl,
-          "paypal",
-          "width=500,height=600,scrollbars=yes,resizable=yes"
-        );
-
-        if (!paypalWindow) {
-          throw new Error("PopUp bloccato. Abilita i popup per completare il pagamento PayPal.");
-        }
-
-        const pollTimer = setInterval(async () => {
-          if (paypalWindow.closed) {
-            clearInterval(pollTimer);
-            
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            try {
-              const captureResponseData = await apiRequest("POST", `/paypal/order/${orderID}/capture`, {});
-              const captureResponse = await captureResponseData.json();
-              
-              if (captureResponse.status === "COMPLETED") {
-                toast({ 
-                  title: "Pagamento completato!", 
-                  description: "Grazie per il tuo acquisto. Riceverai una email di conferma." 
-                });
-                clearCart();
-                setIsProcessing(false);
-              } else {
-                toast({ 
-                  title: "Pagamento annullato", 
-                  description: "Il pagamento PayPal è stato annullato.",
-                  variant: "destructive"
-                });
-                setIsProcessing(false);
-              }
-            } catch (error) {
-              console.error("PayPal capture error:", error);
-              toast({ 
-                title: "Pagamento non completato", 
-                description: "Il pagamento PayPal non è stato completato.",
-                variant: "destructive"
-              });
-              setIsProcessing(false);
-            }
-          }
-        }, 500);
-
-        setTimeout(() => {
-          clearInterval(pollTimer);
-          if (!paypalWindow.closed) {
-            paypalWindow.close();
-          }
-          if (isProcessing) {
-            setIsProcessing(false);
-            toast({ 
-              title: "Timeout", 
-              description: "Il tempo per completare il pagamento PayPal è scaduto.",
-              variant: "destructive"
-            });
-          }
-        }, 600000);
-
-      } else {
-        throw new Error("URL di approvazione PayPal non ricevuto");
-      }
-
-    } catch (error: any) {
-      console.error("PayPal payment error:", error);
-      toast({ 
-        title: "Errore PayPal", 
-        description: error.message || "Errore durante il pagamento PayPal.",
-        variant: "destructive"
-      });
-      setIsProcessing(false);
-    }
+  const handlePayPalPaymentError = () => {
+    toast({ 
+      title: "Errore nel pagamento", 
+      description: "Si è verificato un errore durante il pagamento PayPal. Riprova.",
+      variant: "destructive"
+    });
   };
 
   const handleCheckout = () => {
@@ -254,11 +171,11 @@ export default function Carrello() {
       toast({ title: "Il carrello è vuoto", variant: "destructive" });
       return;
     }
-    setIsProcessing(true);
     
     if (paymentMethod === "paypal") {
-      handlePayPalPayment();
+      setShowPayPalPayment(true);
     } else {
+      setIsProcessing(true);
       checkoutMutation.mutate();
     }
   };
@@ -441,8 +358,12 @@ export default function Carrello() {
                   <Card className="sticky top-32 border-2 border-[#D4AF37]/30">
                     <CardHeader className="bg-gradient-to-r from-[#D4AF37]/10 to-[#E6C87F]/10">
                       <CardTitle className="flex items-center gap-2">
-                        <CreditCard className="h-5 w-5 text-[#D4AF37]" />
-                        {showStripePayment ? "Pagamento con Carta" : "Riepilogo Ordine"}
+                        {showPayPalPayment ? (
+                          <SiPaypal className="h-5 w-5 text-blue-600" />
+                        ) : (
+                          <CreditCard className="h-5 w-5 text-[#D4AF37]" />
+                        )}
+                        {showStripePayment ? "Pagamento con Carta" : showPayPalPayment ? "Pagamento PayPal" : "Riepilogo Ordine"}
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="p-6 space-y-4">
@@ -478,6 +399,41 @@ export default function Carrello() {
                               setShowStripePayment(false);
                               setClientSecret(null);
                             }}
+                            className="w-full"
+                          >
+                            Torna al carrello
+                          </Button>
+                        </div>
+                      ) : showPayPalPayment ? (
+                        <div className="space-y-4">
+                          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-4">
+                            <h3 className="font-semibold text-blue-800 mb-2">Riepilogo ordine</h3>
+                            <div className="text-sm space-y-1">
+                              {items.map((item) => (
+                                <div key={item.travel.id} className="flex justify-between">
+                                  <span className="truncate max-w-[180px]">{item.travel.title}</span>
+                                  <span className="font-medium">{item.participants} pers.</span>
+                                </div>
+                              ))}
+                              <div className="flex justify-between font-semibold pt-2 border-t border-blue-300 mt-2">
+                                <span>Totale da pagare:</span>
+                                <span className="text-blue-700">
+                                  {formatCartPrice(paymentType === "deposit" ? getDepositTotal() : getTotal())}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <PayPalCheckout
+                            amount={paymentType === "deposit" ? getDepositTotal() : getTotal()}
+                            onSuccess={handlePayPalPaymentSuccess}
+                            onError={handlePayPalPaymentError}
+                            bookingId={0}
+                          />
+                          
+                          <Button
+                            variant="outline"
+                            onClick={() => setShowPayPalPayment(false)}
                             className="w-full"
                           >
                             Torna al carrello
