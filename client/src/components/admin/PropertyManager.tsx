@@ -695,6 +695,7 @@ export default function PropertyManager() {
       depositAmount: property.depositAmount?.toString() || undefined,
       depositPercentage: property.depositPercentage || undefined,
       type: property.type || "mare",
+      tourCategory: property.tourCategory || "single", // DATABASE: tourCategory -> FORM: tourCategory
       propertyType: property.travelType || undefined, // DATABASE: travelType -> FORM: propertyType
       priceType: property.priceType || "per_person",
       location: property.destination || "", // DATABASE: destination -> FORM: location
@@ -795,6 +796,7 @@ export default function PropertyManager() {
         depositAmount: formData.depositAmount || undefined,
         depositPercentage: formData.depositPercentage || undefined,
         type: formData.type || "mare",
+        tourCategory: formData.tourCategory || "single",
         description: formData.description,
         travelType: formData.propertyType,
         priceType: formData.priceType,
@@ -971,6 +973,25 @@ export default function PropertyManager() {
                     Importo acconto per persona in Euro. Lascia vuoto se non previsto.
                   </p>
                 </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="tourCategory">Categoria *</Label>
+                <Select
+                  value={formData.tourCategory}
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, tourCategory: value }))}
+                >
+                  <SelectTrigger id="tourCategory">
+                    <SelectValue placeholder="Seleziona categoria" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="single">🎯 Escursione Singola</SelectItem>
+                    <SelectItem value="package">📦 Pacchetto</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-gray-500">
+                  Seleziona se è un'escursione singola o un pacchetto di più attività
+                </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

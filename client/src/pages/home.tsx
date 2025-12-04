@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { HeroSection } from "@/components/hero-section";
 import { PropertyGrid } from "@/components/property-grid";
 import { Navigation } from "@/components/navigation";
@@ -15,6 +15,8 @@ import type { Guide } from "@shared/schema";
 
 
 export default function Home() {
+  const [tourCategory, setTourCategory] = useState<"all" | "single" | "package">("all");
+  
   const { data: guides = [] } = useQuery<Guide[]>({
     queryKey: ["/api/guides"],
   });
@@ -42,14 +44,48 @@ export default function Home() {
                 Le Nostre Escursioni
               </h2>
               <div className="w-64 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
-              <p className="text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed mb-12 font-light">
+              <p className="text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed mb-8 font-light">
                 Ti offriamo un'ampia scelta di destinazioni da visitare a Sharm El Sheikh.<br />
                 Scegli quella che più ti piace e lasciati ispirare dalla meravigliosa barriera corallina del Mar Rosso.
               </p>
+              
+              {/* Tabs per filtrare */}
+              <div className="flex justify-center gap-2 mb-12">
+                <button
+                  onClick={() => setTourCategory("all")}
+                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                    tourCategory === "all"
+                      ? "bg-gradient-to-r from-[#C9A961] to-[#D4AF37] text-white shadow-lg scale-105"
+                      : "bg-white border-2 border-[#D4AF37]/30 text-gray-600 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                  }`}
+                >
+                  🌟 Tutti
+                </button>
+                <button
+                  onClick={() => setTourCategory("single")}
+                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                    tourCategory === "single"
+                      ? "bg-gradient-to-r from-[#C9A961] to-[#D4AF37] text-white shadow-lg scale-105"
+                      : "bg-white border-2 border-[#D4AF37]/30 text-gray-600 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                  }`}
+                >
+                  🎯 Escursioni Singole
+                </button>
+                <button
+                  onClick={() => setTourCategory("package")}
+                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                    tourCategory === "package"
+                      ? "bg-gradient-to-r from-[#C9A961] to-[#D4AF37] text-white shadow-lg scale-105"
+                      : "bg-white border-2 border-[#D4AF37]/30 text-gray-600 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                  }`}
+                >
+                  📦 Pacchetti
+                </button>
+              </div>
             </div>
 
             <div className="animate-slide-up">
-              <PropertyGrid showAll={true} />
+              <PropertyGrid showAll={true} tourCategory={tourCategory} />
             </div>
           </div>
         </section>

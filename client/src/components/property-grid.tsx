@@ -12,9 +12,10 @@ interface PropertyGridProps {
   filters?: SearchFilters;
   showAll?: boolean;
   maxColumns?: number;
+  tourCategory?: "all" | "single" | "package";
 }
 
-export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: PropertyGridProps) {
+export function PropertyGrid({ filters, showAll = false, maxColumns = 3, tourCategory = "all" }: PropertyGridProps) {
   const [location] = useLocation();
   const [mobileGridView, setMobileGridView] = useState<'two-cols' | 'single'>('two-cols');
 
@@ -43,8 +44,14 @@ export function PropertyGrid({ filters, showAll = false, maxColumns = 3 }: Prope
     }
   });
 
+  // Filter by tour category if specified
+  const filteredByCategory = allProperties?.filter(p => {
+    if (tourCategory === "all") return true;
+    return p.tourCategory === tourCategory;
+  });
+
   // Show 8 properties for homepage (2 rows of 4), show all if showAll is true or filters are applied  
-  const properties = showAll || filters ? allProperties : allProperties?.slice(0, 8);
+  const properties = showAll || filters ? filteredByCategory : filteredByCategory?.slice(0, 8);
 
   if (isLoading) {
     const gridCols = maxColumns === 2 ? "grid-cols-2 md:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
