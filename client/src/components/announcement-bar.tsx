@@ -38,7 +38,7 @@ export function AnnouncementBar() {
 
             {/* Facebook */}
             <a
-              href="#"
+              href="https://www.facebook.com/siviaggiacondesi"
               target="_blank"
               rel="noopener noreferrer"
               className="w-8 h-8 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center transition-all duration-300 transform hover:scale-110"
@@ -49,7 +49,7 @@ export function AnnouncementBar() {
 
             {/* Instagram */}
             <a
-              href="#"
+              href="https://www.instagram.com/siviaggiacondesi"
               target="_blank"
               rel="noopener noreferrer"
               className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 via-purple-500 to-orange-400 hover:from-pink-600 hover:via-purple-600 hover:to-orange-500 flex items-center justify-center transition-all duration-300 transform hover:scale-110"
