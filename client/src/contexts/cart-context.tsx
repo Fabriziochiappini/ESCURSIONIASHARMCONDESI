@@ -1,5 +1,10 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import type { Travel } from "@shared/schema";
+import type { Travel, Addon } from "@shared/schema";
+
+export interface SelectedAddon {
+  addon: Addon;
+  quantity: number;
+}
 
 export interface CartItem {
   travel: Travel;
@@ -7,18 +12,21 @@ export interface CartItem {
   selectedDate?: string;
   participants: number;
   participantNotes?: string;
+  selectedAddons?: SelectedAddon[];
 }
 
 interface CartContextType {
   items: CartItem[];
-  addToCart: (travel: Travel, participants?: number, selectedDate?: string) => void;
+  addToCart: (travel: Travel, participants?: number, selectedDate?: string, addons?: SelectedAddon[]) => void;
   removeFromCart: (travelId: number) => void;
   updateQuantity: (travelId: number, quantity: number) => void;
   updateParticipants: (travelId: number, participants: number) => void;
   updateParticipantNotes: (travelId: number, notes: string) => void;
+  updateAddons: (travelId: number, addons: SelectedAddon[]) => void;
   clearCart: () => void;
   getTotal: () => number;
   getItemCount: () => number;
+  getAddonsTotal: (travelId: number) => number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -36,17 +44,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("cart", JSON.stringify(items));
   }, [items]);
 
-  const addToCart = (travel: Travel, participants: number = 1, selectedDate?: string) => {
+  const addToCart = (travel: Travel, participants: number = 1, selectedDate?: string, addons?: SelectedAddon[]) => {
     setItems((prev) => {
       const existing = prev.find((item) => item.travel.id === travel.id);
       if (existing) {
         return prev.map((item) =>
           item.travel.id === travel.id
-            ? { ...item, quantity: item.quantity + 1, participants: participants || item.participants }
+            ? { 
+                ...item, 
+                quantity: item.quantity + 1, 
+                participants: participants || item.participants,
+                selectedAddons: addons || item.selectedAddons
+              }
             : item
         );
       }
-      return [...prev, { travel, quantity: 1, selectedDate, participants }];
+      return [...prev, { travel, quantity: 1, selectedDate, participants, selectedAddons: addons }];
     });
   };
 
@@ -82,14 +95,34 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  const updateAddons = (travelId: number, addons: SelectedAddon[]) => {
+    setItems((prev) =>
+      prev.map((item) =>
+        item.travel.id === travelId ? { ...item, selectedAddons: addons } : item
+      )
+    );
+  };
+
   const clearCart = () => {
     setItems([]);
+  };
+
+  const getAddonsTotal = (travelId: number) => {
+    const item = items.find(i => i.travel.id === travelId);
+    if (!item?.selectedAddons) return 0;
+    return item.selectedAddons.reduce((total, sa) => {
+      return total + (Number(sa.addon.price) || 0) * sa.quantity * item.participants;
+    }, 0);
   };
 
   const getTotal = () => {
     return items.reduce((total, item) => {
       const price = Number(item.travel.price) || 0;
-      return total + price * item.participants;
+      const travelTotal = price * item.participants;
+      const addonsTotal = (item.selectedAddons || []).reduce((at, sa) => {
+        return at + (Number(sa.addon.price) || 0) * sa.quantity * item.participants;
+      }, 0);
+      return total + travelTotal + addonsTotal;
     }, 0);
   };
 
@@ -106,9 +139,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
         updateQuantity,
         updateParticipants,
         updateParticipantNotes,
+        updateAddons,
         clearCart,
         getTotal,
         getItemCount,
+        getAddonsTotal,
       }}
     >
       {children}

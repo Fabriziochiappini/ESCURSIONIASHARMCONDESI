@@ -1,22 +1,23 @@
 import { useState, useCallback, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, MapPin, Clock, Users, Calendar, Heart, Star, Plane, CheckCircle, XCircle, ShoppingCart, Phone, Share2, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, MapPin, Clock, Users, Calendar, Heart, Star, Plane, CheckCircle, XCircle, ShoppingCart, Phone, Share2, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { PhotoGallery } from "@/components/PhotoGallery";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import type { Travel } from "@shared/schema";
+import type { Travel, Addon } from "@shared/schema";
 import { formatPrice, formatDuration, getTravelTypeIcon, getCategoryIcon } from "@/lib/types";
 import { Link } from "wouter";
 import { SEOHead } from "@/components/seo-head";
 import { AnnouncementBar } from "@/components/announcement-bar";
 import { shareOnWhatsApp } from "@/lib/whatsapp";
-import { useCart } from "@/contexts/cart-context";
+import { useCart, type SelectedAddon } from "@/contexts/cart-context";
 import { useToast } from "@/hooks/use-toast";
 import useEmblaCarousel from "embla-carousel-react";
 
@@ -29,6 +30,7 @@ export default function TravelDetail() {
   const [showCartDialog, setShowCartDialog] = useState(false);
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedAddons, setSelectedAddons] = useState<SelectedAddon[]>([]);
 
   // Determina se è un ID numerico o uno slug
   const isNumericId = travelId && /^\d+$/.test(travelId);
@@ -58,6 +60,18 @@ export default function TravelDetail() {
   const { data: travel, isLoading, error } = useQuery<Travel>({
     queryKey: [finalQueryUrl],
     enabled: !!finalQueryUrl,
+  });
+
+  // Fetch add-ons for this travel
+  const { data: travelAddons = [] } = useQuery<Addon[]>({
+    queryKey: ["/api/travels", travel?.id, "addons"],
+    queryFn: async () => {
+      if (!travel?.id) return [];
+      const res = await fetch(`/api/travels/${travel.id}/addons`);
+      if (!res.ok) return [];
+      return res.json();
+    },
+    enabled: !!travel?.id,
   });
 
   // Fetch all tours for related section
@@ -159,9 +173,35 @@ export default function TravelDetail() {
     }
   };
 
+  const toggleAddon = (addon: Addon) => {
+    setSelectedAddons(prev => {
+      const existing = prev.find(sa => sa.addon.id === addon.id);
+      if (existing) {
+        return prev.filter(sa => sa.addon.id !== addon.id);
+      }
+      return [...prev, { addon, quantity: 1 }];
+    });
+  };
+
+  const isAddonSelected = (addonId: number) => {
+    return selectedAddons.some(sa => sa.addon.id === addonId);
+  };
+
+  const getSelectedAddonsTotal = () => {
+    return selectedAddons.reduce((total, sa) => {
+      return total + (Number(sa.addon.price) || 0) * sa.quantity;
+    }, 0);
+  };
+
   const handleAddToCart = () => {
-    addToCart(travel, 1);
+    addToCart(travel, 1, undefined, selectedAddons.length > 0 ? selectedAddons : undefined);
     setShowCartDialog(true);
+    toast({
+      title: "Aggiunto al carrello!",
+      description: selectedAddons.length > 0 
+        ? `${travel.title} + ${selectedAddons.length} add-on`
+        : travel.title
+    });
   };
 
   return (
@@ -255,6 +295,63 @@ export default function TravelDetail() {
                   </p>
                 </div>
               </div>
+
+              {/* Add-ons / Upsells Section */}
+              {travelAddons.length > 0 && (
+                <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-5 border border-amber-200">
+                  <h3 className="text-lg font-bold text-amber-800 mb-4 flex items-center gap-2">
+                    <Plus className="h-5 w-5" />
+                    Aggiungi al tuo tour
+                  </h3>
+                  <div className="space-y-3">
+                    {travelAddons.map((addon) => (
+                      <div 
+                        key={addon.id}
+                        className={`flex items-center justify-between p-4 rounded-lg cursor-pointer transition-all ${
+                          isAddonSelected(addon.id) 
+                            ? 'bg-amber-100 border-2 border-amber-400' 
+                            : 'bg-white border border-gray-200 hover:border-amber-300'
+                        }`}
+                        onClick={() => toggleAddon(addon)}
+                        data-testid={`addon-${addon.id}`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <Checkbox 
+                            checked={isAddonSelected(addon.id)}
+                            className="data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600"
+                          />
+                          <div>
+                            <p className="font-semibold text-gray-800">{addon.name}</p>
+                            {addon.description && (
+                              <p className="text-sm text-gray-500">{addon.description}</p>
+                            )}
+                          </div>
+                        </div>
+                        <span className="font-bold text-amber-700 text-lg">
+                          +€{parseFloat(addon.price).toLocaleString("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {selectedAddons.length > 0 && (
+                    <div className="mt-4 pt-4 border-t border-amber-200">
+                      <div className="flex justify-between items-center text-amber-800">
+                        <span className="font-medium">Add-on selezionati:</span>
+                        <span className="font-bold text-lg">
+                          +€{getSelectedAddonsTotal().toLocaleString("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center text-gray-900 mt-2 pt-2 border-t border-amber-200">
+                        <span className="font-bold">Totale:</span>
+                        <span className="font-bold text-xl text-blue-600">
+                          €{(parseFloat(travel.price) + getSelectedAddonsTotal()).toLocaleString("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Action Button */}
               <div className="flex justify-center">
