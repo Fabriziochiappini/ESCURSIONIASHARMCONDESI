@@ -1244,7 +1244,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Cart Checkout - Create Stripe Checkout Session for multiple items
+  // Cart Checkout - Create Payment Intent for cart items
   app.post("/api/cart/checkout", async (req, res) => {
     try {
       const { items, total, paymentType } = req.body;
@@ -1253,33 +1253,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Il carrello è vuoto" });
       }
 
-      // Create line items for Stripe Checkout
-      const lineItems = items.map((item: any) => ({
-        price_data: {
-          currency: 'eur',
-          product_data: {
-            name: item.travelTitle,
-            description: `${item.participants} partecipanti x ${item.quantity}`,
-          },
-          unit_amount: Math.round(item.price * 100), // Convert to cents
-        },
-        quantity: 1,
-      }));
+      // Create description for the payment
+      const description = items.map((item: any) => 
+        `${item.travelTitle} (${item.participants} pers.)`
+      ).join(', ');
 
-      // Create Stripe Checkout Session
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: lineItems,
-        mode: 'payment',
-        success_url: `${process.env.REPLIT_DOMAINS?.split(',')[0] ? 'https://' + process.env.REPLIT_DOMAINS?.split(',')[0] : 'http://localhost:5000'}/carrello?success=true`,
-        cancel_url: `${process.env.REPLIT_DOMAINS?.split(',')[0] ? 'https://' + process.env.REPLIT_DOMAINS?.split(',')[0] : 'http://localhost:5000'}/carrello?canceled=true`,
+      // Create Stripe Payment Intent
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(total * 100), // Convert to cents
+        currency: 'eur',
+        description: description,
         metadata: {
-          cartItems: JSON.stringify(items.map((i: any) => ({ travelId: i.travelId, participants: i.participants, quantity: i.quantity }))),
+          cartItems: JSON.stringify(items.map((i: any) => ({ 
+            travelId: i.travelId, 
+            participants: i.participants,
+            participantNotes: i.participantNotes || ''
+          }))),
           total: total.toString(),
+          paymentType: paymentType || 'full',
         },
       });
 
-      res.json({ sessionId: session.id, url: session.url });
+      res.json({ clientSecret: paymentIntent.client_secret });
     } catch (error: any) {
       console.error('Cart checkout error:', error);
       res.status(500).json({ message: "Errore nel checkout: " + error.message });

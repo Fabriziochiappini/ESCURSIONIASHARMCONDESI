@@ -17,10 +17,8 @@ import { Label } from "@/components/ui/label";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { loadStripe } from "@stripe/stripe-js";
 import { SiPaypal } from "react-icons/si";
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || "");
+import { StripeCheckout } from "@/components/stripe-checkout";
 
 function formatCartPrice(price: number): string {
   return new Intl.NumberFormat('it-IT', {
@@ -40,6 +38,8 @@ export default function Carrello() {
   const [paymentMethod, setPaymentMethod] = useState<"stripe" | "paypal">("stripe");
   const [showPayPalCheckout, setShowPayPalCheckout] = useState(false);
   const [paypalOrderId, setPaypalOrderId] = useState<string | null>(null);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [showStripePayment, setShowStripePayment] = useState(false);
 
   const hasDepositOption = items.some(item => 
     (item.travel.depositAmount && Number(item.travel.depositAmount) > 0) ||
@@ -115,11 +115,11 @@ export default function Carrello() {
       
       return response.json();
     },
-    onSuccess: async (data: { sessionId: string; url?: string }) => {
-      if (data.url) {
-        window.location.href = data.url;
-      } else if (data.sessionId) {
-        window.location.href = `https://checkout.stripe.com/pay/${data.sessionId}`;
+    onSuccess: (data: { clientSecret: string }) => {
+      if (data.clientSecret) {
+        setClientSecret(data.clientSecret);
+        setShowStripePayment(true);
+        setIsProcessing(false);
       }
     },
     onError: (error: any) => {
@@ -128,6 +128,24 @@ export default function Carrello() {
       setIsProcessing(false);
     }
   });
+  
+  const handleStripePaymentSuccess = () => {
+    toast({ 
+      title: "Pagamento completato!", 
+      description: "Grazie per il tuo acquisto. Riceverai una email di conferma." 
+    });
+    clearCart();
+    setShowStripePayment(false);
+    setClientSecret(null);
+  };
+
+  const handleStripePaymentError = () => {
+    toast({ 
+      title: "Errore nel pagamento", 
+      description: "Si è verificato un errore durante il pagamento. Riprova.",
+      variant: "destructive"
+    });
+  };
 
   const handlePayPalPayment = async () => {
     const totalAmount = paymentType === "deposit" ? getDepositTotal() : getTotal();
@@ -424,10 +442,49 @@ export default function Carrello() {
                     <CardHeader className="bg-gradient-to-r from-[#D4AF37]/10 to-[#E6C87F]/10">
                       <CardTitle className="flex items-center gap-2">
                         <CreditCard className="h-5 w-5 text-[#D4AF37]" />
-                        Riepilogo Ordine
+                        {showStripePayment ? "Pagamento con Carta" : "Riepilogo Ordine"}
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="p-6 space-y-4">
+                      {showStripePayment && clientSecret ? (
+                        <div className="space-y-4">
+                          <div className="bg-green-50 p-4 rounded-lg border border-green-200 mb-4">
+                            <h3 className="font-semibold text-green-800 mb-2">Riepilogo ordine</h3>
+                            <div className="text-sm space-y-1">
+                              {items.map((item) => (
+                                <div key={item.travel.id} className="flex justify-between">
+                                  <span className="truncate max-w-[180px]">{item.travel.title}</span>
+                                  <span className="font-medium">{item.participants} pers.</span>
+                                </div>
+                              ))}
+                              <div className="flex justify-between font-semibold pt-2 border-t border-green-300 mt-2">
+                                <span>Totale da pagare:</span>
+                                <span className="text-green-700">
+                                  {formatCartPrice(paymentType === "deposit" ? getDepositTotal() : getTotal())}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <StripeCheckout
+                            clientSecret={clientSecret}
+                            onSuccess={handleStripePaymentSuccess}
+                            onError={handleStripePaymentError}
+                          />
+                          
+                          <Button
+                            variant="outline"
+                            onClick={() => {
+                              setShowStripePayment(false);
+                              setClientSecret(null);
+                            }}
+                            className="w-full"
+                          >
+                            Torna al carrello
+                          </Button>
+                        </div>
+                      ) : (
+                        <>
                       <div className="space-y-3">
                         {items.map((item) => (
                           <div key={item.travel.id} className="flex justify-between text-sm">
@@ -546,9 +603,11 @@ export default function Carrello() {
                         )}
                       </Button>
                       
-                      <p className="text-xs text-gray-500 text-center">
-                        Pagamento sicuro e protetto.
-                      </p>
+                        <p className="text-xs text-gray-500 text-center">
+                          Pagamento sicuro e protetto.
+                        </p>
+                      </>
+                    )}
                     </CardContent>
                   </Card>
                 </div>
