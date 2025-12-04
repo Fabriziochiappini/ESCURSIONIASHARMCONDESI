@@ -7,7 +7,7 @@ if (!process.env.SENDGRID_API_KEY) {
 }
 
 const FROM_EMAIL = 'info@webproitalia.com';
-const TOUR_OPERATOR_EMAIL = 'tuacarfrosinone@gmail.com';
+const TOUR_OPERATOR_EMAIL = 'siviaggiacondesi@gmail.com';
 
 interface BookingEmailData {
   bookingId: number;
