@@ -357,10 +357,7 @@ export default function Carrello() {
                               <RadioGroupItem value="deposit" id="deposit" className="text-[#D4AF37]" />
                               <Label htmlFor="deposit" className="flex-1 cursor-pointer">
                                 <div className="flex justify-between items-center">
-                                  <div>
-                                    <p className="font-medium">Acconto</p>
-                                    <p className="text-xs text-gray-500">Saldo all'arrivo</p>
-                                  </div>
+                                  <p className="font-medium">Acconto</p>
                                   <span className="font-bold text-green-600">{formatCartPrice(getDepositTotal())}</span>
                                 </div>
                               </Label>
