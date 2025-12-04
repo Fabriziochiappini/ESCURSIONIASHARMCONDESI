@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, MapPin, Clock, Users, Calendar, Heart, Star, Plane, CheckCircle, XCircle, CreditCard, Phone, Share2 } from "lucide-react";
+import { ArrowLeft, MapPin, Clock, Users, Calendar, Heart, Star, Plane, CheckCircle, XCircle, ShoppingCart, Phone, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,18 +9,23 @@ import { Separator } from "@/components/ui/separator";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { PhotoGallery } from "@/components/PhotoGallery";
-import { BookingModal } from "@/components/booking-modal";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import type { Travel } from "@shared/schema";
 import { formatPrice, formatDuration, getTravelTypeIcon, getCategoryIcon } from "@/lib/types";
 import { Link } from "wouter";
 import { SEOHead } from "@/components/seo-head";
 import { AnnouncementBar } from "@/components/announcement-bar";
 import { shareOnWhatsApp } from "@/lib/whatsapp";
+import { useCart } from "@/contexts/cart-context";
+import { useToast } from "@/hooks/use-toast";
 
 export default function TravelDetail() {
   const params = useParams();
   const [, setLocation] = useLocation();
   const travelId = params.id;
+  const { addToCart } = useCart();
+  const { toast } = useToast();
+  const [showCartDialog, setShowCartDialog] = useState(false);
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -110,6 +115,11 @@ export default function TravelDetail() {
       case "relax": return "Relax";
       default: return type;
     }
+  };
+
+  const handleAddToCart = () => {
+    addToCart(travel, 1);
+    setShowCartDialog(true);
   };
 
   return (
@@ -206,15 +216,14 @@ export default function TravelDetail() {
 
               {/* Action Button */}
               <div className="flex justify-center">
-                <BookingModal travel={travel}>
-                  <Button 
-                    className="w-full max-w-md bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white py-4 text-lg font-semibold shadow-lg"
-                    data-testid="button-book-now"
-                  >
-                    <CreditCard className="h-5 w-5 mr-2" />
-                    Prenota Ora
-                  </Button>
-                </BookingModal>
+                <Button 
+                  onClick={handleAddToCart}
+                  className="w-full max-w-md bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white py-4 text-lg font-semibold shadow-lg"
+                  data-testid="button-add-to-cart"
+                >
+                  <ShoppingCart className="h-5 w-5 mr-2" />
+                  Aggiungi al Carrello
+                </Button>
               </div>
             </div>
           </div>
@@ -262,18 +271,17 @@ export default function TravelDetail() {
               <CardContent className="py-8">
                 <div className="text-center space-y-6">
                   <h3 className="text-2xl font-bold text-white tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">Pronto a Partire?</h3>
-                  <p className="text-white/90 text-lg font-light">Prenota ora la tua escursione!</p>
+                  <p className="text-white/90 text-lg font-light">Aggiungi al carrello e completa il pagamento!</p>
                   <div className="flex justify-center pt-4">
-                    <BookingModal travel={travel}>
-                      <Button 
-                        size="lg"
-                        className="bg-white text-[#A8CFEB] hover:bg-white/90 font-light border border-[#D4AF37]/30"
-                        data-testid="button-book-cta"
-                      >
-                        <CreditCard className="h-5 w-5 mr-2" />
-                        Prenota Ora
-                      </Button>
-                    </BookingModal>
+                    <Button 
+                      size="lg"
+                      onClick={handleAddToCart}
+                      className="bg-white text-[#A8CFEB] hover:bg-white/90 font-light border border-[#D4AF37]/30"
+                      data-testid="button-add-cart-cta"
+                    >
+                      <ShoppingCart className="h-5 w-5 mr-2" />
+                      Aggiungi al Carrello
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -310,6 +318,44 @@ export default function TravelDetail() {
       </main>
 
       <Footer />
+
+      {/* Dialog dopo aggiunta al carrello */}
+      <Dialog open={showCartDialog} onOpenChange={setShowCartDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center text-xl font-bold text-green-600 flex items-center justify-center gap-2">
+              <CheckCircle className="h-6 w-6" />
+              Aggiunto al Carrello!
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <p className="text-center text-gray-600">
+              <strong>{travel.title}</strong> è stato aggiunto al tuo carrello.
+            </p>
+            <div className="flex flex-col gap-3">
+              <Button
+                onClick={() => {
+                  setShowCartDialog(false);
+                  setLocation('/carrello');
+                }}
+                className="w-full bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white py-3"
+                data-testid="button-go-to-cart"
+              >
+                <ShoppingCart className="h-5 w-5 mr-2" />
+                Vai al Carrello e Completa il Pagamento
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setShowCartDialog(false)}
+                className="w-full border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10"
+                data-testid="button-continue-shopping"
+              >
+                Continua ad Esplorare
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
