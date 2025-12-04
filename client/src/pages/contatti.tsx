@@ -11,8 +11,8 @@ export default function Contatti() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title="Contatti Si Viaggia con Desy | Tour Operator Sharm El Sheikh"
-        description="Contatta Si Viaggia con Desy per organizzare i tuoi tour a Sharm El Sheikh. Tel: +39 344 458 5177, Email: siviaggiacondesi@gmail.com"
+        title="Contatti Si Viaggia con Desi | Tour Operator Sharm El Sheikh"
+        description="Contatta Si Viaggia con Desi per organizzare i tuoi tour a Sharm El Sheikh. Tel: +39 344 458 5177, Email: siviaggiacondesi@gmail.com"
         keywords="contatti tour operator, si viaggia con desy contatti, tour operator sharm el sheikh"
         canonicalUrl="https://siviaggiacondesy.it/contatti"
       />

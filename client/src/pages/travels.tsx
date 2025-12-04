@@ -123,8 +123,8 @@ export default function Travels() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title="Escursioni a Sharm - Scopri le Migliori Destinazioni | Si Viaggia con Desy"
-        description="🌍 Scopri i nostri tour: mare, deserto, cultura, avventura, relax. Trova l'escursione perfetta a Sharm El Sheikh con Si Viaggia con Desy."
+        title="Escursioni a Sharm - Scopri le Migliori Destinazioni | Si Viaggia con Desi"
+        description="🌍 Scopri i nostri tour: mare, deserto, cultura, avventura, relax. Trova l'escursione perfetta a Sharm El Sheikh con Si Viaggia con Desi."
         keywords="tour, escursioni, destinazioni sharm, mare, deserto, cultura, avventura, pacchetti tour, si viaggia con desy"
         canonicalUrl="https://siviaggiacondesy.com/viaggi"
       />

@@ -102,7 +102,7 @@ export default function Carrello() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title="Carrello - Si Viaggia con Desy | Escursioni Sharm El Sheikh"
+        title="Carrello - Si Viaggia con Desi | Escursioni Sharm El Sheikh"
         description="Il tuo carrello - Completa l'acquisto delle escursioni selezionate a Sharm El Sheikh"
         keywords="carrello, acquisto, escursioni sharm"
         canonicalUrl="https://siviaggiacondesy.it/carrello"

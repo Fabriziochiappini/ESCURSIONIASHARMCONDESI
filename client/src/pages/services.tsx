@@ -62,7 +62,7 @@ const services = [
 ];
 
 const contactInfo = {
-  name: "Si Viaggia con Desy",
+  name: "Si Viaggia con Desi",
   role: "Tour Operator Sharm El Sheikh",
   address: "Sharm El Sheikh - Egitto",
   phone: "+39 344 458 5177",
@@ -74,7 +74,7 @@ export default function Services() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-accent/5">
       <SEOHead
-        title="Si Viaggia con Desy - Servizi Escursioni Sharm El Sheikh"
+        title="Si Viaggia con Desi - Servizi Escursioni Sharm El Sheikh"
         description="Scopri i nostri servizi: escursioni Mar Rosso, diving, snorkeling, safari nel deserto. Tour operator specializzato in Sharm El Sheikh. Contattaci per i tuoi tour!"
         keywords="servizi tour operator, tour sharm el sheikh, escursioni mar rosso, diving sharm, si viaggia con desy"
         canonicalUrl="https://siviaggiacondesy.com/servizi"

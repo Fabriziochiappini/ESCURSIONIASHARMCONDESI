@@ -54,7 +54,7 @@ export default function GalleriaPage() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title="Galleria Foto - Si Viaggia con Desy | Le Nostre Avventure"
+        title="Galleria Foto - Si Viaggia con Desi | Le Nostre Avventure"
         description="Scopri le nostre gallerie fotografiche dei tour organizzati. Immagini autentiche delle escursioni più belle di Sharm El Sheikh."
         keywords="galleria foto tour, foto escursioni, immagini tour sharm, si viaggia con desy gallery"
         canonicalUrl="https://siviaggiacondesy.it/galleria"

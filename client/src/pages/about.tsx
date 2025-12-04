@@ -29,8 +29,8 @@ export default function About() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title="Chi Siamo - Si Viaggia con Desy | Escursioni a Sharm El Sheikh"
-        description="✈️ Scopri Si Viaggia con Desy, il tuo punto di riferimento per escursioni a Sharm El Sheikh. Tour operator specializzato in escursioni Mar Rosso. Tel: +39 344 458 5177"
+        title="Chi Siamo - Si Viaggia con Desi | Escursioni a Sharm El Sheikh"
+        description="✈️ Scopri Si Viaggia con Desi, il tuo punto di riferimento per escursioni a Sharm El Sheikh. Tour operator specializzato in escursioni Mar Rosso. Tel: +39 344 458 5177"
         keywords="chi siamo, si viaggia con desy, tour operator sharm, escursioni sharm el sheikh"
         canonicalUrl="https://siviaggiacondesy.it/chi-siamo"
       />
@@ -46,7 +46,7 @@ export default function About() {
               Chi Siamo
             </div>
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#E6C87F] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent mb-6 tracking-[0.15em] uppercase drop-shadow-2xl font-eagle-lake">
-              Si Viaggia con Desy
+              Si Viaggia con Desi
             </h1>
             <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto opacity-90">
               <strong>Escursioni a Sharm El Sheikh</strong> - Le migliori esperienze nel Mar Rosso. 
@@ -69,7 +69,7 @@ export default function About() {
                 </div>
                 <div className="space-y-4 text-gray-500 text-lg leading-relaxed font-light">
                   <p>
-                    <strong className="text-[#D4AF37]">Si Viaggia con Desy</strong> è il tuo punto di riferimento per le escursioni 
+                    <strong className="text-[#D4AF37]">Si Viaggia con Desi</strong> è il tuo punto di riferimento per le escursioni 
                     a Sharm El Sheikh. Con anni di esperienza nel Mar Rosso, organizziamo tour indimenticabili tra 
                     spiagge cristalline, barriere coralline mozzafiato e avventure nel deserto egiziano.
                   </p>
@@ -86,7 +86,7 @@ export default function About() {
                 <div className="rounded-3xl overflow-hidden shadow-xl bg-gray-100 border border-[#D4AF37]/20">
                   <img 
                     src="/chi-siamo.png"
-                    alt="Si Viaggia con Desy - Escursioni a Sharm El Sheikh"
+                    alt="Si Viaggia con Desi - Escursioni a Sharm El Sheikh"
                     loading="lazy"
                     decoding="async"
                     className="w-full h-[500px] object-cover"
@@ -181,7 +181,7 @@ export default function About() {
               La Nostra Missione
             </h2>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              <strong className="text-[#D4AF37]">Si Viaggia con Desy</strong> è il tuo punto di riferimento per le escursioni a Sharm El Sheikh. Offriamo un servizio completo e professionale per escursioni, diving, snorkeling e safari nel deserto.
+              <strong className="text-[#D4AF37]">Si Viaggia con Desi</strong> è il tuo punto di riferimento per le escursioni a Sharm El Sheikh. Offriamo un servizio completo e professionale per escursioni, diving, snorkeling e safari nel deserto.
             </p>
             <p className="text-lg text-gray-600 leading-relaxed">
               La nostra passione per il Mar Rosso e la profonda conoscenza di Sharm El Sheikh ci permettono di offrire esperienze autentiche e indimenticabili.

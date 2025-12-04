@@ -135,7 +135,7 @@ export default function PropertyDetail() {
       "availability": "https://schema.org/InStock",
       "seller": {
         "@type": "TravelAgency",
-        "name": "Si Viaggia con Desy"
+        "name": "Si Viaggia con Desi"
       }
     }
   };
@@ -143,9 +143,9 @@ export default function PropertyDetail() {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
-        title={property.metaTitle || `${property.title} - ${property.municipality} | Si Viaggia con Desy`}
+        title={property.metaTitle || `${property.title} - ${property.municipality} | Si Viaggia con Desi`}
         description={property.metaDescription || `✈️ ${property.type === 'mare' ? 'Vacanza al mare' : property.type === 'montagna' ? 'Avventura in montagna' : property.type === 'citta' ? 'City break' : 'Viaggio'} a ${property.municipality}. ${property.bedrooms} giorni, max ${property.bathrooms} persone. Prezzo: €${Number(property.price).toLocaleString()}/persona. ${property.description?.slice(0, 100)}...`}
-        keywords={`${property.title}, tour ${property.type} ${property.municipality}, escursione ${property.municipality}, ${property.bedrooms} giorni ${property.municipality}, Si Viaggia con Desy`}
+        keywords={`${property.title}, tour ${property.type} ${property.municipality}, escursione ${property.municipality}, ${property.bedrooms} giorni ${property.municipality}, Si Viaggia con Desi`}
         canonicalUrl={property.slug ? `https://siviaggiacondesy.com/${property.slug}` : `https://siviaggiacondesy.com/property/${property.id}`}
         ogImage={property.images?.[0] ? `https://siviaggiacondesy.com${property.images[0]}` : undefined}
         type="article"

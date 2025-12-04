@@ -22,8 +22,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title="Si Viaggia con Desy - Escursioni a Sharm El Sheikh | Tour Operator Mar Rosso"
-        description="✈️ Scopri Sharm El Sheikh con Si Viaggia con Desy! Tour operator specializzato in escursioni, snorkeling, diving e safari nel deserto. Esperienze autentiche nel Mar Rosso."
+        title="Si Viaggia con Desi - Escursioni a Sharm El Sheikh | Tour Operator Mar Rosso"
+        description="✈️ Scopri Sharm El Sheikh con Si Viaggia con Desi! Tour operator specializzato in escursioni, snorkeling, diving e safari nel deserto. Esperienze autentiche nel Mar Rosso."
         keywords="tour operator sharm el sheikh, escursioni mar rosso, snorkeling sharm, diving egitto, safari deserto, si viaggia con desy, tour sharm"
         canonicalUrl="https://siviaggiacondesy.com/"
       />
@@ -68,7 +68,7 @@ export default function Home() {
                 </div>
                 <div className="space-y-4 text-gray-500 text-lg leading-relaxed font-light">
                   <p>
-                    <strong className="text-[#D4AF37]">Si Viaggia con Desy</strong> è il tuo punto di riferimento per le escursioni 
+                    <strong className="text-[#D4AF37]">Si Viaggia con Desi</strong> è il tuo punto di riferimento per le escursioni 
                     a Sharm El Sheikh. Con anni di esperienza nel Mar Rosso, organizziamo tour indimenticabili tra 
                     spiagge cristalline, barriere coralline mozzafiato e avventure nel deserto egiziano.
                   </p>
@@ -85,7 +85,7 @@ export default function Home() {
                 <div className="rounded-3xl overflow-hidden shadow-xl bg-gray-100 border border-[#D4AF37]/20">
                   <img 
                     src="/chi-siamo.png"
-                    alt="Si Viaggia con Desy - Escursioni a Sharm El Sheikh"
+                    alt="Si Viaggia con Desi - Escursioni a Sharm El Sheikh"
                     loading="lazy"
                     decoding="async"
                     className="w-full h-[500px] object-cover"

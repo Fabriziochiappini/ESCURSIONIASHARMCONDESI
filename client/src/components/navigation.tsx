@@ -19,7 +19,7 @@ export function Navigation() {
             <Link href="/" className="flex items-center group">
               <img 
                 src={logoUrl} 
-                alt="Si Viaggia con Desy - Escursioni a Sharm" 
+                alt="Si Viaggia con Desi - Escursioni a Sharm" 
                 className="h-20 w-auto group-hover:scale-105 transition-all duration-300"
               />
             </Link>
@@ -69,7 +69,7 @@ export function Navigation() {
           <Link href="/" className="flex items-center">
             <img 
               src={logoUrl} 
-              alt="Si Viaggia con Desy - Escursioni a Sharm" 
+              alt="Si Viaggia con Desi - Escursioni a Sharm" 
               className="h-16 w-auto"
             />
           </Link>

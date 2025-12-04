@@ -8,7 +8,7 @@ const reviews = [
     id: 1,
     name: "Daniela Torelli",
     rating: 5,
-    text: "Abbiamo fatto due escursioni a Sharm organizzate da Desy, e ci siamo trovati benissimo! Una ragazza precisa, disponibile e sempre presente per qualsiasi bisogno. Consigliatissima per chi vuole vivere Sharm in tranquillità e senza pensieri!",
+    text: "Abbiamo fatto due escursioni a Sharm organizzate da Desi, e ci siamo trovati benissimo! Una ragazza precisa, disponibile e sempre presente per qualsiasi bisogno. Consigliatissima per chi vuole vivere Sharm in tranquillità e senza pensieri!",
     date: "Novembre 2024",
     avatar: "DT"
   },
@@ -32,7 +32,7 @@ const reviews = [
     id: 4,
     name: "Marco Bianchi",
     rating: 5,
-    text: "Escursione al Cairo fantastica! Desy ha organizzato tutto nei minimi dettagli. Le piramidi, il museo egizio, tutto perfetto. Guide preparatissime e sempre disponibili. Esperienza indimenticabile!",
+    text: "Escursione al Cairo fantastica! Desi ha organizzato tutto nei minimi dettagli. Le piramidi, il museo egizio, tutto perfetto. Guide preparatissime e sempre disponibili. Esperienza indimenticabile!",
     date: "Ottobre 2024",
     avatar: "MB"
   },
@@ -40,7 +40,7 @@ const reviews = [
     id: 5,
     name: "Laura Ferri",
     rating: 5,
-    text: "Safari nel deserto con quad e cena beduina sotto le stelle. Un'esperienza magica! Desy è stata disponibilissima, ha risposto a tutte le nostre domande e ci ha fatto sentire sicuri. Super consigliata!",
+    text: "Safari nel deserto con quad e cena beduina sotto le stelle. Un'esperienza magica! Desi è stata disponibilissima, ha risposto a tutte le nostre domande e ci ha fatto sentire sicuri. Super consigliata!",
     date: "Ottobre 2024",
     avatar: "LF"
   },
@@ -48,7 +48,7 @@ const reviews = [
     id: 6,
     name: "Alessandro Costa",
     rating: 5,
-    text: "Snorkeling a Ras Mohammed incredibile! I colori dei coralli e dei pesci sono indescrivibili. Organizzazione perfetta, pranzo incluso ottimo. Desy è una garanzia per le escursioni a Sharm!",
+    text: "Snorkeling a Ras Mohammed incredibile! I colori dei coralli e dei pesci sono indescrivibili. Organizzazione perfetta, pranzo incluso ottimo. Desi è una garanzia per le escursioni a Sharm!",
     date: "Settembre 2024",
     avatar: "AC"
   },
@@ -56,7 +56,7 @@ const reviews = [
     id: 7,
     name: "Giulia Romano",
     rating: 5,
-    text: "Ho prenotato 3 escursioni con Desy e sono state tutte fantastiche. Prezzi onesti, nessuna sorpresa, guide professionali. La consiglio a chiunque vada a Sharm El Sheikh!",
+    text: "Ho prenotato 3 escursioni con Desi e sono state tutte fantastiche. Prezzi onesti, nessuna sorpresa, guide professionali. La consiglio a chiunque vada a Sharm El Sheikh!",
     date: "Settembre 2024",
     avatar: "GR"
   },
@@ -64,7 +64,7 @@ const reviews = [
     id: 8,
     name: "Francesco Martini",
     rating: 5,
-    text: "Isola di Tiran meravigliosa! Mare cristallino, pesci tropicali ovunque. Desy ha pensato a tutto, dal pick-up in hotel al pranzo sulla barca. Torneremo sicuramente!",
+    text: "Isola di Tiran meravigliosa! Mare cristallino, pesci tropicali ovunque. Desi ha pensato a tutto, dal pick-up in hotel al pranzo sulla barca. Torneremo sicuramente!",
     date: "Agosto 2024",
     avatar: "FM"
   }
