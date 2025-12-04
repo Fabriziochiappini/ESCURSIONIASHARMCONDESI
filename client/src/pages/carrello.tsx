@@ -38,13 +38,24 @@ export default function Carrello() {
   const [paymentType, setPaymentType] = useState<"full" | "deposit">("full");
 
   const hasDepositOption = items.some(item => 
-    item.travel.depositAmount && Number(item.travel.depositAmount) > 0
+    (item.travel.depositAmount && Number(item.travel.depositAmount) > 0) ||
+    (item.travel.depositPercentage && item.travel.depositPercentage > 0)
   );
+
+  const calculateItemDeposit = (item: typeof items[0]) => {
+    const fullPrice = Number(item.travel.price) * item.participants * item.quantity;
+    if (item.travel.depositPercentage && item.travel.depositPercentage > 0) {
+      return (fullPrice * item.travel.depositPercentage) / 100;
+    }
+    if (item.travel.depositAmount && Number(item.travel.depositAmount) > 0) {
+      return Number(item.travel.depositAmount) * item.participants * item.quantity;
+    }
+    return fullPrice;
+  };
 
   const getDepositTotal = () => {
     return items.reduce((total, item) => {
-      const depositAmount = item.travel.depositAmount ? Number(item.travel.depositAmount) : Number(item.travel.price);
-      return total + depositAmount * item.participants * item.quantity;
+      return total + calculateItemDeposit(item);
     }, 0);
   };
 
@@ -75,18 +86,20 @@ export default function Carrello() {
 
   const checkoutMutation = useMutation({
     mutationFn: async () => {
-      const cartData = items.map(item => ({
-        travelId: item.travel.id,
-        travelTitle: item.travel.title,
-        quantity: item.quantity,
-        participants: item.participants,
-        participantNotes: item.participantNotes || "",
-        price: paymentType === "deposit" && item.travel.depositAmount 
-          ? Number(item.travel.depositAmount) * item.participants * item.quantity
-          : Number(item.travel.price) * item.participants * item.quantity,
-        fullPrice: Number(item.travel.price) * item.participants * item.quantity,
-        selectedDate: item.selectedDate
-      }));
+      const cartData = items.map(item => {
+        const fullPrice = Number(item.travel.price) * item.participants * item.quantity;
+        const depositPrice = calculateItemDeposit(item);
+        return {
+          travelId: item.travel.id,
+          travelTitle: item.travel.title,
+          quantity: item.quantity,
+          participants: item.participants,
+          participantNotes: item.participantNotes || "",
+          price: paymentType === "deposit" ? depositPrice : fullPrice,
+          fullPrice: fullPrice,
+          selectedDate: item.selectedDate
+        };
+      });
       
       const totalAmount = paymentType === "deposit" ? getDepositTotal() : getTotal();
       
