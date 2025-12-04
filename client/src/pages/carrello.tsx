@@ -113,7 +113,8 @@ export default function Carrello() {
         paymentType: paymentType
       });
     },
-    onSuccess: async (data: any) => {
+    onSuccess: async (response: Response) => {
+      const data = await response.json();
       if (data.sessionId) {
         const stripe = await stripePromise;
         if (stripe) {
