@@ -18,7 +18,8 @@ export const travels = pgTable("travels", {
   title: text("title").notNull(),
   description: text("description").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
-  depositAmount: decimal("deposit_amount", { precision: 10, scale: 2 }), // Importo acconto
+  depositAmount: decimal("deposit_amount", { precision: 10, scale: 2 }), // Importo acconto fisso (alternativa a percentuale)
+  depositPercentage: integer("deposit_percentage"), // Percentuale acconto (es. 30 = 30%)
   type: text("type").notNull(), // "mare", "montagna", "citta", "avventura", "relax", "cultura"
   travelType: text("travel_type"), // "singolo", "coppia", "famiglia", "gruppo"
   priceType: text("price_type"), // "per_persona", "forfait", "giornaliero"
@@ -125,13 +126,13 @@ export const insertTravelSchema = createInsertSchema(travels).omit({
   images: true,
   features: true,
   depositAmount: true,
+  depositPercentage: true,
   travelType: true,
   priceType: true,
   youtubeVideoId: true,
   featured: true,
   available: true
 }).extend({
-  // Make these fields have defaults if not provided
   description: z.string().optional(),
   destination: z.string().optional(),
   country: z.string().optional(), 
@@ -142,6 +143,7 @@ export const insertTravelSchema = createInsertSchema(travels).omit({
   images: z.array(z.string()).optional(),
   features: z.array(z.string()).optional(),
   depositAmount: z.string().optional(),
+  depositPercentage: z.number().optional(),
   travelType: z.string().optional(),
   priceType: z.string().optional(),
   youtubeVideoId: z.string().optional(),
