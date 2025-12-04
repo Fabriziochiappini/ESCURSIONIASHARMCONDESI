@@ -171,14 +171,14 @@ export class DatabaseStorage implements IStorage {
 
   async getFeaturedTravels(): Promise<Travel[]> {
     // RISPETTA L'ORDINAMENTO IMPOSTATO IN BACKEND: usa sortOrder
+    // NESSUN LIMITE - mostra tutti i tour disponibili
     const featuredTravels = await db
       .select()
       .from(travels)
       .where(eq(travels.available, true))
-      .orderBy(travels.sortOrder, travels.id) // Rispetta l'ordinamento del backend
-      .limit(10);
+      .orderBy(travels.sortOrder, travels.id);
 
-    console.log(`🎯 Mostro ${featuredTravels.length} viaggi in homepage con ordine backend`);
+    console.log(`🎯 Mostro ${featuredTravels.length} tour in homepage`);
     return featuredTravels;
   }
 
