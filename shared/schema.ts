@@ -368,16 +368,19 @@ export type TravelImage = typeof travelImages.$inferSelect;
 // Bookings table for travel reservations
 export const bookings = pgTable("bookings", {
   id: serial("id").primaryKey(),
+  orderId: text("order_id"), // UUID per raggruppare più tour nello stesso ordine
   travelId: integer("travel_id").references(() => travels.id, { onDelete: "cascade" }).notNull(),
   customerEmail: text("customer_email").notNull(),
   customerName: text("customer_name").notNull(),
   customerPhone: text("customer_phone"),
   numberOfParticipants: integer("number_of_participants").notNull(),
   totalAmount: decimal("total_amount", { precision: 10, scale: 2 }).notNull(),
+  orderTotal: decimal("order_total", { precision: 10, scale: 2 }), // Totale dell'intero ordine
   bookingDate: timestamp("booking_date").defaultNow().notNull(),
   travelDate: text("travel_date"), // Changed to text to avoid timestamp issues
   status: text("status").default("pending").notNull(), // pending, confirmed, cancelled, completed
   notes: text("notes"),
+  selectedAddons: json("selected_addons").$type<Array<{addonId: number, addonName: string, addonPrice: string, quantity: number}>>().default([]),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

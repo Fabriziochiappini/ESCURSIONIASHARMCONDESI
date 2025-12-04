@@ -495,54 +495,12 @@ export default function Carrello() {
                       
                       <Separator />
 
-                      {hasDepositOption && (
-                        <div className="space-y-3">
-                          <p className="text-sm font-medium text-gray-700">Opzione di pagamento:</p>
-                          <RadioGroup
-                            value={paymentType}
-                            onValueChange={(value: "full" | "deposit") => setPaymentType(value)}
-                            className="space-y-2"
-                          >
-                            <div className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:border-[#D4AF37]/50 cursor-pointer transition-colors">
-                              <RadioGroupItem value="full" id="full" className="text-[#D4AF37]" />
-                              <Label htmlFor="full" className="flex-1 cursor-pointer">
-                                <div className="flex justify-between items-center">
-                                  <div>
-                                    <p className="font-medium">Pagamento Completo</p>
-                                    <p className="text-xs text-gray-500">Paga tutto subito</p>
-                                  </div>
-                                  <span className="font-bold text-[#D4AF37]">{formatCartPrice(getTotal())}</span>
-                                </div>
-                              </Label>
-                            </div>
-                            <div className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:border-[#D4AF37]/50 cursor-pointer transition-colors">
-                              <RadioGroupItem value="deposit" id="deposit" className="text-[#D4AF37]" />
-                              <Label htmlFor="deposit" className="flex-1 cursor-pointer">
-                                <div className="flex justify-between items-center">
-                                  <p className="font-medium">Acconto</p>
-                                  <span className="font-bold text-green-600">{formatCartPrice(getDepositTotal())}</span>
-                                </div>
-                              </Label>
-                            </div>
-                          </RadioGroup>
-                          <Separator />
-                        </div>
-                      )}
-                      
                       <div className="flex justify-between items-center text-lg font-bold">
-                        <span>{paymentType === "deposit" ? "Da pagare ora" : "Totale"}</span>
+                        <span>Totale Carrello</span>
                         <span className="text-[#D4AF37] text-2xl">
-                          {formatCartPrice(paymentType === "deposit" ? getDepositTotal() : getTotal())}
+                          {formatCartPrice(getTotal())}
                         </span>
                       </div>
-
-                      {paymentType === "deposit" && (
-                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
-                          <p className="text-sm text-amber-800">
-                            <strong>Saldo restante:</strong> {formatCartPrice(getTotal() - getDepositTotal())}
-                          </p>
-                        </div>
-                      )}
 
                       <div className="space-y-3">
                         <p className="text-sm font-medium text-gray-700">Metodo di pagamento:</p>
@@ -570,33 +528,69 @@ export default function Carrello() {
 
                       <Separator />
                       
-                      <Button
-                        className={`w-full font-bold py-6 text-lg shadow-lg ${
-                          paymentMethod === "paypal" 
-                            ? "bg-blue-600 hover:bg-blue-700 text-white" 
-                            : "bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white"
-                        }`}
-                        onClick={handleCheckout}
-                        disabled={isProcessing || checkoutMutation.isPending}
-                        data-testid="checkout-button"
-                      >
-                        {isProcessing || checkoutMutation.isPending ? (
-                          <>
-                            <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2" />
-                            Elaborazione...
-                          </>
-                        ) : paymentMethod === "paypal" ? (
-                          <>
-                            <SiPaypal className="w-5 h-5 mr-2" />
-                            Paga con PayPal
-                          </>
-                        ) : (
-                          <>
-                            <CreditCard className="w-5 h-5 mr-2" />
-                            Paga con Carta
-                          </>
+                      <div className="space-y-3">
+                        <Button
+                          className={`w-full font-bold py-6 text-lg shadow-lg ${
+                            paymentMethod === "paypal" 
+                              ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                              : "bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white"
+                          }`}
+                          onClick={() => {
+                            setPaymentType("full");
+                            handleCheckout();
+                          }}
+                          disabled={isProcessing || checkoutMutation.isPending}
+                          data-testid="checkout-button-full"
+                        >
+                          {isProcessing || checkoutMutation.isPending ? (
+                            <>
+                              <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2" />
+                              Elaborazione...
+                            </>
+                          ) : (
+                            <>
+                              {paymentMethod === "paypal" ? (
+                                <SiPaypal className="w-5 h-5 mr-2" />
+                              ) : (
+                                <CreditCard className="w-5 h-5 mr-2" />
+                              )}
+                              Paga {formatCartPrice(getTotal())}
+                            </>
+                          )}
+                        </Button>
+
+                        {hasDepositOption && (
+                          <Button
+                            className="w-full font-bold py-6 text-lg shadow-lg bg-green-600 hover:bg-green-700 text-white"
+                            onClick={() => {
+                              setPaymentType("deposit");
+                              handleCheckout();
+                            }}
+                            disabled={isProcessing || checkoutMutation.isPending}
+                            data-testid="checkout-button-deposit"
+                          >
+                            {isProcessing || checkoutMutation.isPending ? (
+                              <>
+                                <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2" />
+                                Elaborazione...
+                              </>
+                            ) : (
+                              <>
+                                <Wallet className="w-5 h-5 mr-2" />
+                                Paga con Acconto {formatCartPrice(getDepositTotal())}
+                              </>
+                            )}
+                          </Button>
                         )}
-                      </Button>
+
+                        {hasDepositOption && (
+                          <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+                            <p className="text-sm text-green-800">
+                              <strong>Saldo restante dopo l'acconto:</strong> {formatCartPrice(getTotal() - getDepositTotal())}
+                            </p>
+                          </div>
+                        )}
+                      </div>
                       
                         <p className="text-xs text-gray-500 text-center">
                           Pagamento sicuro e protetto.

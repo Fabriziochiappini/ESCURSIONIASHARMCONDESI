@@ -1248,11 +1248,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Cart Checkout - Create Payment Intent for cart items
   app.post("/api/cart/checkout", async (req, res) => {
     try {
-      const { items, total, paymentType } = req.body;
+      const { items, total, paymentType, customerData } = req.body;
       
       if (!items || items.length === 0) {
         return res.status(400).json({ message: "Il carrello è vuoto" });
       }
+
+      // Generate unique order ID
+      const orderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`.toUpperCase();
 
       // Create description for the payment
       const description = items.map((item: any) => 
@@ -1265,20 +1268,81 @@ export async function registerRoutes(app: Express): Promise<Server> {
         currency: 'eur',
         description: description,
         metadata: {
+          orderId: orderId,
           cartItems: JSON.stringify(items.map((i: any) => ({ 
             travelId: i.travelId, 
+            travelTitle: i.travelTitle,
             participants: i.participants,
-            participantNotes: i.participantNotes || ''
+            participantNotes: i.participantNotes || '',
+            price: i.price,
+            fullPrice: i.fullPrice,
+            selectedAddons: i.selectedAddons || []
           }))),
           total: total.toString(),
+          orderTotal: items.reduce((sum: number, i: any) => sum + (i.fullPrice || i.price), 0).toString(),
           paymentType: paymentType || 'full',
         },
       });
 
-      res.json({ clientSecret: paymentIntent.client_secret });
+      res.json({ clientSecret: paymentIntent.client_secret, orderId });
     } catch (error: any) {
       console.error('Cart checkout error:', error);
       res.status(500).json({ message: "Errore nel checkout: " + error.message });
+    }
+  });
+  
+  // Create bookings after successful cart payment
+  app.post("/api/cart/create-bookings", async (req, res) => {
+    try {
+      const { orderId, items, customerData, paymentType, total, paymentIntentId } = req.body;
+      
+      if (!orderId || !items || items.length === 0) {
+        return res.status(400).json({ message: "Dati ordine mancanti" });
+      }
+
+      const orderTotal = items.reduce((sum: number, i: any) => sum + (i.fullPrice || i.price), 0);
+      const bookingIds: number[] = [];
+
+      // Create a booking for each cart item
+      for (const item of items) {
+        const bookingData = {
+          orderId: orderId,
+          travelId: item.travelId,
+          customerEmail: customerData?.email || 'cliente@email.com',
+          customerName: customerData?.name || 'Cliente',
+          customerPhone: customerData?.phone || '',
+          numberOfParticipants: item.participants,
+          totalAmount: item.price.toString(),
+          orderTotal: orderTotal.toString(),
+          travelDate: item.selectedDate || null,
+          status: 'confirmed',
+          notes: item.participantNotes || '',
+          selectedAddons: item.selectedAddons || [],
+        };
+        
+        const booking = await storage.createBooking(bookingData);
+        bookingIds.push(booking.id);
+        
+        // Create payment record for first booking only (represents the order payment)
+        if (bookingIds.length === 1) {
+          await storage.createPayment({
+            bookingId: booking.id,
+            paymentProvider: 'stripe',
+            paymentIntentId: paymentIntentId || '',
+            amount: total.toString(),
+            currency: 'EUR',
+            status: 'succeeded',
+            paymentDate: new Date(),
+          });
+        }
+      }
+
+      console.log(`✅ Order ${orderId} created with ${bookingIds.length} bookings:`, bookingIds);
+      
+      res.json({ success: true, orderId, bookingIds });
+    } catch (error: any) {
+      console.error('Create cart bookings error:', error);
+      res.status(500).json({ message: "Errore nella creazione prenotazioni: " + error.message });
     }
   });
 
