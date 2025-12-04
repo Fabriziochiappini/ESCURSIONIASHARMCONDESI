@@ -376,6 +376,7 @@ interface PropertyFormData {
   depositAmount?: string;
   depositPercentage?: number;
   type: string;
+  tourCategory: string;
   propertyType?: string;
   priceType?: string;
   location: string;
@@ -398,6 +399,7 @@ const initialFormData: PropertyFormData = {
   depositAmount: undefined,
   depositPercentage: undefined,
   type: "mare",
+  tourCategory: "single",
   propertyType: undefined,
   priceType: "per_person",
   location: "",

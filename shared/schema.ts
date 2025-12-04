@@ -21,6 +21,7 @@ export const travels = pgTable("travels", {
   depositAmount: decimal("deposit_amount", { precision: 10, scale: 2 }), // Importo acconto fisso (alternativa a percentuale)
   depositPercentage: integer("deposit_percentage"), // Percentuale acconto (es. 30 = 30%)
   type: text("type").notNull(), // "mare", "montagna", "citta", "avventura", "relax", "cultura"
+  tourCategory: text("tour_category").default("single"), // "single" = Escursione singola, "package" = Pacchetto
   travelType: text("travel_type"), // "singolo", "coppia", "famiglia", "gruppo"
   priceType: text("price_type"), // "per_persona", "forfait", "giornaliero"
   destination: text("destination").notNull(), // destinazione principale
