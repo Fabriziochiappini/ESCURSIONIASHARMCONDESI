@@ -1398,7 +1398,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const singleBooking = allBookings.find(b => b.id === bookingId);
           if (singleBooking) {
             const travel = await storage.getTravel(singleBooking.travelId);
-            const payment = await storage.getPaymentByBookingId(singleBooking.id);
+            const payments = await storage.getPaymentsByBooking(singleBooking.id);
+            const payment = payments.length > 0 ? payments[0] : null;
             const orderTotal = parseFloat(singleBooking.totalAmount);
             const amountPaid = payment ? parseFloat(payment.amount) : 0;
             
@@ -1426,7 +1427,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Get first booking for customer info
       const firstBooking = orderBookings[0];
-      const payment = await storage.getPaymentByBookingId(firstBooking.id);
+      const payments = await storage.getPaymentsByBooking(firstBooking.id);
+      const payment = payments.length > 0 ? payments[0] : null;
       
       // Calculate totals
       const orderTotal = (firstBooking as any).orderTotal 
@@ -1514,12 +1516,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (orderBookings.length > 0) {
         // Update payment record for the first booking
         const firstBooking = orderBookings[0];
-        const existingPayment = await storage.getPaymentByBookingId(firstBooking.id);
+        const existingPayments = await storage.getPaymentsByBooking(firstBooking.id);
+        const existingPayment = existingPayments.length > 0 ? existingPayments[0] : null;
         
         if (existingPayment) {
           // Update existing payment with new total
           const newTotal = parseFloat(existingPayment.amount) + parseFloat(paymentIntent.metadata.balanceAmount || '0');
-          await storage.updatePaymentByBookingId(firstBooking.id, {
+          await storage.updatePayment(existingPayment.id, {
             amount: newTotal.toString(),
             paymentDate: new Date(),
           });

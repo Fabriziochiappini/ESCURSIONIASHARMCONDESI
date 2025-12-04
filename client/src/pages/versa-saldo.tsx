@@ -108,7 +108,23 @@ export default function VersaSaldo() {
     },
   });
 
-  const handlePaymentSuccess = async () => {
+  const handlePaymentSuccess = async (paymentIntentId?: string) => {
+    if (orderData && paymentIntentId) {
+      try {
+        await fetch('/api/saldo/confirm', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            orderId: orderData.orderId,
+            paymentIntentId: paymentIntentId,
+          }),
+        });
+        console.log('✅ Balance payment confirmed for order:', orderData.orderId);
+      } catch (err) {
+        console.error('Error confirming balance payment:', err);
+      }
+    }
+    
     toast({
       title: "Pagamento completato!",
       description: "Il saldo è stato versato con successo. Riceverai una email di conferma.",

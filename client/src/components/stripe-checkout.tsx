@@ -15,7 +15,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
 
 interface CheckoutFormProps {
   clientSecret: string;
-  onSuccess: () => void;
+  onSuccess: (paymentIntentId?: string) => void;
   onError: () => void;
 }
 
@@ -67,7 +67,7 @@ function CheckoutForm({ clientSecret, onSuccess, onError }: CheckoutFormProps) {
           console.error('Error confirming payment:', confirmError);
         }
         
-        onSuccess();
+        onSuccess(paymentIntent.id);
       }
     } catch (err) {
       console.error("Payment processing error:", err);
@@ -140,7 +140,7 @@ function CheckoutForm({ clientSecret, onSuccess, onError }: CheckoutFormProps) {
 
 interface StripeCheckoutProps {
   clientSecret: string;
-  onSuccess: () => void;
+  onSuccess: (paymentIntentId?: string) => void;
   onError: () => void;
 }
 
