@@ -13,7 +13,8 @@ import {
   BarChart3,
   Settings,
   Image,
-  Calendar
+  Calendar,
+  Plus
 } from "lucide-react";
 import { Link } from "wouter";
 import { isAuthValid, setAuthToken, clearAuthToken } from "@/lib/adminAuth";
@@ -98,6 +99,20 @@ export default function AdminPanel() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">Gestisci prenotazioni e monitora i pagamenti Stripe/PayPal</p>
+                </CardContent>
+              </Card>
+            </Link>
+            
+            <Link href="/admin/addons">
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow border-2 border-amber-200">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-amber-700">
+                    <Plus className="h-5 w-5" />
+                    Add-on / Upsell
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Crea e gestisci add-on da associare ai tour (es. cena, barca)</p>
                 </CardContent>
               </Card>
             </Link>
