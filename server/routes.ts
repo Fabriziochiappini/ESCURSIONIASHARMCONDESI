@@ -21,7 +21,7 @@ import { db } from "./db";
 import { eq, like, or } from "drizzle-orm";
 import Stripe from "stripe";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault } from "./paypal";
-import { sendBookingConfirmationEmails } from "./email";
+import { sendBookingConfirmationEmails, sendOrderConfirmationEmails } from "./email";
 
 // NUOVO SISTEMA UPLOAD PER AGENZIA VIAGGI - OBJECT STORAGE PERMANENTE
 const upload = multer({ 
@@ -1301,6 +1301,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const orderTotal = items.reduce((sum: number, i: any) => sum + (i.fullPrice || i.price), 0);
+      const amountPaid = parseFloat(total);
+      const remainingBalance = orderTotal - amountPaid;
       const bookingIds: number[] = [];
 
       // Create a booking for each cart item
@@ -1338,6 +1340,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       console.log(`✅ Order ${orderId} created with ${bookingIds.length} bookings:`, bookingIds);
+      
+      // Send confirmation emails with full order details
+      try {
+        const emailData = {
+          orderId: orderId,
+          customerName: customerData?.name || 'Cliente',
+          customerEmail: customerData?.email || '',
+          customerPhone: customerData?.phone || '',
+          items: items.map((item: any) => ({
+            travelTitle: item.travelTitle,
+            travelDate: item.selectedDate || '',
+            numberOfParticipants: item.participants,
+            pricePerPerson: (item.fullPrice || item.price) / item.participants,
+            itemTotal: item.fullPrice || item.price,
+            selectedAddons: item.selectedAddons || [],
+          })),
+          orderTotal: orderTotal,
+          amountPaid: amountPaid,
+          paymentType: paymentType === 'deposit' ? 'deposit' as const : 'full' as const,
+          remainingBalance: remainingBalance,
+          paymentProvider: 'stripe',
+          paymentStatus: 'succeeded',
+          notes: items.map((i: any) => i.participantNotes).filter(Boolean).join('; ') || undefined,
+        };
+        
+        await sendOrderConfirmationEmails(emailData);
+        console.log(`✅ Order confirmation emails sent for ${orderId}`);
+      } catch (emailError) {
+        console.error('Error sending order confirmation emails:', emailError);
+      }
       
       res.json({ success: true, orderId, bookingIds });
     } catch (error: any) {

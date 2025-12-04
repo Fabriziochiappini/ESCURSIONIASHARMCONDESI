@@ -388,37 +388,48 @@ export default function AdminBookings() {
               <>
                 {/* Vista Mobile - Card cliccabili */}
                 <div className="md:hidden space-y-3">
-                  {groupedOrders.map((order) => (
-                    <div 
-                      key={order.orderId}
-                      onClick={() => {
-                        setSelectedBooking(order.bookings[0]);
-                        setIsDetailOpen(true);
-                      }}
-                      className="p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 active:bg-gray-200 transition-colors border border-gray-200"
-                      data-testid={`order-card-${order.orderId}`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <Badge variant="outline" className="text-xs font-mono">{order.orderId.substring(0, 15)}...</Badge>
-                            {order.bookings.length > 1 && (
-                              <Badge className="text-xs bg-purple-500">{order.bookings.length} tour</Badge>
-                            )}
-                            <Badge variant={statusLabels[order.status || "pending"]?.variant || "outline"} className="text-xs">
-                              {statusLabels[order.status || "pending"]?.label || order.status}
-                            </Badge>
+                  {groupedOrders.map((order) => {
+                    const paidAmount = order.payment ? parseFloat(order.payment.amount) : 0;
+                    const remaining = order.orderTotal - paidAmount;
+                    return (
+                      <div 
+                        key={order.orderId}
+                        onClick={() => {
+                          setSelectedBooking(order.bookings[0]);
+                          setIsDetailOpen(true);
+                        }}
+                        className="p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 active:bg-gray-200 transition-colors border border-gray-200"
+                        data-testid={`order-card-${order.orderId}`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <Badge variant="outline" className="text-xs font-mono">{order.orderId.substring(0, 15)}...</Badge>
+                              {order.bookings.length > 1 && (
+                                <Badge className="text-xs bg-purple-500">{order.bookings.length} tour</Badge>
+                              )}
+                              {remaining > 0 ? (
+                                <Badge className="text-xs bg-orange-500">Acconto</Badge>
+                              ) : (
+                                <Badge className="text-xs bg-green-500">Saldato</Badge>
+                              )}
+                            </div>
+                            <p className="font-semibold text-gray-900">{order.customerName}</p>
+                            <div className="text-sm text-gray-600">
+                              {order.bookings.map(b => b.travel?.title || "N/D").join(", ")}
+                            </div>
+                            <div className="flex items-center gap-3 mt-1">
+                              <span className="text-sm font-bold text-blue-600">Totale: €{order.totalAmount.toFixed(2)}</span>
+                              {remaining > 0 && (
+                                <span className="text-sm font-bold text-orange-600">Saldo: €{remaining.toFixed(2)}</span>
+                              )}
+                            </div>
                           </div>
-                          <p className="font-semibold text-gray-900">{order.customerName}</p>
-                          <div className="text-sm text-gray-600">
-                            {order.bookings.map(b => b.travel?.title || "N/D").join(", ")}
-                          </div>
-                          <p className="text-sm font-bold text-blue-600">€{order.totalAmount.toFixed(2)}</p>
+                          <Eye className="w-5 h-5 text-gray-400" />
                         </div>
-                        <Eye className="w-5 h-5 text-gray-400" />
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
 
                 {/* Vista Desktop - Tabella ordini raggruppati */}
@@ -432,6 +443,7 @@ export default function AdminBookings() {
                         <TableHead>Totale Persone</TableHead>
                         <TableHead>Totale Ordine</TableHead>
                         <TableHead>Pagamento</TableHead>
+                        <TableHead>Saldo Mancante</TableHead>
                         <TableHead>Stato</TableHead>
                         <TableHead>Data Ordine</TableHead>
                       </TableRow>
@@ -504,6 +516,29 @@ export default function AdminBookings() {
                                 <span className="text-gray-400 text-sm">N/D</span>
                               )}
                             </div>
+                          </TableCell>
+                          <TableCell>
+                            {(() => {
+                              const paidAmount = order.payment ? parseFloat(order.payment.amount) : 0;
+                              const remaining = order.orderTotal - paidAmount;
+                              if (remaining <= 0) {
+                                return (
+                                  <Badge className="bg-green-500 text-white">
+                                    Saldato
+                                  </Badge>
+                                );
+                              }
+                              return (
+                                <div className="flex flex-col gap-1">
+                                  <Badge className="bg-orange-500 text-white">
+                                    Acconto
+                                  </Badge>
+                                  <span className="text-sm font-bold text-orange-600">
+                                    €{remaining.toFixed(2)}
+                                  </span>
+                                </div>
+                              );
+                            })()}
                           </TableCell>
                           <TableCell>
                             <Badge variant={statusLabels[order.status || "pending"]?.variant || "outline"}>
