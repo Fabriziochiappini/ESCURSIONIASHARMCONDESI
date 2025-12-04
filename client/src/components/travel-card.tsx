@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, Users, Share2, ShoppingCart } from "lucide-react";
 import type { Travel } from "@shared/schema";
@@ -26,18 +25,6 @@ export function TravelCard({ travel, priority = false, compact = false }: Travel
       title: "Aggiunto al carrello!", 
       description: `${travel.title} è stato aggiunto al tuo carrello.` 
     });
-  };
-
-  const getBadgeLabel = (type: string) => {
-    switch (type) {
-      case "mare": return "MAR ROSSO";
-      case "montagna": return "MONTAGNA";
-      case "citta": return "CITTÀ";
-      case "cultura": return "CULTURA";
-      case "avventura": return "AVVENTURA";
-      case "relax": return "RELAX";
-      default: return "ESCURSIONE";
-    }
   };
 
   // URL viaggio
@@ -71,13 +58,6 @@ export function TravelCard({ travel, priority = false, compact = false }: Travel
           
           {/* Overlay scuro */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
-          
-          {/* Badge tipo */}
-          <div className="absolute top-2 left-2 z-10">
-            <Badge className="bg-[#D4AF37]/90 backdrop-blur-sm text-white px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider shadow-lg border-0">
-              {getBadgeLabel(travel.type)}
-            </Badge>
-          </div>
 
           {/* Contenuto in basso */}
           <div className="absolute bottom-0 left-0 right-0 z-10 p-3">
@@ -122,13 +102,6 @@ export function TravelCard({ travel, priority = false, compact = false }: Travel
         
         {/* Overlay scuro di base */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/40 group-hover:from-black/85 group-hover:via-black/70 group-hover:to-black/60 transition-all duration-500"></div>
-        
-        {/* Badge tipo in alto a sinistra */}
-        <div className="absolute top-4 left-4 z-10">
-          <Badge className="bg-[#D4AF37]/90 backdrop-blur-sm text-white px-3 py-1 text-xs font-medium uppercase tracking-wider shadow-lg border-0">
-            {getBadgeLabel(travel.type)}
-          </Badge>
-        </div>
 
         {/* Pulsante condivisione in alto a destra - nascosto di default, visibile su hover */}
         <button
