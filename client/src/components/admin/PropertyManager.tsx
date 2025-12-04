@@ -50,7 +50,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 
 // Schema compatibile - manteniamo Property per compatibilità
-import type { Property, InsertProperty, InsertTravel, Travel } from "@shared/schema";
+import type { Property, InsertProperty, InsertTravel, Travel, Addon } from "@shared/schema";
 
 // Sortable Image Item per drag & drop
 function SortableImageItem({ image, index }: { image: string; index: number }) {
@@ -423,6 +423,7 @@ export default function PropertyManager() {
   const [tempImages, setTempImages] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<string>('');
+  const [selectedAddonIds, setSelectedAddonIds] = useState<number[]>([]);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -437,6 +438,11 @@ export default function PropertyManager() {
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/travels'],
+  });
+
+  // Fetch all addons
+  const { data: allAddons = [] } = useQuery<Addon[]>({
+    queryKey: ['/api/addons'],
   });
 
   // Simple reorder mutation for properties
@@ -582,6 +588,7 @@ export default function PropertyManager() {
     setShowImageManager(false);
     setIsUploading(false);
     setUploadProgress('');
+    setSelectedAddonIds([]);
   };
 
   // Client-side image compression before upload - simplified for compatibility
@@ -675,7 +682,7 @@ export default function PropertyManager() {
 
 
 
-  const openEditDialog = (property: Property) => {
+  const openEditDialog = async (property: Property) => {
     setEditingProperty(property);
     
     // IMPORTANTE: Mappatura corretta dai campi database ai campi form
@@ -705,6 +712,20 @@ export default function PropertyManager() {
     setFormData(populatedFormData);
     setTempImages(property.images || []);
     setSelectedFiles(null);
+    
+    // Load addons for this tour
+    try {
+      const res = await fetch(`/api/travels/${property.id}/addons`);
+      if (res.ok) {
+        const tourAddons: Addon[] = await res.json();
+        setSelectedAddonIds(tourAddons.map(a => a.id));
+      } else {
+        setSelectedAddonIds([]);
+      }
+    } catch {
+      setSelectedAddonIds([]);
+    }
+    
     setIsDialogOpen(true);
     
     console.log('🔄 Form popolato per modifica:', populatedFormData);
@@ -792,10 +813,42 @@ export default function PropertyManager() {
 
 
       if (editingProperty) {
-        updateMutation.mutate({ id: editingProperty.id, data: travelData });
+        // Update tour and addons
+        await apiRequest('PUT', `/api/travels/${editingProperty.id}`, travelData);
+        await apiRequest('PUT', `/api/travels/${editingProperty.id}/addons`, { addonIds: selectedAddonIds });
+        queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
+        setIsDialogOpen(false);
+        resetForm();
+        toast({
+          title: "Successo",
+          description: "Tour aggiornato con successo",
+        });
       } else {
-        // For new travel packages, create with images included
-        createMutation.mutate(travelData);
+        // Create new tour, then add addons
+        const response = await fetch('/api/travels', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(travelData),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Errore nella creazione');
+        }
+        
+        const newTravel = await response.json();
+        
+        // Assign addons to new tour
+        if (selectedAddonIds.length > 0 && newTravel.id) {
+          await apiRequest('PUT', `/api/travels/${newTravel.id}/addons`, { addonIds: selectedAddonIds });
+        }
+        
+        queryClient.invalidateQueries({ queryKey: ['/api/travels'] });
+        setIsDialogOpen(false);
+        resetForm();
+        toast({
+          title: "Successo",
+          description: "Nuovo tour creato con successo",
+        });
       }
     } catch (error) {
       toast({
@@ -990,7 +1043,56 @@ export default function PropertyManager() {
                 />
               </div>
 
-
+              {/* Add-ons Section */}
+              {allAddons.length > 0 && (
+                <div className="space-y-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
+                  <Label className="text-amber-800 font-semibold flex items-center gap-2">
+                    <Plus className="h-4 w-4" />
+                    Add-on disponibili per questo tour
+                  </Label>
+                  <p className="text-xs text-amber-600">
+                    Seleziona gli add-on che i clienti potranno acquistare con questo tour
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {allAddons.map((addon) => (
+                      <div 
+                        key={addon.id}
+                        className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all ${
+                          selectedAddonIds.includes(addon.id) 
+                            ? 'bg-amber-100 border-2 border-amber-400' 
+                            : 'bg-white border border-gray-200 hover:border-amber-300'
+                        }`}
+                        onClick={() => {
+                          setSelectedAddonIds(prev => 
+                            prev.includes(addon.id) 
+                              ? prev.filter(id => id !== addon.id)
+                              : [...prev, addon.id]
+                          );
+                        }}
+                      >
+                        <Checkbox 
+                          checked={selectedAddonIds.includes(addon.id)}
+                          className="data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600"
+                        />
+                        <div className="flex-1">
+                          <p className="font-medium text-gray-800">{addon.name}</p>
+                          {addon.description && (
+                            <p className="text-xs text-gray-500">{addon.description}</p>
+                          )}
+                        </div>
+                        <span className="font-bold text-amber-700">
+                          €{parseFloat(addon.price).toFixed(2)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  {selectedAddonIds.length > 0 && (
+                    <p className="text-sm text-amber-700 font-medium">
+                      {selectedAddonIds.length} add-on selezionati
+                    </p>
+                  )}
+                </div>
+              )}
 
               <div className="space-y-2">
                 <Label htmlFor="images">Immagini</Label>
