@@ -1038,9 +1038,6 @@ export default function PropertyManager() {
                       }
                     </p>
                   </div>
-                  <span className="text-xs text-blue-600 block mt-1">
-                    Ottimizzato per immobili: supporta fino a 30 foto senza rallentamenti
-                  </span>
                 </div>
                 {tempImages && tempImages.length > 0 && (
                   <div className="mt-2">
