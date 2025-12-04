@@ -951,22 +951,22 @@ export default function PropertyManager() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="depositPercentage">Percentuale Acconto (%)</Label>
+                  <Label htmlFor="depositAmount">Acconto (€)</Label>
                   <Input
-                    id="depositPercentage"
+                    id="depositAmount"
                     type="number"
                     min="0"
-                    max="100"
-                    value={formData.depositPercentage || ''}
+                    step="0.01"
+                    value={formData.depositAmount || ''}
                     onChange={(e) => setFormData(prev => ({ 
                       ...prev, 
-                      depositPercentage: e.target.value ? parseInt(e.target.value) : undefined,
-                      depositAmount: undefined
+                      depositAmount: e.target.value || undefined,
+                      depositPercentage: undefined
                     }))}
-                    placeholder="es. 30"
+                    placeholder="es. 50"
                   />
                   <p className="text-xs text-gray-500">
-                    Percentuale acconto (es. 30 = 30%). Lascia vuoto se non previsto.
+                    Importo acconto per persona in Euro. Lascia vuoto se non previsto.
                   </p>
                 </div>
               </div>
