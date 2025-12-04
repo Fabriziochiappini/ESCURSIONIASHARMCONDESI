@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { ShoppingCart, Trash2, Plus, Minus, CreditCard, ArrowLeft, ShoppingBag, Users, Wallet, ChevronDown, ChevronUp, FileText } from "lucide-react";
+import { ShoppingCart, Trash2, Plus, Minus, CreditCard, ArrowLeft, ShoppingBag, Users, Wallet, ChevronDown, ChevronUp, FileText, Banknote } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -18,6 +18,7 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { loadStripe } from "@stripe/stripe-js";
+import { SiPaypal } from "react-icons/si";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || "");
 
@@ -36,6 +37,9 @@ export default function Carrello() {
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentType, setPaymentType] = useState<"full" | "deposit">("full");
+  const [paymentMethod, setPaymentMethod] = useState<"stripe" | "paypal">("stripe");
+  const [showPayPalCheckout, setShowPayPalCheckout] = useState(false);
+  const [paypalOrderId, setPaypalOrderId] = useState<string | null>(null);
 
   const hasDepositOption = items.some(item => 
     (item.travel.depositAmount && Number(item.travel.depositAmount) > 0) ||
@@ -116,6 +120,7 @@ export default function Carrello() {
           const { error } = await stripe.redirectToCheckout({ sessionId: data.sessionId });
           if (error) {
             toast({ title: "Errore nel pagamento", description: error.message, variant: "destructive" });
+            setIsProcessing(false);
           }
         }
       }
@@ -126,13 +131,120 @@ export default function Carrello() {
     }
   });
 
+  const handlePayPalPayment = async () => {
+    const totalAmount = paymentType === "deposit" ? getDepositTotal() : getTotal();
+    
+    setIsProcessing(true);
+    try {
+      const orderResponseData = await apiRequest("POST", "/paypal/order", {
+        intent: "CAPTURE",
+        amount: totalAmount.toString(),
+        currency: "EUR",
+      });
+      
+      const orderResponse = await orderResponseData.json();
+
+      if (!orderResponse.id) {
+        throw new Error("Errore nella creazione dell'ordine PayPal");
+      }
+
+      const orderID = orderResponse.id;
+      setPaypalOrderId(orderID);
+      
+      const approvalUrl = orderResponse.links?.find(
+        (link: any) => link.rel === "approve"
+      )?.href;
+
+      if (approvalUrl) {
+        const paypalWindow = window.open(
+          approvalUrl,
+          "paypal",
+          "width=500,height=600,scrollbars=yes,resizable=yes"
+        );
+
+        if (!paypalWindow) {
+          throw new Error("PopUp bloccato. Abilita i popup per completare il pagamento PayPal.");
+        }
+
+        const pollTimer = setInterval(async () => {
+          if (paypalWindow.closed) {
+            clearInterval(pollTimer);
+            
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            try {
+              const captureResponseData = await apiRequest("POST", `/paypal/order/${orderID}/capture`, {});
+              const captureResponse = await captureResponseData.json();
+              
+              if (captureResponse.status === "COMPLETED") {
+                toast({ 
+                  title: "Pagamento completato!", 
+                  description: "Grazie per il tuo acquisto. Riceverai una email di conferma." 
+                });
+                clearCart();
+                setIsProcessing(false);
+              } else {
+                toast({ 
+                  title: "Pagamento annullato", 
+                  description: "Il pagamento PayPal è stato annullato.",
+                  variant: "destructive"
+                });
+                setIsProcessing(false);
+              }
+            } catch (error) {
+              console.error("PayPal capture error:", error);
+              toast({ 
+                title: "Pagamento non completato", 
+                description: "Il pagamento PayPal non è stato completato.",
+                variant: "destructive"
+              });
+              setIsProcessing(false);
+            }
+          }
+        }, 500);
+
+        setTimeout(() => {
+          clearInterval(pollTimer);
+          if (!paypalWindow.closed) {
+            paypalWindow.close();
+          }
+          if (isProcessing) {
+            setIsProcessing(false);
+            toast({ 
+              title: "Timeout", 
+              description: "Il tempo per completare il pagamento PayPal è scaduto.",
+              variant: "destructive"
+            });
+          }
+        }, 600000);
+
+      } else {
+        throw new Error("URL di approvazione PayPal non ricevuto");
+      }
+
+    } catch (error: any) {
+      console.error("PayPal payment error:", error);
+      toast({ 
+        title: "Errore PayPal", 
+        description: error.message || "Errore durante il pagamento PayPal.",
+        variant: "destructive"
+      });
+      setIsProcessing(false);
+    }
+  };
+
   const handleCheckout = () => {
     if (items.length === 0) {
       toast({ title: "Il carrello è vuoto", variant: "destructive" });
       return;
     }
     setIsProcessing(true);
-    checkoutMutation.mutate();
+    
+    if (paymentMethod === "paypal") {
+      handlePayPalPayment();
+    } else {
+      checkoutMutation.mutate();
+    }
   };
 
   return (
@@ -381,9 +493,39 @@ export default function Carrello() {
                           </p>
                         </div>
                       )}
+
+                      <div className="space-y-3">
+                        <p className="text-sm font-medium text-gray-700">Metodo di pagamento:</p>
+                        <RadioGroup
+                          value={paymentMethod}
+                          onValueChange={(value: "stripe" | "paypal") => setPaymentMethod(value)}
+                          className="space-y-2"
+                        >
+                          <div className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:border-[#D4AF37]/50 cursor-pointer transition-colors">
+                            <RadioGroupItem value="stripe" id="stripe" className="text-[#D4AF37]" />
+                            <Label htmlFor="stripe" className="flex-1 cursor-pointer flex items-center gap-2">
+                              <CreditCard className="h-5 w-5 text-gray-600" />
+                              <span className="font-medium">Carta di Credito</span>
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:border-[#D4AF37]/50 cursor-pointer transition-colors">
+                            <RadioGroupItem value="paypal" id="paypal" className="text-[#D4AF37]" />
+                            <Label htmlFor="paypal" className="flex-1 cursor-pointer flex items-center gap-2">
+                              <SiPaypal className="h-5 w-5 text-blue-600" />
+                              <span className="font-medium">PayPal</span>
+                            </Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+
+                      <Separator />
                       
                       <Button
-                        className="w-full bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white font-bold py-6 text-lg shadow-lg"
+                        className={`w-full font-bold py-6 text-lg shadow-lg ${
+                          paymentMethod === "paypal" 
+                            ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                            : "bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white"
+                        }`}
                         onClick={handleCheckout}
                         disabled={isProcessing || checkoutMutation.isPending}
                         data-testid="checkout-button"
@@ -393,16 +535,21 @@ export default function Carrello() {
                             <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2" />
                             Elaborazione...
                           </>
+                        ) : paymentMethod === "paypal" ? (
+                          <>
+                            <SiPaypal className="w-5 h-5 mr-2" />
+                            Paga con PayPal
+                          </>
                         ) : (
                           <>
                             <CreditCard className="w-5 h-5 mr-2" />
-                            Acquista Ora
+                            Paga con Carta
                           </>
                         )}
                       </Button>
                       
                       <p className="text-xs text-gray-500 text-center">
-                        Pagamento sicuro con Stripe. I tuoi dati sono protetti.
+                        Pagamento sicuro e protetto.
                       </p>
                     </CardContent>
                   </Card>
