@@ -12,6 +12,7 @@ import {
   insertPaymentSchema,
   insertGallerySchema,
   insertGalleryImageSchema,
+  insertAddonSchema,
   travels
 } from "@shared/schema";
 import { z } from "zod";
@@ -1531,6 +1532,132 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Update booking error:', error);
       res.status(500).json({ message: "Error updating booking" });
+    }
+  });
+
+  // ==========================================
+  // ADD-ON / UPSELL ROUTES
+  // ==========================================
+  
+  // Get all add-ons (admin)
+  app.get("/api/addons", async (req, res) => {
+    try {
+      const addons = await storage.getAllAddons();
+      res.json(addons);
+    } catch (error) {
+      console.error('Get addons error:', error);
+      res.status(500).json({ message: "Error fetching add-ons" });
+    }
+  });
+
+  // Get active add-ons (public)
+  app.get("/api/addons/active", async (req, res) => {
+    try {
+      const addons = await storage.getActiveAddons();
+      res.json(addons);
+    } catch (error) {
+      console.error('Get active addons error:', error);
+      res.status(500).json({ message: "Error fetching active add-ons" });
+    }
+  });
+
+  // Get single add-on
+  app.get("/api/addons/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const addon = await storage.getAddon(id);
+      
+      if (!addon) {
+        return res.status(404).json({ message: "Add-on not found" });
+      }
+      
+      res.json(addon);
+    } catch (error) {
+      console.error('Get addon error:', error);
+      res.status(500).json({ message: "Error fetching add-on" });
+    }
+  });
+
+  // Create add-on
+  app.post("/api/addons", async (req, res) => {
+    try {
+      const addonData = insertAddonSchema.parse(req.body);
+      const addon = await storage.createAddon(addonData);
+      res.status(201).json(addon);
+    } catch (error) {
+      console.error('Create addon error:', error);
+      res.status(400).json({ message: "Invalid add-on data" });
+    }
+  });
+
+  // Update add-on
+  app.put("/api/addons/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const addonData = req.body;
+      
+      const addon = await storage.updateAddon(id, addonData);
+      
+      if (!addon) {
+        return res.status(404).json({ message: "Add-on not found" });
+      }
+      
+      res.json(addon);
+    } catch (error) {
+      console.error('Update addon error:', error);
+      res.status(500).json({ message: "Error updating add-on" });
+    }
+  });
+
+  // Delete add-on
+  app.delete("/api/addons/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const deleted = await storage.deleteAddon(id);
+      
+      if (!deleted) {
+        return res.status(404).json({ message: "Add-on not found" });
+      }
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Delete addon error:', error);
+      res.status(500).json({ message: "Error deleting add-on" });
+    }
+  });
+
+  // Get add-ons for a specific travel
+  app.get("/api/travels/:id/addons", async (req, res) => {
+    try {
+      const travelId = parseInt(req.params.id);
+      const addons = await storage.getTravelAddons(travelId);
+      res.json(addons);
+    } catch (error) {
+      console.error('Get travel addons error:', error);
+      res.status(500).json({ message: "Error fetching travel add-ons" });
+    }
+  });
+
+  // Set add-ons for a travel (admin)
+  app.put("/api/travels/:id/addons", async (req, res) => {
+    try {
+      const travelId = parseInt(req.params.id);
+      const { addonIds } = req.body;
+      
+      if (!Array.isArray(addonIds)) {
+        return res.status(400).json({ message: "addonIds must be an array" });
+      }
+      
+      const success = await storage.setTravelAddons(travelId, addonIds);
+      
+      if (!success) {
+        return res.status(500).json({ message: "Error setting travel add-ons" });
+      }
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Set travel addons error:', error);
+      res.status(500).json({ message: "Error setting travel add-ons" });
     }
   });
 
