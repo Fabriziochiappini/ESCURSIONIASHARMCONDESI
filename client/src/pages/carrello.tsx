@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { ShoppingCart, Trash2, Plus, Minus, CreditCard, ArrowLeft, ShoppingBag, Users, Wallet, ChevronDown, ChevronUp, FileText, Banknote } from "lucide-react";
+import { ShoppingCart, Trash2, Plus, Minus, CreditCard, ArrowLeft, ShoppingBag, Users, Wallet, ChevronDown, ChevronUp, FileText, Banknote, User, Mail, Phone } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -42,6 +42,14 @@ export default function Carrello() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [showStripePayment, setShowStripePayment] = useState(false);
   const [showPayPalPayment, setShowPayPalPayment] = useState(false);
+  
+  const [customerData, setCustomerData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: ""
+  });
+  const [customerErrors, setCustomerErrors] = useState<Record<string, string>>({});
 
   const hasDepositOption = items.some(item => 
     (item.travel.depositAmount && Number(item.travel.depositAmount) > 0) ||
@@ -128,7 +136,13 @@ export default function Carrello() {
       const response = await apiRequest("POST", "/api/cart/checkout", {
         items: cartData,
         total: totalAmount,
-        paymentType: paymentType
+        paymentType: paymentType,
+        customerData: {
+          firstName: customerData.firstName,
+          lastName: customerData.lastName,
+          email: customerData.email,
+          phone: customerData.phone
+        }
       });
       
       return response.json();
@@ -182,9 +196,40 @@ export default function Carrello() {
     });
   };
 
+  const validateCustomerData = () => {
+    const errors: Record<string, string> = {};
+    
+    if (!customerData.firstName.trim()) {
+      errors.firstName = "Il nome è obbligatorio";
+    }
+    if (!customerData.lastName.trim()) {
+      errors.lastName = "Il cognome è obbligatorio";
+    }
+    if (!customerData.email.trim()) {
+      errors.email = "L'email è obbligatoria";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerData.email)) {
+      errors.email = "Inserisci un'email valida";
+    }
+    if (!customerData.phone.trim()) {
+      errors.phone = "Il telefono è obbligatorio";
+    }
+    
+    setCustomerErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleCheckout = () => {
     if (items.length === 0) {
       toast({ title: "Il carrello è vuoto", variant: "destructive" });
+      return;
+    }
+    
+    if (!validateCustomerData()) {
+      toast({ 
+        title: "Dati mancanti", 
+        description: "Compila tutti i campi obbligatori",
+        variant: "destructive" 
+      });
       return;
     }
     
@@ -509,6 +554,76 @@ export default function Carrello() {
                           {formatCartPrice(getTotal())}
                         </span>
                       </div>
+
+                      <Separator />
+
+                      <div className="space-y-4">
+                        <h3 className="font-semibold text-gray-800 flex items-center gap-2">
+                          <User className="h-4 w-4 text-[#D4AF37]" />
+                          I Tuoi Dati
+                        </h3>
+                        
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <Label htmlFor="firstName" className="text-xs text-gray-600">Nome *</Label>
+                            <Input
+                              id="firstName"
+                              placeholder="Nome"
+                              value={customerData.firstName}
+                              onChange={(e) => setCustomerData(prev => ({ ...prev, firstName: e.target.value }))}
+                              className={customerErrors.firstName ? "border-red-500" : ""}
+                              data-testid="input-first-name"
+                            />
+                            {customerErrors.firstName && <p className="text-xs text-red-500">{customerErrors.firstName}</p>}
+                          </div>
+                          <div className="space-y-1">
+                            <Label htmlFor="lastName" className="text-xs text-gray-600">Cognome *</Label>
+                            <Input
+                              id="lastName"
+                              placeholder="Cognome"
+                              value={customerData.lastName}
+                              onChange={(e) => setCustomerData(prev => ({ ...prev, lastName: e.target.value }))}
+                              className={customerErrors.lastName ? "border-red-500" : ""}
+                              data-testid="input-last-name"
+                            />
+                            {customerErrors.lastName && <p className="text-xs text-red-500">{customerErrors.lastName}</p>}
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-1">
+                          <Label htmlFor="email" className="text-xs text-gray-600 flex items-center gap-1">
+                            <Mail className="h-3 w-3" /> Email *
+                          </Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            placeholder="email@esempio.com"
+                            value={customerData.email}
+                            onChange={(e) => setCustomerData(prev => ({ ...prev, email: e.target.value }))}
+                            className={customerErrors.email ? "border-red-500" : ""}
+                            data-testid="input-email"
+                          />
+                          {customerErrors.email && <p className="text-xs text-red-500">{customerErrors.email}</p>}
+                        </div>
+                        
+                        <div className="space-y-1">
+                          <Label htmlFor="phone" className="text-xs text-gray-600 flex items-center gap-1">
+                            <Phone className="h-3 w-3" /> Telefono *
+                          </Label>
+                          <Input
+                            id="phone"
+                            type="tel"
+                            placeholder="+39 123 456 7890"
+                            value={customerData.phone}
+                            onChange={(e) => setCustomerData(prev => ({ ...prev, phone: e.target.value }))}
+                            className={customerErrors.phone ? "border-red-500" : ""}
+                            data-testid="input-phone"
+                          />
+                          {customerErrors.phone && <p className="text-xs text-red-500">{customerErrors.phone}</p>}
+                        </div>
+                      </div>
+
+                      <Separator />
 
                       <div className="space-y-3">
                         <p className="text-sm font-medium text-gray-700">Metodo di pagamento:</p>

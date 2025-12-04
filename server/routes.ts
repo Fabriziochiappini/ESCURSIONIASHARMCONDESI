@@ -1267,8 +1267,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         amount: Math.round(total * 100), // Convert to cents
         currency: 'eur',
         description: description,
+        receipt_email: customerData?.email,
         metadata: {
           orderId: orderId,
+          customerName: customerData ? `${customerData.firstName} ${customerData.lastName}` : '',
+          customerEmail: customerData?.email || '',
+          customerPhone: customerData?.phone || '',
           cartItems: JSON.stringify(items.map((i: any) => ({ 
             travelId: i.travelId, 
             travelTitle: i.travelTitle,
@@ -1647,15 +1651,94 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
       
       if (paymentIntent.status === 'succeeded') {
-        // Update payment status
+        const metadata = paymentIntent.metadata;
+        
+        // Check if this is a cart order (has orderId and cartItems)
+        if (metadata.orderId && metadata.cartItems) {
+          console.log('📦 Processing cart order:', metadata.orderId);
+          
+          const items = JSON.parse(metadata.cartItems);
+          const paymentType = metadata.paymentType || 'full';
+          const orderTotal = parseFloat(metadata.orderTotal || metadata.total);
+          const amountPaid = paymentIntent.amount / 100; // Convert from cents
+          const remainingBalance = orderTotal - amountPaid;
+          const bookingIds: number[] = [];
+
+          // Create a booking for each cart item
+          for (const item of items) {
+            const booking = await storage.createBooking({
+              travelId: item.travelId,
+              customerName: metadata.customerName || 'Cliente',
+              customerEmail: metadata.customerEmail || '',
+              customerPhone: metadata.customerPhone || '',
+              numberOfParticipants: item.participants,
+              totalAmount: (item.fullPrice || item.price).toString(),
+              travelDate: item.selectedDate || null,
+              status: 'confirmed',
+              notes: item.participantNotes || '',
+              orderId: metadata.orderId,
+              orderTotal: orderTotal.toString(),
+            } as any);
+
+            bookingIds.push(booking.id);
+          }
+
+          // Create payment record for the first booking
+          if (bookingIds.length > 0) {
+            await storage.createPayment({
+              bookingId: bookingIds[0],
+              paymentProvider: 'stripe',
+              paymentIntentId: paymentIntent.id,
+              amount: amountPaid.toString(),
+              currency: 'EUR',
+              status: 'succeeded',
+            });
+          }
+
+          // Send order confirmation emails
+          try {
+            const emailItems = await Promise.all(items.map(async (item: any) => {
+              const travel = await storage.getTravel(item.travelId);
+              return {
+                travelTitle: travel?.title || item.travelTitle,
+                travelDate: item.selectedDate || '',
+                numberOfParticipants: item.participants,
+                pricePerPerson: (item.fullPrice || item.price) / item.participants,
+                itemTotal: item.fullPrice || item.price,
+                selectedAddons: item.selectedAddons || [],
+              };
+            }));
+
+            await sendOrderConfirmationEmails({
+              orderId: metadata.orderId,
+              customerName: metadata.customerName || 'Cliente',
+              customerEmail: metadata.customerEmail || '',
+              customerPhone: metadata.customerPhone || '',
+              items: emailItems,
+              orderTotal: orderTotal,
+              amountPaid: amountPaid,
+              paymentType: paymentType === 'deposit' ? 'deposit' as const : 'full' as const,
+              remainingBalance: remainingBalance,
+              paymentProvider: 'stripe',
+              paymentStatus: 'succeeded',
+            });
+            console.log(`✅ Order confirmation emails sent for ${metadata.orderId}`);
+          } catch (emailError) {
+            console.error('Error sending order confirmation emails:', emailError);
+          }
+
+          console.log('✅ Cart order confirmed:', metadata.orderId, 'Bookings:', bookingIds);
+          return res.json({ success: true, message: 'Cart order confirmed', orderId: metadata.orderId });
+        }
+        
+        // Handle single booking confirmation (legacy)
         await storage.updatePaymentByStripeId(paymentIntent.id, {
           status: 'succeeded',
           paymentDate: new Date(),
         });
         
-        // Update booking status
-        if (paymentIntent.metadata.bookingId) {
-          const bookingId = parseInt(paymentIntent.metadata.bookingId);
+        if (metadata.bookingId) {
+          const bookingId = parseInt(metadata.bookingId);
           await storage.updateBooking(bookingId, {
             status: 'confirmed',
           });
