@@ -91,9 +91,9 @@ export default function TravelDetail() {
     emblaApi.on('reInit', onSelect);
   }, [emblaApi, onSelect]);
 
-  // Filter related tours (same type, excluding current)
+  // Filter related tours (excluding current)
   const relatedTours = allTravels?.filter(t => 
-    t.id !== travel?.id && t.isActive
+    t.id !== travel?.id
   ).slice(0, 8) || [];
 
   const convertImageUrl = (url: string) => {
@@ -398,7 +398,7 @@ export default function TravelDetail() {
                                 <span className="truncate max-w-[120px]">{tour.destination}</span>
                               </div>
                               <span className="font-bold text-[#D4AF37]">
-                                {formatPrice(Number(tour.price))}
+                                {formatPrice(tour.price, tour.type)}
                               </span>
                             </div>
                           </CardContent>
