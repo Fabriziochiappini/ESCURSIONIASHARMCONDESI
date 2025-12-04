@@ -44,6 +44,7 @@ export default function Travels() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [maxDuration, setMaxDuration] = useState("all");
+  const [tourCategory, setTourCategory] = useState<"all" | "single" | "package">("all");
 
   // Fetch dynamic countries
   const { data: dynamicCountries = [] } = useQuery<string[]>({
@@ -238,6 +239,40 @@ export default function Travels() {
         {/* Results Section */}
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Tabs per filtrare categoria */}
+            <div className="flex justify-center gap-2 mb-12">
+              <button
+                onClick={() => setTourCategory("all")}
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                  tourCategory === "all"
+                    ? "bg-gradient-to-r from-[#C9A961] to-[#D4AF37] text-white shadow-lg scale-105"
+                    : "bg-white border-2 border-[#D4AF37]/30 text-gray-600 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                }`}
+              >
+                🌟 Tutti
+              </button>
+              <button
+                onClick={() => setTourCategory("single")}
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                  tourCategory === "single"
+                    ? "bg-gradient-to-r from-[#C9A961] to-[#D4AF37] text-white shadow-lg scale-105"
+                    : "bg-white border-2 border-[#D4AF37]/30 text-gray-600 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                }`}
+              >
+                🎯 Escursioni Singole
+              </button>
+              <button
+                onClick={() => setTourCategory("package")}
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                  tourCategory === "package"
+                    ? "bg-gradient-to-r from-[#C9A961] to-[#D4AF37] text-white shadow-lg scale-105"
+                    : "bg-white border-2 border-[#D4AF37]/30 text-gray-600 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                }`}
+              >
+                📦 Pacchetti
+              </button>
+            </div>
+            
             {isLoading ? (
               <div className="text-center py-12">
                 <div className="animate-spin w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
@@ -262,9 +297,11 @@ export default function Travels() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {travels.map((travel) => (
-                  <TravelCard key={travel.id} travel={travel} />
-                ))}
+                {travels
+                  .filter(travel => tourCategory === "all" || travel.tourCategory === tourCategory)
+                  .map((travel) => (
+                    <TravelCard key={travel.id} travel={travel} />
+                  ))}
               </div>
             )}
           </div>
