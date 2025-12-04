@@ -40,6 +40,19 @@ type BookingWithDetails = Booking & {
   payment: Payment | null;
 };
 
+type Order = {
+  orderId: string;
+  bookings: BookingWithDetails[];
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string | null;
+  totalAmount: number;
+  orderTotal: number;
+  status: string;
+  bookingDate: Date | string;
+  payment: Payment | null;
+};
+
 const statusLabels: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
   pending: { label: "In Attesa", variant: "secondary" },
   confirmed: { label: "Confermata", variant: "default" },
@@ -187,6 +200,38 @@ export default function AdminBookings() {
     return filtered;
   }, [bookings, dateFilter, customStartDate, customEndDate, tourFilter]);
 
+  // Raggruppa le prenotazioni per orderId
+  const groupedOrders = useMemo(() => {
+    const orderMap = new Map<string, Order>();
+    
+    filteredBookings.forEach(booking => {
+      const orderId = (booking as any).orderId || `SINGLE-${booking.id}`;
+      
+      if (orderMap.has(orderId)) {
+        const order = orderMap.get(orderId)!;
+        order.bookings.push(booking);
+        order.totalAmount += parseFloat(booking.totalAmount);
+      } else {
+        orderMap.set(orderId, {
+          orderId,
+          bookings: [booking],
+          customerName: booking.customerName,
+          customerEmail: booking.customerEmail,
+          customerPhone: booking.customerPhone,
+          totalAmount: parseFloat(booking.totalAmount),
+          orderTotal: (booking as any).orderTotal ? parseFloat((booking as any).orderTotal) : parseFloat(booking.totalAmount),
+          status: booking.status || 'pending',
+          bookingDate: booking.bookingDate,
+          payment: booking.payment,
+        });
+      }
+    });
+
+    return Array.from(orderMap.values()).sort((a, b) => 
+      new Date(b.bookingDate).getTime() - new Date(a.bookingDate).getTime()
+    );
+  }, [filteredBookings]);
+
   const clearFilters = () => {
     setDateFilter("all");
     setCustomStartDate("");
@@ -321,44 +366,54 @@ export default function AdminBookings() {
             <CardTitle className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Calendar className="w-5 h-5" />
-                Elenco Prenotazioni
+                Elenco Ordini
               </div>
-              <Badge variant="outline" className="text-base">
-                {filteredBookings.length} di {bookings.length}
-              </Badge>
+              <div className="flex items-center gap-2">
+                <Badge variant="outline" className="text-base">
+                  {groupedOrders.length} ordini
+                </Badge>
+                <Badge variant="secondary" className="text-base">
+                  {filteredBookings.length} tour
+                </Badge>
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {filteredBookings.length === 0 ? (
+            {groupedOrders.length === 0 ? (
               <div className="text-center py-12 text-gray-500">
                 <Calendar className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>{bookings.length === 0 ? "Nessuna prenotazione ancora registrata" : "Nessuna prenotazione trovata con i filtri selezionati"}</p>
+                <p>{bookings.length === 0 ? "Nessun ordine ancora registrato" : "Nessun ordine trovato con i filtri selezionati"}</p>
               </div>
             ) : (
               <>
                 {/* Vista Mobile - Card cliccabili */}
                 <div className="md:hidden space-y-3">
-                  {filteredBookings.map((booking) => (
+                  {groupedOrders.map((order) => (
                     <div 
-                      key={booking.id}
+                      key={order.orderId}
                       onClick={() => {
-                        setSelectedBooking(booking);
+                        setSelectedBooking(order.bookings[0]);
                         setIsDetailOpen(true);
                       }}
                       className="p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 active:bg-gray-200 transition-colors border border-gray-200"
-                      data-testid={`booking-card-${booking.id}`}
+                      data-testid={`order-card-${order.orderId}`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <Badge variant="outline" className="text-xs">#{booking.id}</Badge>
-                            <Badge variant={statusLabels[booking.status || "pending"]?.variant || "outline"} className="text-xs">
-                              {statusLabels[booking.status || "pending"]?.label || booking.status}
+                            <Badge variant="outline" className="text-xs font-mono">{order.orderId.substring(0, 15)}...</Badge>
+                            {order.bookings.length > 1 && (
+                              <Badge className="text-xs bg-purple-500">{order.bookings.length} tour</Badge>
+                            )}
+                            <Badge variant={statusLabels[order.status || "pending"]?.variant || "outline"} className="text-xs">
+                              {statusLabels[order.status || "pending"]?.label || order.status}
                             </Badge>
                           </div>
-                          <p className="font-semibold text-gray-900">{booking.customerName}</p>
-                          <p className="text-sm text-gray-600">{booking.travel?.title || "N/D"}</p>
-                          <p className="text-sm font-bold text-blue-600">€{parseFloat(booking.totalAmount).toFixed(2)}</p>
+                          <p className="font-semibold text-gray-900">{order.customerName}</p>
+                          <div className="text-sm text-gray-600">
+                            {order.bookings.map(b => b.travel?.title || "N/D").join(", ")}
+                          </div>
+                          <p className="text-sm font-bold text-blue-600">€{order.totalAmount.toFixed(2)}</p>
                         </div>
                         <Eye className="w-5 h-5 text-gray-400" />
                       </div>
@@ -366,109 +421,97 @@ export default function AdminBookings() {
                   ))}
                 </div>
 
-                {/* Vista Desktop - Tabella completa */}
+                {/* Vista Desktop - Tabella ordini raggruppati */}
                 <div className="hidden md:block overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>ID</TableHead>
+                        <TableHead>Ordine</TableHead>
                         <TableHead>Cliente</TableHead>
-                        <TableHead>Tour</TableHead>
-                        <TableHead>Luogo</TableHead>
-                        <TableHead>Data Tour</TableHead>
-                        <TableHead>Persone</TableHead>
-                        <TableHead>Importo</TableHead>
-                        <TableHead>Tipo Pag.</TableHead>
-                        <TableHead>Provider</TableHead>
-                        <TableHead>Stato Pag.</TableHead>
+                        <TableHead>Tour Prenotati</TableHead>
+                        <TableHead>Totale Persone</TableHead>
+                        <TableHead>Totale Ordine</TableHead>
+                        <TableHead>Pagamento</TableHead>
                         <TableHead>Stato</TableHead>
-                        <TableHead>Prenotato il</TableHead>
+                        <TableHead>Data Ordine</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredBookings.map((booking) => (
-                        <TableRow key={booking.id} data-testid={`booking-row-${booking.id}`}>
-                          <TableCell className="font-medium">#{booking.id}</TableCell>
-                          <TableCell>
-                            <div className="flex flex-col">
-                              <div className="flex items-center gap-1 font-medium">
-                                <User className="w-3 h-3" />
-                                {booking.customerName}
-                              </div>
-                              <span className="text-xs text-gray-500">{booking.customerEmail}</span>
-                              {booking.customerPhone && (
-                                <span className="text-xs text-gray-500">{booking.customerPhone}</span>
+                      {groupedOrders.map((order) => (
+                        <TableRow key={order.orderId} data-testid={`order-row-${order.orderId}`}>
+                          <TableCell className="font-medium">
+                            <div className="flex flex-col gap-1">
+                              <span className="font-mono text-xs bg-gray-100 px-2 py-1 rounded">
+                                {order.orderId.substring(0, 20)}
+                              </span>
+                              {order.bookings.length > 1 && (
+                                <Badge className="bg-purple-500 w-fit">{order.bookings.length} tour</Badge>
                               )}
                             </div>
                           </TableCell>
                           <TableCell>
                             <div className="flex flex-col">
-                              <span className="font-medium">{booking.travel?.title || "N/D"}</span>
-                              <span className="text-xs text-gray-500 capitalize">{booking.travel?.type || ""}</span>
+                              <div className="flex items-center gap-1 font-medium">
+                                <User className="w-3 h-3" />
+                                {order.customerName}
+                              </div>
+                              <span className="text-xs text-gray-500">{order.customerEmail}</span>
+                              {order.customerPhone && (
+                                <span className="text-xs text-gray-500">{order.customerPhone}</span>
+                              )}
                             </div>
                           </TableCell>
                           <TableCell>
-                            <div className="flex items-center gap-1 text-sm">
-                              <MapPin className="w-3 h-3" />
-                              {booking.travel?.destination || "N/D"}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-1 text-sm">
-                              <Calendar className="w-3 h-3" />
-                              {formatDate(booking.travelDate)}
+                            <div className="flex flex-col gap-1 max-w-xs">
+                              {order.bookings.map((booking, idx) => (
+                                <div key={booking.id} className="flex items-center gap-2 text-sm">
+                                  <span className="font-medium">{booking.travel?.title || "N/D"}</span>
+                                  <span className="text-gray-400">({booking.numberOfParticipants} pers.)</span>
+                                  {booking.travelDate && (
+                                    <span className="text-xs text-gray-500">{formatDate(booking.travelDate)}</span>
+                                  )}
+                                </div>
+                              ))}
                             </div>
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center gap-1">
                               <Users className="w-4 h-4" />
-                              {booking.numberOfParticipants}
+                              {order.bookings.reduce((sum, b) => sum + b.numberOfParticipants, 0)}
                             </div>
                           </TableCell>
-                          <TableCell className="font-semibold">
-                            €{parseFloat(booking.totalAmount).toFixed(2)}
+                          <TableCell className="font-semibold text-lg">
+                            €{order.totalAmount.toFixed(2)}
                           </TableCell>
                           <TableCell>
-                            <Badge 
-                              className={
-                                getPaymentType(booking) === "Completo" 
-                                  ? "bg-green-500 text-white hover:bg-green-600" 
-                                  : getPaymentType(booking) === "Acconto"
-                                  ? "bg-orange-500 text-white hover:bg-orange-600"
-                                  : "bg-gray-500 text-white hover:bg-gray-600"
-                              }
-                            >
-                              {getPaymentType(booking)}
-                            </Badge>
+                            <div className="flex flex-col gap-1">
+                              {order.payment ? (
+                                <>
+                                  <div className="flex items-center gap-1">
+                                    <CreditCard className="w-3 h-3" />
+                                    <span className="text-sm">
+                                      {providerLabels[order.payment.paymentProvider] || order.payment.paymentProvider}
+                                    </span>
+                                  </div>
+                                  <Badge variant={paymentStatusLabels[order.payment.status]?.variant || "outline"}>
+                                    {paymentStatusLabels[order.payment.status]?.label || order.payment.status}
+                                  </Badge>
+                                  <span className="text-xs text-gray-500">
+                                    €{parseFloat(order.payment.amount).toFixed(2)}
+                                  </span>
+                                </>
+                              ) : (
+                                <span className="text-gray-400 text-sm">N/D</span>
+                              )}
+                            </div>
                           </TableCell>
                           <TableCell>
-                            {booking.payment ? (
-                              <div className="flex items-center gap-1">
-                                <CreditCard className="w-3 h-3" />
-                                <span className="text-sm">
-                                  {providerLabels[booking.payment.paymentProvider] || booking.payment.paymentProvider}
-                                </span>
-                              </div>
-                            ) : (
-                              <span className="text-gray-400 text-sm">N/D</span>
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            {booking.payment ? (
-                              <Badge variant={paymentStatusLabels[booking.payment.status]?.variant || "outline"}>
-                                {paymentStatusLabels[booking.payment.status]?.label || booking.payment.status}
-                              </Badge>
-                            ) : (
-                              <Badge variant="outline">N/D</Badge>
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant={statusLabels[booking.status || "pending"]?.variant || "outline"}>
-                              {statusLabels[booking.status || "pending"]?.label || booking.status}
+                            <Badge variant={statusLabels[order.status || "pending"]?.variant || "outline"}>
+                              {statusLabels[order.status || "pending"]?.label || order.status}
                             </Badge>
                           </TableCell>
                           <TableCell className="text-sm text-gray-500">
-                            {formatDateTime(booking.bookingDate)}
+                            {formatDateTime(order.bookingDate)}
                           </TableCell>
                         </TableRow>
                       ))}
@@ -621,11 +664,9 @@ export default function AdminBookings() {
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-500">Totale Prenotazioni</p>
-                    <p className="text-2xl font-bold">{filteredBookings.length}</p>
-                    {filteredBookings.length !== bookings.length && (
-                      <p className="text-xs text-gray-400">di {bookings.length} totali</p>
-                    )}
+                    <p className="text-sm text-gray-500">Totale Ordini</p>
+                    <p className="text-2xl font-bold">{groupedOrders.length}</p>
+                    <p className="text-xs text-gray-400">{filteredBookings.length} tour prenotati</p>
                   </div>
                   <Calendar className="w-8 h-8 text-blue-500" />
                 </div>
@@ -636,9 +677,9 @@ export default function AdminBookings() {
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-500">Confermate</p>
+                    <p className="text-sm text-gray-500">Ordini Confermati</p>
                     <p className="text-2xl font-bold text-green-600">
-                      {filteredBookings.filter(b => b.status === "confirmed").length}
+                      {groupedOrders.filter(o => o.status === "confirmed").length}
                     </p>
                   </div>
                   <CheckCircle2 className="w-8 h-8 text-green-500" />
@@ -652,7 +693,7 @@ export default function AdminBookings() {
                   <div>
                     <p className="text-sm text-gray-500">In Attesa</p>
                     <p className="text-2xl font-bold text-yellow-600">
-                      {filteredBookings.filter(b => b.status === "pending").length}
+                      {groupedOrders.filter(o => o.status === "pending").length}
                     </p>
                   </div>
                   <Clock className="w-8 h-8 text-yellow-500" />
@@ -666,9 +707,9 @@ export default function AdminBookings() {
                   <div>
                     <p className="text-sm text-gray-500">Ricavo Totale</p>
                     <p className="text-2xl font-bold text-blue-600">
-                      €{filteredBookings
-                        .filter(b => b.payment?.status === "succeeded")
-                        .reduce((sum, b) => sum + (b.payment ? parseFloat(b.payment.amount) : 0), 0)
+                      €{groupedOrders
+                        .filter(o => o.payment?.status === "succeeded")
+                        .reduce((sum, o) => sum + (o.payment ? parseFloat(o.payment.amount) : 0), 0)
                         .toFixed(2)}
                     </p>
                   </div>
