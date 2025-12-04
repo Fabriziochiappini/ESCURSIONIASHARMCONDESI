@@ -43,12 +43,12 @@ export default function Carrello() {
   );
 
   const calculateItemDeposit = (item: typeof items[0]) => {
-    const fullPrice = Number(item.travel.price) * item.participants * item.quantity;
+    const fullPrice = Number(item.travel.price) * item.participants;
     if (item.travel.depositPercentage && item.travel.depositPercentage > 0) {
       return (fullPrice * item.travel.depositPercentage) / 100;
     }
     if (item.travel.depositAmount && Number(item.travel.depositAmount) > 0) {
-      return Number(item.travel.depositAmount) * item.participants * item.quantity;
+      return Number(item.travel.depositAmount) * item.participants;
     }
     return fullPrice;
   };
@@ -87,12 +87,12 @@ export default function Carrello() {
   const checkoutMutation = useMutation({
     mutationFn: async () => {
       const cartData = items.map(item => {
-        const fullPrice = Number(item.travel.price) * item.participants * item.quantity;
+        const fullPrice = Number(item.travel.price) * item.participants;
         const depositPrice = calculateItemDeposit(item);
         return {
           travelId: item.travel.id,
           travelTitle: item.travel.title,
-          quantity: item.quantity,
+          quantity: 1,
           participants: item.participants,
           participantNotes: item.participantNotes || "",
           price: paymentType === "deposit" ? depositPrice : fullPrice,
@@ -281,7 +281,7 @@ export default function Carrello() {
                                 {formatCartPrice(Number(item.travel.price))} x {item.participants} pers.
                               </span>
                               <span className="text-base sm:text-lg font-bold text-[#D4AF37]">
-                                {formatCartPrice(Number(item.travel.price) * item.participants * item.quantity)}
+                                {formatCartPrice(Number(item.travel.price) * item.participants)}
                               </span>
                             </div>
                           </div>
@@ -322,10 +322,10 @@ export default function Carrello() {
                         {items.map((item) => (
                           <div key={item.travel.id} className="flex justify-between text-sm">
                             <span className="text-gray-600 truncate max-w-[180px]">
-                              {item.travel.title} ({item.participants} pers. x {item.quantity})
+                              {item.travel.title} ({item.participants} pers.)
                             </span>
                             <span className="font-medium">
-                              {formatCartPrice(Number(item.travel.price) * item.participants * item.quantity)}
+                              {formatCartPrice(Number(item.travel.price) * item.participants)}
                             </span>
                           </div>
                         ))}

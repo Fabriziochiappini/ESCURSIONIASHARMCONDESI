@@ -89,7 +89,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const getTotal = () => {
     return items.reduce((total, item) => {
       const price = Number(item.travel.price) || 0;
-      return total + price * item.participants * item.quantity;
+      return total + price * item.participants;
     }, 0);
   };
 
