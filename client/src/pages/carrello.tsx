@@ -181,106 +181,106 @@ export default function Carrello() {
                 <div className="lg:col-span-2 space-y-4">
                   {items.map((item) => (
                     <Card key={item.travel.id} className="overflow-hidden" data-testid={`cart-item-${item.travel.id}`}>
-                      <CardContent className="p-4">
-                        <div className="flex gap-4">
-                          <div className="w-32 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                      <CardContent className="p-3 sm:p-4">
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                          <div className="w-full sm:w-24 h-32 sm:h-20 rounded-lg overflow-hidden flex-shrink-0">
                             <img
                               src={convertImageUrl(item.travel.images?.[0] || "")}
                               alt={item.travel.title}
                               className="w-full h-full object-cover"
                             />
                           </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <h3 className="font-bold text-lg text-gray-900">{item.travel.title}</h3>
-                                <p className="text-sm text-gray-500">{item.travel.destination}</p>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex justify-between items-start gap-2">
+                              <div className="min-w-0 flex-1">
+                                <h3 className="font-bold text-base sm:text-lg text-gray-900 truncate">{item.travel.title}</h3>
+                                <p className="text-sm text-gray-500 truncate">{item.travel.destination}</p>
                               </div>
                               <Button
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => removeFromCart(item.travel.id)}
-                                className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                                className="text-red-500 hover:text-red-700 hover:bg-red-50 flex-shrink-0 h-8 w-8"
                                 data-testid={`remove-item-${item.travel.id}`}
                               >
-                                <Trash2 className="h-5 w-5" />
+                                <Trash2 className="h-4 w-4" />
                               </Button>
                             </div>
                             
-                            <div className="mt-3 flex flex-wrap items-center gap-4">
-                              <div className="flex items-center gap-2">
-                                <Users className="h-4 w-4 text-gray-500" />
-                                <span className="text-sm text-gray-600">Partecipanti:</span>
+                            <div className="mt-2 sm:mt-3 flex flex-wrap items-center gap-2 sm:gap-4">
+                              <div className="flex items-center gap-1 sm:gap-2">
+                                <Users className="h-4 w-4 text-gray-500 hidden sm:block" />
+                                <span className="text-xs sm:text-sm text-gray-600">Partecipanti:</span>
                                 <div className="flex items-center border rounded-lg">
                                   <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8"
+                                    className="h-7 w-7 sm:h-8 sm:w-8"
                                     onClick={() => item.participants > 1 && updateParticipants(item.travel.id, item.participants - 1)}
                                     disabled={item.participants <= 1}
                                   >
-                                    <Minus className="h-4 w-4" />
+                                    <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                                   </Button>
-                                  <span className="px-3 font-medium">{item.participants}</span>
+                                  <span className="px-2 sm:px-3 font-medium text-sm sm:text-base">{item.participants}</span>
                                   <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8"
+                                    className="h-7 w-7 sm:h-8 sm:w-8"
                                     onClick={() => updateParticipants(item.travel.id, item.participants + 1)}
                                   >
-                                    <Plus className="h-4 w-4" />
+                                    <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                                   </Button>
                                 </div>
                               </div>
                             </div>
 
-                            {/* Sezione Note Partecipanti */}
                             <Collapsible 
                               open={openNotes[item.travel.id]} 
                               onOpenChange={(open) => setOpenNotes(prev => ({ ...prev, [item.travel.id]: open }))}
-                              className="mt-3"
+                              className="mt-2 sm:mt-3"
                             >
                               <CollapsibleTrigger asChild>
                                 <Button 
                                   variant="ghost" 
                                   size="sm" 
-                                  className="text-[#D4AF37] hover:text-[#C9A961] hover:bg-[#D4AF37]/10 p-0 h-auto font-medium"
+                                  className="text-[#D4AF37] hover:text-[#C9A961] hover:bg-[#D4AF37]/10 p-0 h-auto font-medium text-xs sm:text-sm"
                                   data-testid={`toggle-notes-${item.travel.id}`}
                                 >
-                                  <Plus className="h-4 w-4 mr-1" />
-                                  Aggiungi i nomi dei partecipanti
+                                  <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                                  <span className="hidden sm:inline">Aggiungi i nomi dei partecipanti</span>
+                                  <span className="sm:hidden">Nomi partecipanti</span>
                                   {openNotes[item.travel.id] ? (
-                                    <ChevronUp className="h-4 w-4 ml-1" />
+                                    <ChevronUp className="h-3 w-3 sm:h-4 sm:w-4 ml-1" />
                                   ) : (
-                                    <ChevronDown className="h-4 w-4 ml-1" />
+                                    <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4 ml-1" />
                                   )}
                                 </Button>
                               </CollapsibleTrigger>
                               <CollapsibleContent className="mt-2">
-                                <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                                <div className="bg-gray-50 rounded-lg p-2 sm:p-3 border border-gray-200">
                                   <div className="flex items-center gap-2 mb-2">
-                                    <FileText className="h-4 w-4 text-gray-500" />
-                                    <span className="text-sm font-medium text-gray-700">Note (facoltativo)</span>
+                                    <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500" />
+                                    <span className="text-xs sm:text-sm font-medium text-gray-700">Note (facoltativo)</span>
                                   </div>
                                   <Textarea
-                                    placeholder="Inserisci i nomi e cognomi dei partecipanti, uno per riga..."
+                                    placeholder="Nomi e cognomi, uno per riga..."
                                     value={item.participantNotes || ""}
                                     onChange={(e) => updateParticipantNotes(item.travel.id, e.target.value)}
-                                    className="min-h-[80px] text-sm resize-none"
+                                    className="min-h-[60px] sm:min-h-[80px] text-xs sm:text-sm resize-none"
                                     data-testid={`notes-input-${item.travel.id}`}
                                   />
-                                  <p className="text-xs text-gray-400 mt-1">
-                                    Esempio: Mario Rossi, Anna Bianchi, etc.
+                                  <p className="text-[10px] sm:text-xs text-gray-400 mt-1">
+                                    Es: Mario Rossi, Anna Bianchi
                                   </p>
                                 </div>
                               </CollapsibleContent>
                             </Collapsible>
                             
-                            <div className="mt-3 flex justify-between items-center">
-                              <span className="text-sm text-gray-500">
+                            <div className="mt-2 sm:mt-3 flex justify-between items-center">
+                              <span className="text-xs sm:text-sm text-gray-500">
                                 {formatCartPrice(Number(item.travel.price))} x {item.participants} pers.
                               </span>
-                              <span className="text-lg font-bold text-[#D4AF37]">
+                              <span className="text-base sm:text-lg font-bold text-[#D4AF37]">
                                 {formatCartPrice(Number(item.travel.price) * item.participants * item.quantity)}
                               </span>
                             </div>
