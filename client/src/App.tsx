@@ -28,6 +28,7 @@ import AdminBookings from "@/pages/admin/bookings";
 import AdminAddons from "@/pages/admin/addons";
 import ResetDemo from "@/pages/reset-demo";
 import PayPalReturn from "@/pages/paypal-return";
+import Indicazioni from "@/pages/indicazioni";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -46,6 +47,7 @@ function Router() {
       <Route path="/:type/:country/:travelType" component={TravelDetail} />
       <Route path="/:type/:municipality/:propertyType" component={PropertyDetail} />
       <Route path="/servizi" component={Services} />
+      <Route path="/indicazioni" component={Indicazioni} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/admin" component={Admin} />
       <Route path="/admin/countries" component={AdminCountries} />

@@ -47,6 +47,10 @@ export function Navigation() {
               Contatti
               <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
             </Link>
+            <Link href="/indicazioni" className="text-white hover:text-[#D4AF37] font-medium text-lg tracking-wide transition-all duration-300 relative group">
+              Indicazioni
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
+            </Link>
             {/* Carrello */}
             <Link href="/carrello" className="relative text-white hover:text-[#D4AF37] transition-all duration-300 p-2" data-testid="nav-cart">
               <ShoppingCart className="h-6 w-6" />
@@ -112,6 +116,9 @@ export function Navigation() {
               </Link>
               <Link href="/contatti" className="block px-4 py-3 text-white hover:text-[#D4AF37] font-medium text-lg hover:bg-white/10 rounded-xl transition-all duration-200">
                 Contatti
+              </Link>
+              <Link href="/indicazioni" className="block px-4 py-3 text-white hover:text-[#D4AF37] font-medium text-lg hover:bg-white/10 rounded-xl transition-all duration-200">
+                Indicazioni
               </Link>
               <Link href="/carrello" className="flex items-center gap-2 px-4 py-3 text-white hover:text-[#D4AF37] font-medium text-lg hover:bg-white/10 rounded-xl transition-all duration-200">
                 <ShoppingCart className="h-5 w-5" />
