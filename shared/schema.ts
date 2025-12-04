@@ -414,3 +414,35 @@ export type InsertBooking = z.infer<typeof insertBookingSchema>;
 export type Booking = typeof bookings.$inferSelect;
 export type InsertPayment = z.infer<typeof insertPaymentSchema>;
 export type Payment = typeof payments.$inferSelect;
+
+// Add-ons / Upsells table
+export const addons = pgTable("addons", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(), // es. "Aggiungi cena", "Aggiungi barca"
+  description: text("description"),
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
+  isActive: boolean("is_active").default(true),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Relation table: which add-ons belong to which tours
+export const travelAddons = pgTable("travel_addons", {
+  id: serial("id").primaryKey(),
+  travelId: integer("travel_id").references(() => travels.id, { onDelete: "cascade" }).notNull(),
+  addonId: integer("addon_id").references(() => addons.id, { onDelete: "cascade" }).notNull(),
+});
+
+export const insertAddonSchema = createInsertSchema(addons).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertTravelAddonSchema = createInsertSchema(travelAddons).omit({
+  id: true,
+});
+
+export type InsertAddon = z.infer<typeof insertAddonSchema>;
+export type Addon = typeof addons.$inferSelect;
+export type InsertTravelAddon = z.infer<typeof insertTravelAddonSchema>;
+export type TravelAddon = typeof travelAddons.$inferSelect;

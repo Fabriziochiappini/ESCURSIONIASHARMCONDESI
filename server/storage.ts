@@ -9,6 +9,8 @@ import {
   galleries,
   galleryImages,
   guides,
+  addons,
+  travelAddons,
   type Travel, 
   type InsertTravel, 
   type SearchFilters,
@@ -30,6 +32,10 @@ import {
   type InsertGalleryImage,
   type Guide,
   type InsertGuide,
+  type Addon,
+  type InsertAddon,
+  type TravelAddon,
+  type InsertTravelAddon,
   generateTravelSlug,
   generateTravelMetaTitle,
   generateTravelMetaDescription
@@ -130,6 +136,19 @@ export interface IStorage {
   createGuide(guide: InsertGuide): Promise<Guide>;
   updateGuide(id: number, guide: Partial<InsertGuide>): Promise<Guide | undefined>;
   deleteGuide(id: number): Promise<boolean>;
+
+  // Add-on operations
+  getAllAddons(): Promise<Addon[]>;
+  getActiveAddons(): Promise<Addon[]>;
+  getAddon(id: number): Promise<Addon | undefined>;
+  createAddon(addon: InsertAddon): Promise<Addon>;
+  updateAddon(id: number, addon: Partial<InsertAddon>): Promise<Addon | undefined>;
+  deleteAddon(id: number): Promise<boolean>;
+  
+  // Travel-Addon relation operations
+  getTravelAddons(travelId: number): Promise<Addon[]>;
+  setTravelAddons(travelId: number, addonIds: number[]): Promise<boolean>;
+  getAddonsForTravels(travelIds: number[]): Promise<{travelId: number, addon: Addon}[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -1041,6 +1060,84 @@ export class DatabaseStorage implements IStorage {
   async deleteGuide(id: number): Promise<boolean> {
     const result = await db.delete(guides).where(eq(guides.id, id));
     return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  // Add-on operations
+  async getAllAddons(): Promise<Addon[]> {
+    const allAddons = await db.select().from(addons).orderBy(addons.sortOrder, addons.id);
+    return allAddons;
+  }
+
+  async getActiveAddons(): Promise<Addon[]> {
+    const activeAddons = await db.select().from(addons).where(eq(addons.isActive, true)).orderBy(addons.sortOrder, addons.id);
+    return activeAddons;
+  }
+
+  async getAddon(id: number): Promise<Addon | undefined> {
+    const [addon] = await db.select().from(addons).where(eq(addons.id, id));
+    return addon || undefined;
+  }
+
+  async createAddon(addon: InsertAddon): Promise<Addon> {
+    const [newAddon] = await db.insert(addons).values(addon).returning();
+    return newAddon;
+  }
+
+  async updateAddon(id: number, addon: Partial<InsertAddon>): Promise<Addon | undefined> {
+    const [updatedAddon] = await db.update(addons).set(addon).where(eq(addons.id, id)).returning();
+    return updatedAddon || undefined;
+  }
+
+  async deleteAddon(id: number): Promise<boolean> {
+    const result = await db.delete(addons).where(eq(addons.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  // Travel-Addon relation operations
+  async getTravelAddons(travelId: number): Promise<Addon[]> {
+    const relations = await db
+      .select({ addon: addons })
+      .from(travelAddons)
+      .innerJoin(addons, eq(travelAddons.addonId, addons.id))
+      .where(and(eq(travelAddons.travelId, travelId), eq(addons.isActive, true)))
+      .orderBy(addons.sortOrder);
+    
+    return relations.map(r => r.addon);
+  }
+
+  async setTravelAddons(travelId: number, addonIds: number[]): Promise<boolean> {
+    try {
+      // Remove existing relations
+      await db.delete(travelAddons).where(eq(travelAddons.travelId, travelId));
+      
+      // Add new relations
+      if (addonIds.length > 0) {
+        await db.insert(travelAddons).values(
+          addonIds.map(addonId => ({ travelId, addonId }))
+        );
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Error setting travel addons:', error);
+      return false;
+    }
+  }
+
+  async getAddonsForTravels(travelIds: number[]): Promise<{travelId: number, addon: Addon}[]> {
+    if (travelIds.length === 0) return [];
+    
+    const relations = await db
+      .select({ 
+        travelId: travelAddons.travelId,
+        addon: addons 
+      })
+      .from(travelAddons)
+      .innerJoin(addons, eq(travelAddons.addonId, addons.id))
+      .where(eq(addons.isActive, true))
+      .orderBy(addons.sortOrder);
+    
+    return relations.filter(r => travelIds.includes(r.travelId));
   }
 }
 
