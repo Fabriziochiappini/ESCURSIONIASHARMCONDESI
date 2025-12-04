@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, MapPin, Clock, Users, Calendar, Heart, Star, Plane, CheckCircle, XCircle, ShoppingCart, Phone, Share2 } from "lucide-react";
+import { ArrowLeft, MapPin, Clock, Users, Calendar, Heart, Star, Plane, CheckCircle, XCircle, ShoppingCart, Phone, Share2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,6 +18,7 @@ import { AnnouncementBar } from "@/components/announcement-bar";
 import { shareOnWhatsApp } from "@/lib/whatsapp";
 import { useCart } from "@/contexts/cart-context";
 import { useToast } from "@/hooks/use-toast";
+import useEmblaCarousel from "embla-carousel-react";
 
 export default function TravelDetail() {
   const params = useParams();
@@ -58,6 +59,47 @@ export default function TravelDetail() {
     queryKey: [finalQueryUrl],
     enabled: !!finalQueryUrl,
   });
+
+  // Fetch all tours for related section
+  const { data: allTravels } = useQuery<Travel[]>({
+    queryKey: ['/api/travels'],
+  });
+
+  // Embla carousel for related tours
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: 'start',
+    slidesToScroll: 1,
+    containScroll: 'trimSnaps',
+  });
+
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setCanScrollPrev(emblaApi.canScrollPrev());
+    setCanScrollNext(emblaApi.canScrollNext());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+  }, [emblaApi, onSelect]);
+
+  // Filter related tours (same type, excluding current)
+  const relatedTours = allTravels?.filter(t => 
+    t.id !== travel?.id && t.isActive
+  ).slice(0, 8) || [];
+
+  const convertImageUrl = (url: string) => {
+    if (!url) return "/placeholder-tour.jpg";
+    return url.replace('/public-objects/', '/api/images/');
+  };
 
   if (isLoading) {
     return (
@@ -286,6 +328,92 @@ export default function TravelDetail() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Related Tours Carousel */}
+            {relatedTours.length > 0 && (
+              <div className="py-8">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent tracking-[0.1em] uppercase drop-shadow-lg font-eagle-lake">
+                    Altri Tour ed Escursioni
+                  </h3>
+                  <div className="hidden md:flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={scrollPrev}
+                      disabled={!canScrollPrev}
+                      className="rounded-full border-[#D4AF37]/50 hover:bg-[#D4AF37]/10 disabled:opacity-30"
+                      data-testid="carousel-prev"
+                    >
+                      <ChevronLeft className="h-5 w-5 text-[#D4AF37]" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={scrollNext}
+                      disabled={!canScrollNext}
+                      className="rounded-full border-[#D4AF37]/50 hover:bg-[#D4AF37]/10 disabled:opacity-30"
+                      data-testid="carousel-next"
+                    >
+                      <ChevronRight className="h-5 w-5 text-[#D4AF37]" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="overflow-hidden" ref={emblaRef}>
+                  <div className="flex gap-4 touch-pan-y">
+                    {relatedTours.map((tour) => (
+                      <Link 
+                        key={tour.id} 
+                        href={`/travel/${tour.id}`}
+                        className="flex-none w-[280px] sm:w-[300px] md:w-[320px]"
+                      >
+                        <Card className="h-full overflow-hidden group cursor-pointer border border-gray-100 hover:border-[#D4AF37]/50 hover:shadow-xl transition-all duration-300">
+                          <div className="relative aspect-[4/3] overflow-hidden">
+                            <img
+                              src={convertImageUrl(tour.images?.[0] || "")}
+                              alt={tour.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                            <div className="absolute bottom-3 left-3 right-3">
+                              <Badge className="bg-[#D4AF37] text-white text-xs mb-2">
+                                {tour.type === "mare" ? "Mare" : 
+                                 tour.type === "deserto" ? "Deserto" :
+                                 tour.type === "citta" ? "Città" :
+                                 tour.type === "avventura" ? "Avventura" :
+                                 tour.type === "relax" ? "Relax" :
+                                 tour.type === "cultura" ? "Cultura" : tour.type}
+                              </Badge>
+                            </div>
+                          </div>
+                          <CardContent className="p-4">
+                            <h4 className="font-semibold text-gray-900 line-clamp-2 mb-2 group-hover:text-[#D4AF37] transition-colors">
+                              {tour.title}
+                            </h4>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-1 text-sm text-gray-500">
+                                <MapPin className="h-3.5 w-3.5" />
+                                <span className="truncate max-w-[120px]">{tour.destination}</span>
+                              </div>
+                              <span className="font-bold text-[#D4AF37]">
+                                {formatPrice(Number(tour.price))}
+                              </span>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Mobile swipe indicator */}
+                <p className="text-center text-sm text-gray-400 mt-4 md:hidden">
+                  ← Scorri per vedere altri tour →
+                </p>
+              </div>
+            )}
 
             {/* Contact & Share Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center py-8">
