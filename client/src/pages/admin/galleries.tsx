@@ -11,7 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Plus, Trash2, Upload, Image as ImageIcon } from "lucide-react";
+import { Plus, Trash2, Upload, Image as ImageIcon, ArrowLeft } from "lucide-react";
+import { Link } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -149,7 +150,15 @@ export default function AdminGalleries() {
       <main className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900">Gestione Gallerie</h1>
+            <div className="flex items-center gap-4">
+              <Link href="/admin">
+                <Button variant="ghost" size="sm">
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Indietro
+                </Button>
+              </Link>
+              <h1 className="text-4xl font-bold text-gray-900">Gestione Gallerie</h1>
+            </div>
             <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
               <DialogTrigger asChild>
                 <Button className="bg-blue-600 hover:bg-blue-700">

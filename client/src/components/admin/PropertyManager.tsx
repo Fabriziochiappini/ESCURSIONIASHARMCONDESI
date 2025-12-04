@@ -1054,37 +1054,40 @@ export default function PropertyManager() {
                     Seleziona gli add-on che i clienti potranno acquistare con questo tour
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {allAddons.map((addon) => (
-                      <div 
-                        key={addon.id}
-                        className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all ${
-                          selectedAddonIds.includes(addon.id) 
-                            ? 'bg-amber-100 border-2 border-amber-400' 
-                            : 'bg-white border border-gray-200 hover:border-amber-300'
-                        }`}
-                        onClick={() => {
-                          setSelectedAddonIds(prev => 
-                            prev.includes(addon.id) 
-                              ? prev.filter(id => id !== addon.id)
-                              : [...prev, addon.id]
-                          );
-                        }}
-                      >
-                        <Checkbox 
-                          checked={selectedAddonIds.includes(addon.id)}
-                          className="data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600"
-                        />
-                        <div className="flex-1">
-                          <p className="font-medium text-gray-800">{addon.name}</p>
-                          {addon.description && (
-                            <p className="text-xs text-gray-500">{addon.description}</p>
-                          )}
-                        </div>
-                        <span className="font-bold text-amber-700">
-                          €{parseFloat(addon.price).toFixed(2)}
-                        </span>
-                      </div>
-                    ))}
+                    {allAddons.map((addon) => {
+                      const isSelected = selectedAddonIds.includes(addon.id);
+                      return (
+                        <label 
+                          key={addon.id}
+                          className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all ${
+                            isSelected 
+                              ? 'bg-amber-100 border-2 border-amber-400' 
+                              : 'bg-white border border-gray-200 hover:border-amber-300'
+                          }`}
+                        >
+                          <Checkbox 
+                            checked={isSelected}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setSelectedAddonIds(prev => [...prev, addon.id]);
+                              } else {
+                                setSelectedAddonIds(prev => prev.filter(id => id !== addon.id));
+                              }
+                            }}
+                            className="data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600"
+                          />
+                          <div className="flex-1">
+                            <p className="font-medium text-gray-800">{addon.name}</p>
+                            {addon.description && (
+                              <p className="text-xs text-gray-500">{addon.description}</p>
+                            )}
+                          </div>
+                          <span className="font-bold text-amber-700">
+                            €{parseFloat(addon.price).toFixed(2)}
+                          </span>
+                        </label>
+                      );
+                    })}
                   </div>
                   {selectedAddonIds.length > 0 && (
                     <p className="text-sm text-amber-700 font-medium">

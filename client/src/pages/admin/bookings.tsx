@@ -31,7 +31,8 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Calendar, User, Users, CreditCard, MapPin, CheckCircle2, Clock, XCircle, Filter, X, Phone, Mail, Eye } from "lucide-react";
+import { Calendar, User, Users, CreditCard, MapPin, CheckCircle2, Clock, XCircle, Filter, X, Phone, Mail, Eye, ArrowLeft } from "lucide-react";
+import { Link } from "wouter";
 import type { Booking, Payment, Travel } from "@shared/schema";
 
 type BookingWithDetails = Booking & {
@@ -209,6 +210,14 @@ export default function AdminBookings() {
       
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
+          <div className="flex items-center gap-4 mb-4">
+            <Link href="/admin">
+              <Button variant="ghost" size="sm">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Indietro
+              </Button>
+            </Link>
+          </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Gestione Prenotazioni e Pagamenti
           </h1>
