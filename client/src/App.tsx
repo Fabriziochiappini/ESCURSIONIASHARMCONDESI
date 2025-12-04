@@ -7,6 +7,26 @@ import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { CookieBanner } from "@/components/cookie-banner";
 import { CartProvider } from "@/contexts/cart-context";
+import { useEffect } from "react";
+
+// Prefetch dati principali per navigazione veloce
+function usePrefetchData() {
+  useEffect(() => {
+    // Prefetch tour featured per homepage e pagina escursioni
+    queryClient.prefetchQuery({
+      queryKey: ['/api/travels/featured'],
+      staleTime: 1000 * 60 * 5,
+    });
+    queryClient.prefetchQuery({
+      queryKey: ['/api/travels/search', ''],
+      staleTime: 1000 * 60 * 5,
+    });
+    queryClient.prefetchQuery({
+      queryKey: ['/api/galleries'],
+      staleTime: 1000 * 60 * 5,
+    });
+  }, []);
+}
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import Properties from "@/pages/properties";
@@ -65,16 +85,23 @@ function Router() {
   );
 }
 
+function PrefetchProvider({ children }: { children: React.ReactNode }) {
+  usePrefetchData();
+  return <>{children}</>;
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <CartProvider>
         <TooltipProvider>
-          <ScrollToTop />
-          <Toaster />
-          <Router />
-          <WhatsAppFloat />
-          <CookieBanner />
+          <PrefetchProvider>
+            <ScrollToTop />
+            <Toaster />
+            <Router />
+            <WhatsAppFloat />
+            <CookieBanner />
+          </PrefetchProvider>
         </TooltipProvider>
       </CartProvider>
     </QueryClientProvider>
