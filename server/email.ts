@@ -165,8 +165,15 @@ export async function sendOrderConfirmationEmails(data: OrderEmailData): Promise
 
               ${isDeposit ? `
               <div style="background: #fef3c7; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center;">
-                <p style="margin: 0; font-weight: bold; color: #92400e;">
+                <p style="margin: 0 0 15px; font-weight: bold; color: #92400e;">
                   ⚠️ Ricorda: il saldo di <strong>€${data.remainingBalance.toFixed(2)}</strong> dovrà essere versato prima della partenza del tour.
+                </p>
+                <a href="${process.env.REPLIT_DEV_DOMAIN ? 'https://' + process.env.REPLIT_DEV_DOMAIN : 'https://si-viaggia-con-desi.replit.app'}/versa-saldo?code=${encodeURIComponent(data.orderId)}" 
+                   style="display: inline-block; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);">
+                  💳 VERSA SALDO ORA
+                </a>
+                <p style="margin: 15px 0 0; font-size: 12px; color: #92400e;">
+                  Clicca il pulsante per pagare il saldo rimanente direttamente online
                 </p>
               </div>
               ` : ''}
