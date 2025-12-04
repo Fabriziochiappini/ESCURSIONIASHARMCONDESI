@@ -116,7 +116,7 @@ function PropertyItem({ property, onEdit, onDelete, onMoveUp, onMoveDown, isFirs
     } else if (type === "affitto") {
       return `€ ${numPrice}/mese`;
     } else {
-      return `€ ${numPrice}/notte`;
+      return `€ ${numPrice}/persona`;
     }
   };
 
@@ -872,7 +872,7 @@ export default function PropertyManager() {
     } else if (type === "affitto") {
       return `€ ${numPrice}/mese`;
     } else {
-      return `€ ${numPrice}/notte`;
+      return `€ ${numPrice}/persona`;
     }
   };
 
