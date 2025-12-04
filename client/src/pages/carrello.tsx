@@ -115,19 +115,11 @@ export default function Carrello() {
       
       return response.json();
     },
-    onSuccess: async (data: { sessionId: string }) => {
-      if (data.sessionId) {
-        const stripe = await stripePromise;
-        if (stripe) {
-          const { error } = await stripe.redirectToCheckout({ sessionId: data.sessionId });
-          if (error) {
-            toast({ title: "Errore nel pagamento", description: error.message, variant: "destructive" });
-            setIsProcessing(false);
-          }
-        } else {
-          toast({ title: "Errore Stripe", description: "Impossibile inizializzare Stripe", variant: "destructive" });
-          setIsProcessing(false);
-        }
+    onSuccess: async (data: { sessionId: string; url?: string }) => {
+      if (data.url) {
+        window.location.href = data.url;
+      } else if (data.sessionId) {
+        window.location.href = `https://checkout.stripe.com/pay/${data.sessionId}`;
       }
     },
     onError: (error: any) => {

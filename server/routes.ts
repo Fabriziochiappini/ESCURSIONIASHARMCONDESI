@@ -1279,7 +1279,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         },
       });
 
-      res.json({ sessionId: session.id });
+      res.json({ sessionId: session.id, url: session.url });
     } catch (error: any) {
       console.error('Cart checkout error:', error);
       res.status(500).json({ message: "Errore nel checkout: " + error.message });
