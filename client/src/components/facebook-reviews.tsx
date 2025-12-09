@@ -149,7 +149,7 @@ export function FacebookReviews() {
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.1em] sm:tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 gold-title tracking-[0.1em] sm:tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
             Dicono di Noi
           </h2>
           <div className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-4"></div>

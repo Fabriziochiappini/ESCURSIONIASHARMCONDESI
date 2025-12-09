@@ -62,7 +62,7 @@ export default function About() {
               {/* Testo a sinistra */}
               <div>
                 <div className="mb-6">
-                  <h2 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-3 tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
+                  <h2 className="text-4xl lg:text-5xl font-bold gold-title mb-3 tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
                     Chi Siamo
                   </h2>
                   <div className="w-32 h-[2px] bg-gradient-to-r from-[#D4AF37] to-transparent"></div>
@@ -101,7 +101,7 @@ export default function About() {
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-6 tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
+              <h2 className="text-4xl md:text-5xl font-bold gold-title mb-6 tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
                 Perché Scegliere Noi?
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -116,7 +116,7 @@ export default function About() {
                 <div className="w-24 h-24 mx-auto mb-6 flex items-center justify-center">
                   <Shield className="w-20 h-20 text-[#D4AF37] stroke-[1.5]" />
                 </div>
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-4 tracking-wide uppercase font-eagle-lake">
+                <h3 className="text-2xl font-bold gold-title mb-4 tracking-wide uppercase font-eagle-lake">
                   Sicurezza
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -129,7 +129,7 @@ export default function About() {
                 <div className="w-24 h-24 mx-auto mb-6 flex items-center justify-center">
                   <Map className="w-20 h-20 text-[#D4AF37] stroke-[1.5]" />
                 </div>
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-4 tracking-wide uppercase font-eagle-lake">
+                <h3 className="text-2xl font-bold gold-title mb-4 tracking-wide uppercase font-eagle-lake">
                   Guida Italiana
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -142,7 +142,7 @@ export default function About() {
                 <div className="w-24 h-24 mx-auto mb-6 flex items-center justify-center">
                   <ThumbsUp className="w-20 h-20 text-[#D4AF37] stroke-[1.5]" />
                 </div>
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-4 tracking-wide uppercase font-eagle-lake">
+                <h3 className="text-2xl font-bold gold-title mb-4 tracking-wide uppercase font-eagle-lake">
                   Esperienza Indimenticabile
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -177,7 +177,7 @@ export default function About() {
         {/* Story Section */}
         <section className="py-20 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-8 tracking-[0.1em] uppercase font-eagle-lake">
+            <h2 className="text-3xl md:text-4xl font-bold gold-title mb-8 tracking-[0.1em] uppercase font-eagle-lake">
               La Nostra Missione
             </h2>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
@@ -193,7 +193,7 @@ export default function About() {
         <section className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-4 tracking-[0.1em] uppercase font-eagle-lake">
+              <h2 className="text-3xl font-bold gold-title mb-4 tracking-[0.1em] uppercase font-eagle-lake">
                 I Nostri Valori
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">

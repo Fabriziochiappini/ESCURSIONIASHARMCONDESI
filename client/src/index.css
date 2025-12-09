@@ -403,3 +403,29 @@ img[loading="lazy"] {
 .font-eagle-lake {
   font-family: 'Eagle Lake', cursive;
 }
+
+/* Titoli Dorati con Fallback per tutti i browser */
+.gold-title {
+  color: #D4AF37; /* Fallback colore solido */
+  background: linear-gradient(135deg, #C9A961 0%, #D4AF37 50%, #C9A961 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Fallback per browser che non supportano background-clip: text */
+@supports not (-webkit-background-clip: text) {
+  .gold-title {
+    background: none;
+    color: #D4AF37;
+    -webkit-text-fill-color: #D4AF37;
+  }
+}
+
+/* Fix per Safari e browser mobili */
+@supports (-webkit-touch-callout: none) {
+  .gold-title {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}

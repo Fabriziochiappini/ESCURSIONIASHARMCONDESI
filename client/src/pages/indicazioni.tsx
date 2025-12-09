@@ -24,7 +24,7 @@ export default function Indicazioni() {
       <main className="pt-20 lg:pt-[148px] pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h1 className="font-['Eagle_Lake'] text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent drop-shadow-sm mb-4">
+            <h1 className="font-['Eagle_Lake'] text-4xl md:text-5xl font-bold gold-title drop-shadow-sm mb-4">
               Indicazioni di Viaggio
             </h1>
             <p className="text-gray-600 text-lg">

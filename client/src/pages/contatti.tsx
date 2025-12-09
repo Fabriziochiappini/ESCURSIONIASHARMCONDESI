@@ -38,7 +38,7 @@ export default function Contatti() {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Info Contatti */}
             <div>
-              <h2 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
+              <h2 className="text-3xl font-bold mb-8 text-center gold-title tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
                 I Nostri Contatti
               </h2>
               

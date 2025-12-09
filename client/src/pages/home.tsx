@@ -40,7 +40,7 @@ export default function Home() {
           <div className="absolute bottom-20 left-20 w-96 h-96 bg-[#D4AF37]/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
           <div className="relative z-10 max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16 animate-fade-in">
-              <h2 className="text-4xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-lg transform hover:scale-105 transition-transform duration-300 font-eagle-lake">
+              <h2 className="text-4xl lg:text-6xl font-bold mb-6 gold-title tracking-[0.2em] uppercase drop-shadow-lg transform hover:scale-105 transition-transform duration-300 font-eagle-lake">
                 Le Nostre Escursioni
               </h2>
               <div className="w-64 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-6"></div>
@@ -97,7 +97,7 @@ export default function Home() {
               {/* Testo a sinistra */}
               <div>
                 <div className="mb-6">
-                  <h2 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-3 tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
+                  <h2 className="text-4xl lg:text-5xl font-bold gold-title mb-3 tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">
                     Chi Siamo
                   </h2>
                   <div className="w-32 h-[2px] bg-gradient-to-r from-[#D4AF37] to-transparent"></div>

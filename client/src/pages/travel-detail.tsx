@@ -258,7 +258,7 @@ export default function TravelDetail() {
 
               {/* Title and Location */}
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent mb-4 tracking-wide uppercase drop-shadow-lg font-eagle-lake">
+                <h1 className="text-3xl md:text-4xl font-bold gold-title mb-4 tracking-wide uppercase drop-shadow-lg font-eagle-lake">
                   {travel.title}
                 </h1>
                 <div className="flex items-center text-xl text-gray-600 mb-2">
@@ -374,7 +374,7 @@ export default function TravelDetail() {
             {/* Description */}
             <Card className="border-none shadow-lg">
               <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100">
-                <CardTitle className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-wide uppercase font-eagle-lake">Descrizione del Tour</CardTitle>
+                <CardTitle className="text-2xl font-bold gold-title tracking-wide uppercase font-eagle-lake">Descrizione del Tour</CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
                 <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
@@ -387,7 +387,7 @@ export default function TravelDetail() {
             {travel.features && travel.features.length > 0 && (
               <Card className="border-none shadow-lg">
                 <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-100">
-                  <CardTitle className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#C9A961] bg-clip-text text-transparent tracking-wide uppercase flex items-center gap-2 font-eagle-lake">
+                  <CardTitle className="text-2xl font-bold gold-title tracking-wide uppercase flex items-center gap-2 font-eagle-lake">
                     <CheckCircle className="h-6 w-6 text-[#D4AF37]" />
                     Cosa Include il Tour
                   </CardTitle>
@@ -430,7 +430,7 @@ export default function TravelDetail() {
             {relatedTours.length > 0 && (
               <div className="py-8">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold bg-gradient-to-r from-[#C9A961] via-[#D4AF37] to-[#E6C87F] bg-clip-text text-transparent tracking-[0.1em] uppercase drop-shadow-lg font-eagle-lake">
+                  <h3 className="text-2xl font-bold gold-title tracking-[0.1em] uppercase drop-shadow-lg font-eagle-lake">
                     Altri Tour ed Escursioni
                   </h3>
                   <div className="hidden md:flex gap-2">
