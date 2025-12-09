@@ -4,6 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Blocca completamente la dark mode forzata dai browser */
+:root {
+  color-scheme: light only;
+}
+
+html {
+  color-scheme: light only;
+}
+
+/* Impedisce ai browser di invertire i colori */
+html, body, * {
+  forced-color-adjust: none;
+}
+
 :root {
   /* SI VIAGGIA CON DESI - Colori Pastello Eleganti */
   --primary: hsl(206, 55%, 78%);      /* Azzurro pastello chiaro */
