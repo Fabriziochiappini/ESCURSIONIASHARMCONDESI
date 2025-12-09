@@ -18,6 +18,28 @@ html, body, * {
   forced-color-adjust: none;
 }
 
+/* Performance: GPU acceleration per transizioni fluide */
+.will-change-transform {
+  will-change: transform;
+}
+
+/* Transizioni fluide globali */
+img {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Embla Carousel Fade - stile necessario */
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   /* SI VIAGGIA CON DESI - Colori Pastello Eleganti */
   --primary: hsl(206, 55%, 78%);      /* Azzurro pastello chiaro */

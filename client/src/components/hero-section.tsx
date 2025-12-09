@@ -1,25 +1,27 @@
 import { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import logoUrl from "@assets/si_viaggia_con_desy_logo-removebg-preview_1761318900270.png";
+import Fade from "embla-carousel-fade";
 import img1 from "@assets/viaggiatrice-che-si-gode-un-viaggio-di-lusso-riva-al-mare_1761320594651.jpg";
-import img2 from "@assets/vista-aerea-delle-dune-di-maspalomas-sull-isola-di-gran-canaria_1761320594651.jpg";
 import img3 from "@assets/donna-che-viaggia-quad-dall-oceano_1761320594652.jpg";
-import img4 from "@assets/spiaggia-vuota-con-ombrelloni-al-mattino_1761320594652.jpg";
-import img5 from "@assets/bei-mare-ed-oceano-tropicali-della-spiaggia-con-l-albero-del-cocco-ed-ombrello-e-sedia-su-cielo-blu-e-sulla-nuvola-bianca_1761320594652.jpg";
-import img6 from "@assets/ombrello-e-sedia-intorno-alla-piscina_1761320594653.jpg";
 import img7 from "@assets/cammelli-che-camminano-dietro-l-altro-sulla-spiaggia-di-diani-kenya_1761320594654.jpg";
 import img8 from "@assets/cosa-fare-sharm-el-sheikh_1761320594654.jpg";
 
-const heroImages = [img1, img2, img3, img4, img5, img6, img7, img8];
+const heroImages = [img1, img3, img7, img8];
 
 export function HeroSection() {
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { 
       loop: true,
-      duration: 30
+      duration: 50,
+      skipSnaps: false
     }, 
-    [Autoplay({ delay: 5000, stopOnInteraction: false })]
+    [
+      Fade(),
+      Autoplay({ delay: 4000, stopOnInteraction: false })
+    ]
   );
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -42,14 +44,24 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Slider di Sfondo */}
       <div className="absolute inset-0 overflow-hidden" ref={emblaRef}>
-        <div className="flex h-full transition-opacity duration-1000">
+        <div className="flex h-full">
           {heroImages.map((img, index) => (
-            <div key={index} className="relative flex-[0_0_100%] min-w-0 h-full">
+            <div 
+              key={index} 
+              className="relative flex-[0_0_100%] min-w-0 h-full"
+              style={{ flex: '0 0 100%' }}
+            >
               <img
                 src={img}
                 alt={`Escursione ${index + 1}`}
                 loading={index === 0 ? "eager" : "lazy"}
-                className="w-full h-full object-cover transition-opacity duration-700"
+                fetchPriority={index === 0 ? "high" : "low"}
+                decoding="async"
+                className="w-full h-full object-cover will-change-transform"
+                style={{ 
+                  backfaceVisibility: 'hidden',
+                  transform: 'translateZ(0)'
+                }}
               />
             </div>
           ))}
