@@ -390,6 +390,7 @@ interface PropertyFormData {
   available: boolean;
   showcaseCountry?: string;
   rating?: string;
+  infoPratiche: string;
 }
 
 const initialFormData: PropertyFormData = {
@@ -413,6 +414,7 @@ const initialFormData: PropertyFormData = {
   available: true,
   showcaseCountry: "",
   rating: "0",
+  infoPratiche: "",
 };
 
 export default function PropertyManager() {
@@ -710,6 +712,7 @@ export default function PropertyManager() {
       available: property.available ?? true,
       showcaseCountry: property.country || "", // DATABASE: country -> FORM: showcaseCountry
       rating: property.rating || "0", // DATABASE: rating -> FORM: rating
+      infoPratiche: Array.isArray(property.includedServices) ? property.includedServices.join('\n') : "",
     };
     
     setFormData(populatedFormData);
@@ -808,6 +811,7 @@ export default function PropertyManager() {
         minAge: formData.area,
         images: tempImages,
         features: formData.features ? formData.features.split('\n').filter(f => f.trim()) : [],
+        includedServices: formData.infoPratiche ? formData.infoPratiche.split('\n').filter(f => f.trim()) : [],
         youtubeVideoId: formData.youtubeVideoId,
         featured: true,
         available: true,
@@ -940,6 +944,20 @@ export default function PropertyManager() {
                   rows={4}
                   required
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="infoPratiche">Info Pratiche (una voce per riga)</Label>
+                <Textarea
+                  id="infoPratiche"
+                  value={formData.infoPratiche}
+                  onChange={(e) => setFormData(prev => ({ ...prev, infoPratiche: e.target.value }))}
+                  rows={6}
+                  placeholder="Durata: Circa 2 ore&#10;Include: Transfer A/R, guida parlante italiano&#10;Extra: Spese personali&#10;Consigli: Scarpe comode, acqua&#10;Pagamento: In seguito all'escursione"
+                />
+                <p className="text-xs text-gray-500">
+                  Inserisci ogni informazione su una riga separata. Il testo prima dei ":" diventa etichetta in grassetto.
+                </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
