@@ -69,14 +69,19 @@ export default function About() {
                 </div>
                 <div className="space-y-4 text-gray-500 text-lg leading-relaxed font-light">
                   <p>
-                    <strong className="text-[#D4AF37]">Si Viaggia con Desi</strong> è il tuo punto di riferimento per le escursioni 
-                    a Sharm El Sheikh. Con anni di esperienza nel Mar Rosso, organizziamo tour indimenticabili tra 
-                    spiagge cristalline, barriere coralline mozzafiato e avventure nel deserto egiziano.
+                    <strong className="text-[#D4AF37]">Viaggia con Desi</strong> è un'agenzia specializzata in escursioni a Sharm El Sheikh e nel Mar Rosso, nata per offrire ai viaggiatori esperienze autentiche, sicure e curate nei minimi dettagli.
                   </p>
                   <p>
-                    Per noi viaggiare non è solo una vacanza, ma un'esperienza educativa e piacevole che ti porta 
-                    a scoprire luoghi e culture affascinanti. Lavoriamo con guide locali esperte per garantirti 
-                    escursioni autentiche e sicure a Sharm El Sheikh.
+                    Io sono Desi, perito turistico con anni di esperienza sul territorio. Coordino personalmente ogni attività, garantendo standard elevati di sicurezza, qualità e affidabilità. Collaboro con guide locali esperte e qualificate per offrirti professionalità, supporto costante e informazioni accurate durante ogni tour.
+                  </p>
+                  <p>
+                    Sharm El Sheikh è una destinazione straordinaria: acque cristalline, barriere coralline uniche al mondo, il fascino del deserto e tradizioni che raccontano la vera anima dell'Egitto. Le nostre escursioni ti permettono di scoprire tutto questo in modo autentico e responsabile, visitando non solo i luoghi più iconici, ma anche quelli più autentici.
+                  </p>
+                  <p>
+                    Ogni esperienza è pensata su misura per te o per la tua famiglia, in base ai tuoi ritmi, ai tuoi interessi e al tipo di vacanza che desideri vivere. Che tu preferisca l'avventura, il relax, l'esplorazione o un mix di tutto, troverai sempre un'escursione perfettamente adatta alle tue esigenze.
+                  </p>
+                  <p className="font-medium text-[#1e3a5f]">
+                    Viaggia con Desi: sicurezza, esperienza e passione al servizio del tuo viaggio.
                   </p>
                 </div>
               </div>
@@ -181,10 +186,10 @@ export default function About() {
               La Nostra Missione
             </h2>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              <strong className="text-[#D4AF37]">Si Viaggia con Desi</strong> è il tuo punto di riferimento per le escursioni a Sharm El Sheikh. Offriamo un servizio completo e professionale per escursioni, diving, snorkeling e safari nel deserto.
+              Le nostre escursioni ti permettono di scoprire Sharm El Sheikh in modo autentico e responsabile, visitando non solo i luoghi più iconici, ma anche quelli più autentici.
             </p>
             <p className="text-lg text-gray-600 leading-relaxed">
-              La nostra passione per il Mar Rosso e la profonda conoscenza di Sharm El Sheikh ci permettono di offrire esperienze autentiche e indimenticabili.
+              Ogni esperienza è pensata su misura per te o per la tua famiglia, in base ai tuoi ritmi, ai tuoi interessi e al tipo di vacanza che desideri vivere. Che tu preferisca l'avventura, il relax, l'esplorazione o un mix di tutto, troverai sempre un'escursione perfettamente adatta alle tue esigenze.
             </p>
           </div>
         </section>
