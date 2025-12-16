@@ -371,17 +371,48 @@ export default function TravelDetail() {
         {/* Description and Details */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="space-y-8">
-            {/* Description */}
-            <Card className="border-none shadow-lg">
-              <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100">
-                <CardTitle className="text-2xl font-bold gold-title tracking-wide uppercase font-eagle-lake">Descrizione del Tour</CardTitle>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
-                  {travel.description}
-                </p>
-              </CardContent>
-            </Card>
+            {/* Description + Info Pratiche Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Description - Takes 2 columns on desktop */}
+              <Card className="border-none shadow-lg lg:col-span-2">
+                <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100">
+                  <CardTitle className="text-2xl font-bold gold-title tracking-wide uppercase font-eagle-lake">Dettagli escursione</CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
+                    {travel.description}
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Info Pratiche Sidebar - Takes 1 column on desktop */}
+              {travel.includedServices && travel.includedServices.length > 0 && (
+                <Card className="border-none shadow-lg h-fit">
+                  <CardHeader className="bg-gradient-to-r from-slate-50 to-slate-100">
+                    <CardTitle className="text-xl font-bold gold-title tracking-wide uppercase font-eagle-lake">Info pratiche</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-4">
+                    <ul className="space-y-3">
+                      {travel.includedServices.map((info, index) => {
+                        const parts = info.split(':');
+                        const hasLabel = parts.length > 1;
+                        const label = hasLabel ? parts[0].trim() : null;
+                        const content = hasLabel ? parts.slice(1).join(':').trim() : info;
+                        
+                        return (
+                          <li key={index} className="flex items-start gap-2 text-gray-700">
+                            <span className="text-[#1e3a5f] mt-1">•</span>
+                            <span>
+                              {label && <strong className="text-[#1e3a5f]">{label}:</strong>} {content}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
 
             {/* Features Included */}
             {travel.features && travel.features.length > 0 && (
