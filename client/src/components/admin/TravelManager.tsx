@@ -147,6 +147,7 @@ interface TravelFormData {
   showcaseCountry: string;
   rating: string;
   reviewsCount: string;
+  infoPratiche: string;
 }
 
 export default function TravelManager() {
@@ -185,7 +186,8 @@ export default function TravelManager() {
     youtubeId: "",
     showcaseCountry: "",
     rating: "0",
-    reviewsCount: "0"
+    reviewsCount: "0",
+    infoPratiche: ""
   });
 
   const { toast } = useToast();
@@ -285,7 +287,8 @@ export default function TravelManager() {
       youtubeId: "",
       showcaseCountry: "",
       rating: "0",
-      reviewsCount: "0"
+      reviewsCount: "0",
+      infoPratiche: ""
     });
     setEditingTravel(null);
     setSelectedFiles(null);
@@ -395,8 +398,9 @@ export default function TravelManager() {
       maxParticipants: String(travel.maxParticipants || ""),
       minAge: String(travel.minAge || ""),
       travelCategory: travel.travelType || "",
-      included: "", // Calculated from includedServices
-      excluded: "", // Calculated from excludedServices
+      included: "",
+      excluded: "",
+      infoPratiche: (travel.includedServices || []).join("\n"),
       itinerary: "", // Calculated from itinerary JSON
       agent: travel.agentName || "",
       whatsappNumber: travel.agentPhone || "",
@@ -439,6 +443,7 @@ export default function TravelManager() {
       minAge: parseInt(formData.minAge) || 0,
       images: allImages,
       features: [],
+      includedServices: formData.infoPratiche.split("\n").filter(line => line.trim() !== ""),
       youtubeVideoId: formData.youtubeId,
       featured: formData.isFeatured,
       available: formData.isActive,
@@ -570,6 +575,18 @@ export default function TravelManager() {
                   rows={3}
                   placeholder="Descrizione dettagliata del pacchetto viaggio..."
                 />
+              </div>
+
+              <div>
+                <Label htmlFor="infoPratiche">Info Pratiche (una voce per riga)</Label>
+                <Textarea 
+                  id="infoPratiche"
+                  value={formData.infoPratiche}
+                  onChange={(e) => setFormData(prev => ({ ...prev, infoPratiche: e.target.value }))}
+                  rows={6}
+                  placeholder="Durata: Circa 2 ore&#10;Include: Transfer A/R, guida parlante italiano&#10;Extra: Spese personali, eventuali acquisti&#10;Consigli: Scarpe comode, acqua&#10;Pagamento: In seguito all'escursione"
+                />
+                <p className="text-xs text-gray-500 mt-1">Inserisci ogni informazione su una riga separata</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
