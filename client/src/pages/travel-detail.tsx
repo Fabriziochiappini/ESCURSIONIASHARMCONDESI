@@ -441,6 +441,30 @@ export default function TravelDetail() {
               <CardContent className="py-8">
                 <div className="text-center space-y-6">
                   <h3 className="text-2xl font-bold text-[#D4AF37] tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">Pronto a Partire?</h3>
+                  
+                  {/* Perché scegliere section */}
+                  <div className="bg-white/95 rounded-xl p-6 text-left max-w-2xl mx-auto shadow-lg">
+                    <h4 className="text-xl font-bold text-gray-900 mb-4">Perché scegliere Si Viaggia con Desi</h4>
+                    <ul className="space-y-2 text-gray-800">
+                      <li className="flex items-start gap-2">
+                        <span className="text-gray-900 mt-1">•</span>
+                        <span>Escursioni autentiche in <strong className="text-gray-900">piccoli gruppi</strong>, curate nei dettagli</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-gray-900 mt-1">•</span>
+                        <span>Trasferimenti con bus climatizzati e assistenza continua</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-gray-900 mt-1">•</span>
+                        <span>Guide qualificate e consigli pratici su <strong className="text-gray-900">cosa portare</strong></span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-gray-900 mt-1">•</span>
+                        <span>Pacchetti combinati per vivere più esperienze a un prezzo unico</span>
+                      </li>
+                    </ul>
+                  </div>
+
                   <p className="text-white/90 text-lg font-light">Aggiungi al carrello e completa il pagamento!</p>
                   <div className="flex justify-center pt-4">
                     <Button 
