@@ -2,12 +2,15 @@ import { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
-import img1 from "@assets/viaggiatrice-che-si-gode-un-viaggio-di-lusso-riva-al-mare_1761320594651.jpg";
-import img3 from "@assets/donna-che-viaggia-quad-dall-oceano_1761320594652.jpg";
-import img7 from "@assets/cammelli-che-camminano-dietro-l-altro-sulla-spiaggia-di-diani-kenya_1761320594654.jpg";
-import img8 from "@assets/cosa-fare-sharm-el-sheikh_1761320594654.jpg";
 
-const heroImages = [img1, img3, img7, img8];
+const heroImages = [
+  "/hero-1.jpg",
+  "/hero-2.jpg", 
+  "/hero-3.webp",
+  "/hero-4.jpg",
+  "/hero-5.jpg",
+  "/hero-6.jpg"
+];
 
 export function HeroSection() {
   const [imagesLoaded, setImagesLoaded] = useState(false);
