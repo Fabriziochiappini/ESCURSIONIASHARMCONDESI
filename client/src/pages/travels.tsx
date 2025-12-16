@@ -314,35 +314,35 @@ export default function Travels() {
               <h2 className="text-2xl font-bold text-[#1e3a5f] mb-6 pb-3 border-b-2 border-[#D4AF37] inline-block">
                 FAQ rapide
               </h2>
-              <ul className="space-y-4 text-gray-700">
-                <li className="flex items-start gap-2">
-                  <span className="text-[#D4AF37] mt-1 font-bold">•</span>
-                  <span>
-                    <strong className="text-[#1e3a5f]">Cosa portare (mare/snorkeling):</strong> documento, costume, asciugamano, crema solare, scarpe da scoglio, maschera/boccaglio (o noleggio in loco), cappello/occhiali.
+              <ul className="space-y-5 text-gray-800 text-lg font-medium">
+                <li className="flex items-start gap-3">
+                  <span className="text-[#D4AF37] mt-1 text-xl font-bold">•</span>
+                  <span className="leading-relaxed">
+                    <strong className="text-[#1e3a5f] font-bold">Cosa portare (mare/snorkeling):</strong> documento, costume, asciugamano, crema solare, scarpe da scoglio, maschera/boccaglio (o noleggio in loco), cappello/occhiali.
                   </span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[#D4AF37] mt-1 font-bold">•</span>
-                  <span>
-                    <strong className="text-[#1e3a5f]">Deserto:</strong> scarpe chiuse, bandana, acqua, occhiali da sole; la sera può fare fresco.
+                <li className="flex items-start gap-3">
+                  <span className="text-[#D4AF37] mt-1 text-xl font-bold">•</span>
+                  <span className="leading-relaxed">
+                    <strong className="text-[#1e3a5f] font-bold">Deserto:</strong> scarpe chiuse, bandana, acqua, occhiali da sole; la sera può fare fresco.
                   </span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[#D4AF37] mt-1 font-bold">•</span>
-                  <span>
-                    <strong className="text-[#1e3a5f]">Extra:</strong> attrezzatura snorkeling, bevande ai ristoranti, DVD/Photo CD (delfini).
+                <li className="flex items-start gap-3">
+                  <span className="text-[#D4AF37] mt-1 text-xl font-bold">•</span>
+                  <span className="leading-relaxed">
+                    <strong className="text-[#1e3a5f] font-bold">Extra:</strong> attrezzatura snorkeling, bevande ai ristoranti, DVD/Photo CD (delfini).
                   </span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[#D4AF37] mt-1 font-bold">•</span>
-                  <span>
-                    <strong className="text-[#1e3a5f]">Bambini & famiglie:</strong> Semi-Sub, Cammellata, Isola di Tiran e Spettacolo delfini sono ideali.
+                <li className="flex items-start gap-3">
+                  <span className="text-[#D4AF37] mt-1 text-xl font-bold">•</span>
+                  <span className="leading-relaxed">
+                    <strong className="text-[#1e3a5f] font-bold">Bambini & famiglie:</strong> Semi-Sub, Cammellata, Isola di Tiran e Spettacolo delfini sono ideali.
                   </span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-[#D4AF37] mt-1 font-bold">•</span>
-                  <span>
-                    <strong className="text-[#1e3a5f]">Il Cairo:</strong> serve visto turistico. Chiedi alla reception la breakfast box per la partenza presto.
+                <li className="flex items-start gap-3">
+                  <span className="text-[#D4AF37] mt-1 text-xl font-bold">•</span>
+                  <span className="leading-relaxed">
+                    <strong className="text-[#1e3a5f] font-bold">Il Cairo:</strong> serve visto turistico. Chiedi alla reception la breakfast box per la partenza presto.
                   </span>
                 </li>
               </ul>
