@@ -74,19 +74,8 @@ export function Footer() {
                 <a href="/privacy#cookie" className="hover:text-[#A8CFEB] transition-colors">Cookie Policy</a>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0 text-xs border-t border-[#D4AF37]/20 pt-4 font-light">
+            <div className="flex justify-center items-center text-xs border-t border-[#D4AF37]/20 pt-4 font-light">
               <p>&copy; 2025 Si viaggia con Desi - Tour Operator. Tutti i diritti riservati.</p>
-              <p>
-                Realizzato da{" "}
-                <a 
-                  href="https://webproitalia.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-[#A8CFEB] hover:text-[#95C4E6] transition-colors font-normal"
-                >
-                  WEBPROITALIA
-                </a>
-              </p>
             </div>
           </div>
         </div>
