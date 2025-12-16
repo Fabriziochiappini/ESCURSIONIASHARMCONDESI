@@ -61,12 +61,20 @@ export function Footer() {
         
         <div className="border-t border-[#D4AF37]/20 mt-12 pt-8 text-center text-gray-400">
           <div className="flex flex-col space-y-4">
-            <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
-              <div className="text-sm font-light">
-                <p className="font-normal text-gray-500 mb-1">Si viaggia con Desi - Escursioni a Sharm</p>
-                <p className="mb-1">Tour Operator Sharm El Sheikh</p>
-                <p>SHARM EL SHEIKH – Egitto</p>
-                <p>siviaggiacondesi@gmail.com</p>
+            <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+              <div className="flex items-center gap-4">
+                <img 
+                  src="/logo.png" 
+                  alt="Si Viaggia con Desi - Logo" 
+                  className="h-16 w-auto"
+                />
+                <div className="text-sm font-light text-left">
+                  <p className="font-normal text-gray-500 mb-1">Si viaggia con Desi - Escursioni a Sharm</p>
+                  <p className="mb-1">Tour Operator Sharm El Sheikh</p>
+                  <p>SHARM EL SHEIKH – Egitto</p>
+                  <p>siviaggiacondesi@gmail.com</p>
+                  <p className="text-xs text-gray-400 mt-2 italic">Marchio registrato</p>
+                </div>
               </div>
               <div className="flex space-x-4 text-sm font-light">
                 <a href="/privacy" className="hover:text-[#A8CFEB] transition-colors">Privacy Policy</a>
