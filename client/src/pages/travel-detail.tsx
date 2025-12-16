@@ -375,8 +375,8 @@ export default function TravelDetail() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Description - Takes 2 columns on desktop */}
               <Card className="border-none shadow-lg lg:col-span-2">
-                <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100">
-                  <CardTitle className="text-2xl font-bold gold-title tracking-wide uppercase font-eagle-lake">Dettagli escursione</CardTitle>
+                <CardHeader className="bg-gradient-to-r from-[#1e3a5f] to-[#2c4a6f]">
+                  <CardTitle className="text-2xl font-bold text-[#D4AF37] tracking-wide uppercase font-eagle-lake drop-shadow-md">Dettagli escursione</CardTitle>
                 </CardHeader>
                 <CardContent className="pt-6">
                   <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
@@ -388,8 +388,8 @@ export default function TravelDetail() {
               {/* Info Pratiche Sidebar - Takes 1 column on desktop */}
               {travel.includedServices && travel.includedServices.length > 0 && (
                 <Card className="border-none shadow-lg h-fit">
-                  <CardHeader className="bg-gradient-to-r from-slate-50 to-slate-100">
-                    <CardTitle className="text-xl font-bold gold-title tracking-wide uppercase font-eagle-lake">Info pratiche</CardTitle>
+                  <CardHeader className="bg-gradient-to-r from-[#D4AF37] to-[#E6C87F]">
+                    <CardTitle className="text-xl font-bold text-white tracking-wide uppercase font-eagle-lake drop-shadow-md">Info pratiche</CardTitle>
                   </CardHeader>
                   <CardContent className="pt-4">
                     <ul className="space-y-3">
@@ -417,9 +417,9 @@ export default function TravelDetail() {
             {/* Features Included */}
             {travel.features && travel.features.length > 0 && (
               <Card className="border-none shadow-lg">
-                <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-100">
-                  <CardTitle className="text-2xl font-bold gold-title tracking-wide uppercase flex items-center gap-2 font-eagle-lake">
-                    <CheckCircle className="h-6 w-6 text-[#D4AF37]" />
+                <CardHeader className="bg-gradient-to-r from-emerald-600 to-teal-500">
+                  <CardTitle className="text-2xl font-bold text-white tracking-wide uppercase flex items-center gap-2 font-eagle-lake drop-shadow-md">
+                    <CheckCircle className="h-6 w-6 text-white" />
                     Cosa Include il Tour
                   </CardTitle>
                 </CardHeader>
@@ -437,16 +437,16 @@ export default function TravelDetail() {
             )}
 
             {/* Call to Action Banner */}
-            <Card className="border border-[#D4AF37]/20 shadow-lg bg-gradient-to-r from-[#A8CFEB] to-[#C5E1F5]">
+            <Card className="border border-[#D4AF37]/30 shadow-xl bg-gradient-to-r from-[#1e3a5f] to-[#2c5278]">
               <CardContent className="py-8">
                 <div className="text-center space-y-6">
-                  <h3 className="text-2xl font-bold text-white tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">Pronto a Partire?</h3>
+                  <h3 className="text-2xl font-bold text-[#D4AF37] tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">Pronto a Partire?</h3>
                   <p className="text-white/90 text-lg font-light">Aggiungi al carrello e completa il pagamento!</p>
                   <div className="flex justify-center pt-4">
                     <Button 
                       size="lg"
                       onClick={handleAddToCart}
-                      className="bg-white text-[#A8CFEB] hover:bg-white/90 font-light border border-[#D4AF37]/30"
+                      className="bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] text-white hover:from-[#C9A961] hover:to-[#D4AF37] font-semibold shadow-lg"
                       data-testid="button-add-cart-cta"
                     >
                       <ShoppingCart className="h-5 w-5 mr-2" />
