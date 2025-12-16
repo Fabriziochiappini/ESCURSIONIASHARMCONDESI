@@ -443,23 +443,23 @@ export default function TravelDetail() {
                   <h3 className="text-2xl font-bold text-[#D4AF37] tracking-[0.15em] uppercase drop-shadow-lg font-eagle-lake">Pronto a Partire?</h3>
                   
                   {/* Perché scegliere section */}
-                  <div className="bg-white/95 rounded-xl p-6 text-left max-w-2xl mx-auto shadow-lg">
-                    <h4 className="text-xl font-bold text-gray-900 mb-4">Perché scegliere Si Viaggia con Desi</h4>
-                    <ul className="space-y-2 text-gray-800">
-                      <li className="flex items-start gap-2">
-                        <span className="text-gray-900 mt-1">•</span>
-                        <span>Escursioni autentiche in <strong className="text-gray-900">piccoli gruppi</strong>, curate nei dettagli</span>
+                  <div className="text-left max-w-2xl mx-auto py-4">
+                    <h4 className="text-2xl font-bold text-white mb-5">Perché scegliere Si Viaggia con Desi</h4>
+                    <ul className="space-y-3 text-lg text-white font-medium">
+                      <li className="flex items-start gap-3">
+                        <span className="text-white mt-0.5">•</span>
+                        <span>Escursioni autentiche in <strong className="font-bold">piccoli gruppi</strong>, curate nei dettagli</span>
                       </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-gray-900 mt-1">•</span>
+                      <li className="flex items-start gap-3">
+                        <span className="text-white mt-0.5">•</span>
                         <span>Trasferimenti con bus climatizzati e assistenza continua</span>
                       </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-gray-900 mt-1">•</span>
-                        <span>Guide qualificate e consigli pratici su <strong className="text-gray-900">cosa portare</strong></span>
+                      <li className="flex items-start gap-3">
+                        <span className="text-white mt-0.5">•</span>
+                        <span>Guide qualificate e consigli pratici su <strong className="font-bold">cosa portare</strong></span>
                       </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-gray-900 mt-1">•</span>
+                      <li className="flex items-start gap-3">
+                        <span className="text-white mt-0.5">•</span>
                         <span>Pacchetti combinati per vivere più esperienze a un prezzo unico</span>
                       </li>
                     </ul>
