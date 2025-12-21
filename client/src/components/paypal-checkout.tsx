@@ -39,6 +39,7 @@ export function PayPalCheckout({ amount, onSuccess, onError, bookingId }: PayPal
       }
 
       const orderID = orderResponse.id;
+      console.log('📦 PayPal order created:', orderID);
       
       const approvalUrl = orderResponse.links?.find(
         (link: any) => link.rel === "approve"
@@ -48,13 +49,21 @@ export function PayPalCheckout({ amount, onSuccess, onError, bookingId }: PayPal
         throw new Error("No PayPal approval URL received");
       }
 
+      // Link PayPal order to booking in database (for mobile redirect flow)
+      await fetch('/api/link-paypal-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookingId, paypalOrderId: orderID })
+      });
+      console.log('🔗 PayPal order linked to booking in database');
+
+      // Also save to localStorage as backup
       localStorage.setItem('paypal_pending', JSON.stringify({
         orderID,
         bookingId,
         amount,
         timestamp: Date.now()
       }));
-      console.log('📦 PayPal pending data saved:', { orderID, bookingId });
 
       if (isMobileDevice()) {
         console.log('📱 Mobile detected - using redirect flow');

@@ -1638,6 +1638,115 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Link PayPal order ID to booking (for mobile redirect flow)
+  app.post('/api/link-paypal-order', async (req, res) => {
+    try {
+      const { bookingId, paypalOrderId } = req.body;
+      
+      if (!bookingId || !paypalOrderId) {
+        return res.status(400).json({ message: "Booking ID and PayPal Order ID required" });
+      }
+
+      // Update payment with PayPal order ID (so we can find it later)
+      await storage.updatePaymentByBookingId(bookingId, {
+        paymentIntentId: paypalOrderId,
+      });
+      
+      console.log('🔗 Linked PayPal order to booking:', { paypalOrderId, bookingId });
+      return res.json({ success: true });
+    } catch (error: any) {
+      console.error('Link PayPal order error:', error);
+      res.status(500).json({ message: "Error linking PayPal order: " + error.message });
+    }
+  });
+
+  // Complete PayPal payment from return URL (for mobile flow)
+  app.post('/api/complete-paypal-return', async (req, res) => {
+    try {
+      const { token } = req.body; // token is the PayPal order ID
+      
+      if (!token) {
+        return res.status(400).json({ message: "PayPal token required" });
+      }
+
+      console.log('🔄 Processing PayPal return with token:', token);
+
+      // Find booking by PayPal order ID
+      const payment = await storage.getPaymentByPaypalOrderId(token);
+      
+      if (!payment) {
+        console.log('❌ No payment found for token:', token);
+        return res.status(404).json({ message: "Payment not found for this token" });
+      }
+
+      // Check if already completed
+      if (payment.status === 'succeeded') {
+        console.log('✅ Payment already completed');
+        return res.json({ success: true, alreadyCompleted: true });
+      }
+
+      const bookingId = payment.bookingId;
+
+      // Capture the PayPal order
+      const captureResponse = await fetch(`https://api-m.paypal.com/v2/checkout/orders/${token}/capture`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Basic ${Buffer.from(`${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`).toString('base64')}`,
+        },
+      });
+      
+      const captureData = await captureResponse.json();
+      console.log('📋 PayPal capture response:', captureData.status);
+
+      if (captureData.status === 'COMPLETED') {
+        // Update payment status
+        await storage.updatePaymentByBookingId(bookingId, {
+          status: 'succeeded',
+          paymentDate: new Date(),
+        });
+        
+        // Update booking status
+        await storage.updateBooking(bookingId, {
+          status: 'confirmed',
+        });
+
+        // Send confirmation emails
+        try {
+          const booking = await storage.getBooking(bookingId);
+          const travel = booking ? await storage.getTravel(booking.travelId) : null;
+          
+          if (booking && travel) {
+            await sendBookingConfirmationEmails({
+              bookingId: booking.id,
+              customerName: booking.customerName,
+              customerEmail: booking.customerEmail,
+              customerPhone: booking.customerPhone || '',
+              travelTitle: travel.title,
+              travelDate: booking.travelDate || new Date().toISOString(),
+              numberOfParticipants: booking.numberOfParticipants,
+              totalAmount: booking.totalAmount,
+              paymentProvider: 'paypal',
+              paymentStatus: 'succeeded',
+              notes: booking.notes || undefined,
+            });
+          }
+        } catch (emailError) {
+          console.error('Error sending PayPal confirmation emails:', emailError);
+        }
+        
+        console.log('✅ PayPal payment completed via return URL:', token);
+        return res.json({ success: true });
+      } else {
+        console.log('❌ PayPal capture failed:', captureData);
+        return res.status(400).json({ message: "Payment not completed", status: captureData.status });
+      }
+    } catch (error: any) {
+      console.error('Complete PayPal return error:', error);
+      res.status(500).json({ message: "Error completing PayPal payment: " + error.message });
+    }
+  });
+
   // Manual payment confirmation endpoint (for development/testing)
   app.post('/api/confirm-payment', async (req, res) => {
     try {

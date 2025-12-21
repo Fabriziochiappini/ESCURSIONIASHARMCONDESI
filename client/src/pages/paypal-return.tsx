@@ -3,7 +3,6 @@ import { useLocation } from "wouter";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { SiPaypal } from "react-icons/si";
 import { Button } from "@/components/ui/button";
-import { apiRequest } from "@/lib/queryClient";
 
 export default function PayPalReturn() {
   const [, setLocation] = useLocation();
@@ -13,26 +12,25 @@ export default function PayPalReturn() {
   useEffect(() => {
     const processPayPalReturn = async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const token = urlParams.get('token');
+      const token = urlParams.get('token'); // PayPal order ID
       const payerId = urlParams.get('PayerID');
       
       console.log('🔄 PayPal return - URL params:', { token, payerId });
 
-      const pendingDataStr = localStorage.getItem('paypal_pending');
-      console.log('📦 PayPal pending data from localStorage:', pendingDataStr);
-
-      if (!pendingDataStr) {
-        console.log('⚠️ No pending PayPal data - popup flow or already processed');
-        setStatus('success');
-        setMessage('Pagamento completato! Puoi chiudere questa finestra.');
-        setTimeout(() => window.close(), 2000);
-        return;
+      // No token means popup flow or already processed
+      if (!token) {
+        console.log('⚠️ No token in URL - checking localStorage');
+        const pendingDataStr = localStorage.getItem('paypal_pending');
+        if (!pendingDataStr) {
+          setStatus('success');
+          setMessage('Pagamento completato! Puoi chiudere questa finestra.');
+          setTimeout(() => window.close(), 2000);
+          return;
+        }
       }
 
-      const pendingData = JSON.parse(pendingDataStr);
-      const { orderID, bookingId } = pendingData;
-
-      if (!payerId) {
+      // No PayerID means user cancelled
+      if (!payerId && token) {
         console.log('❌ No PayerID - payment cancelled');
         setStatus('cancelled');
         setMessage('Pagamento annullato. Torna al sito per riprovare.');
@@ -40,38 +38,50 @@ export default function PayPalReturn() {
         return;
       }
 
-      try {
-        console.log('💳 Capturing PayPal order:', orderID);
-        const captureResponse = await apiRequest("POST", `/paypal/order/${orderID}/capture`, {});
-        const captureData = await captureResponse.json();
-        
-        console.log('📋 Capture response:', captureData);
-
-        if (captureData.status === "COMPLETED") {
-          console.log('✅ Payment captured - confirming booking');
+      // Complete payment using backend (database-based flow)
+      if (token && payerId) {
+        try {
+          console.log('💳 Completing PayPal payment via backend:', token);
           
-          await fetch('/api/confirm-paypal-payment', {
+          const response = await fetch('/api/complete-paypal-return', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ orderID, bookingId })
+            body: JSON.stringify({ token })
           });
           
-          console.log('✅ Booking confirmed!');
-          localStorage.removeItem('paypal_pending');
-          
-          setStatus('success');
-          setMessage('Pagamento completato con successo! Riceverai un\'email di conferma.');
-        } else {
-          console.log('❌ Payment not completed:', captureData.status);
+          const data = await response.json();
+          console.log('📋 Backend response:', data);
+
+          if (response.ok && data.success) {
+            console.log('✅ Payment completed successfully!');
+            localStorage.removeItem('paypal_pending');
+            setStatus('success');
+            setMessage('Pagamento completato con successo! Riceverai un\'email di conferma.');
+          } else {
+            console.log('❌ Payment failed:', data.message);
+            setStatus('error');
+            setMessage(data.message || 'Il pagamento non è stato completato. Riprova.');
+            localStorage.removeItem('paypal_pending');
+          }
+        } catch (error: any) {
+          console.error('❌ PayPal completion error:', error);
           setStatus('error');
-          setMessage('Il pagamento non è stato completato. Riprova.');
+          setMessage('Errore durante la conferma del pagamento. Contattaci per assistenza.');
           localStorage.removeItem('paypal_pending');
         }
-      } catch (error: any) {
-        console.error('❌ PayPal capture error:', error);
-        setStatus('error');
-        setMessage('Errore durante la conferma del pagamento. Contattaci per assistenza.');
+        return;
+      }
+
+      // Fallback: try localStorage
+      const pendingDataStr = localStorage.getItem('paypal_pending');
+      if (pendingDataStr) {
+        setStatus('success');
+        setMessage('Pagamento in elaborazione. Se non ricevi conferma entro pochi minuti, contattaci.');
         localStorage.removeItem('paypal_pending');
+      } else {
+        setStatus('success');
+        setMessage('Puoi chiudere questa finestra.');
+        setTimeout(() => window.close(), 2000);
       }
     };
 
@@ -117,7 +127,7 @@ export default function PayPalReturn() {
             </h2>
             <p className="text-gray-600 mb-6">{message}</p>
             <Button 
-              onClick={() => setLocation('/tour')}
+              onClick={() => setLocation('/viaggi')}
               className="bg-blue-600 hover:bg-blue-700"
             >
               Torna alle Escursioni
@@ -133,7 +143,7 @@ export default function PayPalReturn() {
             </h2>
             <p className="text-gray-600 mb-6">{message}</p>
             <Button 
-              onClick={() => setLocation('/tour')}
+              onClick={() => setLocation('/viaggi')}
               className="bg-blue-600 hover:bg-blue-700"
             >
               Torna alle Escursioni
