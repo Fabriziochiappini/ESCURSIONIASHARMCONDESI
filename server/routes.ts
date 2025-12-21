@@ -1648,7 +1648,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { bookingId, paypalOrderId } = req.body;
       
+      console.log('🔗 ========================================');
+      console.log('🔗 Link PayPal order request received');
+      console.log('🔗 Request body:', JSON.stringify(req.body, null, 2));
+      console.log('🔗 bookingId:', bookingId, 'type:', typeof bookingId);
+      console.log('🔗 paypalOrderId:', paypalOrderId, 'type:', typeof paypalOrderId);
+      console.log('🔗 ========================================');
+      
       if (!bookingId || !paypalOrderId) {
+        console.log('❌ Missing required fields - bookingId:', bookingId, 'paypalOrderId:', paypalOrderId);
         return res.status(400).json({ message: "Booking ID and PayPal Order ID required" });
       }
 

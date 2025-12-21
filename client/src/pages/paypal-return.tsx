@@ -3,11 +3,13 @@ import { useLocation } from "wouter";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { SiPaypal } from "react-icons/si";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/contexts/cart-context";
 
 export default function PayPalReturn() {
   const [, setLocation] = useLocation();
   const [status, setStatus] = useState<'processing' | 'success' | 'error' | 'cancelled'>('processing');
   const [message, setMessage] = useState('Elaborazione pagamento in corso...');
+  const { clearCart } = useCart();
 
   useEffect(() => {
     const processPayPalReturn = async () => {
@@ -29,17 +31,8 @@ export default function PayPalReturn() {
         }
       }
 
-      // No PayerID means user cancelled
-      if (!payerId && token) {
-        console.log('❌ No PayerID - payment cancelled');
-        setStatus('cancelled');
-        setMessage('Pagamento annullato. Torna al sito per riprovare.');
-        localStorage.removeItem('paypal_pending');
-        return;
-      }
-
-      // Complete payment using backend (database-based flow)
-      if (token && payerId) {
+      // Even without PayerID, try to complete - PayPal mobile sometimes doesn't include it
+      if (token) {
         try {
           console.log('💳 Completing PayPal payment via backend:', token);
           
@@ -55,6 +48,8 @@ export default function PayPalReturn() {
           if (response.ok && data.success) {
             console.log('✅ Payment completed successfully!');
             localStorage.removeItem('paypal_pending');
+            localStorage.removeItem('cart'); // Clear cart from localStorage
+            clearCart(); // Clear cart from context
             setStatus('success');
             setMessage('Pagamento completato con successo! Riceverai un\'email di conferma.');
           } else {
