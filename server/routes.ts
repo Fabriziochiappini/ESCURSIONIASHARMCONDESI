@@ -1546,7 +1546,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { amount, travelId, bookingData } = req.body;
       
-      console.log('📦 Creating PayPal booking:', { amount, travelId });
+      console.log('📦 ========================================');
+      console.log('📦 Creating PayPal booking');
+      console.log('📦 Amount:', amount);
+      console.log('📦 Travel ID:', travelId);
+      console.log('📦 Booking data:', JSON.stringify(bookingData, null, 2));
+      console.log('📦 ========================================');
       
       // Map frontend fields to database fields
       const mappedBookingData = {

@@ -122,6 +122,7 @@ export function BookingModal({ travel, children }: BookingModalProps) {
       return jsonResponse as { clientSecret?: string; bookingId: number };
     },
     onSuccess: (data) => {
+      console.log('✅ Booking created successfully:', data);
       if (data.clientSecret) {
         setClientSecret(data.clientSecret);
       }
@@ -133,16 +134,20 @@ export function BookingModal({ travel, children }: BookingModalProps) {
       });
     },
     onError: (error: any) => {
-      console.error("Booking error:", error);
+      console.error("❌ Booking error:", error);
+      console.error("❌ Error details:", error.message, error.stack);
       toast({
         title: "Errore",
-        description: "Si è verificato un errore durante la creazione della prenotazione.",
+        description: error.message || "Si è verificato un errore durante la creazione della prenotazione.",
         variant: "destructive",
       });
     },
   });
 
   const onSubmit = (data: BookingFormData) => {
+    console.log('📝 Form submitted with data:', data);
+    console.log('💰 Total price:', totalPrice);
+    console.log('🎫 Travel ID:', travel.id);
     setBookingData(data);
     createBookingMutation.mutate(data);
   };
