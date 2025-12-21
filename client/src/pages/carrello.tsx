@@ -42,6 +42,8 @@ export default function Carrello() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [showStripePayment, setShowStripePayment] = useState(false);
   const [showPayPalPayment, setShowPayPalPayment] = useState(false);
+  const [paypalBookingId, setPaypalBookingId] = useState<number | null>(null);
+  const [isPayPalProcessing, setIsPayPalProcessing] = useState(false);
   
   const [customerData, setCustomerData] = useState({
     firstName: "",
@@ -218,7 +220,7 @@ export default function Carrello() {
     return Object.keys(errors).length === 0;
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (items.length === 0) {
       toast({ title: "Il carrello è vuoto", variant: "destructive" });
       return;
@@ -234,7 +236,60 @@ export default function Carrello() {
     }
     
     if (paymentMethod === "paypal") {
-      setShowPayPalPayment(true);
+      // For PayPal, create bookings first then show PayPal checkout
+      setIsPayPalProcessing(true);
+      try {
+        const cartData = items.map(item => {
+          const travelPrice = Number(item.travel.price) * item.participants;
+          const addonsPrice = getItemAddonsTotal(item);
+          const fullPrice = travelPrice + addonsPrice;
+          const itemDeposit = calculateItemDeposit(item);
+          
+          return {
+            travelId: item.travel.id,
+            travelTitle: item.travel.title,
+            participants: item.participants,
+            participantNotes: item.participantNotes || '',
+            price: paymentType === "deposit" ? itemDeposit : fullPrice,
+            fullPrice: fullPrice,
+            selectedDate: item.selectedDate || null,
+            selectedAddons: item.selectedAddons?.map(sa => ({
+              addonId: sa.addon.id,
+              addonName: sa.addon.name,
+              addonPrice: sa.addon.price,
+              quantity: sa.quantity
+            })) || []
+          };
+        });
+        
+        const totalAmount = paymentType === "deposit" ? getDepositTotal() : getTotal();
+        
+        const response = await apiRequest("POST", "/api/cart/checkout-paypal", {
+          items: cartData,
+          total: totalAmount,
+          paymentType: paymentType,
+          customerData: customerData
+        });
+        
+        const data = await response.json();
+        console.log('🛒 PayPal cart booking created:', data);
+        
+        if (data.bookingId) {
+          setPaypalBookingId(data.bookingId);
+          setShowPayPalPayment(true);
+        } else {
+          throw new Error("Booking ID not received");
+        }
+      } catch (error: any) {
+        console.error("PayPal checkout error:", error);
+        toast({ 
+          title: "Errore nel checkout", 
+          description: error.message || "Si è verificato un errore",
+          variant: "destructive" 
+        });
+      } finally {
+        setIsPayPalProcessing(false);
+      }
     } else {
       setIsProcessing(true);
       checkoutMutation.mutate();
@@ -516,12 +571,18 @@ export default function Carrello() {
                             </div>
                           </div>
                           
-                          <PayPalCheckout
-                            amount={paymentType === "deposit" ? getDepositTotal() : getTotal()}
-                            onSuccess={handlePayPalPaymentSuccess}
-                            onError={handlePayPalPaymentError}
-                            bookingId={0}
-                          />
+                          {paypalBookingId ? (
+                            <PayPalCheckout
+                              amount={paymentType === "deposit" ? getDepositTotal() : getTotal()}
+                              onSuccess={handlePayPalPaymentSuccess}
+                              onError={handlePayPalPaymentError}
+                              bookingId={paypalBookingId}
+                            />
+                          ) : (
+                            <div className="text-center py-4 text-gray-500">
+                              Preparazione pagamento PayPal in corso...
+                            </div>
+                          )}
                           
                           <Button
                             variant="outline"
@@ -662,10 +723,10 @@ export default function Carrello() {
                             setPaymentType("full");
                             handleCheckout();
                           }}
-                          disabled={isProcessing || checkoutMutation.isPending}
+                          disabled={isProcessing || checkoutMutation.isPending || isPayPalProcessing}
                           data-testid="checkout-button-full"
                         >
-                          {isProcessing || checkoutMutation.isPending ? (
+                          {isProcessing || checkoutMutation.isPending || isPayPalProcessing ? (
                             <>
                               <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2" />
                               Elaborazione...
@@ -689,10 +750,10 @@ export default function Carrello() {
                               setPaymentType("deposit");
                               handleCheckout();
                             }}
-                            disabled={isProcessing || checkoutMutation.isPending}
+                            disabled={isProcessing || checkoutMutation.isPending || isPayPalProcessing}
                             data-testid="checkout-button-deposit"
                           >
-                            {isProcessing || checkoutMutation.isPending ? (
+                            {isProcessing || checkoutMutation.isPending || isPayPalProcessing ? (
                               <>
                                 <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2" />
                                 Elaborazione...

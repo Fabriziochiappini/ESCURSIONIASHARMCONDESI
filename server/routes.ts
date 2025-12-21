@@ -1295,6 +1295,66 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Cart checkout with PayPal - creates bookings first, returns bookingId
+  app.post("/api/cart/checkout-paypal", async (req, res) => {
+    try {
+      const { items, total, paymentType, customerData } = req.body;
+      
+      console.log('🛒 PayPal cart checkout:', { itemsCount: items?.length, total, paymentType });
+      
+      if (!items || items.length === 0) {
+        return res.status(400).json({ message: "Il carrello è vuoto" });
+      }
+
+      // Generate unique order ID
+      const orderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`.toUpperCase();
+
+      const orderTotal = items.reduce((sum: number, i: any) => sum + (i.fullPrice || i.price), 0);
+      let firstBookingId: number | null = null;
+
+      // Create a booking for each cart item with status 'pending'
+      for (const item of items) {
+        const bookingData = {
+          orderId: orderId,
+          travelId: item.travelId,
+          customerEmail: customerData?.email || 'cliente@email.com',
+          customerName: customerData ? `${customerData.firstName} ${customerData.lastName}` : 'Cliente',
+          customerPhone: customerData?.phone || '',
+          numberOfParticipants: item.participants,
+          totalAmount: item.price.toString(),
+          orderTotal: orderTotal.toString(),
+          travelDate: item.selectedDate || null,
+          status: 'pending',
+          notes: item.participantNotes || '',
+          selectedAddons: item.selectedAddons || [],
+        };
+        
+        const booking = await storage.createBooking(bookingData);
+        if (!firstBookingId) {
+          firstBookingId = booking.id;
+        }
+      }
+
+      // Create payment record for the first booking (will be linked to PayPal order)
+      if (firstBookingId) {
+        await storage.createPayment({
+          bookingId: firstBookingId,
+          paymentProvider: 'paypal',
+          paymentIntentId: '', // Will be updated when PayPal order is created
+          amount: total.toString(),
+          currency: 'EUR',
+          status: 'pending',
+        });
+      }
+
+      console.log('✅ PayPal cart bookings created:', { orderId, firstBookingId });
+      res.json({ bookingId: firstBookingId, orderId });
+    } catch (error: any) {
+      console.error('PayPal cart checkout error:', error);
+      res.status(500).json({ message: "Errore nel checkout: " + error.message });
+    }
+  });
+
   // Create bookings after successful cart payment
   app.post("/api/cart/create-bookings", async (req, res) => {
     try {
