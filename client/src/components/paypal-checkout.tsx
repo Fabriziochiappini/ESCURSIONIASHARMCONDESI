@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, AlertCircle } from "lucide-react";
+import { CheckCircle, AlertCircle, Smartphone } from "lucide-react";
 import { SiPaypal } from "react-icons/si";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -12,17 +12,20 @@ interface PayPalCheckoutProps {
   bookingId: number;
 }
 
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+    || window.innerWidth < 768;
+}
+
 export function PayPalCheckout({ amount, onSuccess, onError, bookingId }: PayPalCheckoutProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [message, setMessage] = useState<string>("");
 
   const handlePayPalPayment = async () => {
-
     setIsProcessing(true);
     setMessage("");
 
     try {
-      // Step 1: Create PayPal order
       const orderResponseData = await apiRequest("POST", "/paypal/order", {
         intent: "CAPTURE",
         amount: amount.toString(),
@@ -37,83 +40,98 @@ export function PayPalCheckout({ amount, onSuccess, onError, bookingId }: PayPal
 
       const orderID = orderResponse.id;
       
-      // Step 2: Redirect to PayPal for approval
       const approvalUrl = orderResponse.links?.find(
         (link: any) => link.rel === "approve"
       )?.href;
 
-      if (approvalUrl) {
-        // Open PayPal in a new window
-        const paypalWindow = window.open(
-          approvalUrl,
-          "paypal",
-          "width=500,height=600,scrollbars=yes,resizable=yes"
-        );
-
-        if (!paypalWindow) {
-          throw new Error("PopUp blocked. Please allow popups for PayPal payment.");
-        }
-
-        // Poll for window closure - user will close after approving
-        const pollTimer = setInterval(async () => {
-          if (paypalWindow.closed) {
-            clearInterval(pollTimer);
-            
-            // Give PayPal a moment to process the approval
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // Window closed by user - try to capture the payment
-            try {
-              const captureResponseData = await apiRequest("POST", `/paypal/order/${orderID}/capture`, {});
-              const captureResponse = await captureResponseData.json();
-              
-              if (captureResponse.status === "COMPLETED") {
-                setMessage("Pagamento PayPal completato con successo!");
-                
-                // Confirm payment on backend
-                await fetch('/api/confirm-paypal-payment', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ orderID, bookingId })
-                });
-                console.log('✅ PayPal payment status updated in database');
-                
-                setIsProcessing(false);
-                onSuccess();
-              } else {
-                setIsProcessing(false);
-                setMessage("Pagamento PayPal annullato.");
-                onError();
-              }
-            } catch (error) {
-              console.error("PayPal capture error:", error);
-              setIsProcessing(false);
-              setMessage("Pagamento PayPal annullato o non completato.");
-              onError();
-            }
-          }
-        }, 500);
-
-        // Set a timeout to stop polling after 10 minutes
-        setTimeout(() => {
-          clearInterval(pollTimer);
-          if (!paypalWindow.closed) {
-            paypalWindow.close();
-          }
-          if (isProcessing) {
-            setIsProcessing(false);
-            setMessage("Timeout del pagamento PayPal.");
-            onError();
-          }
-        }, 600000); // 10 minutes
-
-      } else {
+      if (!approvalUrl) {
         throw new Error("No PayPal approval URL received");
       }
+
+      localStorage.setItem('paypal_pending', JSON.stringify({
+        orderID,
+        bookingId,
+        amount,
+        timestamp: Date.now()
+      }));
+      console.log('📦 PayPal pending data saved:', { orderID, bookingId });
+
+      if (isMobileDevice()) {
+        console.log('📱 Mobile detected - using redirect flow');
+        window.location.href = approvalUrl;
+        return;
+      }
+
+      console.log('🖥️ Desktop detected - using popup flow');
+      const paypalWindow = window.open(
+        approvalUrl,
+        "paypal",
+        "width=500,height=600,scrollbars=yes,resizable=yes"
+      );
+
+      if (!paypalWindow) {
+        console.log('⚠️ Popup blocked - falling back to redirect');
+        window.location.href = approvalUrl;
+        return;
+      }
+
+      const pollTimer = setInterval(async () => {
+        if (paypalWindow.closed) {
+          clearInterval(pollTimer);
+          
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+          try {
+            const captureResponseData = await apiRequest("POST", `/paypal/order/${orderID}/capture`, {});
+            const captureResponse = await captureResponseData.json();
+            
+            if (captureResponse.status === "COMPLETED") {
+              setMessage("Pagamento PayPal completato con successo!");
+              
+              await fetch('/api/confirm-paypal-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderID, bookingId })
+              });
+              console.log('✅ PayPal payment confirmed');
+              
+              localStorage.removeItem('paypal_pending');
+              
+              setIsProcessing(false);
+              onSuccess();
+            } else {
+              setIsProcessing(false);
+              setMessage("Pagamento PayPal annullato.");
+              localStorage.removeItem('paypal_pending');
+              onError();
+            }
+          } catch (error) {
+            console.error("PayPal capture error:", error);
+            setIsProcessing(false);
+            setMessage("Pagamento PayPal annullato o non completato.");
+            localStorage.removeItem('paypal_pending');
+            onError();
+          }
+        }
+      }, 500);
+
+      setTimeout(() => {
+        clearInterval(pollTimer);
+        if (!paypalWindow.closed) {
+          paypalWindow.close();
+        }
+        if (isProcessing) {
+          setIsProcessing(false);
+          setMessage("Timeout del pagamento PayPal.");
+          localStorage.removeItem('paypal_pending');
+          onError();
+        }
+      }, 600000);
 
     } catch (error: any) {
       console.error("PayPal payment error:", error);
       setMessage(error.message || "Errore durante il pagamento PayPal.");
+      localStorage.removeItem('paypal_pending');
       onError();
       setIsProcessing(false);
     }
@@ -135,6 +153,13 @@ export function PayPalCheckout({ amount, onSuccess, onError, bookingId }: PayPal
               Sarai reindirizzato su PayPal per completare il pagamento di{" "}
               <span className="font-semibold">€ {amount.toLocaleString("it-IT")}</span>
             </p>
+            
+            {isMobileDevice() && (
+              <div className="flex items-center justify-center gap-2 text-sm text-amber-600 mb-4 bg-amber-50 p-2 rounded-lg">
+                <Smartphone className="h-4 w-4" />
+                <span>Verrai reindirizzato a PayPal</span>
+              </div>
+            )}
             
             <Button
               onClick={handlePayPalPayment}
