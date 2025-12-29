@@ -1998,10 +1998,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Payment not found for this token" });
       }
 
-      // Check if already completed
-      if (payment.status === 'succeeded') {
+      // Check if already completed - BUT allow balance payments to continue
+      // because the original deposit payment is already "succeeded"
+      if (payment.status === 'succeeded' && !isBalancePayment) {
         console.log('✅ Payment already completed');
         return res.json({ success: true, alreadyCompleted: true });
+      }
+      
+      if (isBalancePayment) {
+        console.log('💰 Processing BALANCE payment - original deposit already succeeded, continuing to capture balance');
       }
 
       const bookingId = payment.bookingId;
@@ -2027,17 +2032,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const firstBooking = await storage.getBooking(bookingId);
         
         if (isBalancePayment && firstBooking) {
-          // BALANCE PAYMENT: Add to existing payment amount
+          // BALANCE PAYMENT: Create a NEW payment record for the balance (keeps history separate)
           const previouslyPaid = parseFloat(payment.amount);
           const newTotal = previouslyPaid + capturedAmount;
           const actualOrderTotal = parseFloat((firstBooking as any).orderTotal || firstBooking.totalAmount);
           const newRemainingBalance = actualOrderTotal - newTotal;
           
+          // Restore original paymentIntentId (remove BALANCE: prefix)
+          const originalPaymentIntentId = payment.paymentIntentId?.split(':').pop() || payment.paymentIntentId;
           await storage.updatePayment(payment.id, {
-            amount: newTotal.toString(),
-            paymentIntentId: paypalTransactionId,
-            paymentDate: new Date(),
+            paymentIntentId: originalPaymentIntentId,
           });
+          
+          // Create a NEW payment record for the balance payment
+          await storage.createPayment({
+            bookingId: firstBooking.id,
+            paymentProvider: 'paypal',
+            paymentIntentId: paypalTransactionId,
+            amount: capturedAmount.toString(),
+            currency: 'EUR',
+            status: 'succeeded',
+          });
+          
+          console.log('💰 Created NEW balance payment record:', { capturedAmount, transactionId: paypalTransactionId });
           
           console.log('💰 PayPal BALANCE payment details:', { 
             previouslyPaid,
