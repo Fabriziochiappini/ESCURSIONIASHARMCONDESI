@@ -46,6 +46,7 @@ interface OrderEmailData {
   paymentProvider: string;
   paymentStatus: string;
   notes?: string;
+  transactionId?: string;
 }
 
 export async function sendOrderConfirmationEmails(data: OrderEmailData): Promise<void> {
@@ -142,6 +143,13 @@ export async function sendOrderConfirmationEmails(data: OrderEmailData): Promise
                   <span>Importo Pagato:</span>
                   <span style="font-weight: bold; color: #10b981; font-size: 18px;">€${data.amountPaid.toFixed(2)}</span>
                 </div>
+                
+                ${data.transactionId ? `
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e5e7eb;">
+                  <span>ID Transazione:</span>
+                  <span style="font-family: monospace; background: #e5e7eb; padding: 3px 8px; border-radius: 4px; font-size: 12px;">${data.transactionId}</span>
+                </div>
+                ` : ''}
                 
                 ${isDeposit ? `
                 <div style="display: flex; justify-content: space-between; padding: 10px 0; background: #fef3c7; margin: 10px -20px -20px; padding: 15px 20px; border-radius: 0 0 6px 6px;">
