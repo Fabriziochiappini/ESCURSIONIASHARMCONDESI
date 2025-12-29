@@ -9,7 +9,9 @@ interface PayPalCheckoutProps {
   amount: number;
   onSuccess: () => void;
   onError: () => void;
-  bookingId: number;
+  bookingId?: number;
+  orderId?: string;
+  isBalancePayment?: boolean;
 }
 
 function isMobileDevice() {
@@ -17,7 +19,7 @@ function isMobileDevice() {
     || window.innerWidth < 768;
 }
 
-export function PayPalCheckout({ amount, onSuccess, onError, bookingId }: PayPalCheckoutProps) {
+export function PayPalCheckout({ amount, onSuccess, onError, bookingId, orderId, isBalancePayment = false }: PayPalCheckoutProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [message, setMessage] = useState<string>("");
 
@@ -49,18 +51,31 @@ export function PayPalCheckout({ amount, onSuccess, onError, bookingId }: PayPal
         throw new Error("No PayPal approval URL received");
       }
 
-      // Link PayPal order to booking in database (for mobile redirect flow)
-      await fetch('/api/link-paypal-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bookingId, paypalOrderId: orderID })
-      });
-      console.log('🔗 PayPal order linked to booking in database');
+      // Link PayPal order to booking/order in database (for mobile redirect flow)
+      if (isBalancePayment && orderId) {
+        // Balance payment - link to orderId
+        await fetch('/api/saldo/link-paypal-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId, paypalOrderId: orderID })
+        });
+        console.log('🔗 PayPal order linked to order for balance payment');
+      } else if (bookingId) {
+        // New booking payment - link to bookingId
+        await fetch('/api/link-paypal-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ bookingId, paypalOrderId: orderID })
+        });
+        console.log('🔗 PayPal order linked to booking in database');
+      }
 
       // Also save to localStorage as backup
       localStorage.setItem('paypal_pending', JSON.stringify({
         orderID,
-        bookingId,
+        bookingId: bookingId || 0,
+        orderId: orderId || '',
+        isBalancePayment,
         amount,
         timestamp: Date.now()
       }));
@@ -97,12 +112,23 @@ export function PayPalCheckout({ amount, onSuccess, onError, bookingId }: PayPal
             if (captureResponse.status === "COMPLETED") {
               setMessage("Pagamento PayPal completato con successo!");
               
-              await fetch('/api/confirm-paypal-payment', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ orderID, bookingId })
-              });
-              console.log('✅ PayPal payment confirmed');
+              if (isBalancePayment && orderId) {
+                // Confirm balance payment
+                await fetch('/api/saldo/confirm-paypal', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ orderID, orderId })
+                });
+                console.log('✅ PayPal balance payment confirmed');
+              } else {
+                // Confirm new booking payment
+                await fetch('/api/confirm-paypal-payment', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ orderID, bookingId })
+                });
+                console.log('✅ PayPal payment confirmed');
+              }
               
               localStorage.removeItem('paypal_pending');
               

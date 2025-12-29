@@ -414,7 +414,8 @@ export default function VersaSaldo() {
                   amount={orderData.remainingBalance}
                   onSuccess={handlePayPalSuccess}
                   onError={handlePayPalError}
-                  bookingId={0}
+                  orderId={orderData.orderId}
+                  isBalancePayment={true}
                 />
                 <Button
                   variant="ghost"

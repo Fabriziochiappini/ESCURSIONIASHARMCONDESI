@@ -1602,6 +1602,138 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // PayPal Balance Payment - Link order
+  app.post("/api/saldo/link-paypal-order", async (req, res) => {
+    try {
+      const { orderId, paypalOrderId } = req.body;
+      
+      console.log('🔗 Linking PayPal order for balance payment:', { orderId, paypalOrderId });
+      
+      if (!orderId || !paypalOrderId) {
+        return res.status(400).json({ message: "Order ID and PayPal Order ID required" });
+      }
+
+      // Find the first booking with this orderId
+      const allBookings = await storage.getAllBookings();
+      const orderBookings = allBookings.filter((b: any) => b.orderId === orderId);
+      
+      if (orderBookings.length === 0) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+
+      const firstBooking = orderBookings[0];
+      
+      // Update the existing payment with the PayPal order ID for balance tracking
+      const payments = await storage.getPaymentsByBooking(firstBooking.id);
+      if (payments.length > 0) {
+        // Store the PayPal order ID in metadata (we'll use a special prefix)
+        await storage.updatePayment(payments[0].id, {
+          paymentIntentId: `BALANCE:${paypalOrderId}:${payments[0].paymentIntentId || ''}`,
+        });
+      }
+      
+      console.log('🔗 Linked PayPal order for balance:', { orderId, paypalOrderId });
+      return res.json({ success: true });
+    } catch (error: any) {
+      console.error('Link PayPal balance order error:', error);
+      res.status(500).json({ message: "Error linking PayPal order: " + error.message });
+    }
+  });
+
+  // PayPal Balance Payment - Confirm
+  app.post("/api/saldo/confirm-paypal", async (req, res) => {
+    try {
+      const { orderID, orderId } = req.body;
+      
+      console.log('💰 Confirming PayPal balance payment:', { orderID, orderId });
+      
+      if (!orderID || !orderId) {
+        return res.status(400).json({ message: "PayPal Order ID and Order ID required" });
+      }
+
+      // Capture PayPal payment
+      const captureResponse = await fetch(`https://api-m.paypal.com/v2/checkout/orders/${orderID}/capture`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Basic ${Buffer.from(`${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`).toString('base64')}`,
+        },
+      });
+      
+      const captureData = await captureResponse.json();
+      
+      if (captureData.status !== 'COMPLETED') {
+        return res.status(400).json({ message: "PayPal payment not completed" });
+      }
+
+      const amountPaid = parseFloat(captureData.purchase_units?.[0]?.payments?.captures?.[0]?.amount?.value || '0');
+      const transactionId = captureData.purchase_units?.[0]?.payments?.captures?.[0]?.id || orderID;
+
+      // Find bookings with this orderId
+      const allBookings = await storage.getAllBookings();
+      const orderBookings = allBookings.filter((b: any) => b.orderId === orderId);
+      
+      if (orderBookings.length > 0) {
+        const firstBooking = orderBookings[0] as any;
+        const existingPayments = await storage.getPaymentsByBooking(firstBooking.id);
+        const existingPayment = existingPayments.length > 0 ? existingPayments[0] : null;
+        
+        if (existingPayment) {
+          // Update existing payment with new total
+          const newTotal = parseFloat(existingPayment.amount) + amountPaid;
+          await storage.updatePayment(existingPayment.id, {
+            amount: newTotal.toString(),
+            paymentIntentId: transactionId,
+            paymentDate: new Date(),
+          });
+        }
+
+        // Send balance confirmation email
+        const orderTotal = parseFloat(firstBooking.orderTotal || firstBooking.totalAmount);
+        const previouslyPaid = existingPayment ? parseFloat(existingPayment.amount) : 0;
+        const newRemainingBalance = orderTotal - previouslyPaid - amountPaid;
+
+        try {
+          const emailItems = await Promise.all(orderBookings.map(async (booking: any) => {
+            const travel = await storage.getTravel(booking.travelId);
+            return {
+              travelTitle: travel?.title || 'Tour',
+              travelDate: booking.travelDate || '',
+              numberOfParticipants: booking.numberOfParticipants,
+              pricePerPerson: parseFloat(booking.totalAmount) / booking.numberOfParticipants,
+              itemTotal: parseFloat(booking.totalAmount),
+              selectedAddons: booking.selectedAddons || [],
+            };
+          }));
+
+          await sendOrderConfirmationEmails({
+            orderId: orderId,
+            customerName: firstBooking.customerName,
+            customerEmail: firstBooking.customerEmail,
+            customerPhone: firstBooking.customerPhone || '',
+            items: emailItems,
+            orderTotal: orderTotal,
+            amountPaid: previouslyPaid + amountPaid,
+            paymentType: newRemainingBalance > 0.01 ? 'deposit' : 'full',
+            remainingBalance: Math.max(0, newRemainingBalance),
+            paymentProvider: 'paypal',
+            paymentStatus: 'succeeded',
+            transactionId: transactionId,
+          });
+          console.log(`✅ Balance confirmation email sent for order ${orderId}`);
+        } catch (emailError) {
+          console.error('Error sending balance confirmation email:', emailError);
+        }
+      }
+
+      console.log(`✅ PayPal balance payment confirmed for order ${orderId}`);
+      res.json({ success: true, message: 'Saldo versato con successo' });
+    } catch (error: any) {
+      console.error('Confirm PayPal balance payment error:', error);
+      res.status(500).json({ message: "Errore nella conferma pagamento: " + error.message });
+    }
+  });
+
   // PayPal Booking Creation
   app.post("/api/create-paypal-booking", async (req, res) => {
     try {
@@ -1822,7 +1954,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('🔄 Processing PayPal return with token:', token);
 
       // Find booking by PayPal order ID
-      const payment = await storage.getPaymentByPaypalOrderId(token);
+      let payment = await storage.getPaymentByPaypalOrderId(token);
+      let isBalancePayment = false;
+      
+      // If not found, check for balance payment (BALANCE: prefix)
+      if (!payment) {
+        const allPayments = await storage.getAllPayments();
+        payment = allPayments.find((p: any) => 
+          p.paymentIntentId && p.paymentIntentId.includes(`BALANCE:${token}`)
+        );
+        
+        if (payment) {
+          isBalancePayment = true;
+          console.log('🔄 Found balance payment for token:', token);
+        }
+      }
       
       if (!payment) {
         console.log('❌ No payment found for token:', token);
@@ -1852,7 +1998,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (captureData.status === 'COMPLETED') {
         // Get PayPal transaction ID from capture response
         const paypalTransactionId = captureData.purchase_units?.[0]?.payments?.captures?.[0]?.id || token;
+        const capturedAmount = parseFloat(captureData.purchase_units?.[0]?.payments?.captures?.[0]?.amount?.value || '0');
         
+        // Get the booking to find the orderId
+        const firstBooking = await storage.getBooking(bookingId);
+        
+        if (isBalancePayment && firstBooking) {
+          // BALANCE PAYMENT: Add to existing payment amount
+          const previouslyPaid = parseFloat(payment.amount);
+          const newTotal = previouslyPaid + capturedAmount;
+          const actualOrderTotal = parseFloat((firstBooking as any).orderTotal || firstBooking.totalAmount);
+          const newRemainingBalance = actualOrderTotal - newTotal;
+          
+          await storage.updatePayment(payment.id, {
+            amount: newTotal.toString(),
+            paymentIntentId: paypalTransactionId,
+            paymentDate: new Date(),
+          });
+          
+          console.log('💰 PayPal BALANCE payment details:', { 
+            previouslyPaid,
+            capturedAmount,
+            newTotal,
+            actualOrderTotal, 
+            newRemainingBalance,
+            transactionId: paypalTransactionId 
+          });
+          
+          // Get all bookings for email
+          const bookings = await storage.getBookingsByOrderId((firstBooking as any).orderId);
+          
+          try {
+            const emailItems = await Promise.all(bookings.map(async (booking: any) => {
+              const travel = await storage.getTravel(booking.travelId);
+              return {
+                travelTitle: travel?.title || 'Tour',
+                travelDate: booking.travelDate || '',
+                numberOfParticipants: booking.numberOfParticipants,
+                pricePerPerson: parseFloat(booking.totalAmount) / booking.numberOfParticipants,
+                itemTotal: parseFloat(booking.totalAmount),
+                selectedAddons: booking.selectedAddons || [],
+              };
+            }));
+
+            await sendOrderConfirmationEmails({
+              orderId: (firstBooking as any).orderId,
+              customerName: firstBooking.customerName,
+              customerEmail: firstBooking.customerEmail,
+              customerPhone: firstBooking.customerPhone || '',
+              items: emailItems,
+              orderTotal: actualOrderTotal,
+              amountPaid: newTotal,
+              paymentType: newRemainingBalance > 0.01 ? 'deposit' : 'full',
+              remainingBalance: Math.max(0, newRemainingBalance),
+              paymentProvider: 'paypal',
+              paymentStatus: 'succeeded',
+              transactionId: paypalTransactionId,
+            });
+            console.log(`✅ PayPal balance confirmation emails sent for ${(firstBooking as any).orderId}`);
+          } catch (emailError) {
+            console.error('Error sending PayPal balance confirmation emails:', emailError);
+          }
+          
+          console.log('✅ PayPal BALANCE payment completed via return URL:', token);
+          return res.json({ success: true });
+        }
+        
+        // NEW BOOKING PAYMENT (original logic)
         // Update payment status with transaction ID
         await storage.updatePaymentByBookingId(bookingId, {
           status: 'succeeded',
@@ -1860,12 +2072,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           paymentIntentId: paypalTransactionId, // Store the actual capture ID
         });
         
-        // Get the booking to find the orderId
-        const firstBooking = await storage.getBooking(bookingId);
-        
-        if (firstBooking && firstBooking.orderId) {
+        if (firstBooking && (firstBooking as any).orderId) {
           // Get all bookings for this order
-          const bookings = await storage.getBookingsByOrderId(firstBooking.orderId);
+          const bookings = await storage.getBookingsByOrderId((firstBooking as any).orderId);
           
           // Update all bookings status
           for (const booking of bookings) {
@@ -1878,7 +2087,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const amountPaid = parseFloat(payment.amount);
           const orderTotal = bookings.reduce((sum: number, b: any) => 
             sum + parseFloat(b.orderTotal || b.totalAmount), 0) / bookings.length; // orderTotal is same for all items
-          const actualOrderTotal = parseFloat(firstBooking.orderTotal || firstBooking.totalAmount);
+          const actualOrderTotal = parseFloat((firstBooking as any).orderTotal || firstBooking.totalAmount);
           const remainingBalance = actualOrderTotal - amountPaid;
           const paymentType = remainingBalance > 0.01 ? 'deposit' : 'full';
           
@@ -1905,7 +2114,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             }));
 
             await sendOrderConfirmationEmails({
-              orderId: firstBooking.orderId,
+              orderId: (firstBooking as any).orderId,
               customerName: firstBooking.customerName,
               customerEmail: firstBooking.customerEmail,
               customerPhone: firstBooking.customerPhone || '',
@@ -1918,7 +2127,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               paymentStatus: 'succeeded',
               transactionId: paypalTransactionId,
             });
-            console.log(`✅ PayPal order confirmation emails sent for ${firstBooking.orderId}`);
+            console.log(`✅ PayPal order confirmation emails sent for ${(firstBooking as any).orderId}`);
           } catch (emailError) {
             console.error('Error sending PayPal confirmation emails:', emailError);
           }
