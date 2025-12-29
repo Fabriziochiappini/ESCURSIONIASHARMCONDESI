@@ -1651,7 +1651,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // PayPal payment confirmation endpoint
+  // PayPal payment confirmation endpoint (legacy - for popup flow)
+  // NOTE: Email is already sent by complete-paypal-return, so we skip it here to avoid duplicates
   app.post('/api/confirm-paypal-payment', async (req, res) => {
     try {
       const { orderID, bookingId } = req.body;
@@ -1660,44 +1661,119 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Order ID and Booking ID required" });
       }
 
-      // Update payment with PayPal order ID
-      await storage.updatePaymentByBookingId(bookingId, {
-        paymentIntentId: orderID,
-        status: 'succeeded',
-        paymentDate: new Date(),
-      });
-      
-      // Update booking status
-      await storage.updateBooking(bookingId, {
-        status: 'confirmed',
-      });
-
-      // Send confirmation emails
-      try {
-        const booking = await storage.getBooking(bookingId);
-        const travel = booking ? await storage.getTravel(booking.travelId) : null;
-        
-        if (booking && travel) {
-          await sendBookingConfirmationEmails({
-            bookingId: booking.id,
-            customerName: booking.customerName,
-            customerEmail: booking.customerEmail,
-            customerPhone: booking.customerPhone || '',
-            travelTitle: travel.title,
-            travelDate: booking.travelDate || new Date().toISOString(),
-            numberOfParticipants: booking.numberOfParticipants,
-            totalAmount: booking.totalAmount,
-            paymentProvider: 'paypal',
-            paymentStatus: 'succeeded',
-            notes: booking.notes || undefined,
-          });
-        }
-      } catch (emailError) {
-        console.error('Error sending PayPal confirmation emails:', emailError);
+      // Check if payment already succeeded (already processed by complete-paypal-return)
+      const existingPayment = await storage.getPaymentsByBooking(bookingId);
+      if (existingPayment.length > 0 && existingPayment[0].status === 'succeeded') {
+        console.log('✅ PayPal payment already confirmed (via return URL):', orderID);
+        return res.json({ success: true, message: 'PayPal payment already confirmed' });
       }
+
+      // Capture the PayPal order
+      const captureResponse = await fetch(`https://api-m.paypal.com/v2/checkout/orders/${orderID}/capture`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Basic ${Buffer.from(`${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`).toString('base64')}`,
+        },
+      });
       
-      console.log('✅ PayPal payment confirmed:', orderID);
-      return res.json({ success: true, message: 'PayPal payment confirmed' });
+      const captureData = await captureResponse.json();
+      
+      if (captureData.status === 'COMPLETED') {
+        const paypalTransactionId = captureData.purchase_units?.[0]?.payments?.captures?.[0]?.id || orderID;
+        
+        // Update payment with PayPal transaction ID
+        await storage.updatePaymentByBookingId(bookingId, {
+          paymentIntentId: paypalTransactionId,
+          status: 'succeeded',
+          paymentDate: new Date(),
+        });
+        
+        // Get booking to find orderId
+        const firstBooking = await storage.getBooking(bookingId);
+        
+        if (firstBooking && firstBooking.orderId) {
+          // Get all bookings for this order
+          const bookings = await storage.getBookingsByOrderId(firstBooking.orderId);
+          
+          // Update all bookings status
+          for (const booking of bookings) {
+            await storage.updateBooking(booking.id, {
+              status: 'confirmed',
+            });
+          }
+          
+          // Get payment to calculate amounts
+          const payment = await storage.getPaymentsByBooking(bookingId);
+          const amountPaid = payment.length > 0 ? parseFloat(payment[0].amount) : 0;
+          const actualOrderTotal = parseFloat(firstBooking.orderTotal || firstBooking.totalAmount);
+          const remainingBalance = actualOrderTotal - amountPaid;
+          const paymentType = remainingBalance > 0.01 ? 'deposit' : 'full';
+          
+          // Send order confirmation emails (same logic as complete-paypal-return)
+          try {
+            const emailItems = await Promise.all(bookings.map(async (booking: any) => {
+              const travel = await storage.getTravel(booking.travelId);
+              return {
+                travelTitle: travel?.title || 'Tour',
+                travelDate: booking.travelDate || '',
+                numberOfParticipants: booking.numberOfParticipants,
+                pricePerPerson: parseFloat(booking.totalAmount) / booking.numberOfParticipants,
+                itemTotal: parseFloat(booking.totalAmount),
+                selectedAddons: booking.selectedAddons || [],
+              };
+            }));
+
+            await sendOrderConfirmationEmails({
+              orderId: firstBooking.orderId,
+              customerName: firstBooking.customerName,
+              customerEmail: firstBooking.customerEmail,
+              customerPhone: firstBooking.customerPhone || '',
+              items: emailItems,
+              orderTotal: actualOrderTotal,
+              amountPaid: amountPaid,
+              paymentType: paymentType as 'deposit' | 'full',
+              remainingBalance: remainingBalance,
+              paymentProvider: 'paypal',
+              paymentStatus: 'succeeded',
+              transactionId: paypalTransactionId,
+            });
+            console.log(`✅ Email inviate con successo per ordine ${firstBooking.orderId}`);
+          } catch (emailError) {
+            console.error('Error sending PayPal confirmation emails:', emailError);
+          }
+        } else {
+          // Fallback for single booking without orderId (legacy)
+          await storage.updateBooking(bookingId, {
+            status: 'confirmed',
+          });
+          
+          const booking = await storage.getBooking(bookingId);
+          const travel = booking ? await storage.getTravel(booking.travelId) : null;
+          
+          if (booking && travel) {
+            await sendBookingConfirmationEmails({
+              bookingId: booking.id,
+              customerName: booking.customerName,
+              customerEmail: booking.customerEmail,
+              customerPhone: booking.customerPhone || '',
+              travelTitle: travel.title,
+              travelDate: booking.travelDate || new Date().toISOString(),
+              numberOfParticipants: booking.numberOfParticipants,
+              totalAmount: booking.totalAmount,
+              paymentProvider: 'paypal',
+              paymentStatus: 'succeeded',
+              notes: booking.notes || undefined,
+            });
+          }
+        }
+        
+        console.log('✅ PayPal payment confirmed:', orderID);
+        return res.json({ success: true, message: 'PayPal payment confirmed' });
+      } else {
+        console.log('❌ PayPal capture failed:', captureData);
+        return res.status(400).json({ message: "Payment capture failed", status: captureData.status });
+      }
     } catch (error: any) {
       console.error('Confirm PayPal payment error:', error);
       res.status(500).json({ message: "Error confirming PayPal payment: " + error.message });
