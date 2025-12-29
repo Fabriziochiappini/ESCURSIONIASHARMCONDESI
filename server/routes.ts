@@ -1312,7 +1312,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { items, total, paymentType, customerData } = req.body;
       
-      console.log('🛒 PayPal cart checkout:', { itemsCount: items?.length, total, paymentType });
+      const orderTotal = items?.reduce((sum: number, i: any) => sum + (i.fullPrice || i.price), 0) || 0;
+      console.log('🛒 PayPal cart checkout:', { 
+        itemsCount: items?.length, 
+        total, 
+        paymentType,
+        orderTotal,
+        items: items?.map((i: any) => ({ title: i.travelTitle, price: i.price, fullPrice: i.fullPrice, participants: i.participants }))
+      });
       
       if (!items || items.length === 0) {
         return res.status(400).json({ message: "Il carrello è vuoto" });
@@ -1321,7 +1328,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Generate unique order ID
       const orderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`.toUpperCase();
 
-      const orderTotal = items.reduce((sum: number, i: any) => sum + (i.fullPrice || i.price), 0);
       let firstBookingId: number | null = null;
 
       // Create a booking for each cart item with status 'pending'
@@ -1823,12 +1829,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       if (captureData.status === 'COMPLETED') {
         const paypalTransactionId = captureData.purchase_units?.[0]?.payments?.captures?.[0]?.id || orderID;
+        const capturedAmount = parseFloat(captureData.purchase_units?.[0]?.payments?.captures?.[0]?.amount?.value || '0');
         
-        // Update payment with PayPal transaction ID
+        console.log('💰 PayPal popup capture - updating payment with captured amount:', {
+          bookingId,
+          capturedAmount,
+          transactionId: paypalTransactionId
+        });
+        
+        // Update payment with PayPal transaction ID and CORRECT captured amount
         await storage.updatePaymentByBookingId(bookingId, {
           paymentIntentId: paypalTransactionId,
           status: 'succeeded',
           paymentDate: new Date(),
+          amount: capturedAmount.toString(), // CRITICAL: Use actual captured amount from PayPal
         });
         
         // Get booking to find orderId
@@ -1845,9 +1859,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             });
           }
           
-          // Get payment to calculate amounts
-          const payment = await storage.getPaymentsByBooking(bookingId);
-          const amountPaid = payment.length > 0 ? parseFloat(payment[0].amount) : 0;
+          // Calculate amounts using the captured amount from PayPal
+          const amountPaid = capturedAmount;
           const actualOrderTotal = parseFloat(firstBooking.orderTotal || firstBooking.totalAmount);
           const remainingBalance = actualOrderTotal - amountPaid;
           const paymentType = remainingBalance > 0.01 ? 'deposit' : 'full';
@@ -2075,11 +2088,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
         
         // NEW BOOKING PAYMENT (original logic)
-        // Update payment status with transaction ID
+        // Update payment status with transaction ID and CORRECT amount from PayPal
+        console.log('💰 PayPal capture - updating payment with captured amount:', {
+          bookingId,
+          capturedAmount,
+          originalPaymentAmount: payment.amount,
+          transactionId: paypalTransactionId
+        });
+        
         await storage.updatePaymentByBookingId(bookingId, {
           status: 'succeeded',
           paymentDate: new Date(),
-          paymentIntentId: paypalTransactionId, // Store the actual capture ID
+          paymentIntentId: paypalTransactionId,
+          amount: capturedAmount.toString(), // CRITICAL: Use the actual captured amount from PayPal
         });
         
         if (firstBooking && (firstBooking as any).orderId) {
