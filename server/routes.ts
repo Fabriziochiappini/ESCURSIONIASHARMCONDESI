@@ -2114,10 +2114,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             });
           }
           
-          // Calculate totals - amountPaid is from payment record, orderTotal from bookings
-          const amountPaid = parseFloat(payment.amount);
-          const orderTotal = bookings.reduce((sum: number, b: any) => 
-            sum + parseFloat(b.orderTotal || b.totalAmount), 0) / bookings.length; // orderTotal is same for all items
+          // Calculate totals - USE capturedAmount from PayPal, NOT payment.amount (which could be wrong)
+          const amountPaid = capturedAmount; // CRITICAL FIX: Use actual captured amount from PayPal
           const actualOrderTotal = parseFloat((firstBooking as any).orderTotal || firstBooking.totalAmount);
           const remainingBalance = actualOrderTotal - amountPaid;
           const paymentType = remainingBalance > 0.01 ? 'deposit' : 'full';
