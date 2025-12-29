@@ -38,6 +38,7 @@ import type { Booking, Payment, Travel } from "@shared/schema";
 type BookingWithDetails = Booking & {
   travel: Travel | null;
   payment: Payment | null;
+  totalPaid?: number;
 };
 
 type Order = {
@@ -51,6 +52,7 @@ type Order = {
   status: string;
   bookingDate: Date | string;
   payment: Payment | null;
+  totalPaid: number;
 };
 
 const statusLabels: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
@@ -246,6 +248,7 @@ export default function AdminBookings() {
           status: booking.status || 'pending',
           bookingDate: booking.bookingDate,
           payment: booking.payment,
+          totalPaid: (booking as any).totalPaid || (booking.payment ? parseFloat(booking.payment.amount) : 0),
         });
       }
     });
@@ -412,7 +415,7 @@ export default function AdminBookings() {
                 {/* Vista Mobile - Card cliccabili */}
                 <div className="md:hidden space-y-3">
                   {groupedOrders.map((order) => {
-                    const paidAmount = order.payment ? parseFloat(order.payment.amount) : 0;
+                    const paidAmount = order.totalPaid;
                     const remaining = order.orderTotal - paidAmount;
                     return (
                       <div 
@@ -473,7 +476,7 @@ export default function AdminBookings() {
                     </TableHeader>
                     <TableBody>
                       {groupedOrders.map((order) => {
-                        const paidAmount = order.payment ? parseFloat(order.payment.amount) : 0;
+                        const paidAmount = order.totalPaid;
                         const remaining = order.orderTotal - paidAmount;
                         return (
                           <TableRow key={order.orderId} data-testid={`order-row-${order.orderId}`}>
@@ -964,8 +967,7 @@ export default function AdminBookings() {
                     <p className="text-sm text-gray-500">Ricavo Totale</p>
                     <p className="text-2xl font-bold text-blue-600">
                       €{groupedOrders
-                        .filter(o => o.payment?.status === "succeeded")
-                        .reduce((sum, o) => sum + (o.payment ? parseFloat(o.payment.amount) : 0), 0)
+                        .reduce((sum, o) => sum + o.totalPaid, 0)
                         .toFixed(2)}
                     </p>
                   </div>

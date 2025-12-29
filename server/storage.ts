@@ -106,7 +106,7 @@ export interface IStorage {
   deleteBooking(id: number): Promise<boolean>;
   getBookingsByTravel(travelId: number): Promise<Booking[]>;
   getBookingsByOrderId(orderId: string): Promise<Booking[]>;
-  getBookingsWithDetails(): Promise<Array<Booking & { travel: Travel | null, payment: Payment | null }>>;
+  getBookingsWithDetails(): Promise<Array<Booking & { travel: Travel | null, payment: Payment | null, totalPaid: number }>>;
 
   // Payment operations
   getAllPayments(): Promise<Payment[]>;
@@ -823,7 +823,7 @@ export class DatabaseStorage implements IStorage {
     return orderBookings;
   }
 
-  async getBookingsWithDetails(): Promise<Array<Booking & { travel: Travel | null, payment: Payment | null }>> {
+  async getBookingsWithDetails(): Promise<Array<Booking & { travel: Travel | null, payment: Payment | null, totalPaid: number }>> {
     const result = await db
       .select({
         booking: bookings,
@@ -835,7 +835,7 @@ export class DatabaseStorage implements IStorage {
       .leftJoin(payments, eq(payments.bookingId, bookings.id))
       .orderBy(desc(bookings.createdAt));
 
-    // Group payments by booking to handle multiple payments
+    // Group payments by booking and sum all succeeded payments
     const bookingsMap = new Map();
     
     for (const row of result) {
@@ -846,7 +846,14 @@ export class DatabaseStorage implements IStorage {
           ...row.booking,
           travel: row.travel,
           payment: row.payment,
+          totalPaid: row.payment && row.payment.status === 'succeeded' ? parseFloat(row.payment.amount) : 0,
         });
+      } else {
+        // Add payment amount to totalPaid if there are multiple payments
+        if (row.payment && row.payment.status === 'succeeded') {
+          const existing = bookingsMap.get(bookingId);
+          existing.totalPaid += parseFloat(row.payment.amount);
+        }
       }
     }
 
