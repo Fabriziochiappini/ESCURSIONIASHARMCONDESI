@@ -573,6 +573,27 @@ export default function AdminBookings() {
                   <p className="font-medium">{selectedBooking.travel?.title || "N/D"}</p>
                   <p className="text-sm text-gray-600">{selectedBooking.travel?.destination || "N/D"}</p>
                   <p className="text-xs text-gray-500 capitalize">{selectedBooking.travel?.type || ""}</p>
+                  
+                  {/* Servizi Aggiuntivi */}
+                  {(() => {
+                    const addons = (selectedBooking as any).selectedAddons || [];
+                    if (addons.length === 0) return null;
+                    return (
+                      <div className="mt-3 p-2 bg-purple-50 rounded-lg border border-purple-200">
+                        <p className="text-xs font-semibold text-purple-700 mb-2">Servizi Aggiuntivi:</p>
+                        <div className="space-y-1">
+                          {addons.map((addon: any, i: number) => (
+                            <div key={i} className="flex justify-between items-center text-sm">
+                              <span className="text-gray-700">• {addon.addonName} x{addon.quantity}</span>
+                              <span className="font-medium text-purple-700">
+                                €{(parseFloat(addon.addonPrice) * addon.quantity).toFixed(2)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
 
                 {/* Data e Partecipanti */}
@@ -719,31 +740,52 @@ export default function AdminBookings() {
                     Tour Ordinati ({selectedOrder.bookings.length})
                   </h3>
                   <div className="space-y-3">
-                    {selectedOrder.bookings.map((booking, index) => (
-                      <div key={booking.id} className="p-3 bg-white rounded-lg border border-green-100">
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <p className="font-bold text-gray-900">{booking.travel?.title || "Tour N/D"}</p>
-                            <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
-                              <span className="flex items-center gap-1">
-                                <Calendar className="w-4 h-4" />
-                                {booking.travelDate ? formatDate(booking.travelDate) : "Data da definire"}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <Users className="w-4 h-4" />
-                                {booking.numberOfParticipants} partecipant{booking.numberOfParticipants > 1 ? 'i' : 'e'}
-                              </span>
+                    {selectedOrder.bookings.map((booking, index) => {
+                      const addons = (booking as any).selectedAddons || [];
+                      return (
+                        <div key={booking.id} className="p-3 bg-white rounded-lg border border-green-100">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <p className="font-bold text-gray-900">{booking.travel?.title || "Tour N/D"}</p>
+                              <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
+                                <span className="flex items-center gap-1">
+                                  <Calendar className="w-4 h-4" />
+                                  {booking.travelDate ? formatDate(booking.travelDate) : "Data da definire"}
+                                </span>
+                                <span className="flex items-center gap-1">
+                                  <Users className="w-4 h-4" />
+                                  {booking.numberOfParticipants} partecipant{booking.numberOfParticipants > 1 ? 'i' : 'e'}
+                                </span>
+                              </div>
+                              
+                              {/* Servizi Aggiuntivi */}
+                              {addons.length > 0 && (
+                                <div className="mt-3 p-2 bg-purple-50 rounded-lg border border-purple-100">
+                                  <p className="text-xs font-semibold text-purple-700 mb-2">Servizi Aggiuntivi:</p>
+                                  <div className="space-y-1">
+                                    {addons.map((addon: any, i: number) => (
+                                      <div key={i} className="flex justify-between items-center text-sm">
+                                        <span className="text-gray-700">• {addon.addonName} x{addon.quantity}</span>
+                                        <span className="font-medium text-purple-700">
+                                          €{(parseFloat(addon.addonPrice) * addon.quantity).toFixed(2)}
+                                        </span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                              
+                              {booking.notes && (
+                                <p className="mt-2 text-sm text-gray-500 italic">Note: {booking.notes}</p>
+                              )}
                             </div>
-                            {booking.notes && (
-                              <p className="mt-2 text-sm text-gray-500 italic">Note: {booking.notes}</p>
-                            )}
-                          </div>
-                          <div className="text-right">
-                            <p className="font-bold text-lg text-green-700">€{parseFloat(booking.totalAmount).toFixed(2)}</p>
+                            <div className="text-right">
+                              <p className="font-bold text-lg text-green-700">€{parseFloat(booking.totalAmount).toFixed(2)}</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
