@@ -1141,6 +1141,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin: Get payment history for an order
+  app.get("/api/admin/orders/:orderId/payments", async (req, res) => {
+    try {
+      const orderId = req.params.orderId;
+      const payments = await storage.getPaymentsByOrderId(orderId);
+      res.json(payments);
+    } catch (error) {
+      console.error("Error retrieving order payments:", error);
+      res.status(500).json({ message: "Error retrieving order payments" });
+    }
+  });
+
   // Admin: Update booking status
   app.put("/api/admin/bookings/:id/status", async (req, res) => {
     try {

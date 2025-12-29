@@ -83,12 +83,33 @@ export default function AdminBookings() {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isOrderDetailOpen, setIsOrderDetailOpen] = useState(false);
+  const [orderPayments, setOrderPayments] = useState<Payment[]>([]);
+  const [loadingPayments, setLoadingPayments] = useState(false);
 
   useEffect(() => {
     if (!isAuthValid()) {
       setLocation("/admin");
     }
   }, [setLocation]);
+
+  // Carica lo storico pagamenti quando si apre il dettaglio ordine
+  useEffect(() => {
+    if (isOrderDetailOpen && selectedOrder && !selectedOrder.orderId.startsWith('SINGLE-')) {
+      setLoadingPayments(true);
+      fetch(`/api/admin/orders/${selectedOrder.orderId}/payments`)
+        .then(res => res.json())
+        .then(data => {
+          setOrderPayments(data);
+          setLoadingPayments(false);
+        })
+        .catch(() => {
+          setOrderPayments([]);
+          setLoadingPayments(false);
+        });
+    } else {
+      setOrderPayments([]);
+    }
+  }, [isOrderDetailOpen, selectedOrder]);
 
   const { data: bookings = [], isLoading } = useQuery<BookingWithDetails[]>({
     queryKey: ["/api/admin/bookings"],
@@ -801,47 +822,85 @@ export default function AdminBookings() {
                       <span className="font-bold text-xl">€{selectedOrder.totalAmount.toFixed(2)}</span>
                     </div>
                     
-                    {selectedOrder.payment && (
-                      <>
-                        <div className="flex justify-between items-center py-2">
-                          <span className="text-gray-700">Metodo Pagamento:</span>
-                          <span className="font-medium">
-                            {providerLabels[selectedOrder.payment.paymentProvider] || selectedOrder.payment.paymentProvider}
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center py-2">
-                          <span className="text-gray-700">Stato Pagamento:</span>
-                          <Badge variant={paymentStatusLabels[selectedOrder.payment.status]?.variant || "outline"}>
-                            {paymentStatusLabels[selectedOrder.payment.status]?.label || selectedOrder.payment.status}
-                          </Badge>
-                        </div>
-                        <div className="flex justify-between items-center py-2 bg-green-100 px-3 rounded-lg">
-                          <span className="text-green-800 font-medium">Importo Pagato:</span>
-                          <span className="font-bold text-xl text-green-700">€{parseFloat(selectedOrder.payment.amount).toFixed(2)}</span>
-                        </div>
-                        
-                        {(() => {
-                          const paidAmount = parseFloat(selectedOrder.payment.amount);
-                          const remaining = selectedOrder.orderTotal - paidAmount;
-                          if (remaining > 0) {
-                            return (
-                              <div className="flex justify-between items-center py-3 bg-orange-100 px-3 rounded-lg border-2 border-orange-300">
-                                <span className="text-orange-800 font-bold">Saldo da Versare:</span>
-                                <span className="font-bold text-2xl text-orange-700">€{remaining.toFixed(2)}</span>
-                              </div>
-                            );
-                          }
-                          return (
+                    {(() => {
+                      const totalPaid = orderPayments.length > 0
+                        ? orderPayments.filter(p => p.status === 'succeeded').reduce((sum, p) => sum + parseFloat(p.amount), 0)
+                        : (selectedOrder.payment ? parseFloat(selectedOrder.payment.amount) : 0);
+                      const remaining = selectedOrder.orderTotal - totalPaid;
+                      
+                      return (
+                        <>
+                          <div className="flex justify-between items-center py-2 bg-green-100 px-3 rounded-lg">
+                            <span className="text-green-800 font-medium">Totale Pagato:</span>
+                            <span className="font-bold text-xl text-green-700">€{totalPaid.toFixed(2)}</span>
+                          </div>
+                          
+                          {remaining > 0.01 ? (
+                            <div className="flex justify-between items-center py-3 bg-orange-100 px-3 rounded-lg border-2 border-orange-300">
+                              <span className="text-orange-800 font-bold">Saldo da Versare:</span>
+                              <span className="font-bold text-2xl text-orange-700">€{remaining.toFixed(2)}</span>
+                            </div>
+                          ) : (
                             <div className="flex justify-between items-center py-3 bg-green-200 px-3 rounded-lg">
                               <span className="text-green-800 font-bold">Stato:</span>
                               <Badge className="bg-green-600 text-white text-base px-4 py-1">SALDATO</Badge>
                             </div>
-                          );
-                        })()}
-                      </>
-                    )}
+                          )}
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
+
+                {/* Storico Pagamenti */}
+                {orderPayments.length > 0 && (
+                  <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200">
+                    <h3 className="font-bold text-indigo-800 mb-3 flex items-center gap-2">
+                      <Clock className="w-5 h-5" />
+                      Storico Pagamenti ({orderPayments.filter(p => p.status === 'succeeded').length})
+                    </h3>
+                    <div className="space-y-2">
+                      {loadingPayments ? (
+                        <p className="text-gray-500 text-sm">Caricamento...</p>
+                      ) : (
+                        orderPayments
+                          .filter(p => p.status === 'succeeded')
+                          .map((payment, index) => {
+                            const isDeposit = index === 0 && orderPayments.filter(p => p.status === 'succeeded').length > 1;
+                            const isBalance = index > 0;
+                            return (
+                              <div 
+                                key={payment.id} 
+                                className={`p-3 rounded-lg border ${isDeposit ? 'bg-orange-50 border-orange-200' : isBalance ? 'bg-green-50 border-green-200' : 'bg-white border-gray-200'}`}
+                              >
+                                <div className="flex justify-between items-center">
+                                  <div>
+                                    <span className={`font-semibold ${isDeposit ? 'text-orange-700' : isBalance ? 'text-green-700' : 'text-gray-700'}`}>
+                                      {isDeposit ? 'Acconto' : isBalance ? 'Saldo' : 'Pagamento'}
+                                    </span>
+                                    <span className="text-xs text-gray-500 ml-2">
+                                      via {providerLabels[payment.paymentProvider] || payment.paymentProvider}
+                                    </span>
+                                  </div>
+                                  <span className={`font-bold text-lg ${isDeposit ? 'text-orange-700' : isBalance ? 'text-green-700' : 'text-gray-700'}`}>
+                                    €{parseFloat(payment.amount).toFixed(2)}
+                                  </span>
+                                </div>
+                                <div className="text-xs text-gray-500 mt-1">
+                                  {payment.paymentDate 
+                                    ? formatDateTime(payment.paymentDate)
+                                    : payment.createdAt 
+                                    ? formatDateTime(payment.createdAt)
+                                    : 'Data non disponibile'
+                                  }
+                                </div>
+                              </div>
+                            );
+                          })
+                      )}
+                    </div>
+                  </div>
+                )}
 
                 {/* Stato Ordine */}
                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">

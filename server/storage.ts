@@ -40,7 +40,7 @@ import {
   generateTravelMetaTitle,
   generateTravelMetaDescription
 } from "@shared/schema";
-import { eq, and, gte, lte, sql, desc, like, or, ilike, gt } from "drizzle-orm";
+import { eq, and, gte, lte, sql, desc, like, or, ilike, gt, inArray } from "drizzle-orm";
 import { db } from "./db";
 import fs from 'fs';
 import path from 'path';
@@ -119,6 +119,7 @@ export interface IStorage {
   getPaymentByPaypalOrderId(paypalOrderId: string): Promise<Payment | undefined>;
   deletePayment(id: number): Promise<boolean>;
   getPaymentsByBooking(bookingId: number): Promise<Payment[]>;
+  getPaymentsByOrderId(orderId: string): Promise<Payment[]>;
 
   // Gallery operations
   getAllGalleries(): Promise<(Gallery & { images: GalleryImage[] })[]>;
@@ -905,6 +906,19 @@ export class DatabaseStorage implements IStorage {
       .where(eq(payments.bookingId, bookingId))
       .orderBy(payments.createdAt);
     return bookingPayments;
+  }
+
+  async getPaymentsByOrderId(orderId: string): Promise<Payment[]> {
+    const orderBookings = await this.getBookingsByOrderId(orderId);
+    if (orderBookings.length === 0) return [];
+    
+    const bookingIds = orderBookings.map(b => b.id);
+    const allPayments = await db
+      .select()
+      .from(payments)
+      .where(inArray(payments.bookingId, bookingIds))
+      .orderBy(payments.createdAt);
+    return allPayments;
   }
 
   // Gallery operations
