@@ -1591,19 +1591,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const orderBookings = allBookings.filter(b => (b as any).orderId === orderId);
       
       if (orderBookings.length > 0) {
-        // Update payment record for the first booking
         const firstBooking = orderBookings[0];
-        const existingPayments = await storage.getPaymentsByBooking(firstBooking.id);
-        const existingPayment = existingPayments.length > 0 ? existingPayments[0] : null;
+        const balanceAmount = parseFloat(paymentIntent.metadata.balanceAmount || (paymentIntent.amount / 100).toString());
         
-        if (existingPayment) {
-          // Update existing payment with new total
-          const newTotal = parseFloat(existingPayment.amount) + parseFloat(paymentIntent.metadata.balanceAmount || '0');
-          await storage.updatePayment(existingPayment.id, {
-            amount: newTotal.toString(),
-            paymentDate: new Date(),
-          });
-        }
+        // Create a NEW payment record for the balance (keep deposit record separate for history)
+        await storage.createPayment({
+          bookingId: firstBooking.id,
+          paymentProvider: 'stripe',
+          paymentIntentId: paymentIntentId,
+          amount: balanceAmount.toString(),
+          currency: 'EUR',
+          status: 'succeeded',
+        });
       }
 
       console.log(`✅ Balance payment confirmed for order ${orderId}`);
@@ -1688,21 +1687,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (orderBookings.length > 0) {
         const firstBooking = orderBookings[0] as any;
         const existingPayments = await storage.getPaymentsByBooking(firstBooking.id);
-        const existingPayment = existingPayments.length > 0 ? existingPayments[0] : null;
+        const previouslyPaid = existingPayments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
         
-        if (existingPayment) {
-          // Update existing payment with new total
-          const newTotal = parseFloat(existingPayment.amount) + amountPaid;
-          await storage.updatePayment(existingPayment.id, {
-            amount: newTotal.toString(),
-            paymentIntentId: transactionId,
-            paymentDate: new Date(),
-          });
-        }
+        // Create a NEW payment record for the balance (keep deposit record separate for history)
+        await storage.createPayment({
+          bookingId: firstBooking.id,
+          paymentProvider: 'paypal',
+          paymentIntentId: transactionId,
+          amount: amountPaid.toString(),
+          currency: 'EUR',
+          status: 'succeeded',
+        });
 
         // Send balance confirmation email
         const orderTotal = parseFloat(firstBooking.orderTotal || firstBooking.totalAmount);
-        const previouslyPaid = existingPayment ? parseFloat(existingPayment.amount) : 0;
         const newRemainingBalance = orderTotal - previouslyPaid - amountPaid;
 
         try {
