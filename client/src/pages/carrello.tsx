@@ -741,7 +741,7 @@ export default function Carrello() {
                                 ) : (
                                   <CreditCard className="w-5 h-5 mr-2" />
                                 )}
-                                Paga Acconto {formatCartPrice(getDepositTotal())}
+                                Versa Acconto {formatCartPrice(getDepositTotal())}
                               </>
                             )}
                           </Button>
