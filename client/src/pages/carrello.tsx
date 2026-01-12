@@ -35,7 +35,7 @@ export default function Carrello() {
   const [location, setLocation] = useLocation();
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentType, setPaymentType] = useState<"full" | "deposit">("full");
+  const [paymentType, setPaymentType] = useState<"full" | "deposit">("deposit");
   const [paymentMethod, setPaymentMethod] = useState<"stripe" | "paypal">("stripe");
   const [showPayPalCheckout, setShowPayPalCheckout] = useState(false);
   const [paypalOrderId, setPaypalOrderId] = useState<string | null>(null);
@@ -713,39 +713,15 @@ export default function Carrello() {
                       <Separator />
                       
                       <div className="space-y-3">
-                        <Button
-                          className={`w-full font-bold py-6 text-lg shadow-lg ${
-                            paymentMethod === "paypal" 
-                              ? "bg-blue-600 hover:bg-blue-700 text-white" 
-                              : "bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white"
-                          }`}
-                          onClick={() => {
-                            setPaymentType("full");
-                            handleCheckout();
-                          }}
-                          disabled={isProcessing || checkoutMutation.isPending || isPayPalProcessing}
-                          data-testid="checkout-button-full"
-                        >
-                          {isProcessing || checkoutMutation.isPending || isPayPalProcessing ? (
-                            <>
-                              <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2" />
-                              Elaborazione...
-                            </>
-                          ) : (
-                            <>
-                              {paymentMethod === "paypal" ? (
-                                <SiPaypal className="w-5 h-5 mr-2" />
-                              ) : (
-                                <CreditCard className="w-5 h-5 mr-2" />
-                              )}
-                              Paga {formatCartPrice(getTotal())}
-                            </>
-                          )}
-                        </Button>
-
+                        {/* NASCOSTO: Pulsante pagamento completo - solo acconto disponibile */}
+                        
                         {hasDepositOption && (
                           <Button
-                            className="w-full font-bold py-6 text-lg shadow-lg bg-green-600 hover:bg-green-700 text-white"
+                            className={`w-full font-bold py-6 text-lg shadow-lg ${
+                              paymentMethod === "paypal" 
+                                ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                                : "bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white"
+                            }`}
                             onClick={() => {
                               setPaymentType("deposit");
                               handleCheckout();
@@ -760,8 +736,12 @@ export default function Carrello() {
                               </>
                             ) : (
                               <>
-                                <Wallet className="w-5 h-5 mr-2" />
-                                Paga con Acconto {formatCartPrice(getDepositTotal())}
+                                {paymentMethod === "paypal" ? (
+                                  <SiPaypal className="w-5 h-5 mr-2" />
+                                ) : (
+                                  <CreditCard className="w-5 h-5 mr-2" />
+                                )}
+                                Paga Acconto {formatCartPrice(getDepositTotal())}
                               </>
                             )}
                           </Button>
