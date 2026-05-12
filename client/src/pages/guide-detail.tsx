@@ -1,6 +1,7 @@
 import { useParams } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Navigation } from "@/components/navigation";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,6 +20,7 @@ export default function GuideDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50">
+        <AnnouncementBar />
         <Navigation />
         <div className="pt-24 pb-12 flex items-center justify-center min-h-[60vh]">
           <div className="text-center">

@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,6 +25,7 @@ export default function Termini() {
         keywords="termini e condizioni, condizioni d'uso, prenotazioni, rimborsi, tour operator, sharm el sheikh"
         canonicalUrl="https://siviaggiascondesi.it/termini"
       />
+      <AnnouncementBar />
       <Navigation />
 
       <main className="pt-20">

@@ -1,5 +1,6 @@
 import { Home, Phone, Mail, Clock, MessageCircle, Shield, Award, Users, Building } from "lucide-react";
 import { Navigation } from "@/components/navigation";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { Button } from "@/components/ui/button";
@@ -79,6 +80,7 @@ export default function Services() {
         keywords="servizi tour operator, tour sharm el sheikh, escursioni mar rosso, diving sharm, si viaggia con desy"
         canonicalUrl="https://siviaggiacondesy.com/servizi"
       />
+      <AnnouncementBar />
       <Navigation />
 
       {/* Hero Section */}

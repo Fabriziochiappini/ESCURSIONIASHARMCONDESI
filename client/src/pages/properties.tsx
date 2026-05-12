@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { Navigation } from "@/components/navigation";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { Footer } from "@/components/footer";
 import type { Travel as Property } from "@shared/schema";
 import { SEOHead } from "@/components/seo-head";
@@ -149,6 +150,7 @@ export default function Properties() {
         keywords="tour pacchetti, escursioni mare deserto, destinazioni sharm, si viaggia con desy"
         canonicalUrl="https://siviaggiacondesy.com/properties"
       />
+      <AnnouncementBar />
       <Navigation />
 
       <main className="pt-28">

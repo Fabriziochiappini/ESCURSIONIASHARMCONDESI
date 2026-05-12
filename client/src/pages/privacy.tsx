@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,6 +15,7 @@ export default function Privacy() {
         keywords="privacy policy, gdpr, protezione dati, tour operator, sharm el sheikh, escursioni, trattamento dati personali"
         canonicalUrl="https://siviaggiascondesi.it/privacy"
       />
+      <AnnouncementBar />
       <Navigation />
 
       <main className="pt-20">

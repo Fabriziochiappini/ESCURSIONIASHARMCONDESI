@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { Footer } from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
 import { Button } from "@/components/ui/button";
@@ -190,6 +191,7 @@ export default function VersaSaldo() {
         title="Versa Saldo - Si viaggia con Desi"
         description="Completa il pagamento del tuo ordine versando il saldo rimanente."
       />
+      <AnnouncementBar />
       <Navigation />
       
       <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12">
