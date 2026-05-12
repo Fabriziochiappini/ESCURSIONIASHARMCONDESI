@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -44,6 +45,7 @@ export default function Carrello() {
   const [showPayPalPayment, setShowPayPalPayment] = useState(false);
   const [paypalBookingId, setPaypalBookingId] = useState<number | null>(null);
   const [isPayPalProcessing, setIsPayPalProcessing] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   
   const [customerData, setCustomerData] = useState({
     firstName: "",
@@ -227,14 +229,23 @@ export default function Carrello() {
     }
     
     if (!validateCustomerData()) {
-      toast({ 
-        title: "Dati mancanti", 
+      toast({
+        title: "Dati mancanti",
         description: "Compila tutti i campi obbligatori",
-        variant: "destructive" 
+        variant: "destructive"
       });
       return;
     }
-    
+
+    if (!acceptedTerms) {
+      toast({
+        title: "Termini e Condizioni",
+        description: "Per procedere è necessario accettare i Termini e Condizioni.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (paymentMethod === "paypal") {
       // For PayPal, create bookings first then show PayPal checkout
       setIsPayPalProcessing(true);
@@ -711,22 +722,46 @@ export default function Carrello() {
                       </div>
 
                       <Separator />
-                      
+
+                      <div className="flex items-start gap-3 px-2 py-3 rounded-lg bg-amber-50/50 border border-amber-200/60">
+                        <Checkbox
+                          id="accept-terms"
+                          checked={acceptedTerms}
+                          onCheckedChange={(checked) => setAcceptedTerms(checked === true)}
+                          className="mt-0.5 data-[state=checked]:bg-[#D4AF37] data-[state=checked]:border-[#D4AF37]"
+                          data-testid="checkbox-accept-terms"
+                        />
+                        <Label
+                          htmlFor="accept-terms"
+                          className="text-sm leading-relaxed text-gray-700 cursor-pointer font-normal"
+                        >
+                          Dichiaro di aver letto e accettato i{" "}
+                          <Link href="/termini" className="text-[#D4AF37] underline hover:opacity-80" target="_blank">
+                            Termini e Condizioni
+                          </Link>{" "}
+                          e la{" "}
+                          <Link href="/privacy" className="text-[#D4AF37] underline hover:opacity-80" target="_blank">
+                            Privacy Policy
+                          </Link>
+                          .
+                        </Label>
+                      </div>
+
                       <div className="space-y-3">
                         {/* NASCOSTO: Pulsante pagamento completo - solo acconto disponibile */}
-                        
+
                         {hasDepositOption && (
                           <Button
                             className={`w-full font-bold py-6 text-lg shadow-lg ${
-                              paymentMethod === "paypal" 
-                                ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                              paymentMethod === "paypal"
+                                ? "bg-blue-600 hover:bg-blue-700 text-white"
                                 : "bg-gradient-to-r from-[#D4AF37] to-[#E6C87F] hover:from-[#C9A961] hover:to-[#D4AF37] text-white"
                             }`}
                             onClick={() => {
                               setPaymentType("deposit");
                               handleCheckout();
                             }}
-                            disabled={isProcessing || checkoutMutation.isPending || isPayPalProcessing}
+                            disabled={isProcessing || checkoutMutation.isPending || isPayPalProcessing || !acceptedTerms}
                             data-testid="checkout-button-deposit"
                           >
                             {isProcessing || checkoutMutation.isPending || isPayPalProcessing ? (

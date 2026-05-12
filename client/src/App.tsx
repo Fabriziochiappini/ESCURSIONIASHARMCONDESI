@@ -39,6 +39,7 @@ import TravelDetail from "@/pages/travel-detail";
 import GuideDetail from "@/pages/guide-detail";
 import Services from "@/pages/services";
 import Privacy from "@/pages/privacy";
+import Termini from "@/pages/termini";
 import Admin from "@/pages/admin";
 import AdminCountries from "@/pages/admin/countries";
 import AdminShowcases from "@/pages/admin/showcases";
@@ -70,6 +71,7 @@ function Router() {
       <Route path="/servizi" component={Services} />
       <Route path="/indicazioni" component={Indicazioni} />
       <Route path="/privacy" component={Privacy} />
+      <Route path="/termini" component={Termini} />
       <Route path="/admin" component={Admin} />
       <Route path="/admin/countries" component={AdminCountries} />
       <Route path="/admin/showcases" component={AdminShowcases} />

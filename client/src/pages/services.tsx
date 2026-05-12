@@ -66,8 +66,8 @@ const contactInfo = {
   role: "Tour Operator Sharm El Sheikh",
   address: "Sharm El Sheikh - Egitto",
   phone: "+39 344 458 5177",
-  email: "siviaggiacondesi@gmail.com",
-  email2: "siviaggiacondesi@gmail.com"
+  email: "richieste@viaggiacondesi.com",
+  email2: "richieste@viaggiacondesi.com"
 };
 
 export default function Services() {

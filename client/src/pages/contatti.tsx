@@ -12,7 +12,7 @@ export default function Contatti() {
     <div className="min-h-screen bg-white">
       <SEOHead 
         title="Contatti Si Viaggia con Desi | Tour Operator Sharm El Sheikh"
-        description="Contatta Si Viaggia con Desi per organizzare i tuoi tour a Sharm El Sheikh. Tel: +39 344 458 5177, Email: siviaggiacondesi@gmail.com"
+        description="Contatta Si Viaggia con Desi per organizzare i tuoi tour a Sharm El Sheikh. Tel: +39 344 458 5177, Email: richieste@viaggiacondesi.com"
         keywords="contatti tour operator, si viaggia con desy contatti, tour operator sharm el sheikh"
         canonicalUrl="https://siviaggiacondesy.it/contatti"
       />
@@ -61,8 +61,8 @@ export default function Contatti() {
                   </div>
                   <div>
                     <h3 className="text-lg font-normal text-gray-600 mb-1">Email</h3>
-                    <a href="mailto:siviaggiacondesi@gmail.com" className="text-[#A8CFEB] hover:underline block font-light">
-                      siviaggiacondesi@gmail.com
+                    <a href="mailto:richieste@viaggiacondesi.com" className="text-[#A8CFEB] hover:underline block font-light">
+                      richieste@viaggiacondesi.com
                     </a>
                   </div>
                 </div>

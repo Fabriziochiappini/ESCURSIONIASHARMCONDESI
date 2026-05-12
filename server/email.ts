@@ -6,8 +6,8 @@ if (!process.env.SENDGRID_API_KEY) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 }
 
-const FROM_EMAIL = 'info@webproitalia.com';
-const TOUR_OPERATOR_EMAIL = 'siviaggiacondesi@gmail.com';
+const FROM_EMAIL = 'wpi@automailer.it';
+const TOUR_OPERATOR_EMAIL = 'richieste@viaggiacondesi.com';
 
 interface BookingEmailData {
   bookingId: number;

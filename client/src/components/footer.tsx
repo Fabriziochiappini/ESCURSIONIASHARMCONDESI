@@ -48,7 +48,7 @@ export function Footer() {
               </li>
               <li className="flex items-center">
                 <Mail className="mr-2 h-4 w-4 text-[#D4AF37]" />
-                siviaggiacondesi@gmail.com
+                richieste@viaggiacondesi.com
               </li>
 
               <li className="flex items-center">
@@ -72,7 +72,7 @@ export function Footer() {
                   <p className="font-normal text-gray-500 mb-1">Si viaggia con Desi - Escursioni a Sharm</p>
                   <p className="mb-1">Tour Operator Sharm El Sheikh</p>
                   <p>SHARM EL SHEIKH – Egitto</p>
-                  <p>siviaggiacondesi@gmail.com</p>
+                  <p>richieste@viaggiacondesi.com</p>
                   <p className="text-xs text-gray-400 mt-2 italic">Marchio registrato</p>
                 </div>
               </div>
@@ -80,6 +80,8 @@ export function Footer() {
                 <a href="/privacy" className="hover:text-[#A8CFEB] transition-colors">Privacy Policy</a>
                 <span>•</span>
                 <a href="/privacy#cookie" className="hover:text-[#A8CFEB] transition-colors">Cookie Policy</a>
+                <span>•</span>
+                <a href="/termini" className="hover:text-[#A8CFEB] transition-colors">Termini e Condizioni</a>
               </div>
             </div>
             <div className="flex justify-center items-center text-xs border-t border-[#D4AF37]/20 pt-4 font-light">

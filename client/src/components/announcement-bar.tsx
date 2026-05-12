@@ -14,12 +14,12 @@ export function AnnouncementBar() {
           <div className="flex items-center gap-3">
             {/* Email */}
             <a
-              href="mailto:siviaggiacondesi@gmail.com"
+              href="mailto:richieste@viaggiacondesi.com"
               className="text-white/80 hover:text-white transition-colors text-sm flex items-center gap-1"
               title="Email"
             >
               <Mail className="h-4 w-4" />
-              <span className="hidden md:inline">siviaggiacondesi@gmail.com</span>
+              <span className="hidden md:inline">richieste@viaggiacondesi.com</span>
             </a>
 
             {/* Separatore */}
