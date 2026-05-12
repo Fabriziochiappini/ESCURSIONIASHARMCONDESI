@@ -53,21 +53,31 @@ function CheckoutForm({ clientSecret, onSuccess, onError }: CheckoutFormProps) {
         }
         onError();
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
-        setMessage("Pagamento completato con successo!");
+        setMessage("Pagamento completato! Conferma dell'ordine in corso...");
         
-        // Confirm payment on backend to update status
+        // Confirm payment on backend to update status and create booking
         try {
-          await fetch('/api/confirm-payment', {
+          const response = await fetch('/api/confirm-payment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ paymentIntentId: paymentIntent.id })
           });
-          console.log('✅ Payment status updated in database');
-        } catch (confirmError) {
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Errore durante la conferma dell'ordine nel database.");
+          }
+
+          const data = await response.json();
+          console.log('✅ Payment status updated in database:', data);
+          setMessage("Pagamento completato con successo! Ordine confermato.");
+          onSuccess(paymentIntent.id);
+        } catch (confirmError: any) {
           console.error('Error confirming payment:', confirmError);
+          setMessage("Pagamento autorizzato, ma si è verificato un errore nel salvataggio dell'ordine: " + confirmError.message + ". Contattaci per assistenza.");
+          // Crucially NOT calling onSuccess here to prevent cart clearing if order wasn't saved
+          onError();
         }
-        
-        onSuccess(paymentIntent.id);
       }
     } catch (err) {
       console.error("Payment processing error:", err);

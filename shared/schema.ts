@@ -8,12 +8,14 @@ import {
   json, 
   timestamp,
   varchar,
-  index 
+  index,
+  pgSchema
 } from "drizzle-orm/pg-core";
+const mySchema = pgSchema("escursioniasharm");
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const travels = pgTable("travels", {
+export const travels = mySchema.table("travels", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description").notNull(),
@@ -56,7 +58,7 @@ export const travels = pgTable("travels", {
 });
 
 // Showcase sections (vetrine personalizzabili)
-export const showcases = pgTable("showcases", {
+export const showcases = mySchema.table("showcases", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description").notNull(),
@@ -68,7 +70,7 @@ export const showcases = pgTable("showcases", {
 });
 
 // Countries section (destinazioni personalizzabili)
-export const countries = pgTable("countries", {
+export const countries = mySchema.table("countries", {
   id: serial("id").primaryKey(),
   name: text("name").notNull().unique(), // Nome del paese
   title: text("title").notNull(), // Titolo personalizzato per la sezione
@@ -80,7 +82,7 @@ export const countries = pgTable("countries", {
 });
 
 // Galleries (gallerie fotografiche)
-export const galleries = pgTable("galleries", {
+export const galleries = mySchema.table("galleries", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description").notNull(),
@@ -89,7 +91,7 @@ export const galleries = pgTable("galleries", {
 });
 
 // Gallery Images (immagini delle gallerie)
-export const galleryImages = pgTable("gallery_images", {
+export const galleryImages = mySchema.table("gallery_images", {
   id: serial("id").primaryKey(),
   galleryId: integer("gallery_id").notNull().references(() => galleries.id, { onDelete: 'cascade' }),
   imageUrl: text("image_url").notNull(),
@@ -98,7 +100,7 @@ export const galleryImages = pgTable("gallery_images", {
 });
 
 // Guides (guide per viaggiatori)
-export const guides = pgTable("guides", {
+export const guides = mySchema.table("guides", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   subtitle: text("subtitle").notNull(),
@@ -318,7 +320,7 @@ export function generateTravelMetaDescription(travel: {
 
 // Session storage table.
 // (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
-export const sessions = pgTable(
+export const sessions = mySchema.table(
   "sessions",
   {
     sid: varchar("sid").primaryKey(),
@@ -330,7 +332,7 @@ export const sessions = pgTable(
 
 // User storage table.
 // (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
-export const users = pgTable("users", {
+export const users = mySchema.table("users", {
   id: varchar("id").primaryKey().notNull(),
   email: varchar("email").unique(),
   firstName: varchar("first_name"),
@@ -345,7 +347,7 @@ export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
 
 // Travel images table for better management
-export const travelImages = pgTable("travel_images", {
+export const travelImages = mySchema.table("travel_images", {
   id: serial("id").primaryKey(),
   travelId: integer("travel_id").references(() => travels.id, { onDelete: "cascade" }).notNull(),
   filename: text("filename").notNull(),
@@ -367,7 +369,7 @@ export type InsertTravelImage = z.infer<typeof insertTravelImageSchema>;
 export type TravelImage = typeof travelImages.$inferSelect;
 
 // Bookings table for travel reservations
-export const bookings = pgTable("bookings", {
+export const bookings = mySchema.table("bookings", {
   id: serial("id").primaryKey(),
   orderId: text("order_id"), // UUID per raggruppare più tour nello stesso ordine
   travelId: integer("travel_id").references(() => travels.id, { onDelete: "cascade" }).notNull(),
@@ -387,7 +389,7 @@ export const bookings = pgTable("bookings", {
 });
 
 // Payment transactions table
-export const payments = pgTable("payments", {
+export const payments = mySchema.table("payments", {
   id: serial("id").primaryKey(),
   bookingId: integer("booking_id").references(() => bookings.id, { onDelete: "cascade" }).notNull(),
   paymentProvider: text("payment_provider").notNull(), // stripe, paypal
@@ -420,7 +422,7 @@ export type InsertPayment = z.infer<typeof insertPaymentSchema>;
 export type Payment = typeof payments.$inferSelect;
 
 // Add-ons / Upsells table
-export const addons = pgTable("addons", {
+export const addons = mySchema.table("addons", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(), // es. "Aggiungi cena", "Aggiungi barca"
   description: text("description"),
@@ -431,7 +433,7 @@ export const addons = pgTable("addons", {
 });
 
 // Relation table: which add-ons belong to which tours
-export const travelAddons = pgTable("travel_addons", {
+export const travelAddons = mySchema.table("travel_addons", {
   id: serial("id").primaryKey(),
   travelId: integer("travel_id").references(() => travels.id, { onDelete: "cascade" }).notNull(),
   addonId: integer("addon_id").references(() => addons.id, { onDelete: "cascade" }).notNull(),

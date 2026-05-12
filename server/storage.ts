@@ -1017,19 +1017,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async addGalleryImages(galleryId: number, files: Express.Multer.File[]): Promise<GalleryImage[]> {
-    const objectStorageService = new ObjectStorageService();
     const imageRecords: GalleryImage[] = [];
-
-    // Get PUBLIC_OBJECT_SEARCH_PATHS to determine bucket
-    const publicPaths = objectStorageService.getPublicObjectSearchPaths();
-    const bucketPath = publicPaths[0]; // Use first public path
 
     for (const file of files) {
       // Generate unique filename
       const uniqueFilename = objectStorageService.generateUniqueFilename(file.originalname);
       
-      // Upload to object storage
-      const objectPath = `${bucketPath}/gallery-images/${uniqueFilename}`;
+      // Upload to local storage
+      const objectPath = `gallery-images/${uniqueFilename}`;
       const publicUrl = await objectStorageService.uploadFile(file, objectPath);
 
       // Save to database
@@ -1050,17 +1045,9 @@ export class DatabaseStorage implements IStorage {
     
     if (!image) return false;
 
-    // Delete from object storage if URL starts with /public-objects/
+    // Delete from local storage if relevant
     if (image.imageUrl.startsWith('/public-objects/')) {
-      const objectStorageService = new ObjectStorageService();
-      const publicPaths = objectStorageService.getPublicObjectSearchPaths();
-      const bucketPath = publicPaths[0];
-      
-      // Extract filename from URL
-      const filename = image.imageUrl.replace('/public-objects/', '');
-      const objectPath = `${bucketPath}/public/${filename}`;
-      
-      await objectStorageService.deleteFile(objectPath);
+      await objectStorageService.deleteFile(image.imageUrl);
     }
 
     // Delete from database

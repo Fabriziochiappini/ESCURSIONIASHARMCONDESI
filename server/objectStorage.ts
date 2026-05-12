@@ -1,125 +1,68 @@
-import { Storage, File } from "@google-cloud/storage";
 import { Response, Request } from "express";
 import { randomUUID } from "crypto";
+import fs from "fs";
+import path from "path";
 
-const REPLIT_SIDECAR_ENDPOINT = "http://127.0.0.1:1106";
-
-// The object storage client is used to interact with the object storage service.
-export const objectStorageClient = new Storage({
-  credentials: {
-    audience: "replit",
-    subject_token_type: "access_token",
-    token_url: `${REPLIT_SIDECAR_ENDPOINT}/token`,
-    type: "external_account",
-    credential_source: {
-      url: `${REPLIT_SIDECAR_ENDPOINT}/credential`,
-      format: {
-        type: "json",
-        subject_token_field_name: "access_token",
-      },
-    },
-    universe_domain: "googleapis.com",
-  },
-  projectId: "",
-});
-
-export class ObjectNotFoundError extends Error {
-  constructor() {
-    super("Object not found");
-    this.name = "ObjectNotFoundError";
-    Object.setPrototypeOf(this, ObjectNotFoundError.prototype);
-  }
-}
-
-// The object storage service is used to interact with the object storage service.
+// Simplified ObjectStorageService for local VPS deployment
 export class ObjectStorageService {
-  constructor() {}
+  private uploadsDir: string;
 
-  // Gets the public object search paths.
-  getPublicObjectSearchPaths(): Array<string> {
-    const pathsStr = process.env.PUBLIC_OBJECT_SEARCH_PATHS || "";
-    const paths = Array.from(
-      new Set(
-        pathsStr
-          .split(",")
-          .map((path) => path.trim())
-          .filter((path) => path.length > 0)
-      )
-    );
-    if (paths.length === 0) {
-      throw new Error(
-        "PUBLIC_OBJECT_SEARCH_PATHS not set. Create a bucket in 'Object Storage' " +
-          "tool and set PUBLIC_OBJECT_SEARCH_PATHS env var (comma-separated paths)."
-      );
+  constructor() {
+    this.uploadsDir = path.join(process.cwd(), "uploads");
+    // Ensure uploads directory exists
+    if (!fs.existsSync(this.uploadsDir)) {
+      fs.mkdirSync(this.uploadsDir, { recursive: true });
     }
-    return paths;
   }
 
-  // Gets the private object directory.
-  getPrivateObjectDir(): string {
-    const dir = process.env.PRIVATE_OBJECT_DIR || "";
-    if (!dir) {
-      throw new Error(
-        "PRIVATE_OBJECT_DIR not set. Create a bucket in 'Object Storage' " +
-          "tool and set PRIVATE_OBJECT_DIR env var."
-      );
-    }
-    return dir;
-  }
-
-  // Search for a public object from the search paths.
-  async searchPublicObject(filePath: string): Promise<File | null> {
-    for (const searchPath of this.getPublicObjectSearchPaths()) {
-      const fullPath = `${searchPath}/${filePath}`;
-
-      // Full path format: /<bucket_name>/<object_name>
-      const { bucketName, objectName } = parseObjectPath(fullPath);
-      const bucket = objectStorageClient.bucket(bucketName);
-      const file = bucket.file(objectName);
-
-      // Check if file exists
-      const [exists] = await file.exists();
-      if (exists) {
-        return file;
-      }
+  // Search for a public object from the local uploads folder
+  async searchPublicObject(filePath: string): Promise<string | null> {
+    const fullPath = path.join(this.uploadsDir, filePath);
+    
+    if (fs.existsSync(fullPath) && fs.statSync(fullPath).isFile()) {
+      return fullPath;
     }
 
     return null;
   }
 
-  // Downloads an object to the response with optimized caching for production.
-  async downloadObject(file: File, res: Response, req?: Request, cacheTtlSec: number = 86400) { // 24 hours default
+  // Downloads an object (from local disk) to the response
+  async downloadObject(fullPath: string, res: Response, req?: Request, cacheTtlSec: number = 86400) {
     try {
-      // Get file metadata
-      const [metadata] = await file.getMetadata();
+      if (!fs.existsSync(fullPath)) {
+        return res.status(404).json({ error: "File not found" });
+      }
+
+      const stats = fs.statSync(fullPath);
+      const ext = path.extname(fullPath).toLowerCase();
       
-      // Set aggressive caching headers for production performance
+      const mimeTypes: Record<string, string> = {
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
+        '.png': 'image/png',
+        '.gif': 'image/gif',
+        '.webp': 'image/webp',
+        '.pdf': 'application/pdf',
+      };
+
       res.set({
-        "Content-Type": metadata.contentType || "application/octet-stream",
-        "Content-Length": metadata.size,
-        "Cache-Control": `public, max-age=${cacheTtlSec}, immutable`, // Immutable for better caching
-        "ETag": metadata.etag || `"${metadata.generation}"`,
-        "Last-Modified": metadata.updated,
-        "Expires": new Date(Date.now() + cacheTtlSec * 1000).toUTCString(),
-        // Performance headers
+        "Content-Type": mimeTypes[ext] || "application/octet-stream",
+        "Content-Length": stats.size.toString(),
+        "Cache-Control": `public, max-age=${cacheTtlSec}`,
+        "Last-Modified": stats.mtime.toUTCString(),
         "X-Content-Type-Options": "nosniff",
         "Accept-Ranges": "bytes"
       });
 
-      // Handle conditional requests for better performance
+      // Handle conditional requests
       if (req) {
-        const ifNoneMatch = req.get('If-None-Match');
         const ifModifiedSince = req.get('If-Modified-Since');
-        
-        if (ifNoneMatch === res.get('ETag') || 
-            (ifModifiedSince && metadata.updated && new Date(ifModifiedSince) >= new Date(metadata.updated))) {
+        if (ifModifiedSince && new Date(ifModifiedSince) >= stats.mtime) {
           return res.status(304).end();
         }
       }
 
-      // Stream the file to the response
-      const stream = file.createReadStream();
-
+      const stream = fs.createReadStream(fullPath);
       stream.on("error", (err) => {
         console.error("Stream error:", err);
         if (!res.headersSent) {
@@ -136,80 +79,67 @@ export class ObjectStorageService {
     }
   }
 
-  // Upload a file to object storage
+  // Upload a file to local storage
   async uploadFile(
     file: Express.Multer.File,
-    path: string
+    relativeObjectPath: string
   ): Promise<string> {
-    const { bucketName, objectName } = parseObjectPath(path);
-    const bucket = objectStorageClient.bucket(bucketName);
-    const objectFile = bucket.file(objectName);
+    // relativeObjectPath might be like "/bucket/public/tours/filename"
+    // We'll normalize it to a local path
+    const parts = relativeObjectPath.split('/').filter(p => p.length > 0);
+    // Usually the format is [bucket, 'public', 'category', 'filename'] or similar
+    // We'll strip the bucket and 'public' parts to keep it clean
+    let cleanPathParts = parts;
+    if (parts[1] === 'public') {
+      cleanPathParts = parts.slice(2);
+    } else if (parts[0] === 'public') {
+      cleanPathParts = parts.slice(1);
+    }
+
+    const localFilePath = path.join(this.uploadsDir, ...cleanPathParts);
+    const localFileDir = path.dirname(localFilePath);
+
+    if (!fs.existsSync(localFileDir)) {
+      fs.mkdirSync(localFileDir, { recursive: true });
+    }
 
     return new Promise((resolve, reject) => {
-      const stream = objectFile.createWriteStream({
-        metadata: {
-          contentType: file.mimetype,
-        },
-      });
-
-      stream.on("error", (err) => {
-        console.error("Upload error:", err);
-        reject(err);
-      });
-
-      stream.on("finish", () => {
-        // Return URL served via backend (works in dev and production!)
-        const cleanObjectName = objectName.replace(/^public\//, '');
-        const publicUrl = `/public-objects/${cleanObjectName}`;
-        console.log(`✅ OBJECT STORAGE URL: ${publicUrl}`);
+      fs.writeFile(localFilePath, file.buffer, (err) => {
+        if (err) {
+          console.error("Upload error:", err);
+          return reject(err);
+        }
+        
+        // Return URL served via backend
+        const urlPath = cleanPathParts.join('/');
+        const publicUrl = `/public-objects/${urlPath}`;
+        console.log(`✅ LOCAL STORAGE URL: ${publicUrl}`);
         resolve(publicUrl);
       });
-
-      stream.end(file.buffer);
     });
   }
 
-  // Delete a file from object storage
-  async deleteFile(path: string): Promise<boolean> {
+  // Delete a file from local storage
+  async deleteFile(url: string): Promise<boolean> {
     try {
-      const { bucketName, objectName } = parseObjectPath(path);
-      const bucket = objectStorageClient.bucket(bucketName);
-      const file = bucket.file(objectName);
+      const filePath = url.replace('/public-objects/', '');
+      const fullPath = path.join(this.uploadsDir, filePath);
       
-      await file.delete();
-      return true;
+      if (fs.existsSync(fullPath)) {
+        fs.unlinkSync(fullPath);
+        return true;
+      }
+      return false;
     } catch (error) {
       console.error("Error deleting file:", error);
       return false;
     }
   }
 
-  // Generate a unique filename for upload
   generateUniqueFilename(originalName: string): string {
-    const extension = originalName.split('.').pop();
-    return `${randomUUID()}.${extension}`;
+    const extension = path.extname(originalName);
+    return `${randomUUID()}${extension}`;
   }
-}
-
-function parseObjectPath(path: string): {
-  bucketName: string;
-  objectName: string;
-} {
-  if (!path.startsWith("/")) {
-    path = `/${path}`;
-  }
-  const pathParts = path.split("/");
-  if (pathParts.length < 3) {
-    throw new Error("Invalid path: must contain at least a bucket name");
-  }
-
-  const bucketName = pathParts[1];
-  const objectName = pathParts.slice(2).join("/");
-
-  return {
-    bucketName,
-    objectName,
-  };
 }
 
 export const objectStorageService = new ObjectStorageService();

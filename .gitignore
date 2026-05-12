@@ -1,6 +1,26 @@
 node_modules
 dist
+dist-server
 .DS_Store
 server/public
 vite.config.ts.*
 *.tar.gz
+
+# Environment variables (segreti, MAI committare)
+.env
+.env.local
+.env.*.local
+
+# DB dumps (creati localmente)
+dump_*.sql
+dump.sql
+
+# PM2 / local ops files (env/secrets)
+pm2_dump.json
+pm2_dump*.json
+
+# Local migration backups
+.backups/
+
+# User uploads (runtime data, gestite separatamente)
+uploads/

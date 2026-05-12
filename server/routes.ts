@@ -1373,93 +1373,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Create bookings after successful cart payment
-  app.post("/api/cart/create-bookings", async (req, res) => {
-    try {
-      const { orderId, items, customerData, paymentType, total, paymentIntentId } = req.body;
-      
-      if (!orderId || !items || items.length === 0) {
-        return res.status(400).json({ message: "Dati ordine mancanti" });
-      }
-
-      const orderTotal = items.reduce((sum: number, i: any) => sum + (i.fullPrice || i.price), 0);
-      const amountPaid = parseFloat(total);
-      const remainingBalance = orderTotal - amountPaid;
-      const bookingIds: number[] = [];
-
-      // Create a booking for each cart item
-      for (const item of items) {
-        const bookingData = {
-          orderId: orderId,
-          travelId: item.travelId,
-          customerEmail: customerData?.email || 'cliente@email.com',
-          customerName: customerData?.name || 'Cliente',
-          customerPhone: customerData?.phone || '',
-          numberOfParticipants: item.participants,
-          totalAmount: item.price.toString(),
-          orderTotal: orderTotal.toString(),
-          travelDate: item.selectedDate || null,
-          status: 'confirmed',
-          notes: item.participantNotes || '',
-          selectedAddons: item.selectedAddons || [],
-        };
-        
-        const booking = await storage.createBooking(bookingData);
-        bookingIds.push(booking.id);
-        
-        // Create payment record for first booking only (represents the order payment)
-        if (bookingIds.length === 1) {
-          await storage.createPayment({
-            bookingId: booking.id,
-            paymentProvider: 'stripe',
-            paymentIntentId: paymentIntentId || '',
-            amount: total.toString(),
-            currency: 'EUR',
-            status: 'succeeded',
-            paymentDate: new Date(),
-          });
-        }
-      }
-
-      console.log(`✅ Order ${orderId} created with ${bookingIds.length} bookings:`, bookingIds);
-      
-      // Send confirmation emails with full order details
-      try {
-        const emailData = {
-          orderId: orderId,
-          customerName: customerData?.name || 'Cliente',
-          customerEmail: customerData?.email || '',
-          customerPhone: customerData?.phone || '',
-          items: items.map((item: any) => ({
-            travelTitle: item.travelTitle,
-            travelDate: item.selectedDate || '',
-            numberOfParticipants: item.participants,
-            pricePerPerson: (item.fullPrice || item.price) / item.participants,
-            itemTotal: item.fullPrice || item.price,
-            selectedAddons: item.selectedAddons || [],
-          })),
-          orderTotal: orderTotal,
-          amountPaid: amountPaid,
-          paymentType: paymentType === 'deposit' ? 'deposit' as const : 'full' as const,
-          remainingBalance: remainingBalance,
-          paymentProvider: 'stripe',
-          paymentStatus: 'succeeded',
-          notes: items.map((i: any) => i.participantNotes).filter(Boolean).join('; ') || undefined,
-          transactionId: paymentIntentId || undefined,
-        };
-        
-        await sendOrderConfirmationEmails(emailData);
-        console.log(`✅ Order confirmation emails sent for ${orderId}`);
-      } catch (emailError) {
-        console.error('Error sending order confirmation emails:', emailError);
-      }
-      
-      res.json({ success: true, orderId, bookingIds });
-    } catch (error: any) {
-      console.error('Create cart bookings error:', error);
-      res.status(500).json({ message: "Errore nella creazione prenotazioni: " + error.message });
-    }
-  });
 
   // Order Lookup - Find order by orderId for balance payment
   app.get("/api/order/lookup", async (req, res) => {
@@ -2293,6 +2206,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (metadata.orderId && metadata.cartItems) {
           console.log('📦 Processing cart order:', metadata.orderId);
           
+          // Idempotency check: Have we already created bookings for this order?
+          const existingBookings = await storage.getBookingsByOrderId(metadata.orderId);
+          if (existingBookings.length > 0) {
+            console.log('⚠️ Bookings already exist for order:', metadata.orderId, '. Skipping creation.');
+            
+            // Just update the payment status if it's pending
+            const existingPayments = await storage.getPaymentsByOrderId(metadata.orderId);
+            if (existingPayments.length === 0) {
+               await storage.createPayment({
+                bookingId: existingBookings[0].id,
+                paymentProvider: 'stripe',
+                paymentIntentId: paymentIntent.id,
+                amount: (paymentIntent.amount / 100).toString(),
+                currency: 'EUR',
+                status: 'succeeded',
+              });
+            }
+
+            return res.json({ 
+              success: true, 
+              message: 'Cart order already processed', 
+              orderId: metadata.orderId,
+              bookingIds: existingBookings.map(b => b.id)
+            });
+          }
+
           const items = JSON.parse(metadata.cartItems);
           const paymentType = metadata.paymentType || 'full';
           const orderTotal = parseFloat(metadata.orderTotal || metadata.total);
@@ -2314,6 +2253,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               notes: item.participantNotes || '',
               orderId: metadata.orderId,
               orderTotal: orderTotal.toString(),
+              selectedAddons: item.selectedAddons || [],
             } as any);
 
             bookingIds.push(booking.id);
@@ -2365,7 +2305,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
 
           console.log('✅ Cart order confirmed:', metadata.orderId, 'Bookings:', bookingIds);
-          return res.json({ success: true, message: 'Cart order confirmed', orderId: metadata.orderId });
+          return res.json({ success: true, message: 'Cart order confirmed', orderId: metadata.orderId, bookingIds });
         }
         
         // Handle single booking confirmation (legacy)

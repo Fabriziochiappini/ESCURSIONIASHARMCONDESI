@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
@@ -32,26 +33,15 @@ app.get('/public-objects/*', async (req, res) => {
     // Extract file path from URL
     const filePath = req.path.replace('/public-objects/', '');
     
-    // Search for the object in public search paths
-    const file = await objectStorageService.searchPublicObject(filePath);
+    // Search for the object in local storage
+    const fullPath = await objectStorageService.searchPublicObject(filePath);
     
-    if (!file) {
+    if (!fullPath) {
       return res.status(404).json({ error: 'File not found' });
     }
     
-    // Add performance headers
-    res.set({
-      'X-Content-Type-Options': 'nosniff',
-      'Cross-Origin-Resource-Policy': 'cross-origin',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
-      'Access-Control-Max-Age': '86400',
-      'Vary': 'Accept-Encoding',
-      'Connection': 'keep-alive'
-    });
-    
     // Download and stream the file
-    await objectStorageService.downloadObject(file, res, req);
+    await objectStorageService.downloadObject(fullPath, res, req);
   } catch (error) {
     console.error('Error serving object:', error);
     if (!res.headersSent) {
@@ -122,10 +112,8 @@ app.use((req, res, next) => {
       serveStatic(app);
     }
 
-    // ALWAYS serve the app on port 5000
-    // this serves both the API and the client.
-    // It is the only port that is not firewalled.
-    const port = 5000;
+    // Use port from environment variable
+    const port = Number(process.env.PORT) || 5000;
     server.listen({
       port,
       host: "0.0.0.0",
