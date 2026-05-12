@@ -14,12 +14,10 @@ export function Footer() {
             <p className="text-gray-400 mb-4 text-sm font-light italic">
               Escursioni a Sharm
             </p>
-            <p className="text-gray-500 mb-2 max-w-md font-light">
-              <span className="text-gray-600 font-normal">Il Tuo Tour Operator</span>
-            </p>
             <p className="text-gray-400 mb-6 max-w-md font-light leading-relaxed">
-              Il tuo tour operator di fiducia specializzato in Sharm El Sheikh. Esperienza, professionalità e passione 
-              per farti vivere esperienze indimenticabili nel Mar Rosso.
+              Assistenza italiana, esperienze selezionate e supporto dedicato prima e durante il viaggio.
+              Professionalità, passione e attenzione ai dettagli per offrirti esperienze autentiche e
+              organizzate con partner locali qualificati.
             </p>
             <SocialButtons variant="large" />
           </div>
@@ -70,8 +68,8 @@ export function Footer() {
                 />
                 <div className="text-sm font-light text-left">
                   <p className="font-normal text-gray-500 mb-1">Si viaggia con Desi - Escursioni a Sharm</p>
-                  <p className="mb-1">Tour Operator Sharm El Sheikh</p>
-                  <p>SHARM EL SHEIKH – Egitto</p>
+                  <p className="mb-1">Agenzia di Viaggi &middot; Intermediazione Turistica</p>
+                  <p>Via Venezia 7 C - 37050 Oppeano (VR)</p>
                   <p>richieste@viaggiacondesi.com</p>
                   <p className="text-xs text-gray-400 mt-2 italic">Marchio registrato</p>
                 </div>
@@ -84,8 +82,8 @@ export function Footer() {
                 <a href="/termini" className="hover:text-[#A8CFEB] transition-colors">Termini e Condizioni</a>
               </div>
             </div>
-            <div className="flex justify-center items-center text-xs border-t border-[#D4AF37]/20 pt-4 font-light">
-              <p>&copy; 2025 Si viaggia con Desi - Tour Operator. Tutti i diritti riservati.</p>
+            <div className="flex justify-center items-center text-xs border-t border-[#D4AF37]/20 pt-4 font-light tracking-wide">
+              <p>&copy; 2026 SI VIAGGIA CON DESI DI LUCIFORA DESIREE &mdash; P.IVA 05114270233</p>
             </div>
           </div>
         </div>

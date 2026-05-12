@@ -92,11 +92,11 @@ export function HeroSection() {
           {/* Riquadro Piccolo e Discreto */}
           <div className="max-w-2xl mx-auto">
             <div className="bg-white/75 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-[#D4AF37]/30 shadow-xl">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold gold-title mb-2 tracking-wide uppercase font-eagle-lake leading-tight">
-                Escursioni a Sharm con Desi
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold gold-title mb-3 tracking-wide uppercase font-eagle-lake leading-tight">
+                La tua agenzia italiana di fiducia a Sharm El Sheikh
               </h1>
-              <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-3 font-light italic">
-                Vivi l'avventura di Sharm El Sheikh
+              <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-3 font-light italic leading-relaxed">
+                Selezioniamo con cura esperienze, escursioni e partner locali affidabili per farti vivere il meglio del Mar Rosso in totale tranquillità.
               </p>
               <div className="w-32 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-3"></div>
               <a 
