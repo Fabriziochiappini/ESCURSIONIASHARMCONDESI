@@ -40,7 +40,7 @@ export function Footer() {
             <ul className="space-y-2 text-gray-400 font-light">
               <li className="flex items-center">
                 <MapPin className="mr-2 h-4 w-4 text-[#D4AF37]" />
-                Via Roma, 123 - 20121 Milano (MI)
+                Via Venezia 7 C - 37050 Oppeano (VR)
               </li>
               <li className="flex items-center">
                 <Phone className="mr-2 h-4 w-4 text-[#D4AF37]" />

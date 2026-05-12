@@ -52,7 +52,7 @@ export default function Privacy() {
                     <p className="text-gray-700">Tour Operator - Escursioni e Attività a Sharm El Sheikh</p>
                     <div className="flex items-center space-x-3 mt-3">
                       <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">Sharm El Sheikh, Egitto</span>
+                      <span className="text-gray-700">Via Venezia 7 C, 37050 Oppeano (VR), Italia</span>
                     </div>
                     <div className="flex items-center space-x-3 mt-2">
                       <Phone className="h-4 w-4 text-primary flex-shrink-0" />
