@@ -56,11 +56,11 @@ export default function Privacy() {
                     </div>
                     <div className="flex items-center space-x-3 mt-2">
                       <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">+39 346 800 3234</span>
+                      <span className="text-gray-700">+39 344 458 5177</span>
                     </div>
                     <div className="flex items-center space-x-3 mt-2">
                       <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-gray-700">info@webproitalia.com</span>
+                      <span className="text-gray-700">richieste@viaggiacondesi.com</span>
                     </div>
                   </div>
                 </div>
@@ -202,8 +202,8 @@ export default function Privacy() {
                       </ul>
                       <div className="mt-4 p-4 bg-accent/10 rounded-lg">
                         <p className="font-semibold text-accent mb-2">Per esercitare i tuoi diritti:</p>
-                        <p>Contattaci a: <strong>info@webproitalia.com</strong></p>
-                        <p>Telefono: <strong>+39 346 800 3234</strong></p>
+                        <p>Contattaci a: <strong>richieste@viaggiacondesi.com</strong></p>
+                        <p>Telefono: <strong>+39 344 458 5177</strong></p>
                       </div>
                     </AccordionContent>
                   </AccordionItem>
@@ -252,8 +252,8 @@ export default function Privacy() {
               </p>
               <p className="text-sm mt-2">
                 Per domande su questa Privacy Policy, contattaci a: 
-                <a href="mailto:info@webproitalia.com" className="text-primary hover:underline ml-1">
-                  info@webproitalia.com
+                <a href="mailto:richieste@viaggiacondesi.com" className="text-primary hover:underline ml-1">
+                  richieste@viaggiacondesi.com
                 </a>
               </p>
             </div>
